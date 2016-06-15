@@ -17,7 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
-    oauth.user_provider.class: UserBundle\OauthProvider\UserProvider // A modifier ou pas
+    oauth.user_provider.class: UserBundle\OauthProvider\UserProvider
     oauth.facebook.id:  xxxxxx
     oauth.facebook.secret: xxxxx
     oauth.twitter.id: xxxxx
