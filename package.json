@@ -1,0 +1,28 @@
+{
+  "name": "noname",
+  "version": "1.0.0",
+  "description": "Symfony Standard Edition ========================",
+  "main": "Gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/kicherchekoi/noname.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/kicherchekoi/noname/issues"
+  },
+  "homepage": "https://gitlab.com/kicherchekoi/noname#README",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-sass": "^2.3.1"
+  }
+}
