@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+Bienvenue dans votre espace utilisateur {{ app.user.username }}
+<a href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
+{% endblock %}

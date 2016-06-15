@@ -1,0 +1,14 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+services:
+    oauth.user_provider:
+        class: %oauth.user_provider.class%
+        arguments: ['@fos_user.user_manager', { facebook: facebook_id, twitter: twitter_id, google: google_id }, '@doctrine.orm.entity_manager']
