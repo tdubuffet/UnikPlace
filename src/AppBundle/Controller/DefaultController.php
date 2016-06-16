@@ -12,9 +12,18 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @Template(":default:index.html.twig")
+     * @Template("AppBundle:default:index.html.twig")
      */
     public function indexAction(Request $request)
     {
+    }
+
+    /**
+     * @Route("/about", name="about")
+     * @Template("AppBundle:default:about.html.twig")
+     */
+    public function aboutAction(Request $request) {
+        $viewVars['magicNumber'] = rand(1, 100);
+        return $viewVars;
     }
 }

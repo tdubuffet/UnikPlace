@@ -1,6 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic,700,300italic,300);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,600);
 
+$fa-font-path:        "//netdna.bootstrapcdn.com/font-awesome/4.6.3/fonts" !default; // for referencing Bootstrap CDN font files directly
+
 @import
+
+   //BOOTSTRAP
+  'bootstrap_variables',
+  '../../../components/bootstrap-sass/assets/stylesheets/bootstrap',
+  '../../../components/font-awesome/scss/font-awesome',
+
   'profil'
 ;

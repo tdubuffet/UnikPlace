@@ -1,9 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::base.html.twig' %}
 
 {% block title %}Demo Application2{% endblock %}
 
 {% block body %}
-TEST
       <div>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
@@ -29,7 +28,7 @@ TEST
         </div>
 
         <div>
-          <a href="{{ path('facebook_connect') }}">FB connect</a>
+          <a href="{{ path('facebook_connect') }}" class="btn btn-primary btn-sm">FB connect</a>
         </div>
 
     </body>

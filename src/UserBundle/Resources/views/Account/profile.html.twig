@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  Bienvenue dans votre espace utilisateur {{ app.user.username }}<br />
+  <h1>Bienvenue dans votre espace utilisateur {{ app.user.username }}</h1>
 
   <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-warning">Editer mon profil</a>
 
-  <a href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
+  <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary btn-sm">Se déconnecter</a>
 {% endblock %}

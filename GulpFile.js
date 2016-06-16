@@ -1,9 +1,11 @@
 var gulp = require('gulp');
 
-var sass = sass = require('gulp-sass');
+
+var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var exec = require('child_process').exec;
 var livereload = require('gulp-livereload');
+var concat = require('gulp-concat');
 
 function swallowError (error) {
 
@@ -29,11 +31,21 @@ gulp.task('sass-prod', function () {
         .pipe(gulp.dest('./web/css/'));
 });
 
+gulp.task('scripts', function() {
+    gulp.src(['./web/components/jquery/dist/jquery.js', './web/bundles/app/js/*.js'])
+        .on('error', swallowError)
+        .pipe(concat('master.js'))
+        .pipe(gulp.dest('./web/js/'));
+});
+
+var livereload = require('gulp-livereload');
+
 gulp.task('watch', function () {
     var onChange = function (event) {
         console.log('File '+event.path+' has been '+event.type);
 
         gulp.task('reload', ['installAssets', 'sass-dev']);
+
         // Tell LiveReload to reload the window
         livereload.changed(event.path);
     };
@@ -41,7 +53,7 @@ gulp.task('watch', function () {
     livereload.listen();
     gulp.watch('./src/*/Resources/public/sass/**/*.scss', ['sass'])
         .on('change', onChange);
-    gulp.watch('./src/*/Resources/public/js/**/*.js', ['js'])
+    gulp.watch('./src/*/Resources/public/js/**/*.js', ['scripts'])
         .on('change', onChange);
 });
 
