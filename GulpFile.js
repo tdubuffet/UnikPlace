@@ -2,10 +2,11 @@ var gulp = require('gulp');
 
 var sass = sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
+var exec = require('child_process').exec;
+var livereload = require('gulp-livereload');
 
 function swallowError (error) {
 
-    // If you want details of the error in the console
     console.log(error.toString())
 
     this.emit('end')
@@ -28,10 +29,6 @@ gulp.task('sass-prod', function () {
         .pipe(gulp.dest('./web/css/'));
 });
 
-
-
-var livereload = require('gulp-livereload');
-
 gulp.task('watch', function () {
     var onChange = function (event) {
         console.log('File '+event.path+' has been '+event.type);
@@ -48,13 +45,10 @@ gulp.task('watch', function () {
         .on('change', onChange);
 });
 
-var exec = require('child_process').exec;
-
 gulp.task('installAssets', function () {
-    exec('php bin/console assets:install --symlink', logStdOutAndErr);
+    exec('php bin/console assets:install --symlink', function (err, stdout, stderr) {
+        console.log(stdout + stderr);
+    });
 });
 
-// Without this function exec() will not show any output
-var logStdOutAndErr = function (err, stdout, stderr) {
-    console.log(stdout + stderr);
-};
+gulp.task('default', ['sass-dev']);
