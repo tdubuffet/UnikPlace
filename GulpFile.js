@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 
 var sass = sass = require('gulp-sass');
+var cleanCSS = require('gulp-clean-css');
 
 function swallowError (error) {
 
@@ -10,10 +11,19 @@ function swallowError (error) {
     this.emit('end')
 }
 
-gulp.task('sass', function () {
+gulp.task('sass-dev', function () {
 
     gulp.src('./web/bundles/app/sass/master.scss')
         .pipe(sass({sourceComments: 'map'}))
+        .on('error', swallowError)
+        .pipe(gulp.dest('./web/css/'));
+});
+
+gulp.task('sass-prod', function () {
+
+    gulp.src('./web/bundles/app/sass/master.scss')
+        .pipe(sass({sourceComments: 'map'}))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
         .on('error', swallowError)
         .pipe(gulp.dest('./web/css/'));
 });
@@ -26,8 +36,7 @@ gulp.task('watch', function () {
     var onChange = function (event) {
         console.log('File '+event.path+' has been '+event.type);
 
-
-        gulp.task('reload', ['installAssets', 'sass']);
+        gulp.task('reload', ['installAssets', 'sass-dev']);
         // Tell LiveReload to reload the window
         livereload.changed(event.path);
     };
