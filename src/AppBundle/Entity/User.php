@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -43,10 +44,16 @@ class User extends BaseUser
     /** @ORM\Column(name="twitter_access_token", type="string", length=255, nullable=true) */
     protected $twitter_access_token;
 
-    /** @ORM\Column(name="firstname", type="string", length=255, nullable=true) */
+    /**
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter your firstname.", groups={"Registration", "Profile"})
+     */
     protected $firstname;
 
-    /** @ORM\Column(name="lastname", type="string", length=255, nullable=true) */
+    /**
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter your lastname.", groups={"Registration", "Profile"})
+     */
     protected $lastname;
 
 

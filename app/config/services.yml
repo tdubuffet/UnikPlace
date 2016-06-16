@@ -12,3 +12,7 @@ services:
     oauth.user_provider:
         class: %oauth.user_provider.class%
         arguments: ['@fos_user.user_manager', { facebook: facebook_id, twitter: twitter_id, google: google_id }, '@doctrine.orm.entity_manager']
+    app.form.registration:
+        class: UserBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }
