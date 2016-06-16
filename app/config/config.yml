@@ -74,6 +74,9 @@ fos_user:
     registration:
         form:
             type: UserBundle\Form\RegistrationType
+    from_email:
+        address:        noreply@noname.com
+        sender_name:    NoName :)
 
 hwi_oauth:
     connect:
