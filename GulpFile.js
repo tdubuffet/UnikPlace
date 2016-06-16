@@ -51,7 +51,7 @@ gulp.task('watch', function () {
     };
     // Starts the server
     livereload.listen();
-    gulp.watch('./src/*/Resources/public/sass/**/*.scss', ['sass'])
+    gulp.watch('./src/*/Resources/public/sass/**/*.scss', ['sass-dev'])
         .on('change', onChange);
     gulp.watch('./src/*/Resources/public/js/**/*.js', ['scripts'])
         .on('change', onChange);
