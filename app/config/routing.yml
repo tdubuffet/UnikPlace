@@ -17,33 +17,6 @@ fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
 
-hwi_oauth_redirect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /connect
-
-hwi_oauth_login:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login
-
-facebook_login:
-    path: /login/check-facebook
-
-facebook_connect:
-    path: /connect/facebook
-
-twitter_login:
-    path: /login/check-twitter
-
-twitter_connect:
-    path: /connect/twitter
-
-google_login:
-    path: /login/check-google
-
-google_connect:
-    path: /connect/google
-
-
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
@@ -52,3 +25,5 @@ user:
     resource: "@UserBundle/Controller/"
     type:     annotation
 
+user_oauth:
+    resource: "@UserBundle/Resources/config/routing/oauth.yml"
