@@ -5,7 +5,7 @@ namespace UserBundle\OauthProvider;
 use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseFOSUBProvider;
-use AppBundle\Entity\User as Account;
+use UserBundle\Entity\User as Account;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserProvider extends BaseFOSUBProvider
