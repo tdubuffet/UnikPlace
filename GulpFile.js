@@ -32,7 +32,7 @@ gulp.task('sass-prod', function () {
 });
 
 gulp.task('scripts', function() {
-    gulp.src(['./web/components/jquery/dist/jquery.js', './web/bundles/app/js/*.js'])
+    gulp.src(['./web/components/jquery/dist/jquery.js', './web/components/bootstrap-sass/assets/javascripts/bootstrap.js', './web/bundles/app/js/*.js'])
         .on('error', swallowError)
         .pipe(concat('master.js'))
         .pipe(gulp.dest('./web/js/'));

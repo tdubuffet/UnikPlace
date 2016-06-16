@@ -4,10 +4,33 @@
 
 <h1>A propos</h1>
 
-<div class="alert alert-success">Le chiffre magique est : {{ magicNumber }}</div>
+<p>Cette page regroupe quelques tests.</p>
+
+<div class="alert alert-success">Un nombre aléatoire depuis le controlleur : {{ magicNumber }}</div>
+
+<div class="alert alert-info">Un bloc qui disparait en jQuery : <span class="alert-animation-close btn btn-primary">en cliquant ici</span></div>
+
+<div class="alert alert-info">Ouvrir une modale avec Bootstrap : <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-test">
+  par ici
+</button></div>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ex non ipsum lacinia laoreet. Nullam faucibus dignissim neque, at malesuada libero convallis malesuada. Aliquam commodo velit ac odio rutrum, in faucibus nibh placerat. Vivamus venenatis sapien quam. Aliquam ornare, ex ut ultrices lacinia, diam est ornare tortor, cursus sollicitudin justo lectus tristique arcu. Praesent quis sapien suscipit, venenatis nisi ut, scelerisque nunc. Nam et congue sapien. Aenean consectetur libero porta, pulvinar urna et, ornare turpis. Vestibulum non risus ut magna pellentesque convallis id in metus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
 
-<p>Praesent mi magna, congue vitae odio vitae, scelerisque lobortis magna. Ut consequat pellentesque turpis. Suspendisse sit amet pharetra mauris, sed laoreet metus. In hac habitasse platea dictumst. Donec dignissim augue a nisi bibendum pulvinar. Nunc rhoncus libero vel vulputate cursus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla a nisl velit.</p>
+<div id="modal-test" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Titre de la modale</h4>
+      </div>
+      <div class="modal-body">
+        <p>Contenu de la modale.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 {% endblock %}
