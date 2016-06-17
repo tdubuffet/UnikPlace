@@ -27,7 +27,7 @@ class Currency
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="code", type="string", length=5, unique=true)
+     * @ORM\Column(name="code", type="string", length=3, unique=true)
      * @var string
      */
     protected $code;
@@ -36,7 +36,7 @@ class Currency
      * @Assert\NotBlank()
      * @Assert\Type(type="numeric")
      *
-     * @ORM\Column(name="rate", type="integer", unique=false)
+     * @ORM\Column(name="rate", type="decimal", precision=10, scale=4)
      * @var string
      */
     protected $rate;
