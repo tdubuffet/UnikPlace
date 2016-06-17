@@ -1,0 +1,46 @@
+.main-navbar {
+    border: none;
+
+    .navbar-nav {
+        a {
+            transition: color .3s;
+            font-weight: 600;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+    }
+
+    .navbar-brand {
+        padding: 10px 15px;
+    }
+}
+
+.footer {
+    background: $gray-base;
+    padding: 50px 20px;
+    color: $white;
+
+    .footer-title {
+        font-size: .9em;
+        margin-bottom: 8px;
+    }
+
+    .footer-menu {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 35px;
+        li {
+            font-weight: 600;
+            font-size: 2em;
+            a {
+                transition: color .3s;
+                font-weight: 600;
+                color: $white;
+            }
+            a:hover {
+                color: $powerful;
+                text-decoration: none;
+            }
+        }
+    }
+}
