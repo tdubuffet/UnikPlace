@@ -250,4 +250,15 @@ class User extends BaseUser
     {
         return $this->lastname;
     }
+
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
+
+    public function getCredentialsExpireAt()
+    {
+        return $this->credentialsExpireAt;
+    }
 }
