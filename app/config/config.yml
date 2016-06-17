@@ -142,3 +142,11 @@ easy_admin:
                 fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin']
             new:
                 fields: ['enabled', 'username', 'firstname', 'lastname', 'plainPassword', 'email', 'roles', 'lastLogin']
+        Category:
+            class: CategoryBundle\Entity\Category
+            list:
+                fields: ['id', 'name', 'materialized_path']
+            new:
+                fields: ['name', 'materialized_path']
+            edit:
+                fields: ['name', 'materialized_path']

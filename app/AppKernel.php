@@ -21,10 +21,12 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
 
             // Private bundles
             new AppBundle\AppBundle(),
             new UserBundle\UserBundle(),
+            new CategoryBundle\CategoryBundle(),
             new AdminBundle\AdminBundle(),
         ];
 
