@@ -145,8 +145,8 @@ easy_admin:
         Category:
             class: CategoryBundle\Entity\Category
             list:
-                fields: ['id', 'name', 'materialized_path']
+                fields: ['id', 'name', 'parent', 'slug']
             new:
-                fields: ['name', 'materialized_path']
+                fields: ['name', 'parent']
             edit:
-                fields: ['name', 'materialized_path']
+                fields: ['name', 'parent', 'slug']

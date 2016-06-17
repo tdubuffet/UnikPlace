@@ -3,7 +3,6 @@
 namespace CategoryBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Knp\DoctrineBehaviors\ORM as ORMBehaviors;
 
 /**
  * CategoryRepository
@@ -13,5 +12,4 @@ use Knp\DoctrineBehaviors\ORM as ORMBehaviors;
  */
 class CategoryRepository extends EntityRepository
 {
-    use ORMBehaviors\Tree\Tree;
 }
