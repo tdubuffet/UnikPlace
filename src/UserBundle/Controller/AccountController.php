@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AccountController extends Controller
 {
     /**
-     * @Route("/compte/profil", name="user_account_profile")
+     * @Route("/profil", name="user_account_profile")
      * @Template("UserBundle:Account:profile.html.twig")
      */
     public function profileAction(Request $request)

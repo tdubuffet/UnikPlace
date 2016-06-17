@@ -28,33 +28,34 @@ security:
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.htmlform_login:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
                 always_use_default_target_path: false
-                default_target_path:            /compte/profil
+                default_target_path:            /profil
                 target_path_parameter:          _target_path
                 use_referer:                    false
-
-            logout:       true
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+            logout:
+                path: fos_user_security_logout
             anonymous:    true
 
             oauth:
                 resource_owners:
-                    facebook:    "/login/check-facebook"
-                    twitter:    "/login/check-twitter"
-                    google:    "/login/check-google"
-                login_path:    /login
-                failure_path:    /login
+                    facebook:    "/connexion/validation-facebook"
+                    twitter:    "/connexion/validation-twitter"
+                    google:    "/connexion/validation-google"
+                login_path:    fos_user_security_login
+                failure_path:    fos_user_security_login
                 oauth_user_provider:
                     service: oauth.user_provider
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connexion, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/inscription, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/reinitialisation, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/compte/, role: ROLE_USER }
         - { path: ^/admin/, role: ROLE_ADMIN }

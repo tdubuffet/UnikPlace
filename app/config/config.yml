@@ -77,6 +77,13 @@ fos_user:
     registration:
         form:
             type: UserBundle\Form\RegistrationType
+        confirmation:
+            enabled: true
+            from_email:
+                address:        noreply@noname.com
+                sender_name:    NoName Inscription
+
+
     profile:
         form:
             type: UserBundle\Form\ProfileFormType

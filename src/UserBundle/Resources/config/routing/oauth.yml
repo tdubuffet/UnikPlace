@@ -1,29 +1,29 @@
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /connect
+    prefix:   /connexion
 
 hwi_oauth_connect_service:
-    path: /connect/service/{service}
+    path: /connexion/service/{service}
     defaults:  { _controller: HWIOAuthBundle:Connect:connectService }
 
 hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login
+    prefix:   /connexion
 
 facebook_login:
-    path: /login/check-facebook
+    path: /connexion/validation-facebook
 
 facebook_connect:
-    path: /connect/facebook
+    path: /connexion/facebook
 
 twitter_login:
-    path: /login/check-twitter
+    path: /connexion/validation-twitter
 
 twitter_connect:
-    path: /connect/twitter
+    path: /connexion/twitter
 
 google_login:
-    path: /login/check-google
+    path: /connexion/validation-google
 
 google_connect:
-    path: /connect/google
+    path: /connexion/google
