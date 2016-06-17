@@ -1,11 +1,12 @@
-var gulp = require('gulp');
-
-
-var sass = require('gulp-sass');
-var cleanCSS = require('gulp-clean-css');
-var exec = require('child_process').exec;
-var livereload = require('gulp-livereload');
-var concat = require('gulp-concat');
+var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    cleanCSS = require('gulp-clean-css'),
+    exec = require('child_process').exec,
+    livereload = require('gulp-livereload'),
+    concat = require('gulp-concat'),
+    useref = require('gulp-useref'),
+    gulpif = require('gulp-if'),
+    uglify = require('gulp-uglify');
 
 function swallowError (error) {
 
@@ -31,9 +32,20 @@ gulp.task('sass-prod', function () {
         .pipe(gulp.dest('./web/css/'));
 });
 
-gulp.task('scripts', function() {
+gulp.task('scripts-dev', function() {
     gulp.src(['./web/components/jquery/dist/jquery.js', './web/components/bootstrap-sass/assets/javascripts/bootstrap.js', './web/bundles/app/js/*.js'])
         .on('error', swallowError)
+        .pipe(concat('master.js'))
+        .pipe(gulp.dest('./web/js/'));
+});
+
+gulp.task('scripts-prod', function() {
+    gulp.src(['./web/components/jquery/dist/jquery.js', './web/components/bootstrap-sass/assets/javascripts/bootstrap.js', './web/bundles/app/js/*.js'])
+        .on('error', swallowError)
+        .pipe(useref())
+        .pipe(gulpif('*.js', uglify({
+            mangle: false
+        })))
         .pipe(concat('master.js'))
         .pipe(gulp.dest('./web/js/'));
 });
@@ -53,7 +65,7 @@ gulp.task('watch', function () {
     livereload.listen();
     gulp.watch('./src/*/Resources/public/sass/**/*.scss', ['sass-dev'])
         .on('change', onChange);
-    gulp.watch('./src/*/Resources/public/js/**/*.js', ['scripts'])
+    gulp.watch('./src/*/Resources/public/js/**/*.js', ['scripts-dev'])
         .on('change', onChange);
 });
 
@@ -63,4 +75,8 @@ gulp.task('installAssets', function () {
     });
 });
 
-gulp.task('default', ['sass-dev']);
+gulp.task('default', ['sass-dev', 'scripts-dev']);
+
+gulp.task('dev', ['sass-dev', 'scripts-dev']);
+
+gulp.task('prod', ['sass-prod', 'scripts-prod']);
