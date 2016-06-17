@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             // Private bundles
             new AppBundle\AppBundle(),
             new UserBundle\UserBundle(),
+            new AdminBundle\AdminBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
