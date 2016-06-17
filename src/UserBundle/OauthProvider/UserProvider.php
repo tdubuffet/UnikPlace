@@ -59,7 +59,7 @@ class UserProvider extends BaseFOSUBProvider
     {
         $username = $response->getUsername();
 
-        $user = $this->doctrine->getRepository('AppBundle:User')->findOneBy(array($this->getProperty($response) => $username));
+        $user = $this->doctrine->getRepository('UserBundle:User')->findOneBy(array($this->getProperty($response) => $username));
 
         if (null === $user) {
             $service = $response->getResourceOwner()->getName();
@@ -114,7 +114,7 @@ class UserProvider extends BaseFOSUBProvider
                 //$user->setAvatarSocialNetwork($response->getProfilePicture());
             }
 
-            $userValue = $this->doctrine->getRepository('AppBundle:User')->findOneBy(array('username' => $nickName));
+            $userValue = $this->doctrine->getRepository('UserBundle:User')->findOneBy(array('username' => $nickName));
 
             if ($userValue != null) {
 
@@ -122,7 +122,7 @@ class UserProvider extends BaseFOSUBProvider
                 do {
 
                     $newNickname = $nickName . $i;
-                    $userValue = $this->doctrine->getRepository('AppBundle:User')->findOneBy(array('username' => $newNickname));
+                    $userValue = $this->doctrine->getRepository('UserBundle:User')->findOneBy(array('username' => $newNickname));
                     $i++;
                 } while ($userValue != null);
 
