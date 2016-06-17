@@ -165,6 +165,9 @@ easy_admin:
         menu:
             - { label: 'Site web', route: 'homepage' }
             - { label: 'Ecommerce' }
+            - Product
+            - Status
+            - Currency
             - Category
             - { label: 'Utilisateur' }
             - User
