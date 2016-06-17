@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
             new Lexik\Bundle\CurrencyBundle\LexikCurrencyBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
+
 
             // Private bundles
             new AppBundle\AppBundle(),

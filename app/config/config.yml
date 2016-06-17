@@ -158,9 +158,23 @@ easy_admin:
         Product:
             class: ProductBundle\Entity\Product
             edit:
-                fields: ['name', 'description', 'price', 'currency', 'status']
+                fields: ['name', 'description', 'price', 'currency', 'status', 'images']
             new:
                 fields: ['name', 'description', 'price', 'currency', 'status']
+        Image:
+            class: ProductBundle\Entity\Image
+            list:
+                fields:
+                    - { property: 'image', type: 'image', base_path: /images/products }
+            show:
+                fields:
+                    - { property: 'image', type: 'image', base_path: /images/products }
+            new:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+            edit:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
     design:
         menu:
             - { label: 'Site web', route: 'homepage' }
@@ -169,6 +183,7 @@ easy_admin:
             - Status
             - Currency
             - Category
+            - Image
             - { label: 'Utilisateur' }
             - User
 
@@ -177,6 +192,7 @@ lexik_currency:
         default: EUR              # [required] the default currency
         managed: [EUR, USD, ...]  # [required] all currencies used in your app
     currency_class: ProductBundle\Entity\Currency
+
 
 fos_elastica:
     clients:
@@ -225,3 +241,12 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         driver: orm
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        product_images:
+            uri_prefix:         /images/products
+            upload_destination: %kernel.root_dir%/../web/images/products
+            namer:              vich_uploader.namer_uniqid
+

@@ -4,6 +4,7 @@ namespace ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Product
@@ -58,6 +59,14 @@ class Product
      */
     private $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="product")
+     */
+    private $images;
+
+    public function __construct() {
+        $this->images = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -192,6 +201,45 @@ class Product
     public function getSluggableFields()
     {
         return [ 'name' ];
+    }
+
+
+    /**
+     * Add image
+     *
+     * @param \ProductBundle\Entity\Image $image
+     *
+     * @return Product
+     */
+    public function addImage(\ProductBundle\Entity\Image $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param \ProductBundle\Entity\Image $image
+     */
+    public function removeImage(\ProductBundle\Entity\Image $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 
 }
