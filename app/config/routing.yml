@@ -27,3 +27,8 @@ user:
 
 user_oauth:
     resource: "@UserBundle/Resources/config/routing/oauth.yml"
+
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /admin

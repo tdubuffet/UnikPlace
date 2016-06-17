@@ -123,3 +123,7 @@ hwi_oauth:
             scope: "email profile"
             options:
                 display: popup
+easy_admin:
+    site_name: 'NoName'
+    entities:
+        - UserBundle\Entity\User
