@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@AdminBundle/Resources/config/services.yml" }
+    - { resource: "@ProductBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -150,7 +151,16 @@ easy_admin:
                 fields: ['name', 'parent']
             edit:
                 fields: ['name', 'parent', 'slug']
-
+        Currency:
+            class: ProductBundle\Entity\Currency
+        Status:
+            class: ProductBundle\Entity\Status
+        Product:
+            class: ProductBundle\Entity\Product
+            edit:
+                fields: ['name', 'description', 'price', 'currency', 'status']
+            new:
+                fields: ['name', 'description', 'price', 'currency', 'status']
     design:
         menu:
             - { label: 'Site web', route: 'homepage' }
@@ -158,3 +168,4 @@ easy_admin:
             - Category
             - { label: 'Utilisateur' }
             - User
+
