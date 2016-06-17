@@ -3,6 +3,7 @@
 namespace ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Currency
@@ -14,43 +15,40 @@ class Currency
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
+     * @Assert\Length(min=3)
+     * @Assert\Length(max=3)
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      *
      * @ORM\Column(name="code", type="string", length=5, unique=true)
+     * @var string
      */
-    private $code;
-
+    protected $code;
 
     /**
-     * Get id
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
      *
-     * @return int
+     * @ORM\Column(name="rate", type="integer", unique=false)
+     * @var string
+     */
+    protected $rate;
+
+    /**
+     * Get ID
+     *
+     * @return string
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set code
-     *
-     * @param string $code
-     *
-     * @return Currency
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     /**
@@ -61,6 +59,46 @@ class Currency
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * Get rate
+     *
+     * @return string
+     */
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
+    /**
+     * Set rate
+     *
+     * @param string $rate
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
+    }
+
+    /**
+     * Convert currency rate
+     *
+     * @param float $rate
+     */
+    public function convert($rate)
+    {
+        $this->rate /= $rate;
     }
 
     public function __toString() {

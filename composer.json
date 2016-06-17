@@ -31,7 +31,8 @@
         "hwi/oauth-bundle": "0.5.x-dev",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "javiereguiluz/easyadmin-bundle": "^1.14",
-        "knplabs/doctrine-behaviors": "~1.1"
+        "knplabs/doctrine-behaviors": "~1.1",
+        "lexik/currency-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

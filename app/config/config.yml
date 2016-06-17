@@ -172,3 +172,8 @@ easy_admin:
             - { label: 'Utilisateur' }
             - User
 
+lexik_currency:
+    currencies:
+        default: EUR              # [required] the default currency
+        managed: [EUR, USD, ...]  # [required] all currencies used in your app
+    currency_class: ProductBundle\Entity\Currency
