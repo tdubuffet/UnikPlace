@@ -150,3 +150,10 @@ easy_admin:
                 fields: ['name', 'parent']
             edit:
                 fields: ['name', 'parent', 'slug']
+
+    design:
+        menu:
+            - { label: 'Ecommerce' }
+            - Category
+            - { label: 'Utilisateur' }
+            - User
