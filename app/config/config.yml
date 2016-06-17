@@ -184,6 +184,7 @@ fos_elastica:
     indexes:
         noname:
             client: default
+            index_name: noname_%kernel.environment%
             settings:
                 index:
                     analysis:
