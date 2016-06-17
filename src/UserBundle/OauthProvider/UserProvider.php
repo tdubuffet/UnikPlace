@@ -12,6 +12,7 @@ class UserProvider extends BaseFOSUBProvider
 {
 
     private $doctrine;
+    private $container;
 
     /**
      * Constructor.
@@ -19,12 +20,13 @@ class UserProvider extends BaseFOSUBProvider
      * @param UserManagerInterface $userManager FOSUB user provider.
      * @param array                $properties  Property mapping.
      */
-    public function __construct($userManager, array $properties, EntityManager $em)
+    public function __construct($userManager, array $properties, EntityManager $em, $container)
     {
 
         parent::__construct($userManager, $properties);
 
         $this->doctrine = $em;
+        $this->container = $container;
 
     }
 
@@ -33,6 +35,8 @@ class UserProvider extends BaseFOSUBProvider
      */
     public function connect(UserInterface $user, UserResponseInterface $response)
     {
+
+        die;
         $property = $this->getProperty($response);
         $username = $response->getUsername();
         //on connect - get the access token and the user ID
@@ -76,13 +80,18 @@ class UserProvider extends BaseFOSUBProvider
             $user->$setter_id($username);
             $user->$setter_token($response->getAccessToken());
 
+            //Default Password
+
+            $tokenGenerator = $this->container->get('fos_user.util.token_generator');
+            $password = substr($tokenGenerator->generateToken(), 0, 8);
+
             if ($service == "facebook") {
 
                 $nickName = strtolower($response->getFirstName()[0] . $response->getLastName());
 
                 $user->setUsername($nickName);
                 $user->setEmail($response->getEmail());
-                $user->setPassword($username);
+                $user->setPassword($password);
 
                 $user->setFirstname($response->getFirstName());
                 $user->setLastname($response->getLastName());
@@ -93,7 +102,7 @@ class UserProvider extends BaseFOSUBProvider
 
                 $user->setUsername($nickName);
                 $user->setEmail($response->getEmail());
-                $user->setPassword($username);
+                $user->setPassword($password);
 
             }elseif($service == "google") {
 
@@ -101,7 +110,7 @@ class UserProvider extends BaseFOSUBProvider
 
                 $user->setUsername($nickName);
                 $user->setEmail($response->getEmail());
-                $user->setPassword($username);
+                $user->setPassword($password);
 
                 $user->setFirstname($response->getFirstName());
                 $user->setLastname($response->getLastName());
@@ -142,10 +151,6 @@ class UserProvider extends BaseFOSUBProvider
         $setter = 'set' . ucfirst($serviceName) . 'AccessToken';
         //update access token
         $user->$setter($response->getAccessToken());
-
-        if ($response->getProfilePicture()){
-            //$user->setAvatarSocialNetwork($response->getProfilePicture());
-        }
 
         return $user;
     }

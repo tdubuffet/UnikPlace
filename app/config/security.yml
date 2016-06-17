@@ -52,6 +52,7 @@ security:
                 failure_path:    fos_user_security_login
                 oauth_user_provider:
                     service: oauth.user_provider
+                default_target_path: /profil
 
     access_control:
         - { path: ^/connexion, role: IS_AUTHENTICATED_ANONYMOUSLY }

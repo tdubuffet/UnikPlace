@@ -153,6 +153,7 @@ easy_admin:
 
     design:
         menu:
+            - { label: 'Site web', route: 'homepage' }
             - { label: 'Ecommerce' }
             - Category
             - { label: 'Utilisateur' }
