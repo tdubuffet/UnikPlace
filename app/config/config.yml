@@ -158,7 +158,7 @@ easy_admin:
         Product:
             class: ProductBundle\Entity\Product
             edit:
-                fields: ['name', 'description', 'price', 'currency', 'status', 'images']
+                fields: ['name', 'description', 'price', 'currency', 'status']
             new:
                 fields: ['name', 'description', 'price', 'currency', 'status']
         Image:
@@ -175,6 +175,7 @@ easy_admin:
             edit:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
+                    - 'product'
     design:
         menu:
             - { label: 'Site web', route: 'homepage' }
