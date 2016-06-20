@@ -165,10 +165,10 @@ easy_admin:
             class: ProductBundle\Entity\Image
             list:
                 fields:
-                    - { property: 'image', type: 'image', base_path: /images/products }
+                    - { property: 'imagePath', type: 'image', base_path: /images/products }
             show:
                 fields:
-                    - { property: 'image', type: 'image', base_path: /images/products }
+                    - { property: 'imagePath', type: 'image', base_path: /images/products }
             new:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
@@ -250,4 +250,4 @@ vich_uploader:
             uri_prefix:         /images/products
             upload_destination: %kernel.root_dir%/../web/images/products
             namer:              vich_uploader.namer_uniqid
-
+            directory_namer:    directory_namer.product

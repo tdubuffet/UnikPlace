@@ -23,3 +23,6 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: app_form_profil }
+
+    directory_namer.product:
+        class: ProductBundle\Service\DirectoryNamer

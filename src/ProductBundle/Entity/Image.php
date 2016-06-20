@@ -2,6 +2,7 @@
 
 namespace ProductBundle\Entity;
 
+use ProductBundle\Service as Service;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Symfony\Component\HttpFoundation\File\File;
@@ -107,6 +108,13 @@ class Image
     public function getProduct()
     {
         return $this->product;
+    }
+
+    public function getImagePath()
+    {
+        $directoryNamer = new Service\DirectoryNamer();
+        $mapping = new \Vich\UploaderBundle\Mapping\PropertyMapping('', '');
+        return $directoryNamer->directoryName($this, $mapping).'/'.$this->getImage();
     }
 
     public function __toString() {
