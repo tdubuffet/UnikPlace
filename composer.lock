@@ -4,8 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "47835cc4952aef776e3771efd670f25f",
     "content-hash": "01bd3cde4873dd6fe3e8e2bcab3fc078",
+=======
+    "hash": "63be9ffd4c093138c75a7423cb786c34",
+    "content-hash": "f35b34ccd74a8d698a35edcbc2b74c9a",
+>>>>>>> Add main categories into navbar
     "packages": [
         {
             "name": "behat/transliterator",

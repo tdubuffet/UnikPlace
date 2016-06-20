@@ -16,6 +16,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+
     }
 
     /**
@@ -25,5 +26,16 @@ class DefaultController extends Controller
     public function aboutAction(Request $request) {
         $viewVars['magicNumber'] = rand(1, 100);
         return $viewVars;
+    }
+
+    /**
+     * @Template("AppBundle:default:categories.html.twig")
+     */
+    public function categoriesAction() {
+        // we should add cache
+        $repository = $this->getDoctrine()->getRepository('CategoryBundle:Category');
+        $categories = $repository->findBy(array('parent' => null));
+        //\Doctrine\Common\Util\Debug::dump($categories);
+        return array('categories' => $categories);
     }
 }
