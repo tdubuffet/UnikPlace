@@ -1,0 +1,22 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+
+{% if products is empty %}
+<div class="text-center">
+  Aucun produit trouvé pour la recherche <i>{{ app.request.query.get('q') }}</i>
+</div>
+{% else %}
+
+{% for product in products %}
+<div class="col-sm-3">
+  <a href="#" role="button">
+    <img class="img-responsive" src="{{ vich_uploader_asset(product.getImages()[0], 'imageFile') }}" alt="{{ product.name }}" />
+    <div class="text-center">{{ product.name }}</div>
+  </div>
+</div>
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}
