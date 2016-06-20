@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Image
@@ -43,6 +45,7 @@ class Image
 
     /**
      * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
+     * @Assert\Image(maxSize="2M", mimeTypes={"image/jpeg", "image/jpg", "image/png", "image/gif"})
      * @var File
      */
     private $imageFile;
