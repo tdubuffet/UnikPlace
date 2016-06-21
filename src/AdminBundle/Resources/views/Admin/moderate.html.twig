@@ -1,0 +1,14 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block content_title %}Modération des produits{% endblock %}
+
+{% block main %}
+{% if products is empty %}
+Aucun produit à modérer.
+{% else %}
+{{ products|length }} produit(s) à modérer.
+{% for product in products %}
+{{ product.name }}
+{% endfor %}
+{% endif %}
+{% endblock %}

@@ -180,6 +180,7 @@ easy_admin:
         menu:
             - { label: 'Site web', route: 'homepage' }
             - { label: 'Ecommerce' }
+            - { label: 'Modération', route: 'admin_moderate' }
             - Product
             - Status
             - Currency
