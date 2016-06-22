@@ -158,9 +158,9 @@ easy_admin:
         Product:
             class: ProductBundle\Entity\Product
             edit:
-                fields: ['name', 'description', 'price', 'currency', 'status']
+                fields: ['name', 'description', 'category', 'price', 'currency', 'status']
             new:
-                fields: ['name', 'description', 'price', 'currency', 'status']
+                fields: ['name', 'description', 'category', 'price', 'currency', 'status']
         Image:
             class: ProductBundle\Entity\Image
             list:
