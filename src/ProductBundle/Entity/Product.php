@@ -48,7 +48,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CategoryBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
@@ -252,11 +252,11 @@ class Product
     /**
      * Set category
      *
-     * @param \CategoryBundle\Entity\Category $category
+     * @param \ProductBundle\Entity\Category $category
      *
      * @return Product
      */
-    public function setCategory(\CategoryBundle\Entity\Category $category = null)
+    public function setCategory(\ProductBundle\Entity\Category $category = null)
     {
         $this->category = $category;
 
@@ -266,7 +266,7 @@ class Product
     /**
      * Get category
      *
-     * @return \CategoryBundle\Entity\Category
+     * @return \ProductBundle\Entity\Category
      */
     public function getCategory()
     {

@@ -33,7 +33,7 @@ class DefaultController extends Controller
      */
     public function categoriesAction() {
         // we should add cache
-        $repository = $this->getDoctrine()->getRepository('CategoryBundle:Category');
+        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
         $categories = $repository->findBy(array('parent' => null));
         //\Doctrine\Common\Util\Debug::dump($categories);
         return array('categories' => $categories);

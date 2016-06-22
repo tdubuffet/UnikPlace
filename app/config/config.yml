@@ -144,7 +144,7 @@ easy_admin:
             new:
                 fields: ['enabled', 'username', 'firstname', 'lastname', 'plainPassword', 'email', 'roles', 'lastLogin']
         Category:
-            class: CategoryBundle\Entity\Category
+            class: ProductBundle\Entity\Category
             list:
                 fields: ['id', 'name', 'parent', 'slug']
             new:

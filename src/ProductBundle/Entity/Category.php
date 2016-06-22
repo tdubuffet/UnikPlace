@@ -1,6 +1,6 @@
 <?php
 
-namespace CategoryBundle\Entity;
+namespace ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
@@ -9,7 +9,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  * Category
  *
  * @ORM\Table(name="category")
- * @ORM\Entity(repositoryClass="CategoryBundle\Repository\CategoryRepository")
+ * @ORM\Entity(repositoryClass="ProductBundle\Repository\CategoryRepository")
  */
 class Category
 {
@@ -90,11 +90,11 @@ class Category
     /**
      * Add child
      *
-     * @param \CategoryBundle\Entity\Category $child
+     * @param \ProductBundle\Entity\Category $child
      *
      * @return Category
      */
-    public function addChild(\CategoryBundle\Entity\Category $child)
+    public function addChild(\ProductBundle\Entity\Category $child)
     {
         $this->children[] = $child;
 
@@ -104,9 +104,9 @@ class Category
     /**
      * Remove child
      *
-     * @param \CategoryBundle\Entity\Category $child
+     * @param \ProductBundle\Entity\Category $child
      */
-    public function removeChild(\CategoryBundle\Entity\Category $child)
+    public function removeChild(\ProductBundle\Entity\Category $child)
     {
         $this->children->removeElement($child);
     }
@@ -124,11 +124,11 @@ class Category
     /**
      * Set parent
      *
-     * @param \CategoryBundle\Entity\Category $parent
+     * @param \ProductBundle\Entity\Category $parent
      *
      * @return Category
      */
-    public function setParent(\CategoryBundle\Entity\Category $parent = null)
+    public function setParent(\ProductBundle\Entity\Category $parent = null)
     {
         $this->parent = $parent;
 
@@ -138,7 +138,7 @@ class Category
     /**
      * Get parent
      *
-     * @return \CategoryBundle\Entity\Category
+     * @return \ProductBundle\Entity\Category
      */
     public function getParent()
     {
