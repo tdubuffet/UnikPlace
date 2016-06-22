@@ -272,4 +272,22 @@ class Product
     {
         return $this->category;
     }
+
+    /**
+     * Get breadcrumb of the product
+     *
+     * @return array
+     */
+    public function getBreadcrumb()
+    {
+        $breadcrumb = array();
+        $category = $this->getCategory();
+        while (isset($category)) {
+            if (isset($category)) {
+                $breadcrumb[] = $category;
+                $category = $category->getParent();
+            }
+        }
+        return array_reverse($breadcrumb);
+    }
 }

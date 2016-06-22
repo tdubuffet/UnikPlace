@@ -2,6 +2,18 @@
 
 {% block body %}
 
+{% set breadcrumb = product.getBreadcrumb() %}
+<ol class="breadcrumb">
+<li><span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ path('homepage') }}" itemprop="url"><span itemprop="title">Accueil</span></a></span></li>
+{% for element in breadcrumb %}
+<li><span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="#" itemprop="url"><span itemprop="title">{{ element.name }}</span></a></span></li>
+{% endfor %}
+</ol>
+
 <h1>{{ product.name }}</h1>
+
+<p>{{ product.description }}</p>
+
+
 
 {% endblock %}
