@@ -145,6 +145,39 @@ class Category
         return $this->parent;
     }
 
+    /**
+     * Get complete path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        $slugs = array();
+        $category = $this;
+        while (isset($category)) {
+            $slugs[] = $category->getSlug();
+            $category = $category->getParent();
+        }
+        return implode('/', array_reverse($slugs));
+    }
+
+    /**
+     * Get breadcrumb of the category
+     *
+     * @return array
+     */
+    public function getBreadcrumb()
+    {
+        $breadcrumb = array();
+        $category = $this->getParent();
+        while (isset($category)) {
+            $breadcrumb[] = $category;
+            $category = $category->getParent();
+        }
+        return array_reverse($breadcrumb);
+    }
+
+
     public function __toString() {
         return $this->name;
     }

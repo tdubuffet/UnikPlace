@@ -283,10 +283,8 @@ class Product
         $breadcrumb = array();
         $category = $this->getCategory();
         while (isset($category)) {
-            if (isset($category)) {
-                $breadcrumb[] = $category;
-                $category = $category->getParent();
-            }
+            $breadcrumb[] = $category;
+            $category = $category->getParent();
         }
         return array_reverse($breadcrumb);
     }

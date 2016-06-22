@@ -146,11 +146,11 @@ easy_admin:
         Category:
             class: ProductBundle\Entity\Category
             list:
-                fields: ['id', 'name', 'parent', 'slug']
+                fields: ['id', 'name', 'parent', 'slug', 'path']
             new:
                 fields: ['name', 'parent']
             edit:
-                fields: ['name', 'parent', 'slug']
+                fields: ['name', 'parent']
         Currency:
             class: ProductBundle\Entity\Currency
         Status:
