@@ -33,14 +33,24 @@ gulp.task('sass-prod', function () {
 });
 
 gulp.task('scripts-dev', function() {
-    gulp.src(['./web/components/jquery/dist/jquery.js', './web/components/bootstrap-sass/assets/javascripts/bootstrap.js', './web/bundles/app/js/*.js'])
+    gulp.src([
+            './web/components/jquery/dist/jquery.js',
+            './web/components/bootstrap-sass/assets/javascripts/bootstrap.js',
+            './web/components/jquery-validation/dist/jquery.validate.js',
+            './web/bundles/**/js/*.js'
+        ])
         .on('error', swallowError)
         .pipe(concat('master.js'))
         .pipe(gulp.dest('./web/js/'));
 });
 
 gulp.task('scripts-prod', function() {
-    gulp.src(['./web/components/jquery/dist/jquery.js', './web/components/bootstrap-sass/assets/javascripts/bootstrap.js', './web/bundles/app/js/*.js'])
+    gulp.src([
+            './web/components/jquery/dist/jquery.js',
+            './web/components/bootstrap-sass/assets/javascripts/bootstrap.js',
+            './web/components/jquery-validation/dist/jquery.validate.js',
+            './web/bundles/**/js/*.js'
+        ])
         .on('error', swallowError)
         .pipe(useref())
         .pipe(gulpif('*.js', uglify({

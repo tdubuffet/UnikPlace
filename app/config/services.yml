@@ -27,8 +27,13 @@ services:
     directory_namer.product:
         class: ProductBundle\Service\DirectoryNamer
 
-
     product_bundle.listener.uploaded_file_listener:
         class: ProductBundle\EventListener\UploadedFileListener
         tags:
             - { name: kernel.event_listener, event: vich_uploader.pre_upload, method: onPreUpload }
+
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        tags:
+            - { name: twig.extension }

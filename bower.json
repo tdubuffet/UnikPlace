@@ -21,6 +21,8 @@
   "dependencies": {
     "bootstrap-sass": "~3.3.6",
     "jquery": "~2.2.4",
-    "font-awesome": "Font-Awesome#~4.6.3"
+    "font-awesome": "Font-Awesome#~4.6.3",
+    "jquery-validation": "~1.15.0",
+    "requirejs": "~2.2.0"
   }
 }
