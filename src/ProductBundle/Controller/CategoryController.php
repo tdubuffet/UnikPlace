@@ -24,6 +24,13 @@ class CategoryController extends Controller
         $pathElems = explode('/', $path);
         $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
         $category = $repository->findOneBy(array('slug' => end($pathElems)));
+        if (!isset($category)) {
+            throw $this->createNotFoundException('The category does not exist');
+        }
+        // Check complete path
+        if ($category->getPath() != $path) {
+            throw $this->createNotFoundException('The category path does not match');
+        }
         return ['category' => $category];
     }
 }
