@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block javascript_include %}{{ jsinit(['main', 'signup']) }}{% endblock javascript_include %}
+{% block javascript_include %}{{ jsinit(['common', 'signup']) }}{% endblock javascript_include %}
 
 {% block fos_user_content %}
 {% if error %}

@@ -25,6 +25,12 @@ class User extends BaseUser
     }
 
 
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Veuillez fournir un nom d'utilisateur", groups={"Registration"})
+     * @Assert\Length(min=3, minMessage="Veuillez fournir au moins {{ limit }} caractères", groups={"Registration"})
+     */
+    protected $username;
 
     /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
     protected $facebook_id;
@@ -55,7 +61,6 @@ class User extends BaseUser
      * @Assert\NotBlank(message="Please enter your lastname.", groups={"Registration", "Profile"})
      */
     protected $lastname;
-
 
 
 
