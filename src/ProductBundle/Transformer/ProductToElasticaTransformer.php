@@ -28,7 +28,8 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
         $document = new Document($identifier, array(
             'id' => $product->getId(),
             'name' => $product->getName(),
-            'description' => $product->getDescription()
+            'description' => $product->getDescription(),
+            'category' => $product->getCategory()->getPath()
         ));
 
         return $document;

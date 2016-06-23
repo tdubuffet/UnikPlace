@@ -14,7 +14,7 @@
     {% set images = product.getImages() %}
     <img class="img-responsive" src="{% if images[0] is defined %}{{ vich_uploader_asset(images[0], 'imageFile') }}{% else %}{% endif %}" alt="{{ product.name }}" />
     <div class="text-center">{{ product.name }}</div>
-  </div>
+  </a>
 </div>
 {% endfor %}
 

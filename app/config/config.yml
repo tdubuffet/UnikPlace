@@ -215,6 +215,11 @@ fos_elastica:
                                 type: custom
                                 tokenizer: letter
                                 filter: ["standard", "asciifolding", "lowercase", "min_length_filter"]
+                            path_analyzer:
+                                type: custom
+                                tokenizer: path_hierarchy
+                                reverse: true
+                                filter: ["lowercase", "asciifolding"]
                         filter:
                             stop_fr:
                                 type: "stop"
@@ -235,6 +240,9 @@ fos_elastica:
                             type: string
                             boost: 1
                             analyzer: custom_french_analyzer
+                        category:
+                            type: string
+                            analyzer: path_analyzer
                     persistence:
                         model_to_elastica_transformer:
                             service: product.elastica.transformer

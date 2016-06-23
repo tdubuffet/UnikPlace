@@ -31,6 +31,14 @@ class CategoryController extends Controller
         if ($category->getPath() != $path) {
             throw $this->createNotFoundException('The category path does not match');
         }
-        return ['category' => $category];
+        $finder = $this->container->get("fos_elastica.finder.noname.product");
+        $boolQuery = new \Elastica\Query\Bool();
+        $fieldTerm = new \Elastica\Query\Term();
+        $fieldTerm->setTerm('category', $path);
+        $boolQuery->addMust($fieldTerm);
+        $results = $finder->find($boolQuery);
+
+
+        return ['category' => $category, 'products' => $results];
     }
 }
