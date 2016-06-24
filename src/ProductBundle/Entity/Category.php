@@ -179,6 +179,12 @@ class Category
 
 
     public function __toString() {
-        return $this->name;
+        $names = array();
+        $breadcrumb = $this->getBreadCrumb();
+        foreach ($breadcrumb as $element) {
+            $names[] = $element->getName();
+        }
+        $names[] = $this->getName();
+        return implode(' > ', $names);
     }
 }
