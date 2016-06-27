@@ -176,18 +176,35 @@ easy_admin:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
                     - 'product'
+        Referential:
+            class: ProductBundle\Entity\Referential
+        ReferentialValue:
+            class: ProductBundle\Entity\ReferentialValue
+        AttributeType:
+            class: ProductBundle\Entity\AttributeType
+        Attribute:
+            class: ProductBundle\Entity\Attribute
+        AttributeValue:
+            class: ProductBundle\Entity\AttributeValue
     design:
         menu:
             - { label: 'Site web', route: 'homepage' }
             - { label: 'Ecommerce' }
             - { label: 'Modération', route: 'admin_moderate' }
             - Product
+            - Image
+            - AttributeValue
+            - { label: 'Référentiel' }
+            - Referential
+            - ReferentialValue
+            - { label: 'Utilisateur' }
+            - User
+            - { label: 'Configuration' }
             - Status
             - Currency
             - Category
-            - Image
-            - { label: 'Utilisateur' }
-            - User
+            - Attribute
+            - AttributeType
 
 lexik_currency:
     currencies:
