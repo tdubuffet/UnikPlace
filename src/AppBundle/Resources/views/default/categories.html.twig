@@ -1,5 +1,7 @@
-{% for category in categories %}
-<ul class="nav navbar-nav navbar-left">
-  <li><a href="{{ path('category', {path: category.getPath()}) }}">{{ category.name }}</a></li>
-</ul>
+{% for idx, category in categories %}
+<li class="level0 nav-{{ idx }} level-top">
+<a href="{{ path('category', {path: category.getPath()}) }}" class="level-top">
+  <span>{{ category.name }}</span>
+</a>
+</li>
 {% endfor %}

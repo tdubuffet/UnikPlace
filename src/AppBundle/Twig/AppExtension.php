@@ -16,11 +16,11 @@ class AppExtension extends \Twig_Extension
     {
         $result = "";
         array_unshift($files, 'common');
-        $result .= "<script>";
+        $result .= "<script>$(document).ready(function() {";
         foreach ($files as $file) {
             $result .= ucfirst($file).'.init();';
         }
-        $result .= "</script>";
+        $result .= "});</script>";
 
         return $result;
     }

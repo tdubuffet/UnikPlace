@@ -37,6 +37,7 @@ gulp.task('scripts-dev', function() {
             './web/components/jquery/dist/jquery.js',
             './web/components/bootstrap-sass/assets/javascripts/bootstrap.js',
             './web/components/jquery-validation/dist/jquery.validate.js',
+            './web/components/owl.carousel/dist/owl.carousel.js',
             './web/bundles/**/js/*.js'
         ])
         .on('error', swallowError)

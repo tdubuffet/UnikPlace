@@ -1,34 +1,1330 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block body %}
-<div class="row">
-  <div class="col-sm-6">
-    <div class="featuring-product">
-      <img src="{{ asset('bundles/app/images/woman.jpg') }}" alt="femme" class="img-responsive" />
-      <h3>La sélection de la semaine</h3>
-      <h2>Couronne de fleurs en soie</h2>
+{% block javascript_include %}{{ jsinit(['homepage']) }}{% endblock javascript_include %}
+
+{% block bodyclass %}class="cms-index-index slidebar-left cms-home"{% endblock %}
+
+{% block wholebody %}
+
+<section class="main-container col1-layout">
+  <div class="main-breadcrumbs">
+    <div class="container">
+      <div class="row show-grid">
+        <div class="col-lg-12">
+        </div>
+      </div>
     </div>
   </div>
-  <div class="col-sm-6">
-    <div class="featuring-product">
-      <img src="{{ asset('bundles/app/images/chair.jpg') }}" alt="chaise" class="img-responsive" />
-      <h3>Produit élu par la communauté</h3>
-      <h2>Chaise Peacock de Hans J. Wegner</h2>
+  <div class="main-wrapper">
+    <div class="main">
+      <div class="site-preface"><div class="" id="block-slide-home">
+          <div class="slide-home owl-carousel">
+            <div class="slide-content"><a class="slide_link" href="#"><img class="img-responsive" alt="" src="http://elara.icotheme.com/media/wysiwyg/icotheme/slide/slide1.jpg" /></a>
+              <div class="slide-inner-content">
+                <div class="container">
+                  <h3>L'originalité <br />aux bouts des pieds</h3>
+                  <span class="text"><span class="text-inner">La Heathrow est maintenant disponible dans de toutes nouvelles couleurs.<br />Avec sa ligne décontractée et athlétique, ce modèle confortable et stylé<br />est proposé dans différents imprimés tendance avec des matières haut de gamme.<br />Taillé pour la performance, pensé pour le quotidien.</span></span> <span class="button"><a href="#">La Collection Chaussures</a> </span></div>
+              </div>
+            </div>                    <div class="slide-content"><a class="slide_link" href="#"><img class="img-responsive" alt="" src="http://elara.icotheme.com/media/wysiwyg/icotheme/slide/slide2.jpg" /></a>
+              <div class="slide-inner-content">
+                <div class="container">
+                  <h3>Put Your Best Foot <br />Forward in Athletic Shoes</h3>
+                  <span class="text"><span class="text-inner">Pellentesque posuere orci lobortis scelerisque blandit. Donec id tellus lacinia an, tincidunt<br />risus ac, consequat velit. Quisquemos sodales suscipit tortor ditaemcos condimentum lacus<br />meleifend menean viverra auctor blanditos comodous.</span></span> <span class="button"><a href="#">Shop Collection</a> </span></div>
+              </div>
+            </div>                    <div class="slide-content"><a class="slide_link" href="#"><img class="img-responsive" alt="" src="http://elara.icotheme.com/media/wysiwyg/icotheme/slide/slide3.jpg" /></a>
+              <div class="slide-inner-content">
+                <div class="container">
+                  <h3>Good shoes<br />take you good places</h3>
+                  <span class="text"><span class="text-inner">Pellentesque posuere orci lobortis scelerisque blandit. Donec id tellus lacinia an, tincidunt<br />risus ac, consequat velit. Quisquemos sodales suscipit tortor ditaemcos condimentum lacus<br />meleifend menean viverra auctor blanditos comodous.</span></span> <span class="button"><a href="#">Shop Collection</a> </span></div>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <div class="row show-grid">
+        </div>
+      </div>
+      <div class="container">
+        <div class="row show-grid">
+          <div class="col-main">
+            <div class="std">&nbsp;</div>
+            <div class="block-container ">
+              <div>
+                <div>
+
+
+
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="new_shoes">
+                          <div class="overlay"><span class="button"><a href="#">Bottes et Chaussures</a></span></div>
+                          <img src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner1.png" alt="" class="img-responsive">
+                          <div class="content">
+                            <div class="content-inner">
+                              <h3>Bottes<br>&amp;<br>Shoes</h3>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="banner_top">
+                          <div class="overlay"><span class="button"><a href="#">Ouais, c'est l'été</a></span></div>
+                          <img src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner2.png" alt="" class="img-responsive">
+                          <div class="content">
+                            <h3>C'est l'été</h3>
+                            <span class="saleoff">
+                              <span class="saleoff-inner">
+                                -25%
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div><!-- .row -->
+                  </div><!-- .col -->
+
+
+
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="fashion_look">
+                      <div class="overlay">
+                        <span class="button"><a href="#">La collection Hiver</a></span>
+                      </div>
+                      <img src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner3.png" alt="" class="img-responsive">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="fashion_look">
+                      <div class="overlay"><span class="button"><a href="#">La collection Été</a></span></div>
+                      <img src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner4.png" alt="" class="img-responsive">
+                    </div>
+                  </div>
+
+
+
+
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div id="block-65e2ba2dfc3fb58f5ccd1bbcbe84da33" class="widget-products-new ">
+              <h3 class="title-widget"><span>Nouveaux Produits</span></h3>
+              <div class="category-products">
+                <div class="owl-carousel owl-theme" style="opacity: 1; display: block;"><div class="owl-controls clickable"><div class="owl-buttons"><div class="owl-prev"><div data-icon="#" aria-hidden="true" class="fs1"></div></div><div class="owl-next"><div data-icon="$" aria-hidden="true" class="fs1"></div></div></div></div>
+                  <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 2930px; left: 0px; display: block;"><div class="owl-item active" style="width: 293px;"><ul class="products-grid ">
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Configurable Product" href="http://elara.icotheme.com/configurable-product.html" class="product-image">
+                                  <img alt="Configurable Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54f758e02a454.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54f758e02a454.jpg" class="lazy img-responsive">
+                                  <img alt="Configurable Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54f758e035c74.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54f758e035c74.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/configurable-product.html')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/16/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/16/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/16/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Configurable Product" href="http://elara.icotheme.com/configurable-product.html">
+                                    Configurable Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/16/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $58.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div>                        <!-- // End Product Label -->
+                                <a title="Configurable Color Product" href="http://elara.icotheme.com/configurable-color-product.html" class="product-image">
+                                  <img alt="Configurable Color Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54d296fdedf14.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54d296fdedf14.jpg" class="lazy img-responsive">
+                                  <img alt="Configurable Color Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54d296fe42500.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54d296fe42500.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/configurable-color-product.html')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/11/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/11/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/11/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Configurable Color Product" href="http://elara.icotheme.com/configurable-color-product.html">
+                                    Configurable Color Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/11/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+                                  <span class="regular-price">
+                                    <span class="price">$75.00</span></span>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                      </ul></div><div class="owl-item active" style="width: 293px;"><ul class="products-grid">
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+
+                                <div class="product-new-label">Nouveau</div><div class="product-sale-label">Vendu</div>
+
+                                <a title="Produit de Base" href="http://elara.icotheme.com/grouped-product.html" class="product-image">
+                                  <img alt="Grouped Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54c2c4fd90333.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54c2c4fd90333.jpg" class="lazy img-responsive">
+                                  <img alt="Grouped Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54c2c4fda80a4.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54c2c4fda80a4.jpg" class="img-responsive alt-img lazy">
+                                </a>
+
+                                <div class="actions">
+
+                                  <div class="action-list addtocart">
+                                    <button class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Ajouter au panier" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i>J'ajoute</span></span>
+                                    </button>
+                                  </div>
+
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/1/" onclick="quickview(this);" title="Aperçu" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li>
+                                        <a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/19/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                      </li>
+                                    </ul>
+                                  </div>
+
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li>
+                                        <a class="link-compare" title="Comparer" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/19/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a>
+                                      </li>
+                                    </ul>
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Produit de Base" href="http://elara.icotheme.com/grouped-product.html">
+                                    Produit de Base
+                                  </a>
+                                </h3>
+
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                </div>
+
+                                <div class="price-box">
+                                  <p class="minimal-price">
+                                    <span id="product-minimal-price-19" class="price">40,00 €</span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image1.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image2.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image2.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/1/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/1/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/1/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/1/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:73%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/1/'; return false;">2 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $40.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                      </ul></div><div class="owl-item active" style="width: 293px;"><ul class="products-grid ">
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-51.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h551f0e8cb5626.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h551f0e8cb5626.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h551f0e8cbd727.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h551f0e8cbd727.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/15/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/15/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/15/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/15/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-51.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/15/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+                                  <span class="regular-price">
+                                    <span class="price">$48.00</span>                                    </span>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-50.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/1/0/1012628_25_2_1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/1/0/1012628_25_2_1.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/1/0/1012628_26_1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/1/0/1012628_26_1.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/10/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/10/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/10/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/10/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-50.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/10/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+                                  <span class="regular-price">
+                                    <span class="price">$48.00</span>                                    </span>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                      </ul></div><div class="owl-item active" style="width: 293px;"><ul class="products-grid ">
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-48.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h5500bf04c4e12.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h5500bf04c4e12.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h5500bf04d6fe2.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h5500bf04d6fe2.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/8/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/8/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/8/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/8/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-48.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/8/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+                                  <span class="regular-price">
+                                    <span class="price">$48.00</span>                                    </span>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-46.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image4_1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image4_1.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image3_1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image3_1.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/2/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/2/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/2/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/2/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-46.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/2/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $40.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                      </ul></div><div class="owl-item" style="width: 293px;"><ul class="products-grid ">
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-49.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/2/_/2_2.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/2/_/2_2.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/1/_/1_2.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/1/_/1_2.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/9/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/9/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/9/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/9/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-49.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/9/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $38.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                          <li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-47.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/3/_/3.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/3/_/3.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/4/_/4.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/4/_/4.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/7/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/7/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/7/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/7/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-47.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/7/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $40.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </li>
+                  </ul></div></div></div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block-full-page">
+        <div class="block-container ">
+          <div class="">
+            <div class="">
+              <div class="video-wrapper">
+                <div class="wrapper-main-video">
+                  <div class="container-main-video">
+                    <div class="inner-main-video">
+                      <div class="upb_video-wrapper">
+                        <div data-bg-override="ex-full" class="upb_video-bg">
+                          <video loop="loop" preload="auto">
+                            <source type="video/mp4" src="media/wysiwyg/icotheme/video/video.mp4"></source>
+                            <source type="video/webm" src="media/wysiwyg/icotheme/video/video.webm"></source>
+                          </video>
+                          <em class="fa fa-2x fa-play"></em>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>             </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row show-grid">
+          <div id="block-1b2594de1aa7d2662ab880561d951171" class="widget-products-new widget-products-tab  tab-product-collection">
+            <h3 class="title-widget"><span>Featured Product</span></h3>
+            <div class="owl-controls clickable">
+              <div class="owl-buttons">
+                <div class="owl-prev">
+                  <i class="fa fa-angle-left"></i>
+                </div>
+                <div class="owl-next">
+                  <i class="fa fa-angle-right"></i>
+                </div>
+              </div>
+            </div>
+            <div class="tab-selector">
+              <ul class="widget-tabs nav nav-tabs">
+                <li class="active">
+                  <a data-carousel="1" data-template="icotheme/widgetproducts/collection.phtml" data-cid="3" data-row="1" data-column="4" data-limit="10" data-type="collection" data-value="discount" href="#block-1b2594de1aa7d2662ab880561d951171-collection-discount">
+                    Sale Off<span>/</span>                    </a>
+                </li>
+                <li class="">
+                  <a data-carousel="1" data-template="icotheme/widgetproducts/collection.phtml" data-cid="3" data-row="1" data-column="4" data-limit="10" data-type="collection" data-value="bestsell" href="#block-1b2594de1aa7d2662ab880561d951171-collection-bestsell">
+                    Best Seller<span>/</span>                    </a>
+                </li>
+                <li class="">
+                  <a data-carousel="1" data-template="icotheme/widgetproducts/collection.phtml" data-cid="3" data-row="1" data-column="4" data-limit="10" data-type="collection" data-value="rating" href="#block-1b2594de1aa7d2662ab880561d951171-collection-rating">
+                    Top Rate                    </a>
+                </li>
+              </ul>
+            </div>
+            <div class="widget-tab-content tab-content">
+              <div class="tab-pane active" id="block-1b2594de1aa7d2662ab880561d951171-collection-discount">
+                <div class="category-products">
+                  <ul class="products-grid  owl-carousel owl-theme" style="opacity: 1; display: block;">
+                    <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 2930px; left: 0px; display: block;"><div class="owl-item active" style="width: 293px;"><li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image1.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image2.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image2.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/1/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/1/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/1/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/1/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:73%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/1/'; return false;">2 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $40.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                        </li></div><div class="owl-item active" style="width: 293px;"><li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-46.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image4_1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image4_1.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/i/m/image3_1.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/i/m/image3_1.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/2/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/2/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/2/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/2/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-46.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/2/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $40.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                        </li></div><div class="owl-item active" style="width: 293px;"><li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-47.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/3/_/3.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/3/_/3.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/4/_/4.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/4/_/4.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/7/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/7/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/7/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/7/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-47.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/7/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $40.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                        </li></div><div class="owl-item active" style="width: 293px;"><li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div>                        <!-- // End Product Label -->
+                                <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-49.html" class="product-image">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/2/_/2_2.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/2/_/2_2.jpg" class="lazy img-responsive">
+                                  <img alt="Simple Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/1/_/1_2.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/1/_/1_2.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/checkout/cart/add/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/product/9/form_key/XKlOdgDzjADQBik1/')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/9/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/9/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/9/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Simple Product" href="http://elara.icotheme.com/isabel-slide-49.html">
+                                    Simple Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/9/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $38.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                        </li></div><div class="owl-item" style="width: 293px;"><li class="item">
+                            <div class="item-inner">
+                              <div class="product-action">
+                                <!-- // Product Label -->
+                                <div class="product-new-label">New</div><div class="product-sale-label">Sale</div>                        <!-- // End Product Label -->
+                                <a title="Configurable Product" href="http://elara.icotheme.com/configurable-product.html" class="product-image">
+                                  <img alt="Configurable Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54f758e02a454.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54f758e02a454.jpg" class="lazy img-responsive">
+                                  <img alt="Configurable Product" src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" data-srcx2="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/740x821.4/040ec09b1e35df139433887a97daa66f/h/5/h54f758e035c74.jpg" data-src="http://elara.icotheme.com/media/catalog/product/cache/1/small_image/370x410.7/040ec09b1e35df139433887a97daa66f/h/5/h54f758e035c74.jpg" class="img-responsive alt-img lazy">                                                    </a>
+                                <div class="actions">
+                                  <!-- // Product Button Add To Cart -->
+                                  <div class="action-list addtocart">
+                                    <button onclick="setLocationCache('http://elara.icotheme.com/configurable-product.html')" class="button btn-cart" data-placement="top" data-toggle="tooltip" title="Add to Cart" type="button">
+                                      <span><span><i class="fa fa-shopping-bag"></i> Add to Cart</span></span>
+                                    </button>
+                                    <!-- // End Product Button Add To Cart -->
+                                  </div>
+                                  <div class="action-list quickview hidden-xs">
+                                    <div data-url="http://elara.icotheme.com/ajaxproducts/index/quickview/product_id/16/" onclick="quickview(this);" title="Quickview" data-placement="top" data-toggle="tooltip" class="quickview-wrapper">
+                                      <i class="fa fa-search-plus"></i>
+                                    </div>
+                                  </div>
+                                  <!-- // Product Button Add To Link -->
+                                  <div class="action-list wishlist">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-wishlist" title="Wishlist" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/wishlist/index/add/product/16/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <div class="action-list compare">
+                                    <ul class="add-to-links">
+                                      <li><a class="link-compare" title="Compare" data-placement="top" data-toggle="tooltip" href="http://elara.icotheme.com/catalog/product_compare/add/product/16/uenc/aHR0cDovL2VsYXJhLmljb3RoZW1lLmNvbS8,/form_key/XKlOdgDzjADQBik1/"><i class="fa fa-bar-chart"></i></a></li>
+                                    </ul>
+                                  </div>
+                                  <!-- // End Product Button Add To Link -->
+                                </div>
+                              </div>
+                              <div class="product-content">
+                                <h3 class="product-name">
+                                  <a title="Configurable Product" href="http://elara.icotheme.com/configurable-product.html">
+                                    Configurable Product                            </a>
+                                </h3>
+                                <!-- // Product Rating Summary -->
+                                <div class="ratings">
+                                  <div class="rating-box">
+                                    <div style="width:100%" class="rating"></div>
+                                  </div>
+                                  <!--span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='http://elara.icotheme.com/review/product/list/id/16/'; return false;">1 Review(s)</a></span-->
+                                </div>
+                                <!-- // End Product Rating Summary -->
+
+
+
+                                <div class="price-box">
+
+                                  <p class="old-price">
+                                    <span class="price-label">Regular Price:</span>
+                                    <span class="price">
+                                      $58.00                </span>
+                                  </p>
+
+                                  <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">
+                                      $48.00                </span>
+                                  </p>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                    </li></div></div></div>
+                    
+                    
+                    
+                    
+                  </ul>
+                </div>
+              </div>
+              <div class="tab-pane" id="block-1b2594de1aa7d2662ab880561d951171-collection-bestsell">
+              </div>
+              <div class="tab-pane" id="block-1b2594de1aa7d2662ab880561d951171-collection-rating">
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+
+
+          <div id="widget-84f5d2b0cd019d8afe8ca969ee625291" class="blog-homepage ">
+            <h3 class="title-widget"><span>Dernières actualités</span></h3>
+            <div class="blog-wrapper">
+              <div class="owl-carousel owl-theme" style="opacity: 1; display: block;"><div class="owl-controls clickable"><div class="owl-buttons"><div class="owl-prev"><div data-icon="#" aria-hidden="true" class="fs1"></div></div><div class="owl-next"><div data-icon="$" aria-hidden="true" class="fs1"></div></div></div></div>
+                <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 3510px; left: 0px; display: block;"><div class="owl-item active" style="width: 585px;"><ul class="blog-grid ">
+                        <li class="blog item&gt;">
+                          <div class="blog-item-wrapper">
+                            <img src="http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif" data-src="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-5-1024x682.jpg" data-srcx2="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-5-1024x682.jpg" alt="" class="img-responsive lazy">
+
+                            <div class="main_content">
+                              <h3><a href="http://elara.icotheme.com/blog/lookbook1/">Men's Lookbook Runway 2015</a></h3>
+                              <span class="content">This spring, our collection evokes a sense of travel, flight, and lightness. Our structured ...</span>
+                              <div class="content-bottom">
+                                <span class="readmore"><a href="http://elara.icotheme.com/blog/lookbook1/">Read More</a></span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="blog item&gt;">
+                          <div class="blog-item-wrapper">
+                            <img src="http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif" data-src="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-3-1024x682.jpg" data-srcx2="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-3-1024x682.jpg" alt="" class="img-responsive lazy">
+                            <div class="main_content">
+                              <h3><a href="http://elara.icotheme.com/blog/lookbook111111/">Men's Lookbook Runway 2015</a></h3>
+                              <span class="content">This spring, our collection evokes a sense of travel, flight, and lightness. Our structured ...</span>
+                              <div class="content-bottom">
+                                <span class="readmore"><a href="http://elara.icotheme.com/blog/lookbook111111/">Read More</a></span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                    </ul></div><div class="owl-item active" style="width: 585px;"><ul class="blog-grid ">
+                        <li class="blog item&gt;">
+                          <div class="blog-item-wrapper">
+                            <img src="http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif" data-src="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-4-1024x682.jpg" data-srcx2="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-4-1024x682.jpg" alt="" class="img-responsive lazy">
+                            <div class="main_content">
+                              <h3><a href="http://elara.icotheme.com/blog/lookbook11111/">Men's Lookbook Runway 2015</a></h3>
+                              <span class="content">
+                                This spring, our collection evokes a sense of travel, flight, and lightness. Our structured ...                            </span>
+                              <div class="content-bottom">
+                                <span class="readmore"><a href="http://elara.icotheme.com/blog/lookbook11111/">Read More</a> </span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="blog item&gt;">
+                          <div class="blog-item-wrapper">
+                            <img src="http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif" data-src="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-7-1024x682.jpg" data-srcx2="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-7-1024x682.jpg" alt="" class="img-responsive lazy">
+                            <div class="main_content">
+                              <h3><a href="http://elara.icotheme.com/blog/lookbook1111/">Men's Lookbook Runway 2015</a></h3>
+                              <span class="content">
+                                This spring, our collection evokes a sense of travel, flight, and lightness. Our structured ...                            </span>
+                              <div class="content-bottom">
+                                <span class="readmore"><a href="http://elara.icotheme.com/blog/lookbook1111/">Read More</a> </span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                    </ul></div><div class="owl-item" style="width: 585px;"><ul class="blog-grid ">
+                        <li class="blog item&gt;">
+                          <div class="blog-item-wrapper">
+                            <img src="http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif" data-src="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-8-1024x682.jpg" data-srcx2="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-8-1024x682.jpg" alt="" class="img-responsive lazy">
+                            <div class="main_content">
+                              <h3><a href="http://elara.icotheme.com/blog/lookbook111/">Men's Lookbook Runway 2015</a></h3>
+                              <span class="content">
+                                This spring, our collection evokes a sense of travel, flight, and lightness. Our structured ...                            </span>
+                              <div class="content-bottom">
+                                <span class="readmore"><a href="http://elara.icotheme.com/blog/lookbook111/">Read More</a> </span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="blog item&gt;">
+                          <div class="blog-item-wrapper">
+                            <img src="http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif" data-src="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-6-1024x682.jpg" data-srcx2="http://elara.icotheme.com/media/wysiwyg/icotheme/native-shoes-2014-spring-summer-lookbook-6-1024x682.jpg" alt="" class="img-responsive lazy">
+                            <div class="main_content">
+                              <h3><a href="http://elara.icotheme.com/blog/lookbook11/">Men's Lookbook Runway 2015</a></h3>
+                              <span class="content">
+                                This spring, our collection evokes a sense of travel, flight, and lightness. Our structured ...                            </span>
+                              <div class="content-bottom">
+                                <span class="readmore"><a href="http://elara.icotheme.com/blog/lookbook11/">Read More</a> </span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                </ul></div></div></div>
+
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="site-postscript"></div>
     </div>
   </div>
-  <div class="col-sm-6">
-    <div class="featuring-product">
-      <img src="{{ asset('bundles/app/images/chair.jpg') }}" alt="chaise" class="img-responsive" />
-      <h3>Produit élu par la communauté</h3>
-      <h2>Chaise Peacock de Hans J. Wegner</h2>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="featuring-product">
-      <img src="{{ asset('bundles/app/images/woman.jpg') }}" alt="femme" class="img-responsive" />
-      <h3>La sélection de la semaine</h3>
-      <h2>Couronne de fleurs en soie</h2>
-    </div>
-  </div>
-</div>
+</section>
 {% endblock %}
