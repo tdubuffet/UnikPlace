@@ -32,6 +32,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: vich_uploader.pre_upload, method: onPreUpload }
 
+    product_bundle.product_attribute_service:
+        class: ProductBundle\Service\ProductAttributeService
+        arguments: ['@doctrine.orm.entity_manager']
+
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false

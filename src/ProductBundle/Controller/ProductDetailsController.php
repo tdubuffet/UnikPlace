@@ -19,7 +19,8 @@ class ProductDetailsController extends Controller
      */
     public function indexAction(Request $request, Product $product)
     {
-        $attributes = $product->getAttributes($this->getDoctrine()->getManager());
+        $productAttributeService = $this->get('product_bundle.product_attribute_service');
+        $attributes = $productAttributeService->getAttributesFromProduct($product);
         return ['product' => $product, 'productAttributes' => $attributes];
     }
 }
