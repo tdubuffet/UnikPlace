@@ -225,7 +225,10 @@ class Product
      */
     public function addImage(\ProductBundle\Entity\Image $image)
     {
-        $this->images[] = $image;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setProduct($this);
+        }
 
         return $this;
     }
@@ -238,6 +241,7 @@ class Product
     public function removeImage(\ProductBundle\Entity\Image $image)
     {
         $this->images->removeElement($image);
+        $image->setProduct(null);
     }
 
     /**

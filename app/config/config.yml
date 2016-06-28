@@ -158,9 +158,23 @@ easy_admin:
         Product:
             class: ProductBundle\Entity\Product
             edit:
-                fields: ['name', 'description', 'category', 'price', 'currency', 'status']
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'category' }
+                    - { property: 'price' }
+                    - { property: 'currency' }
+                    - { property: 'status' }
+                    - { property: 'images', type_options: { by_reference: false} }
             new:
-                fields: ['name', 'description', 'category', 'price', 'currency', 'status']
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'category' }
+                    - { property: 'price' }
+                    - { property: 'currency' }
+                    - { property: 'status' }
+                    - { property: 'images', type_options: { by_reference: false} }
         Image:
             class: ProductBundle\Entity\Image
             list:
