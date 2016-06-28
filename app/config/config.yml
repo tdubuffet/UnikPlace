@@ -180,8 +180,6 @@ easy_admin:
             class: ProductBundle\Entity\Referential
         ReferentialValue:
             class: ProductBundle\Entity\ReferentialValue
-        AttributeType:
-            class: ProductBundle\Entity\AttributeType
         Attribute:
             class: ProductBundle\Entity\Attribute
         AttributeValue:
@@ -194,17 +192,16 @@ easy_admin:
             - Product
             - Image
             - AttributeValue
+            - { label: 'Utilisateur' }
+            - User
             - { label: 'Référentiel' }
             - Referential
             - ReferentialValue
-            - { label: 'Utilisateur' }
-            - User
             - { label: 'Configuration' }
-            - Status
-            - Currency
             - Category
             - Attribute
-            - AttributeType
+            - Status
+            - Currency
 
 lexik_currency:
     currencies:

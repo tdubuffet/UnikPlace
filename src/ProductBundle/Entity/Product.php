@@ -369,7 +369,7 @@ class Product
             return null;
         }
         // Find value
-        $valueTypes = ['text', 'boolean', 'integer', 'float', 'datetime', 'date', 'referential'];
+        $valueTypes = ['text', 'integer', 'float', 'datetime', 'date', 'referential', 'boolean'];
         $accessor = PropertyAccess::createPropertyAccessor();
         foreach ($valueTypes as $valueType) {
             $value = $accessor->getValue($attributeValue, $valueType.'_value');
