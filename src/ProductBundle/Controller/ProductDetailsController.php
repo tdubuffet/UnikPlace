@@ -19,6 +19,7 @@ class ProductDetailsController extends Controller
      */
     public function indexAction(Request $request, Product $product)
     {
-        return ['product' => $product];
+        $attributes = $product->getAttributes($this->getDoctrine()->getManager());
+        return ['product' => $product, 'productAttributes' => $attributes];
     }
 }

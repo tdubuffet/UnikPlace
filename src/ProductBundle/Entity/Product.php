@@ -5,6 +5,7 @@ namespace ProductBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Product
@@ -327,5 +328,63 @@ class Product
     public function getAttributeValues()
     {
         return $this->attributeValues;
+    }
+
+    /*
+     * Get product attributes directly
+     *
+     * @return array
+     */
+    public function getAttributes($em)
+    {
+        $attributes = array();
+        foreach ($this->attributeValues as $value) {
+            $attribute = $value->getAttribute();
+            $attributes[$attribute->getCode()] = ['name'  => $attribute->getName(),
+                                                  'value' => $this->getAttributebyCode($attribute->getCode(), $em)];
+        }
+        return $attributes;
+    }
+
+    /*
+     * Get product attribute by code
+     *
+     * @return mixed
+     */
+    public function getAttributebyCode($code, $em)
+    {
+        // Find attribute types
+        $objectTypes = $em->getRepository('ProductBundle:AttributeType')->findAll();
+        $types = array();
+        foreach ($objectTypes as $type) {
+            $types[$type->getId()] = $type->getName();
+        }
+        $attribute = $em->getRepository('ProductBundle:Attribute')->findOneByCode($code);
+        if (!isset($attribute)) {
+            return null;
+        }
+        $attributeValue = $em->getRepository('ProductBundle:AttributeValue')->findOneBy(
+            ['attribute' => $attribute, 'product' => $this]);
+        if (!isset($attributeValue)){
+            return null;
+        }
+        // Find value
+        $valueTypes = ['text', 'boolean', 'integer', 'float', 'datetime', 'date', 'referential'];
+        $accessor = PropertyAccess::createPropertyAccessor();
+        foreach ($valueTypes as $valueType) {
+            $value = $accessor->getValue($attributeValue, $valueType.'_value');
+            if (!is_null($value)) {
+                if ($value instanceof ReferentialValue) {
+                    $value = $value->getValue();
+                }
+                // Cast to the right type
+                $type = $attribute->getAttributeType()->getName();
+                if (isset($type) && in_array($type, ['string', 'boolean', 'integer', 'float'])) {
+                    settype($value, $type);
+                }
+                return $value;
+            }
+        }
+        return null;
     }
 }
