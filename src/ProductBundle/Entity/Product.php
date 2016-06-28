@@ -66,12 +66,18 @@ class Product
     private $status;
 
     /**
+     * @ORM\OneToMany(targetEntity="AttributeValue", mappedBy="product")
+     */
+    private $attributeValues;
+
+    /**
      * @ORM\OneToMany(targetEntity="Image", mappedBy="product")
      */
     private $images;
 
     public function __construct() {
         $this->images = new ArrayCollection();
+        $this->attributesValues = new ArrayCollection();
     }
 
     /**
@@ -287,5 +293,39 @@ class Product
             $category = $category->getParent();
         }
         return array_reverse($breadcrumb);
+    }
+
+    /**
+     * Add attributeValue
+     *
+     * @param \ProductBundle\Entity\AttributeValue $attributeValue
+     *
+     * @return Product
+     */
+    public function addAttributeValue(\ProductBundle\Entity\AttributeValue $attributeValue)
+    {
+        $this->attributeValues[] = $attributeValue;
+
+        return $this;
+    }
+
+    /**
+     * Remove attributeValue
+     *
+     * @param \ProductBundle\Entity\AttributeValue $attributeValue
+     */
+    public function removeAttributeValue(\ProductBundle\Entity\AttributeValue $attributeValue)
+    {
+        $this->attributeValues->removeElement($attributeValue);
+    }
+
+    /**
+     * Get attributeValues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAttributeValues()
+    {
+        return $this->attributeValues;
     }
 }
