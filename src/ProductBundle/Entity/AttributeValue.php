@@ -52,7 +52,7 @@ class AttributeValue
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datetime_value", type="datetimetz", nullable=true)
+     * @ORM\Column(name="datetime_value", type="datetime", nullable=true)
      */
     private $datetimeValue;
 

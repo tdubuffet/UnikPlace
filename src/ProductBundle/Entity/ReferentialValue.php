@@ -29,7 +29,7 @@ class ReferentialValue
     private $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Referential", inversedBy="referential_values")
+     * @ORM\ManyToOne(targetEntity="Referential", inversedBy="referentialValues")
      * @ORM\JoinColumn(name="referential_id", referencedColumnName="id")
      */
     private $referential;
