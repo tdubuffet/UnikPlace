@@ -42,11 +42,14 @@ class Attribute
     private $attributeType;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="attributes")
+     * @ORM\JoinTable(name="categories_attributes")
      */
-    private $category;
+    private $categories;
 
+    public function __construct() {
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -157,5 +160,39 @@ class Attribute
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \ProductBundle\Entity\Category $category
+     *
+     * @return Attribute
+     */
+    public function addCategory(\ProductBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \ProductBundle\Entity\Category $category
+     */
+    public function removeCategory(\ProductBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

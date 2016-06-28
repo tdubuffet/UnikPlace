@@ -44,8 +44,14 @@ class Category
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="categories")
+     */
+    private $attributes;
+
     public function __construct() {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -186,5 +192,39 @@ class Category
         }
         $names[] = $this->getName();
         return implode(' > ', $names);
+    }
+
+    /**
+     * Add attribute
+     *
+     * @param \ProductBundle\Entity\Attribute $attribute
+     *
+     * @return Category
+     */
+    public function addAttribute(\ProductBundle\Entity\Attribute $attribute)
+    {
+        $this->attributes[] = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Remove attribute
+     *
+     * @param \ProductBundle\Entity\Attribute $attribute
+     */
+    public function removeAttribute(\ProductBundle\Entity\Attribute $attribute)
+    {
+        $this->attributes->removeElement($attribute);
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 }
