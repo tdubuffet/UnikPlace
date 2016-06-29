@@ -22,6 +22,9 @@ class CategoryController extends Controller
     {
         $pathElems = explode('/', $path);
         $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
+
+        $mainCategories = $repository->findBy(array('parent' => null));
+
         $categories = $repository->findBy(array('slug' => end($pathElems)));
         foreach ($categories as $potentialCategory) {
             if ($potentialCategory->getPath() == $path) {
@@ -37,6 +40,6 @@ class CategoryController extends Controller
         $fieldTerm->setTerm('category', $path);
         $boolQuery->addMust($fieldTerm);
         $results = $finder->find($boolQuery);
-        return ['category' => $category, 'products' => $results];
+        return ['category' => $category, 'products' => $results, 'mainCategories' => $mainCategories];
     }
 }

@@ -22,6 +22,9 @@ var Common = {
             max: $.validator.format("Veuillez fournir une valeur inférieur ou égal à {0}."),
             min: $.validator.format("Veuillez fournir une valeur supérieur ou égal à {0}."),
         });
+
+        $("#top-nav-wrapper").sticky({ topSpacing: 0 });
+        $("#mobile-sticky").sticky({ topSpacing: 0 });
     }
 
 }

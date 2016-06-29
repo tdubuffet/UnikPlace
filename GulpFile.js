@@ -38,6 +38,8 @@ gulp.task('scripts-dev', function() {
             './web/components/bootstrap-sass/assets/javascripts/bootstrap.js',
             './web/components/jquery-validation/dist/jquery.validate.js',
             './web/components/owl.carousel/dist/owl.carousel.js',
+            './web/components/jquery-sticky/jquery.sticky.js',
+            './web/components/elevatezoom/jquery.elevatezoom.js',
             './web/bundles/**/js/*.js'
         ])
         .on('error', swallowError)

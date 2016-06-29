@@ -1,7 +1,41 @@
 {% for idx, category in categories %}
-<li class="level0 nav-{{ idx }} level-top">
-<a href="{{ path('category', {path: category.getPath()}) }}" class="level-top">
-  <span>{{ category.name }}</span>
-</a>
+<li class="level0 nav-{{ idx }} level-top parent">
+  <a href="{{ path('category', {path: category.getPath()}) }}" class="level-top">
+    <span>{{ category.GetName }}</span>
+  </a>
+  {% if category.getChildren()|length > 0 %}
+  <div class="level0 menu-wrap-sub">
+    <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-4col">
+      <ul class="level0">
+        {% for childCategory in category.getChildren() %}
+          <li class="level1 groups item">
+            <a href="{{ path('category', {path: childCategory.getPath()}) }}">
+              <span class="title_group">{{ childCategory.getName }}</span>
+            </a>
+            {% if childCategory.getChildren()|length > 0 %}
+              <div class="menu-wrapper">
+                <ul class="level1">
+                  {% for subChildCategory in childCategory.getChildren() %}
+                    <li class="level2">
+                      <a href="{{ path('category', {path: subChildCategory.getPath()}) }}">
+                        <span>{{ subChildCategory.getName }}</span>
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="ulmenu-block ulmenu-block-bottom grid12-12 std">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><img class="img-responsive" src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner_menu1.jpg" alt="" /></div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><img class="img-responsive" src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner_menu2.jpg" alt="" /></div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 </li>
 {% endfor %}
