@@ -17,4 +17,16 @@ class AccountController extends Controller
     public function profileAction(Request $request)
     {
     }
+
+    /**
+     * @Route("/compte/wishlist", name="user_account_wishlist")
+     * @Template("UserBundle:Account:wishlist.html.twig")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function wishlistAction(Request $request)
+    {
+        $user = $this->getUser();
+        $favorites = $user->getFavorites();
+        return ['favorites' => $favorites];
+    }
 }

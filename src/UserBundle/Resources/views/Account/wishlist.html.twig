@@ -1,0 +1,16 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+<h1>Ma wishlist</h1>
+
+{% if favorites is empty %}
+<p>Vous n'avez aucun produit dans votre wishlist.</p>
+{% else %}
+{% for favorite in favorites %}
+<div>
+{% set product = favorite.getProduct() %}
+{{ product.getName() }}
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
