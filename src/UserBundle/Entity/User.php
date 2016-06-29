@@ -5,6 +5,7 @@ namespace UserBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -22,6 +23,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->favorites = new ArrayCollection();
     }
 
 
@@ -62,7 +64,10 @@ class User extends BaseUser
      */
     protected $lastname;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="ProductBundle\Entity\Favorite", mappedBy="user")
+     */
+    private $favorites;
 
     /**
      * Set facebookId
@@ -265,5 +270,39 @@ class User extends BaseUser
     public function getCredentialsExpireAt()
     {
         return $this->credentialsExpireAt;
+    }
+
+    /**
+     * Add favorite
+     *
+     * @param \ProductBundle\Entity\Favorite $favorite
+     *
+     * @return User
+     */
+    public function addFavorite(\ProductBundle\Entity\Favorite $favorite)
+    {
+        $this->favorites[] = $favorite;
+
+        return $this;
+    }
+
+    /**
+     * Remove favorite
+     *
+     * @param \ProductBundle\Entity\Favorite $favorite
+     */
+    public function removeFavorite(\ProductBundle\Entity\Favorite $favorite)
+    {
+        $this->favorites->removeElement($favorite);
+    }
+
+    /**
+     * Get favorites
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
     }
 }

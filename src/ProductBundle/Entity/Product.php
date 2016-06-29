@@ -75,9 +75,15 @@ class Product
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Favorite", mappedBy="product")
+     */
+    private $favorites;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     /**
@@ -331,5 +337,39 @@ class Product
     public function getAttributeValues()
     {
         return $this->attributeValues;
+    }
+
+    /**
+     * Add favorite
+     *
+     * @param \ProductBundle\Entity\Favorite $favorite
+     *
+     * @return Product
+     */
+    public function addFavorite(\ProductBundle\Entity\Favorite $favorite)
+    {
+        $this->favorites[] = $favorite;
+
+        return $this;
+    }
+
+    /**
+     * Remove favorite
+     *
+     * @param \ProductBundle\Entity\Favorite $favorite
+     */
+    public function removeFavorite(\ProductBundle\Entity\Favorite $favorite)
+    {
+        $this->favorites->removeElement($favorite);
+    }
+
+    /**
+     * Get favorites
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
     }
 }
