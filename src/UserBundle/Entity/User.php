@@ -70,6 +70,11 @@ class User extends BaseUser
     private $favorites;
 
     /**
+     * @ORM\OneToMany(targetEntity="ProductBundle\Entity\Product", mappedBy="user")
+     */
+    private $products;
+
+    /**
      * Set facebookId
      *
      * @param string $facebookId
@@ -304,5 +309,39 @@ class User extends BaseUser
     public function getFavorites()
     {
         return $this->favorites;
+    }
+
+    /**
+     * Add product
+     *
+     * @param \ProductBundle\Entity\Product $product
+     *
+     * @return User
+     */
+    public function addProduct(\ProductBundle\Entity\Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \ProductBundle\Entity\Product $product
+     */
+    public function removeProduct(\ProductBundle\Entity\Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

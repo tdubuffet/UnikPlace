@@ -165,6 +165,7 @@ easy_admin:
                     - { property: 'price' }
                     - { property: 'currency' }
                     - { property: 'status' }
+                    - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
             new:
                 fields:
@@ -174,7 +175,11 @@ easy_admin:
                     - { property: 'price' }
                     - { property: 'currency' }
                     - { property: 'status' }
+                    - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
+            list:
+                fields:
+                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status']
         Image:
             class: ProductBundle\Entity\Image
             list:
