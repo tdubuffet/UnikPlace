@@ -221,7 +221,15 @@
                     <div class="tab-pane in active first" id="product_tabs_customfields">
                       <div class="product-tabs-content-inner clearfix">
                         <div class="std">
-                          [ CUSTOM FIELDS ]
+                          {% if productAttributes is empty %}
+                          <p>Aucune caractéristique renseignée pour ce produit.</p>
+                          {% else %}
+                          <ul>
+                            {% for attribute in productAttributes %}
+                            <li>{{ attribute.name }}: {{ attribute.value }}</li>
+                            {% endfor %}
+                          </ul>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
