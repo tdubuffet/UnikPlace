@@ -11,12 +11,11 @@ use ProductBundle\Entity\Category;
 
 class CategoryController extends Controller
 {
-
     /**
      * @Route("/c/{path}", requirements={
      *     "path": "(.+)"
      * }, name="category")
-     * @Template("ProductBundle:Category:index.html.twig")
+     * @Template("ProductBundle:Search:index.html.twig")
      */
     public function indexAction(Request $request, $path)
     {

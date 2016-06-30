@@ -16,13 +16,10 @@ class SearchController extends Controller
      */
     public function searchAction(Request $request)
     {
-
         $query = $request->get('q');
         $results = [];
 
         if ($query) {
-
-
             $finder = $this->container->get("fos_elastica.finder.noname.product");
 
             $boolQuery = new \Elastica\Query\Bool();
@@ -41,11 +38,11 @@ class SearchController extends Controller
             $boolQuery->addShould($fieldQuery);
 
             $results = $finder->find($boolQuery);
-
-
         }
 
-        return ['products' => $results];
+        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
+        $mainCategories = $repository->findBy(array('parent' => null));
 
+        return ['products' => $results, 'mainCategories' => $mainCategories];
     }
 }
