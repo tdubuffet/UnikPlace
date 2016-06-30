@@ -274,7 +274,7 @@
 
                             <p class="special-price">
                               <span class="price-label">Nouveau prix :</span>
-                              <span class="price">{{ product.getPrice|number_format(2, ',', '') }}€</span>
+                              <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
                             </p>
                           </div>
                         </div>
