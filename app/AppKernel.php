@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new Lexik\Bundle\CurrencyBundle\LexikCurrencyBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
 
 
             // Private bundles

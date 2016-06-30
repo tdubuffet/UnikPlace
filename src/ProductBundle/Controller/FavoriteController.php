@@ -13,15 +13,19 @@ class FavoriteController extends Controller
 {
 
     /**
-     * @Route("/favorite", name="add_product_favorite")
+     * @Route("/favorite", name="product_favorite")
      * @Method({"POST"})
      */
     public function addAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse(array('message' => 'You must be authentificated to add product favorite.'), 409);
+            return new JsonResponse(array('message' => 'You must be authentificated to add product favorite.'), 401);
         }
         $user = $this->getUser();
+        $action = $request->get('action');
+        if (!isset($action) && in_array($action, ['add', 'remove'])) {
+            return new JsonResponse(array('message' => 'An action must be specified.'), 409);
+        }
         $productId = $request->get('product_id');
         if (!isset($productId)) {
             return new JsonResponse(array('message' => 'A product id (product_id) must be specified.'), 409);
@@ -32,42 +36,24 @@ class FavoriteController extends Controller
         }
         $repository = $this->getDoctrine()->getRepository('ProductBundle:Favorite');
         $favorite = $repository->findOneBy(array('user' => $user, 'product' => $product));
-        if (!isset($favorite)) {
-            $favorite = new Favorite;
-            $favorite->setProduct($product);
-            $favorite->setUser($user);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($favorite);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        if ($action == 'add') {
+            if (!isset($favorite)) {
+                $favorite = new Favorite;
+                $favorite->setProduct($product);
+                $favorite->setUser($user);
+                $em->persist($favorite);
+                $em->flush();
+            }
+            return new JsonResponse(array('message' => 'Favorite added.'), 201);
         }
-        return new JsonResponse(array('message' => 'Favorite added.'), 201);
-    }
-
-    /**
-     * @Route("/favorite", name="remove_product_favorite")
-     * @Method({"DELETE"})
-     */
-    public function removeAction(Request $request)
-    {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse(array('message' => 'You must be authentificated to remove a product favorite.'), 409);
+        else if ($action == 'remove') {
+            if (isset($favorite)) {
+                $em->remove($favorite);
+                $em->flush();
+            }
+            return new JsonResponse(array('message' => 'Favorite removed.'));
         }
-        $user = $this->getUser();
-        $productId = $request->get('product_id');
-        if (!isset($productId)) {
-            return new JsonResponse(array('message' => 'A product id (product_id) must be specified.'), 409);
-        }
-        $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
-        if (!isset($product)) {
-            return new JsonResponse(array('message' => 'Product not found.'), 404);
-        }
-        $repository = $this->getDoctrine()->getRepository('ProductBundle:Favorite');
-        $favorite = $repository->findOneBy(array('user' => $user, 'product' => $product));
-        if (isset($favorite)) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($favorite);
-            $em->flush();
-        }
-        return new JsonResponse(array('message' => 'Favorite removed.'));
+        return new JsonResponse(array('message' => 'An error occured.'), 500);
     }
 }

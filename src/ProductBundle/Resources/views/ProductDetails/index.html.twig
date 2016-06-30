@@ -140,9 +140,9 @@
                               <div class="action-list wishlist">
                                 <ul class="add-to-links">
                                   <li class="first wishlist">
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist">
+                                    <button type="button" class="link-wishlist {% if isFavorite %}is-favorite{% endif %}" data-product-id="{{ product.getId() }}" data-action="{{ isFavorite ? 'remove' : 'add' }}">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
-                                    </a>
+                                    </button>
                                   </li>
                                 </ul>
                               </div>

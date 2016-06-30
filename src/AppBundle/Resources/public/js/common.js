@@ -27,4 +27,4 @@ var Common = {
         $("#mobile-sticky").sticky({ topSpacing: 0 });
     }
 
-}
+};

@@ -622,6 +622,7 @@
     {% endblock %}
 
     {% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
+      <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
     {% if app.environment == 'dev' %}
        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

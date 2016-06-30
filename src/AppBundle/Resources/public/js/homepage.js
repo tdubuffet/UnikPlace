@@ -14,4 +14,4 @@ var Homepage = {
             "navigationText":[null,null]});
     }
 
-}
+};

@@ -21,6 +21,9 @@ class ProductDetailsController extends Controller
     {
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
         $attributes = $productAttributeService->getAttributesFromProduct($product);
-        return ['product' => $product, 'productAttributes' => $attributes];
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $favorite = $this->getDoctrine()->getRepository('ProductBundle:Favorite')->findOneBy(array('user' => $this->getUser(), 'product' => $product));
+        }
+        return ['product' => $product, 'productAttributes' => $attributes, 'isFavorite' => isset($favorite)];
     }
 }

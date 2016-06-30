@@ -2,6 +2,8 @@ var Product = {
 
     init: function() {
 
+        Product.initFavoriteButton();
+
         // Initialize inner zoom on main picture
         var zoomConfig = {cursor: 'crosshair', zoomType: "inner"};
         $('#image-main').elevateZoom(zoomConfig);
@@ -57,6 +59,32 @@ var Product = {
             zoomImg.elevateZoom(zoomConfig);
         });
 
+    },
+
+
+    initFavoriteButton: function() {
+        $('.link-wishlist').click(function() {
+            var button = this;
+            $.ajax({
+                url: Routing.generate('product_favorite'),
+                type: 'POST',
+                data: {product_id: $(button).data('product-id'), action: $(button).data('action')},
+                success: function(result) {
+                    if ($(button).data('action') === 'add') {
+                        $(button).addClass('is-favorite');
+                    }
+                    else {
+                        $(button).removeClass('is-favorite')
+                    }
+                    $(button).data('action', $(button).data('action') === 'add' ? 'remove' : 'add');
+                },
+                error: function(result) {
+                    if (result.status == 401) {
+                        window.location.href = Routing.generate('fos_user_security_login');
+                    }
+                }
+            });
+        });
     }
 
-}
+};
