@@ -323,11 +323,11 @@
                       <div class="language-wrapper"><div class="language-currency">
                           <div class="language-switcher switcher-wrap">
                             <div class="overwrite-language">
-                              <span style="background-image:url('http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-english.jpg');background-repeat: no-repeat; background-position: 15px center; ">English</span>
+                              <span style="background-image:url('http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg');background-repeat: no-repeat; background-position: 15px center; ">Français</span>
                             </div>
                             <ul class="select-language">
-                              <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-english.jpg); background-repeat: no-repeat; background-position: 0px center;" href="http://elara.icotheme.com/?___store=default&amp;___from_store=default"> English</a></li>
                               <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg); background-repeat: no-repeat; background-position: 0px center;" href="http://elara.icotheme.com/?___store=french&amp;___from_store=default"> Français</a></li>
+                              <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-english.jpg); background-repeat: no-repeat; background-position: 0px center;" href="http://elara.icotheme.com/?___store=default&amp;___from_store=default"> English</a></li>
                               <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-germany.jpg); background-repeat: no-repeat; background-position: 0px center;" href="http://elara.icotheme.com/?___store=germany&amp;___from_store=default"> Germany</a></li>
                             </ul>
                           </div>
@@ -344,10 +344,15 @@
                               <div class="main-setting">
                                 <div class="main-account">
                                   <ul class="links">
-                                    <li class="first" ><a class="my-account" href="http://elara.icotheme.com/customer/account/" title="Mon Compte" >Mon Compte</a></li>
-                                    <li ><a href="http://elara.icotheme.com/wishlist/" title="Ma Wishlist" class="link-wishlist">Ma Wishlist</a></li>
-                                    <li ><a class="checkout" href="http://elara.icotheme.com/checkout/" title="Mon Panier" class="top-link-checkout">Mon Panier</a></li>
-                                    <li class=" last" ><a class="log-in" href="http://elara.icotheme.com/customer/account/login/" title="Déconnexion">Déconnexion</a></li>
+                                    {% if app.user %}
+                                    <li class="first" ><a class="my-account" href="{{ path('fos_user_profile_edit') }}" title="Mon Compte" >Mon Compte</a></li>
+                                    <li ><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma Wishlist</a></li>
+                                    <li ><a class="checkout" href="#" title="Mon Panier" class="top-link-checkout">Mon Panier</a></li>
+                                    <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
+                                    {% else %}
+                                    <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
+                                    <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
+                                    {% endif %}
                                   </ul>
                                 </div>
                               </div>
