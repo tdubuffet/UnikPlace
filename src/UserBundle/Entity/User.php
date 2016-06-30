@@ -30,9 +30,33 @@ class User extends BaseUser
     /**
      * @var string
      * @Assert\NotBlank(message="Veuillez fournir un nom d'utilisateur", groups={"Registration"})
-     * @Assert\Length(min=3, minMessage="Veuillez fournir au moins {{ limit }} caractères", groups={"Registration"})
+     * @Assert\Length(min=3, max=50, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
      */
     protected $username;
+
+    /**
+     * Encrypted password. Must be persisted.
+     *
+     * @var string
+     * @Assert\NotBlank(message="Veuillez fournir un mot de passe", groups={"Registration", "Profile"})
+     * @Assert\Length(min=3, max=50, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration", "Profile"})
+     */
+    protected $password;
+
+    /**
+     * Plain password. Used for model validation. Must not be persisted.
+     * @Assert\NotBlank(message="Veuillez fournir un mot de passe", groups={"Registration", "Profile"})
+     * @Assert\Length(min=3, max=50, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration", "Profile"})
+     * @var string
+     */
+    protected $plainPassword;
+
+    /**
+     * @var string
+     * @Assert\Email(message="L'email {{ value }} n'est pas valide.", checkMX=true, groups={"Registration"})
+     * @Assert\Length(min=3, max=100, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
+     */
+    protected $email;
 
     /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
     protected $facebook_id;
@@ -54,13 +78,15 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please enter your firstname.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Veuillez fournir un prénom.", groups={"Registration", "Profile"})
+     * @Assert\Length(min=3, max=75, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
      */
     protected $firstname;
 
     /**
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please enter your lastname.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Veuillez fournir un nom.", groups={"Registration", "Profile"})
+     * @Assert\Length(min=3, max=75, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
      */
     protected $lastname;
 

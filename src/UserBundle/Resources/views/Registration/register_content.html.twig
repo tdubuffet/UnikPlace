@@ -1,44 +1,79 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<h1>Inscription</h1>
-<p>Devenez un utilisateur du site.</p>
+{% block body %}
 
-{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main account-login">
 
-<div class="form-group">
-  {{ form_widget(form.email, {'attr': {'placeholder': 'form.email'|trans}}) }}
-  {{ form_errors(form.email) }}
-</div>
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="{{ asset('bundles/app/images/pinewood.jpg') }}" class="img-responsive" />
+        </div>
+        <div class="col-sm-6">
+          <h1>S'inscrire</h1>
 
-<div class="form-group">
-  {{ form_widget(form.username, {'attr': {'placeholder': 'form.username'|trans}}) }}
-  {{ form_errors(form.username) }}
-</div>
+          {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
+            <ul class="form-list">
+              <li>
+                <label class="required"><em>*</em>{{ 'form.email'|trans }}</label>
+                <div class="input-box">
+                  {{ form_widget(form.email, {'attr': {'class': 'input-text'}}) }}
+                </div>
+                {{ form_errors(form.email) }}
+              </li>
+              <li>
+                <label class="required"><em>*</em>{{ 'form.username'|trans }}</label>
+                <div class="input-box">
+                  {{ form_widget(form.username, {'attr': {'class': 'input-text'}}) }}
+                </div>
+                {{ form_errors(form.username) }}
+              </li>
+              <li>
+                <label class="required"><em>*</em>Prénom</label>
+                <div class="input-box">
+                  {{ form_widget(form.firstname, {'attr': {'class': 'input-text'}}) }}
+                </div>
+                {{ form_errors(form.firstname) }}
+              </li>
+              <li>
+                <label class="required"><em>*</em>Nom</label>
+                <div class="input-box">
+                  {{ form_widget(form.lastname, {'attr': {'class': 'input-text'}}) }}
+                </div>
+                {{ form_errors(form.lastname) }}
+              </li>
+              <li>
+                <label class="required"><em>*</em>{{ 'form.password'|trans }}</label>
+                <div class="input-box">
+                  {{ form_widget(form.plainPassword.first, {'attr': {'class': 'input-text'}}) }}
+                </div>
+                {{ form_errors(form.plainPassword.first) }}
+              </li>
+              <li>
+                <label class="required"><em>*</em>{{ 'form.password_confirmation'|trans }}</label>
+                <div class="input-box">
+                  {{ form_widget(form.plainPassword.second, {'attr': {'class': 'input-text'}}) }}
+                </div>
+                {{ form_errors(form.plainPassword.second) }}
+              </li>
+            </ul>
 
-<div class="form-group">
-  {{ form_widget(form.plainPassword.first, {'attr': {'placeholder': 'form.password'|trans}}) }}
-  {{ form_errors(form.plainPassword.first) }}
-</div>
+            <p>* Champs obligatoires</p>
 
-<div class="form-group">
-  {{ form_widget(form.plainPassword.second, {'attr': {'placeholder': 'form.password_confirmation'|trans}}) }}
-  {{ form_errors(form.plainPassword.second) }}
-</div>
+            <p><input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}" /></p>
 
-<div class="form-group">
-  {{ form_widget(form.firstname, {'attr': {'placeholder': "Prénom"}}) }}
-  {{ form_errors(form.firstname) }}
-</div>
+          {{ form_end(form) }}
 
-<div class="form-group">
-  {{ form_widget(form.lastname, {'attr': {'placeholder': "Nom"}}) }}
-  {{ form_errors(form.lastname) }}
-</div>
+          <p>ou s'inscrire via les réseaux sociaux :</p>
 
-{{ form_rest(form) }}
+          <p><a href="{{ path('facebook_connect') }}" class="btn btn-primary"><i class="fa fa-facebook"></i> Inscription avec Facebook</a></p>
 
-<div>
-  <input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}" />
-</div>
+        </div>
+      </div><!-- .row -->
 
-{{ form_end(form) }}
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}
