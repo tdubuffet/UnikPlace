@@ -53,7 +53,7 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @Assert\Email(message="L'email {{ value }} n'est pas valide.", checkMX=true, groups={"Registration"})
+     * @Assert\Email(message="L'email {{ value }} n'est pas valide", checkMX=true, groups={"Registration"})
      * @Assert\Length(min=3, max=100, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
      */
     protected $email;
@@ -78,14 +78,14 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Veuillez fournir un prénom.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Veuillez fournir un prénom", groups={"Registration", "Profile"})
      * @Assert\Length(min=3, max=75, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
      */
     protected $firstname;
 
     /**
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Veuillez fournir un nom.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Veuillez fournir un nom", groups={"Registration", "Profile"})
      * @Assert\Length(min=3, max=75, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
      */
     protected $lastname;

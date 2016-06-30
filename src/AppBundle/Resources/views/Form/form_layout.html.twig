@@ -1,0 +1,9 @@
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+    {% if form.parent %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+        {%- for error in errors -%}
+            <label class="error">{{ error.message }}</label>
+        {%- endfor -%}
+    {% if form.parent %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
