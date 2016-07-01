@@ -35,14 +35,6 @@ class User extends BaseUser
     protected $username;
 
     /**
-     * Plain password. Used for model validation. Must not be persisted.
-     * @Assert\NotBlank(message="Veuillez fournir un mot de passe", groups={"Registration", "Profile"})
-     * @Assert\Length(min=3, max=50, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration", "Profile"})
-     * @var string
-     */
-    protected $plainPassword;
-
-    /**
      * @var string
      * @Assert\Email(message="L'email {{ value }} n'est pas valide", checkMX=true, groups={"Registration"})
      * @Assert\Length(min=3, max=100, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
@@ -90,6 +82,16 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="ProductBundle\Entity\Product", mappedBy="user")
      */
     private $products;
+
+
+    public function setEmail($email)
+    {
+        $email = is_null($email) ? '' : $email;
+        parent::setEmail($email);
+        $this->setUsername($email);
+
+        return $this;
+    }
 
     /**
      * Set facebookId

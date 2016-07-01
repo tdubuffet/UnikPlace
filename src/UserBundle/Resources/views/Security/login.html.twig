@@ -5,10 +5,6 @@
 {% block javascript_include %}{{ jsinit(['login']) }}{% endblock javascript_include %}
 
 {% block fos_user_content %}
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
-
 <div class="main-wrapper">
   <div class="container">
     <div class="main account-login">
@@ -20,13 +16,17 @@
         <div class="col-sm-6">
           <h1>S'identifier</h1>
 
+          {% if error %}
+          <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+          {% endif %}
+
           <form action="{{ path("fos_user_security_check") }}" method="post" id="login-form">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <ul class="form-list">
               <li>
-                <label for="username" class="required"><em>*</em>{{ 'security.login.username'|trans }}</label>
+                <label for="username" class="required"><em>*</em>{{ 'Adresse e-mail'|trans }}</label>
                 <div class="input-box">
-                  <input type="text" id="username" name="_username" value="{{ last_username }}" class="input-text" required="required" />
+                  <input type="email" id="username" name="_username" value="{{ last_username }}" class="input-text" required="required" />
                 </div>
               </li>
               <li>

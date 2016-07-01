@@ -11,6 +11,7 @@ class ProfileFormType extends AbstractProfileFormType
     {
         parent::buildForm($builder, $options);
 
+        $builder->remove('username'); // we use email as the username
         $builder->add('firstname');
         $builder->add('lastname');
     }
