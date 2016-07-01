@@ -1,0 +1,7 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block javascript_include %}{{ jsinit(['profile']) }}{% endblock javascript_include %}
+
+{% block fos_user_content %}
+  {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+{% endblock fos_user_content %}
