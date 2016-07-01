@@ -1,16 +1,71 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block body %}
-<h1>Ma wishlist</h1>
+{% block javascript_include %}{{ jsinit(['wishlist']) }}{% endblock javascript_include %}
 
-{% if favorites is empty %}
-<p>Vous n'avez aucun produit dans votre wishlist.</p>
-{% else %}
-{% for favorite in favorites %}
-<div>
-{% set product = favorite.getProduct() %}
-{{ product.getName() }}
-</div>
-{% endfor %}
-{% endif %}
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="category-products">
+
+            <h1>Ma wishlist</h1>
+
+            {% if favorites is empty %}
+              <p>Vous n'avez aucun produit dans votre wishlist.</p>
+            {% else %}
+              <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-4col show-grid">
+                {% for favorite in favorites %}
+                  {% set product = favorite.getProduct() %}
+                  <li class="item first hover-effect">
+                    <div class="item-inner">
+                      <div class="product-action">
+                        <div class="product-new-label">Nouveau</div><div class="product-sale-label">Vendu</div>
+                        <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
+                          {% set images = product.getImages() %}
+                          <img class="img-responsive" src="{% if images[0] is defined %}{{ vich_uploader_asset(images[0], 'imageFile') }}{% endif %}" xx-src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" alt="{{ product.name }}" />
+                        </a>
+                      </div>
+                      <div class="product-content">
+                        <h3 class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></h3>
+                        <div class="display-onhover">
+                          <div class="ratings">
+                            <div class="rating-box">
+                              <div class="rating" style="width:73%"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="price-box">
+                          <p class="old-price">
+                            <span class="price-label">Ancien prix :</span>
+                            <span class="price">48,00€</span>
+                          </p>
+
+                          <p class="special-price">
+                            <span class="price-label">Nouveau prix :</span>
+                            <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
+                          </p>
+                        </div>
+
+                        <div class="actions-box">
+                          <button class="btn btn-primary btn-sm link-wishlist" data-product-id="{{ product.getId() }}">Retirer de ma wishlist</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+          </div><!-- .category-products -->
+        </div><!-- col -->
+      </div><!-- .row -->
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
 {% endblock %}
