@@ -30,9 +30,9 @@ var Signup = {
                     maxlength: 50,
                 },
                 "fos_user_registration_form[plainPassword][second]": {
-                    required: true,
                     minlength: 3,
                     maxlength: 50,
+                    equalTo: "#fos_user_registration_form_plainPassword_first",
                 },
             }
         });

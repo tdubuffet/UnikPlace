@@ -35,15 +35,6 @@ class User extends BaseUser
     protected $username;
 
     /**
-     * Encrypted password. Must be persisted.
-     *
-     * @var string
-     * @Assert\NotBlank(message="Veuillez fournir un mot de passe", groups={"Registration", "Profile"})
-     * @Assert\Length(min=3, max=50, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration", "Profile"})
-     */
-    protected $password;
-
-    /**
      * Plain password. Used for model validation. Must not be persisted.
      * @Assert\NotBlank(message="Veuillez fournir un mot de passe", groups={"Registration", "Profile"})
      * @Assert\Length(min=3, max=50, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration", "Profile"})
