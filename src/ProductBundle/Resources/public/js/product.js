@@ -3,6 +3,7 @@ var Product = {
     init: function() {
 
         Product.initFavoriteButton();
+        Product.initCartButton();
 
         // Initialize inner zoom on main picture
         var zoomConfig = {cursor: 'crosshair', zoomType: "inner"};
@@ -77,6 +78,26 @@ var Product = {
                         $(button).removeClass('is-favorite')
                     }
                     $(button).data('action', $(button).data('action') === 'add' ? 'remove' : 'add');
+                },
+                error: function(result) {
+                    if (result.status == 401) {
+                        window.location.href = Routing.generate('fos_user_security_login');
+                    }
+                }
+            });
+        });
+    },
+
+    initCartButton: function() {
+        $('.btn-cart').click(function() {
+            var product_id = $(this).data('product-id');
+            $.ajax({
+                url: Routing.generate('product_cart'),
+                type: 'POST',
+                data: {product_id: product_id, action: 'add'},
+                success: function(result) {
+                    // Change btn
+                    // Show modal
                 },
                 error: function(result) {
                     if (result.status == 401) {
