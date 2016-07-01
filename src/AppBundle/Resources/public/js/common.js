@@ -23,8 +23,16 @@ var Common = {
             min: $.validator.format("Veuillez fournir une valeur supérieur ou égal à {0}."),
         });
 
-        $("#top-nav-wrapper").sticky({ topSpacing: 0 });
-        $("#mobile-sticky").sticky({ topSpacing: 0 });
+        $('#top-nav-wrapper').sticky({ topSpacing: 0 });
+        $('#mobile-sticky').sticky({ topSpacing: 0 });
+
+        $('#search-cat-filters > li').click(function(){
+            var searchCatFilter = $(this).find('a').text();
+            var searchCatId = $(this).find('a').data('id');
+
+            $('.category-filter .category-label').text(searchCatFilter);
+            $('#search-category').val(searchCatId);
+        });
     }
 
 };

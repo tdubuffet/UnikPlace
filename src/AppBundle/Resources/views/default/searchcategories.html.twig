@@ -1,0 +1,6 @@
+<ul class="dropdown-menu" id="search-cat-filters">
+  <li><a data-id="">Tout</a></li>
+  {% for idx, category in categories %}
+    <li><a data-id="{{ category.id }}">{{ category.name }}</a></li>
+  {% endfor %}
+</ul>

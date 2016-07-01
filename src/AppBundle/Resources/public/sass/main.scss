@@ -945,6 +945,9 @@ button.button span {
   border-radius:0;
   border:none;
 }
+.header-wrapper .header-container .header-search .search-container .form-search .category-filter .dropdown-menu li {
+  cursor: pointer;
+}
 .header-wrapper .header-container .header-search .search-container .form-search .category-filter .dropdown-menu li a {
   font-size:12px;
   font-weight:400;

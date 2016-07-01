@@ -371,18 +371,11 @@
                                   <span class="input-group-btn category-filter">
                                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                                       <span class="category-label">
-                                        Tout                </span>&nbsp;<i class="fa fa-angle-down"></i>
+                                        Tout </span>&nbsp;<i class="fa fa-angle-down"></i>
                                     </button>
-                                    <ul class="dropdown-menu">
-                                      <li><a href="javascript:void(0)" data-value="">Tout</a></li>
-                                      <li><a href="javascript:void(0)" data-value="3">Femmes</a></li>
-                                      <li><a href="javascript:void(0)" data-value="4">Hommes</a></li>
-                                      <li><a href="javascript:void(0)" data-value="5">Chaussures</a></li>
-                                      <li><a href="javascript:void(0)" data-value="6">Bijoux</a></li>
-                                      <li><a href="javascript:void(0)" data-value="7">Accessoires</a></li>
-                                    </ul>
+                                    {{ render(controller('AppBundle:Default:searchcategories')) }}
                                   </span>
-                                  <input type="hidden" name="cat" value=""/>
+                                  <input type="hidden" name="cat" id="search-category" value="" />
                                   <input id="search"
                                          type="search"
                                          name="q"

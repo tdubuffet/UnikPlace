@@ -38,4 +38,13 @@ class DefaultController extends Controller
         //\Doctrine\Common\Util\Debug::dump($categories);
         return array('categories' => $categories);
     }
+
+    /**
+     * @Template("AppBundle:default:searchcategories.html.twig")
+     */
+    public function searchCategoriesAction() {
+        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
+        $categories = $repository->findBy(array('parent' => null));
+        return array('categories' => $categories);
+    }
 }
