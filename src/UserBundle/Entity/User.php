@@ -74,6 +74,57 @@ class User extends BaseUser
     protected $lastname;
 
     /**
+     * @var date $birthday
+     *
+     * @ORM\Column(name="birthday", type="date", nullable=true)
+     */
+    protected $birthday;
+
+    /**
+     * @ORM\Column(name="nationality", type="string", length=2)
+     * @Assert\Country()
+     */
+    protected $nationality;
+
+    /**
+     * @ORM\Column(name="residential_country", type="string", length=2)
+     * @Assert\Country()
+     */
+    protected $residential_country;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="pro", type="boolean")
+     */
+    protected $pro;
+
+    /**
+     * @ORM\Column(name="company_code", type="string", length=255, nullable=true)
+     */
+    protected $company_code;
+
+    /**
+     * @ORM\Column(name="company_name", type="string", length=255, nullable=true)
+     */
+    protected $company_name;
+
+    /**
+     * @ORM\Column(name="company_address", type="string", length=255, nullable=true)
+     */
+    protected $company_address;
+
+    /**
+     * @ORM\Column(name="company_zipcode", type="string", length=255, nullable=true)
+     */
+    protected $company_zipcode;
+
+    /**
+     * @ORM\Column(name="company_city", type="string", length=255, nullable=true)
+     */
+    protected $company_city;
+
+    /**
      * @ORM\OneToMany(targetEntity="ProductBundle\Entity\Favorite", mappedBy="user")
      */
     private $favorites;
@@ -362,5 +413,221 @@ class User extends BaseUser
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param \DateTime $birthday
+     *
+     * @return User
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return \DateTime
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * Set nationality
+     *
+     * @param string $nationality
+     *
+     * @return User
+     */
+    public function setNationality($nationality)
+    {
+        $this->nationality = $nationality;
+
+        return $this;
+    }
+
+    /**
+     * Get nationality
+     *
+     * @return string
+     */
+    public function getNationality()
+    {
+        return $this->nationality;
+    }
+
+    /**
+     * Set residentialCountry
+     *
+     * @param string $residentialCountry
+     *
+     * @return User
+     */
+    public function setResidentialCountry($residentialCountry)
+    {
+        $this->residential_country = $residentialCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get residentialCountry
+     *
+     * @return string
+     */
+    public function getResidentialCountry()
+    {
+        return $this->residential_country;
+    }
+
+    /**
+     * Set pro
+     *
+     * @param boolean $pro
+     *
+     * @return User
+     */
+    public function setPro($pro)
+    {
+        $this->pro = $pro;
+
+        return $this;
+    }
+
+    /**
+     * Get pro
+     *
+     * @return boolean
+     */
+    public function getPro()
+    {
+        return $this->pro;
+    }
+
+    /**
+     * Set companyCode
+     *
+     * @param string $companyCode
+     *
+     * @return User
+     */
+    public function setCompanyCode($companyCode)
+    {
+        $this->company_code = $companyCode;
+
+        return $this;
+    }
+
+    /**
+     * Get companyCode
+     *
+     * @return string
+     */
+    public function getCompanyCode()
+    {
+        return $this->company_code;
+    }
+
+    /**
+     * Set companyName
+     *
+     * @param string $companyName
+     *
+     * @return User
+     */
+    public function setCompanyName($companyName)
+    {
+        $this->company_name = $companyName;
+
+        return $this;
+    }
+
+    /**
+     * Get companyName
+     *
+     * @return string
+     */
+    public function getCompanyName()
+    {
+        return $this->company_name;
+    }
+
+    /**
+     * Set companyAddress
+     *
+     * @param string $companyAddress
+     *
+     * @return User
+     */
+    public function setCompanyAddress($companyAddress)
+    {
+        $this->company_address = $companyAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get companyAddress
+     *
+     * @return string
+     */
+    public function getCompanyAddress()
+    {
+        return $this->company_address;
+    }
+
+    /**
+     * Set companyZipcode
+     *
+     * @param string $companyZipcode
+     *
+     * @return User
+     */
+    public function setCompanyZipcode($companyZipcode)
+    {
+        $this->company_zipcode = $companyZipcode;
+
+        return $this;
+    }
+
+    /**
+     * Get companyZipcode
+     *
+     * @return string
+     */
+    public function getCompanyZipcode()
+    {
+        return $this->company_zipcode;
+    }
+
+    /**
+     * Set companyCity
+     *
+     * @param string $companyCity
+     *
+     * @return User
+     */
+    public function setCompanyCity($companyCity)
+    {
+        $this->company_city = $companyCity;
+
+        return $this;
+    }
+
+    /**
+     * Get companyCity
+     *
+     * @return string
+     */
+    public function getCompanyCity()
+    {
+        return $this->company_city;
     }
 }

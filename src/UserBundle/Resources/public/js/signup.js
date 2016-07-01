@@ -1,6 +1,7 @@
 var Signup = {
 
     init: function() {
+        Signup.initProFields();
         $("#signup-form").validate({
             rules: {
                 "fos_user_registration_form[email]": {
@@ -36,6 +37,23 @@ var Signup = {
                 },
             }
         });
-    }
+    },
 
+    initProFields: function() {
+        var input = $('input:radio[name="fos_user_registration_form[pro]"]');
+        input.change(function(){
+            Signup.toggleProFields($(this).val());
+        });
+        input.attr('checked', false);
+        Signup.toggleProFields(input.val());
+    },
+
+    toggleProFields: function(val) {
+        if (val == 1) {
+            $('.pro-user-fields').show();
+        }
+        else {
+            $('.pro-user-fields').hide();
+        }
+    }
 };
