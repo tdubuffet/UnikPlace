@@ -1,18 +1,15 @@
-<ul>
-  <li><a href="#">Mes produits</a></li>
-  <li>
-    Mon profil
+<div class="block block-account">
+  <div class="block-title">
+    <strong><span>Mon Compte</span></strong>
+  </div>
+  <div class="block-content">
     <ul>
-      <li><a href="#">Mon argent</a></li>
-      <li><a href="#">Mes préférences</a></li>
-      <li><a href="{{ path('fos_user_profile_edit') }}">Mes paramètres</a></li>
+      <li><a href="#">Mes Produits</a></li>
+      <li><a href="#">Mon Argent</a></li>
+      <li><a href="#">Mes Préférences</a></li>
+      <li class="current"><a href="{{ path('fos_user_profile_edit') }}">Mes Paramètres</a></li>
+      <li><a href="#">Mes Achats</a></li>
+      <li><a href="#">Mes Ventes</a></li>
     </ul>
-  </li>
-  <li>
-    Mes transactions
-    <ul>
-      <li><a href="#">Mes achats</a></li>
-      <li><a href="#">Mes ventes</a></li>
-    </ul>
-  </li>
-</ul>
+  </div>
+</div>

@@ -345,13 +345,13 @@
                                 <div class="main-account">
                                   <ul class="links">
                                     {% if app.user %}
-                                    <li class="first" ><a class="my-account" href="{{ path('fos_user_profile_edit') }}" title="Mon Compte" >Mon Compte</a></li>
-                                    <li ><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma Wishlist</a></li>
-                                    <li ><a class="checkout" href="#" title="Mon Panier" class="top-link-checkout">Mon Panier</a></li>
-                                    <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
+                                      <li class="first" ><a class="my-account" href="{{ path('fos_user_profile_edit') }}" title="Mes Paramètres">Mes Paramètres</a></li>
+                                      <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma Wishlist</a></li>
+                                      <li><a class="checkout" href="#" title="Mon Panier" class="top-link-checkout">Mon Panier</a></li>
+                                      <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
                                     {% else %}
-                                    <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
-                                    <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
+                                      <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
+                                      <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
                                     {% endif %}
                                   </ul>
                                 </div>

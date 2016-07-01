@@ -2744,9 +2744,11 @@ button.button span {
   margin:0 0 6px;
   padding:8px 13px;
 }
+.main-container .sidebar .block.block-account .block-content ul li {
+  line-height:25px;
+}
 .main-container .sidebar .block.block-account .block-content ul li a {
   display:block;
-  line-height:25px;
 }
 .main-container .sidebar .block.block-compare ol li a {
   text-align:left;
