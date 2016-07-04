@@ -1,5 +1,9 @@
 {% extends 'AppBundle::base.html.twig' %}
 
+{% block title %}{% if category is defined %}Catégorie {{ category.name }}{% else %}Résultats trouvés{% endif %}
+{% endblock %}
+{% block description %}Tous les produits premium sont sur Noname{% endblock %}
+
 {% block body %}
 
 {% if category is defined %}
@@ -300,10 +304,7 @@
         </div><!-- col -->
 
       </div><!-- .row -->
-    </div><!-- .container -->
-  </div><!-- .main -->
+    </div><!-- .main -->
+  </div><!-- .container -->
 </div><!-- .main-wrapper -->
-
-
 {% endblock %}
-

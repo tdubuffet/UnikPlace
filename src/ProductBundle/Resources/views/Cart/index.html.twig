@@ -1,15 +1,25 @@
 {% extends 'AppBundle::base.html.twig' %}
 
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
 {% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
 
-<h1>Mon Panier</h1>
+      <h1>Mon Panier</h1>
 
-{% if products is empty %}
-<p>Votre panier est vide.</p>
-{% else %}
-{% for product in products %}
-<div>{{ product.name }} {{ product.price|currency_convert_format(product.getCurrency.getCode) }}</div>
-{% endfor %}
-{% endif %}
+      {% if products is empty %}
+        <p>Votre panier est vide.</p>
+      {% else %}
+        {% for product in products %}
+          <div>{{ product.name }} {{ product.price|currency_convert_format(product.getCurrency.getCode) }}</div>
+        {% endfor %}
+      {% endif %}
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
 
 {% endblock %}
