@@ -10,109 +10,87 @@
       <h1>S'inscrire</h1>
 
       {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
-        <ul class="form-list">
-          <li>
-            <label class="required"><em>*</em>Type d'utilisateur</label>
-            <div class="input-box">
-              {{ form_widget(form.pro) }}
-            </div>
-            {{ form_errors(form.pro) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>{{ 'form.email'|trans }}</label>
-            <div class="input-box">
-              {{ form_widget(form.email, {'attr': {'class': 'input-text'}}) }}
-            </div>
-            {{ form_errors(form.email) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Prénom</label>
-            <div class="input-box">
-              {{ form_widget(form.firstname, {'attr': {'class': 'input-text'}}) }}
-            </div>
-            {{ form_errors(form.firstname) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Nom</label>
-            <div class="input-box">
-              {{ form_widget(form.lastname, {'attr': {'class': 'input-text'}}) }}
-            </div>
-            {{ form_errors(form.lastname) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Date de naissance</label>
-            <div>
-              {{ form_widget(form.birthday, {'attr': {'class': 'input-birthday'}}) }}
-            </div>
-            {{ form_errors(form.birthday) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>{{ 'form.password'|trans }}</label>
-            <div class="input-box">
-              {{ form_widget(form.plainPassword.first, {'attr': {'class': 'input-text'}}) }}
-            </div>
-            {{ form_errors(form.plainPassword.first) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>{{ 'form.password_confirmation'|trans }}</label>
-            <div class="input-box">
-              {{ form_widget(form.plainPassword.second, {'attr': {'class': 'input-text'}}) }}
-            </div>
-            {{ form_errors(form.plainPassword.second) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Nationalité</label>
-            <div class="input-box">
-              {{ form_widget(form.nationality, {'attr': {'class': 'input-text'}}) }}
-            </div>
-            {{ form_errors(form.nationality) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Pays de résidence</label>
-            <div class="input-box">
-              {{ form_widget(form.residential_country, {'attr': {'class': 'input-text'}}) }}
-            </div>
-            {{ form_errors(form.residential_country) }}
-          </li>
-        </ul>
+        <div class="form-group">
+          <div class="radio-inline">
+            {{ form_widget(form.pro.0) }}
+          </div>
+          <div class="radio-inline">
+            {{ form_widget(form.pro.1) }}
+          </div>
+          {{ form_errors(form.pro) }}
+        </div>
+        <div class="form-group">
+          <label class="required">{{ 'form.email'|trans }}</label>
+          {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(form.email) }}
+        </div>
+        <div class="form-group">
+          <label class="required">Prénom</label>
+          {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(form.firstname) }}
+        </div>
+        <div class="form-group">
+          <label class="required">Nom</label>
+          {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(form.lastname) }}
+        </div>
+        <div class="form-group">
+          <label class="required">Date de naissance</label>
+          <div class="clearfix">
+            {{ form_widget(form.birthday.day, {'attr': {'class': 'form-control birthday'}}) }}
+            {{ form_widget(form.birthday.month, {'attr': {'class': 'form-control birthday'}}) }}
+            {{ form_widget(form.birthday.year, {'attr': {'class': 'form-control birthday'}}) }}
+          </div>
+          {{ form_errors(form.birthday) }}
+        </div>
+        <div class="form-group">
+          <label class="required">{{ 'form.password'|trans }}</label>
+          {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(form.plainPassword.first) }}
+        </div>
+        <div class="form-group">
+          <label class="required">{{ 'form.password_confirmation'|trans }}</label>
+          {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(form.plainPassword.second) }}
+        </div>
+        <div class="form-group">
+          <label class="required">Nationalité</label>
+          {{ form_widget(form.nationality, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(form.nationality) }}
+        </div>
+        <div class="form-group">
+          <label class="required">Pays de résidence</label>
+          {{ form_widget(form.residential_country, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(form.residential_country) }}
+        </div>
 
-        <ul class="form-list pro-user-fields" style="display: none">
-          <li>
-            <label class="required"><em>*</em>SIRET de l'entreprise</label>
-            <div class="input-box">
-              {{ form_widget(form.company_code, {'attr': {'class': 'input-text'}}) }}
-            </div>
+        <div class="pro-user-fields" style="display: none">
+          <div class="form-group">
+            <label class="required">SIRET de l'entreprise</label>
+            {{ form_widget(form.company_code, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.company_code) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Nom de l'entreprise</label>
-            <div class="input-box">
-              {{ form_widget(form.company_name, {'attr': {'class': 'input-text'}}) }}
-            </div>
+          </div>
+          <div class="form-group">
+            <label class="required">Nom de l'entreprise</label>
+            {{ form_widget(form.company_name, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.company_name) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Adresse de l'entreprise</label>
-            <div class="input-box">
-              {{ form_widget(form.company_address, {'attr': {'class': 'input-text'}}) }}
-            </div>
+          </div>
+          <div class="form-group">
+            <label class="required">Adresse de l'entreprise</label>
+            {{ form_widget(form.company_address, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.company_address) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Code postal de l'entreprise</label>
-            <div class="input-box">
-              {{ form_widget(form.company_zipcode, {'attr': {'class': 'input-text'}}) }}
-            </div>
+          </div>
+          <div class="form-group">
+            <label class="required">Code postal de l'entreprise</label>
+            {{ form_widget(form.company_zipcode, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.company_zipcode) }}
-          </li>
-          <li>
-            <label class="required"><em>*</em>Ville de l'entreprise</label>
-            <div class="input-box">
-              {{ form_widget(form.company_city, {'attr': {'class': 'input-text'}}) }}
-            </div>
+          </div>
+          <div class="form-group">
+            <label class="required">Ville de l'entreprise</label>
+            {{ form_widget(form.company_city, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.company_city) }}
-          </li>
-        </ul>
+          </div>
+        </div>
 
         {{ form_rest(form) }}
 
@@ -126,7 +104,7 @@
 
       <p><a href="{{ path('facebook_connect') }}" class="btn btn-primary"><i class="fa fa-facebook"></i> Inscription avec Facebook</a></p>
 
-    </div>
+    </div><!-- col -->
   </div><!-- .row -->
 </div><!-- .account-login -->
 {% endblock %}

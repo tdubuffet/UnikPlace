@@ -19,39 +19,32 @@
 
       <form action="{{ path("fos_user_security_check") }}" method="post" id="login-form">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-        <ul class="form-list">
-          <li>
-            <label for="username" class="required"><em>*</em>{{ 'Adresse e-mail'|trans }}</label>
-            <div class="input-box">
-              <input type="email" id="username" name="_username" value="{{ last_username }}" class="input-text" required="required" />
-            </div>
-          </li>
-          <li>
-            <label for="password" class="required"><em>*</em>{{ 'security.login.password'|trans }}</label>
-            <div class="input-box">
-              <input type="password" id="password" name="_password" class="input-text" required="required" />
-            </div>
-          </li>
-          <li class="control">
-            <div class="input-box">
-              <input type="checkbox" id="remember_me" name="_remember_me" class="checkbox" value="on" />
-              <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-            </div>
 
-          </li>
-        </ul>
+        <div class="form-group">
+          <label for="username" class="required">{{ 'Adresse e-mail'|trans }}</label>
+          <input type="email" id="username" name="_username" value="{{ last_username }}" class="form-control" required="required" />
+        </div>
+        <div class="form-group">
+          <label for="password" class="required">{{ 'security.login.password'|trans }}</label>
+          <input type="password" id="password" name="_password" class="form-control" required="required" />
+        </div>
+        <div class="form-group">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="remember_me" name="_remember_me" class="checkbox" value="on" />
+            {{ 'security.login.remember_me'|trans }}
+          </label>
+        </div>
 
         <p>* Champs obligatoires</p>
 
         <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="{{ 'security.login.submit'|trans }}" /><a href="{{ path('fos_user_resetting_request') }}" style="margin-left: 15px;">Mot de passe oublié ?</a></p>
-
       </form>
 
       <p>ou via les réseaux sociaux :</p>
 
       <p><a href="{{ path('facebook_connect') }}" class="btn btn-primary"><i class="fa fa-facebook"></i> Connexion avec Facebook</a></p>
 
-    </div>
+    </div><!-- col -->
   </div><!-- .row -->
 </div><!-- .account-login -->
 {% endblock fos_user_content %}
