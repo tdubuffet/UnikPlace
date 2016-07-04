@@ -29,7 +29,8 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
             'id' => $product->getId(),
             'name' => $product->getName(),
             'description' => $product->getDescription(),
-            'category' => $product->getCategory()->getPath()
+            'category' => $product->getCategory()->getPath(),
+            'price' => $product->getPrice(),
         ));
 
         return $document;

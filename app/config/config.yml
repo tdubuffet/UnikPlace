@@ -276,6 +276,8 @@ fos_elastica:
                         category:
                             type: string
                             analyzer: path_analyzer
+                        price:
+                            type: float
                     persistence:
                         model_to_elastica_transformer:
                             service: product.elastica.transformer
@@ -295,4 +297,4 @@ vich_uploader:
             directory_namer:    directory_namer.product
 
 fos_js_routing:
-    routes_to_expose: [ 'fos_user_security_login', 'product_favorite', 'product_cart' ]
+    routes_to_expose: [ 'fos_user_security_login', 'product_favorite', 'product_cart', 'ajax_search' ]

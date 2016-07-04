@@ -1,0 +1,51 @@
+{% if products|length > 0 %}
+<ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-3col show-grid">
+  {% for product in products %}
+  <li class="item first hover-effect">
+    <div class="item-inner">
+      <div class="product-action">
+        <div class="product-new-label">Nouveau</div><div class="product-sale-label">Vendu</div>
+        <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
+          {% set images = product.getImages() %}
+          <img class="img-responsive" src="{% if images[0] is defined %}{{ vich_uploader_asset(images[0], 'imageFile') }}{% endif %}" xx-src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" alt="{{ product.name }}" />
+        </a>
+      </div>
+      <div class="product-content">
+        <h3 class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></h3>
+        <div class="display-onhover">
+          <div class="ratings">
+            <div class="rating-box">
+              <div class="rating" style="width:73%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="price-box">
+          <p class="old-price">
+            <span class="price-label">Ancien prix :</span>
+            <span class="price">48,00€</span>
+          </p>
+
+          <p class="special-price">
+            <span class="price-label">Nouveau prix :</span>
+            <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+
+{% if pagination is defined %}
+{{ pagination|raw }}
+{% endif %}
+
+{% else %}
+{% if app.request.query.get('q') is defined %}
+<p class="text-center">Aucun produit trouvé pour cette recherche.</p>
+{% else %}
+<p class="text-center">Il n'y a pas de produit dans cette catégorie pour l'instant.</p>
+{% endif %}
+{% endif %}
