@@ -6,9 +6,36 @@ var Product = {
         Product.initCartButton();
 
         // Initialize inner zoom on main picture
-        var zoomConfig = {cursor: 'crosshair', zoomType: "inner"};
-        $('#image-main').elevateZoom(zoomConfig);
+        $('#image-main').elevateZoom(Product.getZoomConfig());
 
+        Product.setMainPicture();
+        Product.initCarousel();
+    },
+
+    getZoomConfig: function() {
+        return {cursor: 'crosshair', zoomType: "inner"};
+    },
+
+    setMainPicture: function() {
+        $('.thumb-link').click(function(e){
+            e.preventDefault();
+
+            var zoomImg = $('#image-main'),
+                src = $(this).find('> img').prop('src');
+
+            $('.zoomContainer').remove();
+            zoomImg.removeData('elevateZoom');
+
+            // Update images sources
+            zoomImg.prop('src', src).data('zoom-image', src);
+
+            // Reinitialize elevateZoom
+            var zoomConfig = Product.getZoomConfig();
+            zoomImg.elevateZoom(zoomConfig);
+        });
+    },
+
+    initCarousel: function() {
         // Carousel behaviour
         var carCount = $('.product-img-box .verticl-carousel').find('a').length;
         if (carCount <= 3) {
@@ -26,8 +53,11 @@ var Product = {
                 }, 250, function () {
                     bottom.remove();
                 });
+
+                $(document).on('click', clone, Product.setMainPicture);
             }
         });
+
         $(".product-img-box #carousel-down").on("click", function () {
             if (!$(".product-img-box .verticl-carousel").is(':animated')) {
                 var top = $(".product-img-box .verticl-carousel > a:first-child");
@@ -41,27 +71,11 @@ var Product = {
                         "top": "+=85"
                     }, 0);
                 });
+
+                $(document).on('click', clone, Product.setMainPicture);
             }
         });
-
-        $('.thumb-link').click(function(e){
-            e.preventDefault();
-
-            var zoomImg = $('#image-main'),
-                src = $(this).find('> img').prop('src');
-
-            $('.zoomContainer').remove();
-            zoomImg.removeData('elevateZoom');
-
-            // Update images sources
-            zoomImg.prop('src', src).data('zoom-image', src);
-
-            // Reinitialize elevateZoom
-            zoomImg.elevateZoom(zoomConfig);
-        });
-
     },
-
 
     initFavoriteButton: function() {
         $('.link-wishlist').click(function() {

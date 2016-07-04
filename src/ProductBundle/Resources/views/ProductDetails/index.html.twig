@@ -51,6 +51,8 @@
                     </div>
                     <div class="product-img-box col-md-6 col-sm-6">
                       <div class="product-img-list">
+
+
                         <div class="more-views-verticle">
                           <a class="more-views-prev more-views-nav" href="javascript:void(0)" id="carousel-up" style="display: block;">
                             <i aria-hidden="true" class="fa fa-long-arrow-up"></i>
@@ -58,21 +60,11 @@
                           <div class="media-list">
                             {% set images = product.getImages() %}
                             <div id="more-slides" class="verticl-carousel product-image-thumbs">
-                              <a class="thumb-link" href="#" title="" data-image-index="0">
-                                <img class="img-responsive" src="{% if images[0] is defined %}{{ vich_uploader_asset(images[0], 'imageFile') }}{% endif %}" alt=""/>
-                              </a>
-                              <a class="thumb-link" href="#" title="" data-image-index="1">
-                                <img class="img-responsive" src="{% if images[1] is defined %}{{ vich_uploader_asset(images[1], 'imageFile') }}{% endif %}" alt=""/>
-                              </a>
-                              <a class="thumb-link" href="#" title="" data-image-index="1">
-                                <img class="img-responsive" src="{% if images[2] is defined %}{{ vich_uploader_asset(images[2], 'imageFile') }}{% endif %}" alt=""/>
-                              </a>
-                              <a class="thumb-link" href="#" title="" data-image-index="1">
-                                <img class="img-responsive" src="{% if images[3] is defined %}{{ vich_uploader_asset(images[3], 'imageFile') }}{% endif %}" alt=""/>
-                              </a>
-                              <a class="thumb-link" href="#" title="" data-image-index="1">
-                                <img class="img-responsive" src="{% if images[4] is defined %}{{ vich_uploader_asset(images[4], 'imageFile') }}{% endif %}" alt=""/>
-                              </a>
+                              {% for k, image in images %}
+                                <a class="thumb-link" href="#" data-image-index="{{ k }}">
+                                  <img class="img-responsive" src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="miniature {{ k }}" />
+                                </a>
+                              {% endfor %}
                             </div>
                           </div>
                           <a class="more-views-next more-views-nav" href="javascript:void(0)" id="carousel-down" style="display: block;">
