@@ -67,7 +67,7 @@ var Search = {
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
         Search.params.sort = $('.sort_by_value').val();
         Search.params.ord = $('.ord_value').val();
-        window.history.pushState(Search.params, 'Recherche', '/app_dev.php/recherche?'+$.param(Search.params));
+        window.history.pushState(Search.params, 'Recherche', Routing.generate('search')+'?'+$.param(Search.params));
     },
 
     search: function() {
