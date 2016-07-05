@@ -47,4 +47,13 @@ class DefaultController extends Controller
         $categories = $repository->findBy(array('parent' => null));
         return array('categories' => $categories);
     }
+
+    /**
+     * @Template("AppBundle:default:mobilecategories.html.twig")
+     */
+    public function mobileCategoriesAction() {
+        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
+        $categories = $repository->findBy(array('parent' => null));
+        return array('categories' => $categories);
+    }
 }

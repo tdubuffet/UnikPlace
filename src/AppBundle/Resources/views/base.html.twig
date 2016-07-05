@@ -35,33 +35,27 @@
                   <div class="top-left-inner">
                     <div class="header-search">
                       <div class="search-container">
-                        <div class="overwrite-setting skip-link" onclick="mobileSkipLink(this);" data-target-element="#navbar-search">
+                        <div class="overwrite-setting skip-link" onclick="Common.mobileSkipLink(this);" data-target-element="#navbar-search">
                           <i class="fa fa-search"></i>
                         </div>
                         <div id="navbar-search" class="switcher-content skip-content">
-                          <form id="search_mb_mini_form" action="http://elara.icotheme.com/catalogsearch/result/" method="get">
+                          <form id="search_mb_mini_form" action="{{ path('search') }}" method="get">
                             <div class="input-group form-search">
                               <span class="input-group-btn category-filter">
                                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                                   <span class="category-label">
-                                    All                </span>&nbsp;<i class="fa fa-angle-down"></i>
+                                    Tout </span>&nbsp;<i class="fa fa-angle-down"></i>
                                 </button>
-                                <ul class="dropdown-menu">
-                                  <li><a href="javascript:void(0)" data-value="">All</a></li>
-                                  <li><a href="javascript:void(0)" data-value="3">Women</a></li>
-                                  <li><a href="javascript:void(0)" data-value="4">Men</a></li>
-                                  <li><a href="javascript:void(0)" data-value="5">Footwear</a></li>
-                                  <li><a href="javascript:void(0)" data-value="6">Jewellery</a></li>
-                                  <li><a href="javascript:void(0)" data-value="7">Accessories</a></li>
-                                </ul>
+                                {{ render(controller('AppBundle:Default:searchcategories')) }}
                               </span>
-                              <input type="hidden" name="cat" value=""/>
+                              <input type="hidden" name="cat" class="search-category" value="" />
                               <input id="mb_search"
                                      type="search"
                                      name="q"
-                                     value=""
+                                     value="{{ app.request.query.get('q') }}"
                                      class="input-text required-entry"
                                      maxlength="128"
+                                     placeholder="Rechercher sur le site..."
                                      />
                               <button type="submit" title="Search" class="search-button"><span><span><i class="fa fa-search"></i></span></span></button>
                             </div>
@@ -73,7 +67,7 @@
                     <!-- navigation BOF -->
                     <div class="navbar visible-xs">
                       <div class="navbar">
-                        <div class="navbar-header skip-link" onclick="mobileSkipLink(this);" data-target-element="#navbar-toggle">
+                        <div class="navbar-header skip-link" onclick="Common.mobileSkipLink(this);" data-target-element="#navbar-toggle">
                           <button class="navbar-toggle collapsed" type="button" data-toggle="collapse">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
@@ -83,169 +77,13 @@
                         </div>
                         <nav id="navbar-toggle" class="bs-navbar-collapse skip-content" role="navigation">
                           <ul class="nav-accordion nav-mobile-accordion">
-                            <li><a href="{{ path('homepage') }}">Home</a></li>
-                            <li class="level0 nav-1 level-top first parent">
-                              <a href="http://elara.icotheme.com/women.html" class="level-top">
-                                <span>Women</span>
-                              </a>
-                              <ul class="level0">
-                                <li class="level1 item nav-1-1 first parent">
-                                  <a href="http://elara.icotheme.com/women/shoes.html">
-                                    <span>Shoes</span>
-                                  </a>
-                                  <ul class="level1">
-                                    <li class="level2 nav-1-1-1 first">
-                                      <a href="http://elara.icotheme.com/women/shoes/high-heels.html">
-                                        <span>High Heels</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-1-2">
-                                      <a href="http://elara.icotheme.com/women/shoes/flats.html">
-                                        <span>Flats</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-1-3">
-                                      <a href="http://elara.icotheme.com/women/shoes/boots.html">
-                                        <span>Boots</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-1-4 last">
-                                      <a href="http://elara.icotheme.com/women/shoes/sandals.html">
-                                        <span>Sandals</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </li><li class="level1 item nav-1-2 parent">
-                                  <a href="http://elara.icotheme.com/women/jewlery.html">
-                                    <span>Jewlery</span>
-                                  </a>
-                                  <ul class="level1">
-                                    <li class="level2 nav-1-2-5 first">
-                                      <a href="http://elara.icotheme.com/women/jewlery/necklaces.html">
-                                        <span>Necklaces</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-2-6">
-                                      <a href="http://elara.icotheme.com/women/jewlery/earrings.html">
-                                        <span>Earrings</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-2-7">
-                                      <a href="http://elara.icotheme.com/women/jewlery/rings.html">
-                                        <span>Rings</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-2-8 last">
-                                      <a href="http://elara.icotheme.com/women/jewlery/bracelet.html">
-                                        <span>Bracelet</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </li><li class="level1 item nav-1-3 parent">
-                                  <a href="http://elara.icotheme.com/women/dresses.html">
-                                    <span>Dresses</span>
-                                  </a>
-                                  <ul class="level1">
-                                    <li class="level2 nav-1-3-9 first">
-                                      <a href="http://elara.icotheme.com/women/dresses/maxi-dresses.html">
-                                        <span>Maxi Dress</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-3-10">
-                                      <a href="http://elara.icotheme.com/women/dresses/midi-dress.html">
-                                        <span>Midi Dress</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-3-11">
-                                      <a href="http://elara.icotheme.com/women/dresses/day-dress.html">
-                                        <span>Day Dress</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-3-12 last">
-                                      <a href="http://elara.icotheme.com/women/dresses/party-dress.html">
-                                        <span>Party Dress</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </li><li class="level1 item nav-1-4 last parent">
-                                  <a href="http://elara.icotheme.com/women/accessories.html">
-                                    <span>Accessories</span>
-                                  </a>
-                                  <ul class="level1">
-                                    <li class="level2 nav-1-4-13 first">
-                                      <a href="http://elara.icotheme.com/women/accessories/bags.html">
-                                        <span>Bags</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-4-14">
-                                      <a href="http://elara.icotheme.com/women/accessories/jewlery.html">
-                                        <span>Jewlery</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-4-15">
-                                      <a href="http://elara.icotheme.com/women/accessories/sunglasses.html">
-                                        <span>Sunglasses</span>
-                                      </a>
-                                    </li><li class="level2 nav-1-4-16 last">
-                                      <a href="http://elara.icotheme.com/women/accessories/hair-accessories.html">
-                                        <span>Hair Accessories</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </li><li class="level0 nav-2 level-top m-dropdown parent">
-                              <a href="http://elara.icotheme.com/men.html" class="level-top">
-                                <span>Men</span>
-                              </a>
-                              <ul class="level0">
-                                <li class="level1 item nav-2-1 first parent">
-                                  <a href="http://elara.icotheme.com/men/shirts.html">
-                                    <span>Shirts</span>
-                                  </a>
-                                  <ul class="level1">
-                                    <li class="level2 nav-2-1-1 first">
-                                      <a href="http://elara.icotheme.com/men/shirts/short-sleeved.html">
-                                        <span>Short-Sleeved</span>
-                                      </a>
-                                    </li><li class="level2 nav-2-1-2">
-                                      <a href="http://elara.icotheme.com/men/shirts/solid.html">
-                                        <span>Solid</span>
-                                      </a>
-                                    </li><li class="level2 nav-2-1-3">
-                                      <a href="http://elara.icotheme.com/men/shirts/pattern.html">
-                                        <span>Pattern</span>
-                                      </a>
-                                    </li><li class="level2 nav-2-1-4 last">
-                                      <a href="http://elara.icotheme.com/men/shirts/jackets.html">
-                                        <span>Jackets</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </li><li class="level1 item nav-2-2">
-                                  <a href="http://elara.icotheme.com/men/tops.html">
-                                    <span>Tops</span>
-                                  </a>
-                                </li><li class="level1 item nav-2-3">
-                                  <a href="http://elara.icotheme.com/men/outerwears.html">
-                                    <span>Outerwears</span>
-                                  </a>
-                                </li><li class="level1 item nav-2-4">
-                                  <a href="http://elara.icotheme.com/men/bottoms.html">
-                                    <span>Bottoms</span>
-                                  </a>
-                                </li><li class="level1 item nav-2-5">
-                                  <a href="http://elara.icotheme.com/men/denims.html">
-                                    <span>Denims</span>
-                                  </a>
-                                </li><li class="level1 item nav-2-6 last">
-                                  <a href="http://elara.icotheme.com/men/swim.html">
-                                    <span>Swim</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </li><li class="level0 nav-3 level-top">
-                              <a href="http://elara.icotheme.com/footwear.html" class="level-top">
-                                <span>Footwear</span>
-                              </a>
-                            </li><li class="level0 nav-4 level-top">
-                              <a href="http://elara.icotheme.com/jewellery.html" class="level-top">
-                                <span>Jewellery</span>
-                              </a>
-                            </li><li class="level0 nav-5 level-top last">
-                              <a href="http://elara.icotheme.com/accessories.html" class="level-top">
-                                <span>Accessories</span>
-                              </a>
-                          </li>            </ul>
+
+                            <li class="level0 home level-top">
+                              <a href="{{ path('homepage') }}"
+                                 class="level-top"><span>Accueil</span></a>
+                            </li>
+                            {{ render(controller('AppBundle:Default:mobilecategories')) }}
+                          </ul>
                         </nav>
                       </div>
                     </div>
@@ -273,7 +111,7 @@
                     </div>
                     <div class="header-setting">
                       <div class="setting-switcher switcher-wrap">
-                        <div class="overwrite-setting skip-link" onclick="mobileSkipLink(this);" data-target-element="#navbar-setting">
+                        <div class="overwrite-setting skip-link" onclick="Common.mobileSkipLink(this);" data-target-element="#navbar-setting">
                           <span class="fa fa-cog"></span>
                         </div>
                         <div id="navbar-setting" class="switcher-content skip-content">
@@ -281,20 +119,28 @@
                             <div class="main-setting">
                               <div class="main-account">
                                 <ul class="links">
-                                  <li class="first" ><a class="my-account" href="http://elara.icotheme.com/customer/account/" title="Mon compte" >Mon compte</a></li>
-                                  <li ><a href="http://elara.icotheme.com/wishlist/" title="My Wishlist" class="link-wishlist">My Wishlist</a></li>
-                                  <li ><a class="checkout" href="http://elara.icotheme.com/checkout/" title="Checkout" class="top-link-checkout">Checkout</a></li>
-                                  <li class=" last" ><a class="log-in" href="http://elara.icotheme.com/customer/account/login/" title="Log In" >Log In</a></li>
+                                  {% if app.user %}
+                                    <li class="first" ><a class="my-account" href="{{ path('fos_user_profile_edit') }}" title="Mes Paramètres">Mes Paramètres</a></li>
+                                    <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma Wishlist</a></li>
+                                    <li><a class="checkout" href="#" title="Mon Panier" class="top-link-checkout">Mon Panier</a></li>
+                                    <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
+                                  {% else %}
+                                    <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
+                                    <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
+                                  {% endif %}
                                 </ul>
                               </div>
                             </div>
                             <div class="language-currency ">
                               <div class="language-switcher">
-                                <div class="title-selector"><span>Your Languages</span></div>
+                                <div class="title-selector"><span>Langues</span></div>
                                 <ul class="select-language clearfix">
-                                  <li class="current-language"><span><img alt="" src="http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-english.jpg" /></span></li>
-                                  <li><a href="http://elara.icotheme.com/?___store=french&amp;___from_store=default"> <img alt="" src="http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg" /> </a></li>
-                                  <li><a href="http://elara.icotheme.com/?___store=germany&amp;___from_store=default"> <img alt="" src="http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-germany.jpg" /> </a></li>
+                                  <li class="current-language">
+                                    <span>
+                                      <img alt="francais" src="http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg" />
+                                    </span>
+                                  </li>
+                                  <li><a href="#"> <img alt="anglais" src="http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-english.jpg" /></a></li>
                                 </ul>
                               </div>
                             </div>
@@ -324,12 +170,11 @@
                       <div class="language-wrapper"><div class="language-currency">
                           <div class="language-switcher switcher-wrap">
                             <div class="overwrite-language">
-                              <span style="background-image:url('http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg');background-repeat: no-repeat; background-position: 15px center; ">Français</span>
+                              <span style="background-image:url('http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg');background-repeat: no-repeat; background-position: 15px center;">Français</span>
                             </div>
                             <ul class="select-language">
-                              <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg); background-repeat: no-repeat; background-position: 0px center;" href="http://elara.icotheme.com/?___store=french&amp;___from_store=default"> Français</a></li>
-                              <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-english.jpg); background-repeat: no-repeat; background-position: 0px center;" href="http://elara.icotheme.com/?___store=default&amp;___from_store=default"> English</a></li>
-                              <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-germany.jpg); background-repeat: no-repeat; background-position: 0px center;" href="http://elara.icotheme.com/?___store=germany&amp;___from_store=default"> Germany</a></li>
+                              <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-french.jpg); background-repeat: no-repeat; background-position: 0px center;" href="#"> Français</a></li>
+                              <li><a style="background-image:url(http://elara.icotheme.com/media/wysiwyg/icotheme/elara/flags/flag-english.jpg); background-repeat: no-repeat; background-position: 0px center;" href="#"> English</a></li>
                             </ul>
                           </div>
                         </div>
@@ -376,7 +221,7 @@
                                     </button>
                                     {{ render(controller('AppBundle:Default:searchcategories')) }}
                                   </span>
-                                  <input type="hidden" name="cat" id="search-category" value="" />
+                                  <input type="hidden" name="cat" class="search-category" value="" />
                                   <input id="search"
                                          type="search"
                                          name="q"

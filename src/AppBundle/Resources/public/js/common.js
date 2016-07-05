@@ -26,13 +26,37 @@ var Common = {
         $('#top-nav-wrapper').sticky({ topSpacing: 0 });
         $('#mobile-sticky').sticky({ topSpacing: 0 });
 
-        $('#search-cat-filters > li').click(function(){
+        $('.search-cat-filters > li').click(function(){
             var searchCatFilter = $(this).find('a').text();
             var searchCatId = $(this).find('a').data('id');
 
             $('.category-filter .category-label').text(searchCatFilter);
-            $('#search-category').val(searchCatId);
+            $('.search-category').val(searchCatId);
         });
+
+        Common.mobileSkipLink();
+    },
+
+    mobileSkipLink: function(e){
+        var skipContents = jQuery('.skip-content');
+        var skipLinks = jQuery('.skip-link');
+        var self = jQuery(e);
+        var target = self.attr('data-target-element');
+        // Get target element
+        var elem = jQuery(target);
+        // Check if stub is open
+        var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+        // Hide all stubs
+        skipLinks.removeClass('skip-active');
+        skipContents.removeClass('skip-active');
+        self.removeClass('skip-active');
+        // Toggle stubs
+        if (isSkipContentOpen) {
+            self.removeClass('skip-active');
+        } else {
+            self.addClass('skip-active');
+            elem.addClass('skip-active');
+        }
     }
 
 };
