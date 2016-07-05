@@ -44,7 +44,10 @@ class ProductSearchService
         $this->applyQuery($boolQuery, $params);
         $this->applyPrice($boolQuery, $params);
 
-        $results = $this->finder->findPaginated($boolQuery);
+        $query = new \Elastica\Query($boolQuery);
+        $this->applySortAndOrder($query, $params);
+
+        $results = $this->finder->findPaginated($query);
         $results->setMaxPerPage($maxPerPage);
         $results->setCurrentPage($currentPage);
         return $results;
@@ -103,6 +106,24 @@ class ProductSearchService
                 $boolQuery->addMust($rangeFilter);
             }
         }
+    }
+
+    private function applySortAndOrder($bool, $params)
+    {
+        if ($params['sort'] == 'relevance') {
+            return; // No sort for relevance
+        }
+        $fields = array(
+            'new' => 'updated_at',
+            'name' => 'name',
+            'price' => 'price',
+        );
+        $field = $fields['new'];
+        if (isset($params['sort']) && isset($fields[$params['sort']])) {
+            $field = $fields[$params['sort']];
+        }
+        $order = isset($params['ord']) && in_array($params['ord'], ['asc', 'desc']) ? $params['ord'] : 'desc';
+        $bool->addSort(array($field => array('order' => $order)));
     }
 
 }

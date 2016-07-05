@@ -278,6 +278,8 @@ fos_elastica:
                             analyzer: path_analyzer
                         price:
                             type: float
+                        updated_at:
+                            type: date
                     persistence:
                         model_to_elastica_transformer:
                             service: product.elastica.transformer

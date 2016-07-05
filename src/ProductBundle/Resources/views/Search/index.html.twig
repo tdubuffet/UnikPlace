@@ -137,20 +137,25 @@
                             <div class="select-new">
                               <div class="select-inner">
                                 <span>Tri par : </span>
-                                <div class="overwrite-sortby" role="button" data-toggle="collapse" href="#sort_by" aria-expanded="false">Position</div>
+                                <div class="overwrite-sortby" role="button" data-toggle="collapse" href="#sort_by" aria-expanded="false"></div>
+                                {% set sortModes = {new: 'Nouveauté', relevance: 'Pertinence', name: 'Nom', price: 'Prix'} %}
+                                <script>sortModeLabels = {{ sortModes|json_encode|raw }};</script>
                                 <ul id="sort_by" class="sort_by collapse">
+                                  {% for sortMode, sortModeLabel in sortModes %}
                                   <li>
-                                    <a href="#">Position</a>
+                                    <button class="btn-link" type="button" data-sort="{{ sortMode }}">{{ sortModeLabel }}</button>
                                   </li>
-                                  <li>
-                                    <a href="#">Nom</a>
-                                  </li>
+                                  {% endfor %}
                                 </ul>
+                                <input type="hidden" value="{% if app.request.query.get('sort') is defined and app.request.query.get('sort') in sortModes|keys %}{{ app.request.query.get('sort') }}{% else %}new{% endif %}" class="sort_by_value" />
                               </div>
                             </div>
 
                             <div class="direction-list">
-                              <a class="direction direction-up" href="#" title="Tri ascendant"><i class="fa fa-arrow-down"></i></a>
+                              <button class="btn-link direction direction-up sort-direction" type="button">
+                                <i class="fa"></i>
+                              </button>
+                              <input type="hidden" value="{% if app.request.query.get('ord') is defined and app.request.query.get('ord') in ['asc', 'desc'] %}{{ app.request.query.get('ord') }}{% else %}desc{% endif %}" class="ord_value" />
                             </div>
 
                           </div>
