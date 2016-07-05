@@ -39,35 +39,10 @@ class ProductSearchService
         $maxPerPage = 3; // Products per page
         $currentPage = isset($params['p']) ? $params['p'] : 1;
 
+        // Build search query
         $boolQuery = new \Elastica\Query\Bool();
-        if (isset($params['q']) && $params['q'] != '') {
-            $fieldQuery = new \Elastica\Query\Match();
-            $fieldQuery->setFieldQuery('name', $params['q']);
-            $boolQuery->addShould($fieldQuery);
-
-            $fieldQuery = new \Elastica\Query\Fuzzy();
-            $fieldQuery->setField('name', $params['q']);
-            $boolQuery->addShould($fieldQuery);
-
-            $fieldQuery = new \Elastica\Query\Match();
-            $fieldQuery->setFieldQuery('description', $params['q']);
-            $boolQuery->addShould($fieldQuery);
-        }
-        if (isset($params['price'])) {
-            $priceRange = array_filter(explode('-', $params['price']));
-            $rangeFilter = new \Elastica\Query\Range();
-            $range = array();
-            if (isset($priceRange[0])) {
-                $range['from']= $priceRange[0];
-            }
-            if (isset($priceRange[1])) {
-                $range['to']= $priceRange[1];
-            }
-            if (!empty($range)) {
-                $rangeFilter->addField('price', $range);
-                $boolQuery->addMust($rangeFilter);
-            }
-        }
+        $this->applyQuery($boolQuery, $params);
+        $this->applyPrice($boolQuery, $params);
 
         $results = $this->finder->findPaginated($boolQuery);
         $results->setMaxPerPage($maxPerPage);
@@ -92,6 +67,42 @@ class ProductSearchService
         $options = array('proximity' => 3);
         $pagination = $view->render($results, $routeGenerator, $options);
         return $pagination;
+    }
+
+    private function applyQuery($boolQuery, $params)
+    {
+        if (isset($params['q']) && $params['q'] != '') {
+            $fieldQuery = new \Elastica\Query\Match();
+            $fieldQuery->setFieldQuery('name', $params['q']);
+            $boolQuery->addShould($fieldQuery);
+
+            $fieldQuery = new \Elastica\Query\Fuzzy();
+            $fieldQuery->setField('name', $params['q']);
+            $boolQuery->addShould($fieldQuery);
+
+            $fieldQuery = new \Elastica\Query\Match();
+            $fieldQuery->setFieldQuery('description', $params['q']);
+            $boolQuery->addShould($fieldQuery);
+        }
+    }
+
+    private function applyPrice($boolQuery, $params)
+    {
+        if (isset($params['price'])) {
+            $priceRange = array_filter(explode('-', $params['price']));
+            $rangeFilter = new \Elastica\Query\Range();
+            $range = array();
+            if (isset($priceRange[0])) {
+                $range['from']= $priceRange[0];
+            }
+            if (isset($priceRange[1])) {
+                $range['to']= $priceRange[1];
+            }
+            if (!empty($range)) {
+                $rangeFilter->addField('price', $range);
+                $boolQuery->addMust($rangeFilter);
+            }
+        }
     }
 
 }
