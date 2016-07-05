@@ -10,11 +10,6 @@ var Signup = {
                     minlength: 3,
                     maxlength: 100,
                 },
-                "fos_user_registration_form[username]": {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 50,
-                },
                 "fos_user_registration_form[firstname]": {
                     required: true,
                     minlength: 3,

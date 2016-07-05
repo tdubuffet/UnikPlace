@@ -26,14 +26,6 @@ class User extends BaseUser
         $this->favorites = new ArrayCollection();
     }
 
-
-    /**
-     * @var string
-     * @Assert\NotBlank(message="Veuillez fournir un nom d'utilisateur", groups={"Registration"})
-     * @Assert\Length(min=3, max=50, minMessage="Veuillez saisir au moins {{ limit }} caractères", maxMessage="Veuillez saisir au maximum {{ limit }} caractères", groups={"Registration"})
-     */
-    protected $username;
-
     /**
      * @var string
      * @Assert\Email(message="L'email {{ value }} n'est pas valide", checkMX=true, groups={"Registration"})
