@@ -10,6 +10,7 @@ var Product = {
 
         Product.setMainPicture();
         Product.initCarousel();
+        Product.initSimilarProductsCarousel();
     },
 
     getZoomConfig: function() {
@@ -74,6 +75,22 @@ var Product = {
 
                 $(document).on('click', clone, Product.setMainPicture);
             }
+        });
+    },
+
+    initSimilarProductsCarousel: function() {
+        $("#similar-products").owlCarousel({
+            "autoPlay": false,
+            "items": 4,
+            "loop": true
+        });
+
+        $(".owl-nav-left").click(function() {
+            $("#similar-products").trigger('prev.owl.carousel');
+        });
+
+        $(".owl-nav-right").click(function() {
+            $("#similar-products").trigger('next.owl.carousel');
         });
     },
 

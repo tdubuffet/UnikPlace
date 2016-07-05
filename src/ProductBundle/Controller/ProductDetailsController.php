@@ -24,6 +24,12 @@ class ProductDetailsController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $favorite = $this->getDoctrine()->getRepository('ProductBundle:Favorite')->findOneBy(array('user' => $this->getUser(), 'product' => $product));
         }
-        return ['product' => $product, 'productAttributes' => $attributes, 'isFavorite' => isset($favorite)];
+
+        $qb = $this->getDoctrine()->getRepository('ProductBundle:Product')->createQueryBuilder('p');
+        $qb->where('p.id != :id')->setParameter('id', $product->getId())
+           ->andWhere('p.category = :category_id')->setParameter('category_id', $product->getCategory()->getId());
+        $similarProducts = $qb->getQuery()->getResult();
+
+        return ['product' => $product, 'productAttributes' => $attributes, 'isFavorite' => isset($favorite), 'similarProducts' => $similarProducts];
     }
 }

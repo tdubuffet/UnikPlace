@@ -2079,6 +2079,7 @@ button.button span {
   margin-top:28px;
   margin-bottom:0;
 }
+
 .main-container .widget-products-new .category-products ul.products-grid, .main-container .widget-products-upsell .category-products ul.products-grid, .main-container .widget-products-related .category-products ul.products-grid { margin:0 0 4px; }
 .main-container .widget-products-new .owl-controls, .main-container .widget-products-upsell .owl-controls, .main-container .widget-products-related .owl-controls {
   position:relative;
@@ -2087,6 +2088,7 @@ button.button span {
   background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/icon.png) center 1px no-repeat;
   padding:0;
 }
+
 .main-container .widget-products-new .owl-controls .owl-pagination, .main-container .widget-products-upsell .owl-controls .owl-pagination, .main-container .widget-products-related .owl-controls .owl-pagination { display:inline-block; }
 .main-container .widget-products-new .owl-controls .owl-buttons .owl-prev, .main-container .widget-products-new .owl-controls .owl-buttons .owl-next, .main-container .widget-products-upsell .owl-controls .owl-buttons .owl-prev, .main-container .widget-products-upsell .owl-controls .owl-buttons .owl-next, .main-container .widget-products-related .owl-controls .owl-buttons .owl-prev, .main-container .widget-products-related .owl-controls .owl-buttons .owl-next {
   position:relative;
@@ -2155,6 +2157,21 @@ button.button span {
   left:48% !important;
   top:30% !important;
 }
+
+.owl-nav {
+  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/icon.png) center 1px no-repeat;
+}
+
+.owl-nav .owl-nav-left, .owl-nav .owl-nav-right {
+  font-size: 22px;
+  padding: 0 60px;
+  cursor: pointer;
+}
+
+.owl-nav .owl-nav-left:hover, .owl-nav .owl-nav-right:hover {
+  color: #d99f25;
+}
+
 .main-container .widget-products-tab .widget-tab-content .tab-pane .widget-spinner .spinner #bounce1 { position:relative; }
 .main-container .widget-products-tab .widget-tab-content .tab-pane .widget-spinner .spinner #bounce1:before {
   width:20px;
