@@ -38,7 +38,7 @@ services:
 
     product_bundle.product_search_service:
         class: ProductBundle\Service\ProductSearchService
-        arguments: ['@fos_elastica.finder.noname.product']
+        arguments: ['@fos_elastica.finder.noname.product', '@router']
 
     app.twig_extension:
         class: AppBundle\Twig\AppExtension

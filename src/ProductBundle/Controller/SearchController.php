@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Pagerfanta\View\TwitterBootstrapView;
 
 class SearchController extends Controller
 {
@@ -18,19 +17,13 @@ class SearchController extends Controller
      */
     public function searchAction(Request $request)
     {
+        $params = $request->query->all();
         $search = $this->container->get('product_bundle.product_search_service');
-        $results = $search->search($request->query->all());
+        $results = $search->search($params);
+        $pagination = $search->getHtmlPagination($results, $params);
 
         $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
         $mainCategories = $repository->findBy(array('parent' => null));
-
-        $routeGenerator = function($page) {
-            return '#';
-        };
-
-        $view = new TwitterBootstrapView();
-        $options = array('proximity' => 3);
-        $pagination = $view->render($results, $routeGenerator, $options);
 
         return ['products' => $results, 'mainCategories' => $mainCategories, 'pagination' => $pagination];
     }
@@ -43,8 +36,10 @@ class SearchController extends Controller
      */
     public function postSearchAction(Request $request)
     {
+        $params = $request->request->all();
         $search = $this->container->get('product_bundle.product_search_service');
-        $results = $search->search($request->request->all());
-        return ['products' => $results];
+        $results = $search->search($params);
+        $pagination = $search->getHtmlPagination($results, $params);
+        return ['products' => $results, 'pagination' => $pagination];
     }
 }

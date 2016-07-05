@@ -3,26 +3,34 @@
 namespace ProductBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Pagerfanta\View\TwitterBootstrapView;
 
 class ProductSearchService
 {
 
     /**
      *
-     * @var FOS\ElasticaBundle\Finder\TransformedFinder
+     * @var $finder FOS\ElasticaBundle\Finder\TransformedFinder
      */
     private $finder;
 
-    public function __construct($finder)
+    /**
+     *
+     * @var $route Symfony\Bundle\FrameworkBundle\Routing\Router
+     */
+    private $route;
+
+    public function __construct($finder, $router)
     {
         $this->finder = $finder;
+        $this->router = $router;
     }
 
 
     /**
      * Perform a product search
      *
-     * @param array $params
+     * @param array $params Search parameters
      *
      * @return Pagerfanta\Pagerfanta
      */
@@ -62,6 +70,25 @@ class ProductSearchService
         $results->setMaxPerPage(1);
         $results->setCurrentPage(1);
         return $results;
+    }
+
+    /**
+     * Generate HTML code for search pagination
+     *
+     * @param array $results Search results
+     * @param array $params Search parameters
+     *
+     * @return string The HTML code
+     */
+    public function getHtmlPagination($results, $params)
+    {
+        $routeGenerator = function($page) use ($params) {
+            return $this->router->generate('search', array_merge($params, ['p' => $page]));
+        };
+        $view = new TwitterBootstrapView();
+        $options = array('proximity' => 3);
+        $pagination = $view->render($results, $routeGenerator, $options);
+        return $pagination;
     }
 
 }
