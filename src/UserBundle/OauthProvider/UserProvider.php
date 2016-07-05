@@ -96,6 +96,10 @@ class UserProvider extends BaseFOSUBProvider
                 $user->setFirstname($response->getFirstName());
                 $user->setLastname($response->getLastName());
 
+                $user->setNationality('FR');
+                $user->setResidentialCountry('FR');
+                $user->setPro(false);
+
             } elseif($service == "twitter") {
 
                 $nickName = $response->getNickname();
