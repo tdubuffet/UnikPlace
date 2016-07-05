@@ -36,6 +36,9 @@ class ProductSearchService
      */
     public function search($params)
     {
+        $maxPerPage = 3; // Products per page
+        $currentPage = isset($params['p']) ? $params['p'] : 1;
+
         $boolQuery = new \Elastica\Query\Bool();
         if (isset($params['q']) && $params['q'] != '') {
             $fieldQuery = new \Elastica\Query\Match();
@@ -67,8 +70,8 @@ class ProductSearchService
         }
 
         $results = $this->finder->findPaginated($boolQuery);
-        $results->setMaxPerPage(1);
-        $results->setCurrentPage(1);
+        $results->setMaxPerPage($maxPerPage);
+        $results->setCurrentPage($currentPage);
         return $results;
     }
 
