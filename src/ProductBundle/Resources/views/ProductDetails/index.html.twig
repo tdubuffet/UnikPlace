@@ -189,7 +189,7 @@
           </div><!-- .col-main -->
         </div><!-- .row show-grid -->
 
-        {% if similarProducts is not empty %}
+        {% if similarProducts|length > 6 %}
           <div class="widget-products-related">
             <h3 class="title-widget"><span>Produits similaires</span></h3>
 
