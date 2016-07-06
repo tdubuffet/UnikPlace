@@ -20,10 +20,17 @@ class ProductSearchService
      */
     private $route;
 
-    public function __construct($finder, $router)
+    /**
+     *
+     * @var EntityManager
+     */
+    private $em;
+
+    public function __construct($finder, $router, EntityManager $entityManager)
     {
         $this->finder = $finder;
         $this->router = $router;
+        $this->em = $entityManager;
     }
 
 
@@ -42,6 +49,7 @@ class ProductSearchService
         // Build search query
         $boolQuery = new \Elastica\Query\Bool();
         $this->applyQuery($boolQuery, $params);
+        $this->applyCategory($boolQuery, $params);
         $this->applyPrice($boolQuery, $params);
 
         $query = new \Elastica\Query($boolQuery);
@@ -88,6 +96,18 @@ class ProductSearchService
             $fieldQuery = new \Elastica\Query\Match();
             $fieldQuery->setFieldQuery('description', $params['q']);
             $boolQuery->addShould($fieldQuery);
+        }
+    }
+
+    private function applyCategory($boolQuery, $params)
+    {
+        if (isset($params['cat']) && is_numeric($params['cat'])) {
+            $category = $this->em->getRepository('ProductBundle:Category')->findOneById($params['cat']);
+            if (isset($category)) {
+                $fieldTerm = new \Elastica\Query\Term();
+                $fieldTerm->setTerm('category', $category->getPath());
+                $boolQuery->addMust($fieldTerm);
+            }
         }
     }
 

@@ -1,13 +1,16 @@
 var Search = {
 
     params: {},
+    initialized: false,
 
     init: function() {
         Search.initSortBy();
         Search.initSortDirection();
         Search.initPagination();
         Search.initQuery();
+        Search.initCategory();
         Search.initPrice();
+        Search.initialized = true;
     },
 
     initSortBy: function() {
@@ -74,6 +77,21 @@ var Search = {
         });
     },
 
+    initCategory: function() {
+        // Event on category select is handled in Common
+        // Just inject the right category
+        var categoryId = Search.getUrlParameter('cat');
+        if (categoryId) {
+            categoryId = parseInt(categoryId);
+            if (!isNaN(categoryId)) {
+                var categoryLabel = $("#navbar-search .search-cat-filters li a[data-id='"+categoryId+"']").text();
+                if (categoryLabel != '') {
+                    $('.category-filter .category-label').text(categoryLabel);
+                }
+            }
+        }
+    },
+
     initPrice: function() {
         var price = Search.getUrlParameter('price');
         if (price) {
@@ -102,6 +120,7 @@ var Search = {
         }
 
         Search.params.q = $('#search').val();
+        Search.params.cat = $('.search-category').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
         Search.params.sort = $('.sort_by_value').val();
         Search.params.ord = $('.ord_value').val();

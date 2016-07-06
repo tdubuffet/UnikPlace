@@ -32,6 +32,12 @@ var Common = {
 
             $('.category-filter .category-label').text(searchCatFilter);
             $('.search-category').val(searchCatId);
+
+            if (typeof Search !== 'undefined') {
+                if (Search.initialized) {
+                    Search.search();
+                }
+            }
         });
 
         Common.mobileSkipLink();
