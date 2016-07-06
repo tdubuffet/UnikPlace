@@ -30,6 +30,21 @@ var Signup = {
                     maxlength: 50,
                     equalTo: "#fos_user_registration_form_plainPassword_first",
                 },
+                "fos_user_registration_form[company_code]": {
+                    required: true,
+                },
+                "fos_user_registration_form[company_name]": {
+                    required: true,
+                },
+                "fos_user_registration_form[company_address]": {
+                    required: true,
+                },
+                "fos_user_registration_form[company_zipcode]": {
+                    required: true,
+                },
+                "fos_user_registration_form[company_city]": {
+                    required: true,
+                },
             }
         });
     },
