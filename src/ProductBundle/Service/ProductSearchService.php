@@ -110,7 +110,7 @@ class ProductSearchService
 
     private function applySortAndOrder($bool, $params)
     {
-        if ($params['sort'] == 'relevance') {
+        if (isset($params['sort']) && $params['sort'] == 'relevance') {
             return; // No sort for relevance
         }
         $fields = array(
