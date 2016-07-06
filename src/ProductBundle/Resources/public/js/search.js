@@ -48,11 +48,21 @@ var Search = {
         $('.pagination li a').click(function(e) {
             var page = $(this).text();
             page = parseInt(page);
-            if (!isNaN(page)) {
+            if (!isNaN(page)) { // Numbered links
                 Search.params.p = page;
                 Search.search('pagination');
-                e.preventDefault();
             }
+            else if ($(this).parent().hasClass('prev')) { // Previous link
+                var currentPage = parseInt($('.pagination li.active span').text());
+                Search.params.p = currentPage - 1;
+                Search.search('pagination');
+            }
+            else if ($(this).parent().hasClass('next')) { // Next link
+                var currentPage = parseInt($('.pagination li.active span').text());
+                Search.params.p = currentPage + 1;
+                Search.search('pagination');
+            }
+            e.preventDefault();
         });
     },
 

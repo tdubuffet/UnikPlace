@@ -3,7 +3,7 @@
 namespace ProductBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Pagerfanta\View\TwitterBootstrapView;
+use Pagerfanta\View\TwitterBootstrap3View;
 
 class ProductSearchService
 {
@@ -66,8 +66,10 @@ class ProductSearchService
         $routeGenerator = function($page) use ($params) {
             return $this->router->generate('search', array_merge($params, ['p' => $page]));
         };
-        $view = new TwitterBootstrapView();
-        $options = array('proximity' => 3);
+        $view = new TwitterBootstrap3View();
+        $options = array('proximity' => 3,
+                         'prev_message' => '← Précèdent',
+                         'next_message' =>'Suivant →');
         $pagination = $view->render($results, $routeGenerator, $options);
         return $pagination;
     }
