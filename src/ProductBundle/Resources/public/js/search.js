@@ -4,13 +4,37 @@ var Search = {
     initialized: false,
 
     init: function() {
+        Search.loadFilters();
         Search.initSortBy();
         Search.initSortDirection();
         Search.initPagination();
         Search.initQuery();
         Search.initCategory();
-        Search.initPrice();
         Search.initialized = true;
+    },
+
+    loadFilters: function() {
+        var categoryId = Search.getUrlParameter('cat');
+        var data = {};
+        if (categoryId) {
+            categoryId = parseInt(categoryId);
+            if (!isNaN(categoryId)) {
+                data = {category_id: categoryId};
+            }
+        }
+        $.ajax({
+            url: Routing.generate('ajax_search_attribute_filters'),
+            type: 'POST',
+            data: data,
+            success: function(result) {
+                $('.sidebar .block-layered-nav .block-content').html(result);
+                Search.initPrice();
+                // TODO Update filter div
+                // TODO reinject values
+            },
+            error: function(result) {
+            }
+        });
     },
 
     initSortBy: function() {

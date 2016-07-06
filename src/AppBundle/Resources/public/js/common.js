@@ -35,6 +35,7 @@ var Common = {
 
             if (typeof Search !== 'undefined') {
                 if (Search.initialized) {
+                    Search.loadFilters();
                     Search.search();
                 }
             }

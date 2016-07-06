@@ -47,6 +47,18 @@ class Attribute
      */
     private $categories;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Referential")
+     * @ORM\JoinColumn(name="referential_id", referencedColumnName="id")
+     */
+    private $referential;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AttributeTemplate")
+     * @ORM\JoinColumn(name="attribute_template_id", referencedColumnName="id")
+     */
+    private $attributeTemplate;
+
     public function __construct() {
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -194,5 +206,53 @@ class Attribute
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Set referential
+     *
+     * @param \ProductBundle\Entity\Referential $referential
+     *
+     * @return Attribute
+     */
+    public function setReferential(\ProductBundle\Entity\Referential $referential = null)
+    {
+        $this->referential = $referential;
+
+        return $this;
+    }
+
+    /**
+     * Get referential
+     *
+     * @return \ProductBundle\Entity\Referential
+     */
+    public function getReferential()
+    {
+        return $this->referential;
+    }
+
+    /**
+     * Set attributeTemplate
+     *
+     * @param \ProductBundle\Entity\AttributeTemplate $attributeTemplate
+     *
+     * @return Attribute
+     */
+    public function setAttributeTemplate(\ProductBundle\Entity\AttributeTemplate $attributeTemplate = null)
+    {
+        $this->attributeTemplate = $attributeTemplate;
+
+        return $this;
+    }
+
+    /**
+     * Get attributeTemplate
+     *
+     * @return \ProductBundle\Entity\AttributeTemplate
+     */
+    public function getAttributeTemplate()
+    {
+        return $this->attributeTemplate;
     }
 }

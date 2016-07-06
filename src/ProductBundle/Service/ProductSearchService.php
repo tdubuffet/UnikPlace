@@ -26,11 +26,18 @@ class ProductSearchService
      */
     private $em;
 
-    public function __construct($finder, $router, EntityManager $entityManager)
+    /**
+     *
+     * @var Twig_Environment
+     */
+    private $twig;
+
+    public function __construct($finder, $router, EntityManager $entityManager, $twig)
     {
         $this->finder = $finder;
         $this->router = $router;
         $this->em = $entityManager;
+        $this->twig = $twig;
     }
 
 
@@ -80,6 +87,36 @@ class ProductSearchService
                          'next_message' =>'Suivant →');
         $pagination = $view->render($results, $routeGenerator, $options);
         return $pagination;
+    }
+
+    /**
+     * Generate HTML code for search attribute filters
+     *
+     * @param ProductBundle\Entity\Category $category The product category selected
+     *
+     * @return string The HTML code
+     */
+    public function getHtmlFilters($category = null)
+    {
+        $filters = ['price' => ['template' => 'price']];
+        if ($category) {
+            $attributes = $category->getAttributes();
+        }
+        $html = '';
+        foreach ($attributes as $attribute) {
+            $template = $attribute->getAttributeTemplate();
+            $filters[$attribute->getCode()] = ['template' => $template->getName(),
+                                               'viewVars' => ['label' => $attribute->getName()]];
+            $referential = $attribute->getReferential();
+            if (isset($referential)) {
+                $filters[$attribute->getCode()]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+            }
+        }
+        foreach ($filters as $filter) {
+            $html .= $this->twig->render('ProductBundle:SearchFilters:'.$filter['template'].'.html.twig',
+                                         isset($filter['viewVars']) ? $filter['viewVars'] : []);
+        }
+        return $html;
     }
 
     private function applyQuery($boolQuery, $params)

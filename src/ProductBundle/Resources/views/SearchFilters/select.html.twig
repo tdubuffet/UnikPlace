@@ -1,0 +1,15 @@
+<dl>
+  <dt>{{ label }}</dt>
+  <dd>
+    <ol>
+      <li>
+        <select>
+          <option value="">Indifférent</option>
+          {% for value in referentialValues %}
+          <option value="{{ value.getId() }}">{{ value.getValue() }}</option>
+          {% endfor %}
+        </select>
+      </li>
+    </ol>
+  </dd>
+</dl>
