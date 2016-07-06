@@ -129,6 +129,8 @@ var Search = {
 
     search: function(event) {
         Search.collectParams(event);
+        $('.category-products-container').hide();
+        $('.category-products-loading').show();
         $.ajax({
             url: Routing.generate('ajax_search'),
             type: 'POST',
@@ -137,11 +139,12 @@ var Search = {
                 $('.category-products-container').html(result);
                 Search.initPagination();
                 Search.updateBreadcrumb();
+                $('.category-products-loading').hide();
+                $('.category-products-container').show();
             },
             error: function(result) {
             }
         });
-
     },
 
     updateBreadcrumb: function() {
