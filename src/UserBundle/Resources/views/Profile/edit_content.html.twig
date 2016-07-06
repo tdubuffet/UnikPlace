@@ -1,86 +1,79 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
-  <div class="row">
-    <div class="col-sm-3 sidebar">
-      {% include "FOSUserBundle::profile_menu.html.twig" %}
+  <h1>Mes Paramètres</h1>
+
+  {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit', 'id': 'profile-form' } }) }}
+    <div class="form-group">
+      <label class="required">{{ 'form.email'|trans }}</label>
+      {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
     </div>
-    <div class="col-sm-9">
-      <h1>Mes Paramètres</h1>
+    <div class="form-group">
+      <label class="required">{{ 'form.current_password'|trans }}</label>
+      {{ form_widget(form.current_password, {'attr': {'class': 'form-control'}}) }}
+      {{ form_errors(form.current_password) }}
+    </div>
+    <div class="form-group">
+      <label class="required">Prénom</label>
+      {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+      {{ form_errors(form.firstname) }}
+    </div>
+    <div class="form-group">
+      <label class="required">Nom</label>
+      {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+      {{ form_errors(form.lastname) }}
+    </div>
+    <div class="form-group">
+      <label class="required">Date de naissance</label>
+      <div class="clearfix">
+        {{ form_widget(form.birthday.day, {'attr': {'class': 'form-control birthday'}}) }}
+        {{ form_widget(form.birthday.month, {'attr': {'class': 'form-control birthday'}}) }}
+        {{ form_widget(form.birthday.year, {'attr': {'class': 'form-control birthday'}}) }}
+        {{ form_errors(form.birthday) }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="required">Nationalité</label>
+      {{ form_widget(form.nationality, {'attr': {'class': 'form-control'}}) }}
+      {{ form_errors(form.nationality) }}
+    </div>
+    <div class="form-group">
+      <label class="required">Pays de résidence</label>
+      {{ form_widget(form.residential_country, {'attr': {'class': 'form-control'}}) }}
+      {{ form_errors(form.residential_country) }}
+    </div>
+    {% if app.user.getPro() %}
+      <div class="form-group">
+        <label class="required">SIRET de l'entreprise</label>
+        {{ form_widget(form.company_code, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.company_code) }}
+      </div>
+      <div class="form-group">
+        <label class="required">Nom de l'entreprise</label>
+        {{ form_widget(form.company_name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.company_name) }}
+      </div>
+      <div class="form-group">
+        <label class="required">Adresse de l'entreprise</label>
+        {{ form_widget(form.company_address, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.company_address) }}
+      </div>
+      <div class="form-group">
+        <label class="required">Code postal de l'entreprise</label>
+        {{ form_widget(form.company_zipcode, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.company_zipcode) }}
+      </div>
+      <div class="form-group">
+        <label class="required">Ville de l'entreprise</label>
+        {{ form_widget(form.company_city, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.company_city) }}
+      </div>
+    {% endif %}
 
-      {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit', 'id': 'profile-form' } }) }}
-        <div class="form-group">
-          <label class="required">{{ 'form.email'|trans }}</label>
-          {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-          <label class="required">{{ 'form.current_password'|trans }}</label>
-          {{ form_widget(form.current_password, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.current_password) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Prénom</label>
-          {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.firstname) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Nom</label>
-          {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.lastname) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Date de naissance</label>
-          <div class="clearfix">
-            {{ form_widget(form.birthday.day, {'attr': {'class': 'form-control birthday'}}) }}
-            {{ form_widget(form.birthday.month, {'attr': {'class': 'form-control birthday'}}) }}
-            {{ form_widget(form.birthday.year, {'attr': {'class': 'form-control birthday'}}) }}
-            {{ form_errors(form.birthday) }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="required">Nationalité</label>
-          {{ form_widget(form.nationality, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.nationality) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Pays de résidence</label>
-          {{ form_widget(form.residential_country, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.residential_country) }}
-        </div>
-        {% if app.user.getPro() %}
-          <div class="form-group">
-            <label class="required">SIRET de l'entreprise</label>
-            {{ form_widget(form.company_code, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_code) }}
-          </div>
-          <div class="form-group">
-            <label class="required">Nom de l'entreprise</label>
-            {{ form_widget(form.company_name, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_name) }}
-          </div>
-          <div class="form-group">
-            <label class="required">Adresse de l'entreprise</label>
-            {{ form_widget(form.company_address, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_address) }}
-          </div>
-          <div class="form-group">
-            <label class="required">Code postal de l'entreprise</label>
-            {{ form_widget(form.company_zipcode, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_zipcode) }}
-          </div>
-          <div class="form-group">
-            <label class="required">Ville de l'entreprise</label>
-            {{ form_widget(form.company_city, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_city) }}
-          </div>
-        {% endif %}
+    <p>* Champs obligatoires</p>
 
-        <p>* Champs obligatoires</p>
+    <p><input type="submit" class="btn btn-primary" value="{{ 'profile.edit.submit'|trans }}" /></p>
 
-        <p><input type="submit" class="btn btn-primary" value="{{ 'profile.edit.submit'|trans }}" /></p>
-
-        {{ form_widget(form._token) }}
-      {{ form_end(form, {'render_rest': false}) }}
-    </div><!-- col -->
-  </div><!-- .row -->
+    {{ form_widget(form._token) }}
+  {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}

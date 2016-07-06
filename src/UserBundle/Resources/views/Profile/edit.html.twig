@@ -1,10 +1,10 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "UserBundle::base.html.twig" %}
 
 {% block title %}Mon compte{% endblock %}
 {% block description %}Mon compte sur Noname{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['profile']) }}{% endblock javascript_include %}
 
-{% block fos_user_content %}
+{% block account_content %}
   {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
-{% endblock fos_user_content %}
+{% endblock %}
