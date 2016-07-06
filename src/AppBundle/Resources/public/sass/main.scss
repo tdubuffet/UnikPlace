@@ -284,6 +284,7 @@ button.button span {
   z-index:9;
   min-width:99px;
   box-shadow:0 0 3px #dfdfdf;
+  margin-top: -5px;
 }
 .header-wrapper .header-right-wrapper .header-top-container .language-wrapper .switcher-wrap ul li { padding:4px 0; }
 .header-wrapper .header-right-wrapper .header-top-container .language-wrapper .switcher-wrap ul li a {
@@ -367,7 +368,7 @@ button.button span {
   padding:10px 10px;
   border-top:none;
   z-index:9;
-  margin-top:0;
+  margin-top:-5px;
   min-width:140px;
   left:auto;
   right:0;
