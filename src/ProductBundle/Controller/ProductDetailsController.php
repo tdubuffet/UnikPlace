@@ -25,10 +25,7 @@ class ProductDetailsController extends Controller
             $favorite = $this->getDoctrine()->getRepository('ProductBundle:Favorite')->findOneBy(array('user' => $this->getUser(), 'product' => $product));
         }
 
-        $qb = $this->getDoctrine()->getRepository('ProductBundle:Product')->createQueryBuilder('p');
-        $qb->where('p.id != :id')->setParameter('id', $product->getId())
-           ->andWhere('p.category = :category_id')->setParameter('category_id', $product->getCategory()->getId());
-        $similarProducts = $qb->getQuery()->getResult();
+        $similarProducts = $this->getDoctrine()->getRepository('ProductBundle:Product')->findSimilarProducts($product, 7);
 
         return ['product' => $product, 'productAttributes' => $attributes, 'isFavorite' => isset($favorite), 'similarProducts' => $similarProducts];
     }

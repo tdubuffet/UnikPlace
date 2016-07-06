@@ -10,4 +10,30 @@ namespace ProductBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findSimilarProducts($product, $limit)
+    {
+        $total = $this->countSimilarProducts($product);
+
+        $offset = rand(0, $total) - $limit;
+        if ($offset < 0) $offset = 0;
+
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->where('p.id != :id')->setParameter('id', $product->getId())
+           ->andWhere('p.category = :category_id')->setParameter('category_id', $product->getCategory()->getId())
+           ->setFirstResult($offset)
+           ->setMaxResults($limit);
+
+        $results = $qb->getQuery()->getResult();
+        if (count($results) > 0) {
+            shuffle($results);
+        }
+
+        return $results;
+    }
+
+    public function countSimilarProducts($product)
+    {
+        return count($this->findBy(['category' => $product->getCategory()])) - 1;
+    }
 }
