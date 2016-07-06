@@ -6,8 +6,8 @@ var Search = {
         Search.initSortBy();
         Search.initSortDirection();
         Search.initPagination();
-        Search.initPriceQuery();
-        Search.initPriceSearch();
+        Search.initQuery();
+        Search.initPrice();
     },
 
     initSortBy: function() {
@@ -45,24 +45,52 @@ var Search = {
     },
 
     initPagination: function() {
-        // TODO
+        $('.pagination li a').click(function(e) {
+            var page = $(this).text();
+            page = parseInt(page);
+            if (!isNaN(page)) {
+                Search.params.p = page;
+                Search.search('pagination');
+                e.preventDefault();
+            }
+        });
     },
 
 
-    initPriceQuery: function() {
+    initQuery: function() {
         $('#search_mini_form').submit(function(e) {
             Search.search();
             e.preventDefault();
         });
     },
 
-    initPriceSearch: function() {
+    initPrice: function() {
+        var price = Search.getUrlParameter('price');
+        if (price) {
+            // Reinject price values (from and to)
+            priceElems = price.split('-');
+            if (priceElems.length == 2) {
+                var from = parseInt(priceElems[0]);
+                if (!isNaN(from)) {
+                    $('.search-price-from').val(from);
+                }
+                var to = parseInt(priceElems[1]);
+                if (!isNaN(to)) {
+                    $('.search-price-to').val(to);
+                }
+            }
+        }
         $('.search-price-submit').click(function() {
             Search.search();
         });
     },
 
-    collectParams: function() {
+    collectParams: function(event) {
+        // Reset pagination if the trigger is not pagination
+        if (event != 'pagination') {
+            Search.params.p = 1;
+        }
+
         Search.params.q = $('#search').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
         Search.params.sort = $('.sort_by_value').val();
@@ -70,19 +98,35 @@ var Search = {
         window.history.pushState(Search.params, 'Recherche', Routing.generate('search')+'?'+$.param(Search.params));
     },
 
-    search: function() {
-        Search.collectParams();
+    search: function(event) {
+        Search.collectParams(event);
         $.ajax({
             url: Routing.generate('ajax_search'),
             type: 'POST',
             data: Search.params,
             success: function(result) {
                 $('.category-products-container').html(result);
+                Search.initPagination();
             },
             error: function(result) {
             }
         });
 
+    },
+
+    getUrlParameter: function(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
     }
 
 };
