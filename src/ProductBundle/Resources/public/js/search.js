@@ -117,11 +117,17 @@ var Search = {
             success: function(result) {
                 $('.category-products-container').html(result);
                 Search.initPagination();
+                Search.updateBreadcrumb();
             },
             error: function(result) {
             }
         });
 
+    },
+
+    updateBreadcrumb: function() {
+        $('h1').hide();
+        $('.breadcrumbs').hide();
     },
 
     getUrlParameter: function(sParam) {
