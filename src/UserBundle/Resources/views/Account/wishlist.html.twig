@@ -25,7 +25,12 @@
                   <li class="item first hover-effect">
                     <div class="item-inner">
                       <div class="product-action">
-                        <div class="product-new-label">Nouveau</div><div class="product-sale-label">Vendu</div>
+                        {% if date(product.getCreatedAt()) > date('-2weeks') %}
+                          <div class="product-new-label">Nouveau</div>
+                        {% endif %}
+                        {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
+                          <div class="product-sale-label">Vendu</div>
+                        {% endif %}
                         <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
                           {% set images = product.getImages() %}
                           <img class="img-responsive" src="{% if images[0] is defined %}{{ vich_uploader_asset(images[0], 'imageFile') }}{% endif %}" xx-src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" alt="{{ product.name }}" />

@@ -55,6 +55,12 @@ class CartController extends Controller
         if (!isset($product)) {
             return new JsonResponse(array('message' => 'Product not found.'), 404);
         }
+        if (empty($product->getStatus())) {
+            return new JsonResponse(array('message' => 'Product does not have any status.'), 404);
+        }
+        if ($product->getStatus() && $product->getStatus()->getName() != 'published') {
+            return new JsonResponse(array('message' => 'Product not available.'), 404);
+        }
         $session = new Session();
         $cart = $session->get('cart', array());
         if ($action == 'add' && !in_array($product->getId(), $cart)) {

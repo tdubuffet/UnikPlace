@@ -4096,7 +4096,13 @@ button.button span {
   vertical-align:top;
   float:left;
   /*width:20%;*/
+  border-left:#eeeeee solid 2px;
 }
+
+.product-view .product-shop .add-to-cart .actions .action-list:first-child {
+  border-left: none;
+}
+
 .product-view .product-shop .add-to-cart .actions .action-list .add-to-links { margin:0; }
 .product-view .product-shop .add-to-cart .actions .action-list .add-to-links li { display:block; }
 .product-view .product-shop .add-to-cart .actions .action-list .add-to-links li .link-wishlist, .product-view .product-shop .add-to-cart .actions .action-list .add-to-links li a.link-compare {
@@ -4109,7 +4115,6 @@ button.button span {
   font-size:16px;
   letter-spacing:0.1em;
   background-color:#ffffff;
-  border-left:#eeeeee solid 2px;
   padding: 0 15px;
   transition: none;
 }

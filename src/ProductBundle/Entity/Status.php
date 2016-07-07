@@ -28,6 +28,12 @@ class Status
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="label", type="string", length=255)
+     */
+    private $label;
 
     /**
      * Get id
@@ -67,4 +73,28 @@ class Status
         return $this->name;
     }
 
+
+    /**
+     * Set label
+     *
+     * @param string $label
+     *
+     * @return Status
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
 }

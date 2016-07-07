@@ -95,7 +95,14 @@
                         </div>
 
                         <div class="product-type-data">
-                          <p class="availability in-stock">Disponibilité : <span>En stock</span></p>
+                          <p class="availability in-stock">
+                            Disponibilité :
+                            {% if product.getStatus() is not empty %}
+                              <span>{{ product.getStatus().getLabel() }}</span>
+                            {% else %}
+                              <span>Indisponible</span>
+                            {% endif %}
+                          </p>
                           <div class="price-box">
                             <p class="special-price">
                               <span class="price-label">Special Price</span>
@@ -115,16 +122,19 @@
                       <div class="actions-wrapper">
                         <div class="add-to-cart">
                           <div class="actions">
-                            <div class="action-list addtocart">
-                              <button type="button" data-toggle="tooltip" data-placement="top" title="J'ajoute" class="btn-cart" data-product-id="{{ product.getId() }}">
-                                <span>
+
+                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
+                              <div class="action-list addtocart">
+                                <button type="button" data-toggle="tooltip" data-placement="top" title="J'ajoute" class="btn-cart" data-product-id="{{ product.getId() }}">
                                   <span>
-                                    <i class="fa fa-shopping-bag"></i>
-                                    J'ajoute
+                                    <span>
+                                      <i class="fa fa-shopping-bag"></i>
+                                      J'ajoute
+                                    </span>
                                   </span>
-                                </span>
-                              </button>
-                            </div>
+                                </button>
+                              </div>
+                            {% endif %}
 
                             <div class="action-list wishlist">
                               <ul class="add-to-links">
@@ -206,7 +216,12 @@
                   <li class="item hover-effect">
                     <div class="item-inner">
                       <div class="product-action">
-                        <div class="product-new-label">Nouveau</div><div class="product-sale-label">Vendu</div>
+                        {% if date(product.getCreatedAt()) > date('-2weeks') %}
+                          <div class="product-new-label">Nouveau</div>
+                        {% endif %}
+                        {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
+                          <div class="product-sale-label">Vendu</div>
+                        {% endif %}
                         <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
                           {% set images = product.getImages() %}
                           <img class="img-responsive" src="{% if images[0] is defined %}{{ vich_uploader_asset(images[0], 'imageFile') }}{% endif %}" xx-src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" alt="{{ product.name }}" />
