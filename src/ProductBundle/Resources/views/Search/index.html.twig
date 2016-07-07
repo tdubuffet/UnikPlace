@@ -49,6 +49,10 @@
       </div>
 
       <div class="row show-grid">
+        <input id="search-category" type="text" value="{% if category is defined %}{{ category.getId() }}{% elseif app.request.get('cat') is defined %}{{ app.request.get('cat') }}{% endif %}" />
+      </div>
+
+      <div class="row show-grid">
         <div class="col-lg-3 sidebar">
           <div class="col-left">
 

@@ -8,20 +8,21 @@ var Search = {
         Search.initSortBy();
         Search.initSortDirection();
         Search.initPagination();
-        Search.initQuery();
-        Search.initCategory();
+        Search.setCategory();
         Search.initialized = true;
     },
 
     loadFilters: function() {
         var categoryId = Search.getUrlParameter('cat');
         var data = {};
-        if (categoryId) {
-            categoryId = parseInt(categoryId);
-            if (!isNaN(categoryId)) {
-                data = {category_id: categoryId};
-            }
+        if (!categoryId) {
+            categoryId = $('#search-category').val();
         }
+        categoryId = parseInt(categoryId);
+        if (!isNaN(categoryId)) {
+            data = {category_id: categoryId};
+        }
+
         $.ajax({
             url: Routing.generate('ajax_search_attribute_filters'),
             type: 'POST',
@@ -38,6 +39,9 @@ var Search = {
                 $('#attribute-search-filter-color div').click(function() {
                     $('#attribute-search-filter-color div').removeClass('active');
                     $(this).addClass('active');
+                    Search.search();
+                });
+                $('input.attribute-search-filter').keyup(function() {
                     Search.search();
                 });
             },
@@ -102,15 +106,7 @@ var Search = {
         });
     },
 
-
-    initQuery: function() {
-        $('#search_mini_form').submit(function(e) {
-            Search.search();
-            e.preventDefault();
-        });
-    },
-
-    initCategory: function() {
+    setCategory: function() {
         // Event on category select is handled in Common
         // Just inject the right category
         var categoryId = Search.getUrlParameter('cat');
@@ -153,7 +149,7 @@ var Search = {
         }
 
         Search.params.q = $('#search').val();
-        Search.params.cat = $('.search-category').val();
+        Search.params.cat = $('#search-category').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
 
         // Product attributes filters
@@ -164,6 +160,9 @@ var Search = {
         });
         $('#attribute-search-filter-color div.active').each(function( index ) {
             Search.params[$(this).parent().data('key')] = $(this).data('color');
+        });
+        $('input.attribute-search-filter').each(function( index ) {
+            Search.params[$(this).data('key')] = $(this).val();
         });
 
         Search.params.sort = $('.sort_by_value').val();
