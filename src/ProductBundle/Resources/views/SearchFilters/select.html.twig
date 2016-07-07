@@ -3,7 +3,7 @@
   <dd>
     <ol>
       <li>
-        <select>
+        <select class="attribute-search-filter" data-key="{{ id }}" id="attribute-search-filter-{{ id }}">
           <option value="">Indifférent</option>
           {% for value in referentialValues %}
           <option value="{{ value.getId() }}">{{ value.getValue() }}</option>

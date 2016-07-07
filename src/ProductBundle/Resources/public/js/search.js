@@ -27,10 +27,14 @@ var Search = {
             type: 'POST',
             data: data,
             success: function(result) {
+                // Update filter div
                 $('.sidebar .block-layered-nav .block-content').html(result);
                 Search.initPrice();
-                // TODO Update filter div
                 // TODO reinject values
+                // Bind events on these filters
+                $('select.attribute-search-filter').change(function() {
+                    Search.search();
+                });
             },
             error: function(result) {
             }
@@ -146,6 +150,14 @@ var Search = {
         Search.params.q = $('#search').val();
         Search.params.cat = $('.search-category').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
+
+        // Product attributes filters
+        $('select.attribute-search-filter').each(function( index ) {
+            if ($(this).val() != '') {
+                Search.params[$(this).data('key')] = $(this).val();
+            }
+        });
+
         Search.params.sort = $('.sort_by_value').val();
         Search.params.ord = $('.ord_value').val();
         window.history.pushState(Search.params, 'Recherche', Routing.generate('search')+'?'+$.param(Search.params));

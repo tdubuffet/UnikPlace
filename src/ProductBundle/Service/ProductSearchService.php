@@ -98,20 +98,21 @@ class ProductSearchService
      */
     public function getHtmlFilters($category = null)
     {
-        $filters = ['price' => ['template' => 'price']];
+        $filters = ['price' => ['template' => 'price']]; // Price filter is always displayed
         if ($category) {
             $attributes = $category->getAttributes();
-        }
-        $html = '';
-        foreach ($attributes as $attribute) {
-            $template = $attribute->getAttributeTemplate();
-            $filters[$attribute->getCode()] = ['template' => $template->getName(),
-                                               'viewVars' => ['label' => $attribute->getName()]];
-            $referential = $attribute->getReferential();
-            if (isset($referential)) {
-                $filters[$attribute->getCode()]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+            foreach ($attributes as $attribute) {
+                $template = $attribute->getAttributeTemplate();
+                $filters[$attribute->getCode()] = ['template' => $template->getName(),
+                                                   'viewVars' => ['label' => $attribute->getName(),
+                                                                  'id' => $attribute->getCode()]];
+                $referential = $attribute->getReferential();
+                if (isset($referential)) {
+                    $filters[$attribute->getCode()]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+                }
             }
         }
+        $html = '';
         foreach ($filters as $filter) {
             $html .= $this->twig->render('ProductBundle:SearchFilters:'.$filter['template'].'.html.twig',
                                          isset($filter['viewVars']) ? $filter['viewVars'] : []);
