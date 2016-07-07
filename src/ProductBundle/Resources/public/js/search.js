@@ -44,6 +44,9 @@ var Search = {
                 $('input.attribute-search-filter').keyup(function() {
                     Search.search();
                 });
+                $(".attribute-search-filter label input[type='checkbox']").change(function() {
+                    Search.search();
+                });
             },
             error: function(result) {
             }
@@ -153,17 +156,39 @@ var Search = {
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
 
         // Product attributes filters
+        // select
         $('select.attribute-search-filter').each(function( index ) {
             if ($(this).val() != '') {
                 Search.params[$(this).data('key')] = $(this).val();
             }
         });
+        // color
         $('#attribute-search-filter-color div.active').each(function( index ) {
             Search.params[$(this).parent().data('key')] = $(this).data('color');
         });
+        // input text and number
         $('input.attribute-search-filter').each(function( index ) {
             Search.params[$(this).data('key')] = $(this).val();
         });
+        // multiselect
+        var multiselects = [];
+        $('.attribute-search-filter-multiselect').each(function(index) {
+            multiselects.push($(this).data('key'));
+        });
+        $(multiselects).each(function(index, key) {
+            delete Search.params[key];
+            $("#attribute-search-filter-"+key+" label input[type='checkbox']").each(function( index ) {
+                if (($(this).is(':checked'))) {
+                    if (!Search.params[key]) {
+                        Search.params[key] = $(this).val();
+                    }
+                    else {
+                        Search.params[key] += ','+$(this).val();
+                    }
+                }
+            });
+        });
+        // End of product attributes filters
 
         Search.params.sort = $('.sort_by_value').val();
         Search.params.ord = $('.ord_value').val();

@@ -1,0 +1,14 @@
+<dl>
+  <dt>{{ label }}</dt>
+  <dd>
+    <ol>
+      <li>
+        <div class="attribute-search-filter attribute-search-filter-multiselect" data-key="{{ id }}" id="attribute-search-filter-{{ id }}">
+          {% for value in referentialValues %}
+          <label><input type="checkbox" value="{{ value.getId() }}"> {{ value.getValue() }}</label><br />
+          {% endfor %}
+        </div>
+      </li>
+    </ol>
+  </dd>
+</dl>
