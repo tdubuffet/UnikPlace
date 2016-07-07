@@ -7438,3 +7438,13 @@ body { background-color:rgba(0,0,0,0); }
 /* Item grid: 8 columns */
 .products-itemgrid-8col .item { width:9.4396%; }
 .products-itemgrid-8col .item:nth-child(8n+1) { clear:left; }
+
+.attribute-search-filter-color-block {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  display: inline-block;
+}
+.attribute-search-filter-color-block.active {
+  border: 3px solid black;
+}

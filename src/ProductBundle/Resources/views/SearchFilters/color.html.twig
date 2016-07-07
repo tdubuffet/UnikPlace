@@ -1,0 +1,13 @@
+<dl>
+  <dt>{{ label }}</dt>
+  <dd>
+    <ol>
+      <li>
+        <div class="attribute-search-filter" data-key="{{ id }}" id="attribute-search-filter-{{ id }}">
+        {% for value in referentialValues %}
+        <div data-color="{{ value.getId() }}" class="attribute-search-filter-color-block" style="background-color: {{ value.getValue() }};"></div>
+        {% endfor %}
+      </li>
+    </ol>
+  </dd>
+</dl>

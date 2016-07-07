@@ -35,6 +35,11 @@ var Search = {
                 $('select.attribute-search-filter').change(function() {
                     Search.search();
                 });
+                $('#attribute-search-filter-color div').click(function() {
+                    $('#attribute-search-filter-color div').removeClass('active');
+                    $(this).addClass('active');
+                    Search.search();
+                });
             },
             error: function(result) {
             }
@@ -156,6 +161,9 @@ var Search = {
             if ($(this).val() != '') {
                 Search.params[$(this).data('key')] = $(this).val();
             }
+        });
+        $('#attribute-search-filter-color div.active').each(function( index ) {
+            Search.params[$(this).parent().data('key')] = $(this).data('color');
         });
 
         Search.params.sort = $('.sort_by_value').val();
