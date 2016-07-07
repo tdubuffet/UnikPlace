@@ -10,10 +10,18 @@ class LoadStatusData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $availableStatus = ['awaiting', 'published', 'deleted', 'expired'];
-        foreach ($availableStatus as $statusName) {
+        $availableStatus = [
+            ['name' => 'awaiting',    'label' => 'En modération'],
+            ['name' => 'published',   'label' => 'Publié'],
+            ['name' => 'deleted',     'label' => 'Supprimé'],
+            ['name' => 'expired',     'label' => 'Expiré'],
+            ['name' => 'sold',        'label' => 'Vendu'],
+            ['name' => 'unavailable', 'label' => 'Non disponible à la vente']];
+
+        foreach ($availableStatus as $statusInfos) {
             $status = new Status();
-            $status->setName($statusName);
+            $status->setName($statusInfos['name']);
+            $status->setLabel($statusInfos['label']);
             $manager->persist($status);
         }
         $manager->flush();
