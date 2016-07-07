@@ -4,6 +4,7 @@ namespace ProductBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use ProductBundle\Entity\ReferentialValue;
 
 class ProductAttributeService
 {

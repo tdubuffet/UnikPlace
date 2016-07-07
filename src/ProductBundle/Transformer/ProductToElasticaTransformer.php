@@ -10,6 +10,8 @@ namespace ProductBundle\Transformer;
 
 use Elastica\Document;
 use FOS\ElasticaBundle\Transformer\ModelToElasticaTransformerInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use ProductBundle\Entity\ReferentialValue;
 
 class ProductToElasticaTransformer implements ModelToElasticaTransformerInterface
 {
@@ -34,7 +36,37 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
             'updated_at' => $product->getUpdatedAt()->getTimestamp(),
         ));
 
-        return $document;
+        // Import product attributes
+        $this->setAttributes($document, $product);
 
+        return $document;
     }
+
+    private function setAttributes($document, $product)
+    {
+        $valueTypes = ['text', 'integer', 'float', 'datetime', 'date', 'referential', 'boolean'];
+        $accessor = PropertyAccess::createPropertyAccessor();
+
+        $attributesValues = $product->getAttributeValues();
+        foreach ($attributesValues as $attributeValue) {
+            $attribute = $attributeValue->getAttribute();
+            foreach ($valueTypes as $valueType) {
+                $value = $accessor->getValue($attributeValue, $valueType.'_value');
+                if (!is_null($value)) {
+                    if ($value instanceof ReferentialValue) {
+                        $value = $value->getId();
+                    }
+                    // Cast to the right type
+                    $type = $attribute->getAttributeType()->getName();
+                    if (isset($type) && in_array($type, ['string', 'boolean', 'integer', 'float'])) {
+                        settype($value, $type);
+                    }
+                    if (!$document->has($attribute->getCode())) {
+                        $document->set($attribute->getCode(), $value);
+                    }
+                }
+            }
+        }
+    }
+
 }
