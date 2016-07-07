@@ -54,10 +54,11 @@ class ProductSearchService
         $currentPage = isset($params['p']) ? $params['p'] : 1;
 
         // Build search query
-        $boolQuery = new \Elastica\Query\Bool();
+        $boolQuery = new \Elastica\Query\BoolQuery();
         $this->applyQuery($boolQuery, $params);
         $this->applyCategory($boolQuery, $params);
         $this->applyPrice($boolQuery, $params);
+        $this->applyAttributes($boolQuery, $params);
 
         $query = new \Elastica\Query($boolQuery);
         $this->applySortAndOrder($query, $params);
@@ -165,6 +166,28 @@ class ProductSearchService
                 $rangeFilter->addField('price', $range);
                 $boolQuery->addMust($rangeFilter);
             }
+        }
+    }
+
+    private function applyAttributes($boolQuery, $params)
+    {
+        // We need to fetch all product attributes
+        $attributes = $this->em->getRepository('ProductBundle:Attribute')->findAll();
+        $attributeParams = [];
+        foreach ($attributes as $attribute) {
+            if (isset($params[$attribute->getCode()])) {
+                $value = $params[$attribute->getCode()];
+                $values = array_filter(explode(',', $value)); // Support multi selection on the same attribute
+                if (!empty($values)) {
+                    $attributeParams[$attribute->getCode()] = $values;
+                }
+            }
+        }
+        foreach ($attributeParams as $key => $values) {
+            $queryString = new \Elastica\Query\QueryString();
+            $queryString->setDefaultField($key);
+            $queryString->setQuery(implode(' OR ', $values));
+            $boolQuery->addMust($queryString);
         }
     }
 
