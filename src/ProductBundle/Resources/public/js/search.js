@@ -31,7 +31,8 @@ var Search = {
                 // Update filter div
                 $('.sidebar .block-layered-nav .block-content').html(result);
                 Search.initPrice();
-                // TODO reinject values
+                // Reinject values
+                Search.reinjectValuesInFilters();
                 // Bind events on these filters
                 $('select.attribute-search-filter').change(function() {
                     Search.search();
@@ -53,6 +54,37 @@ var Search = {
                 });
             },
             error: function(result) {
+            }
+        });
+    },
+
+    reinjectValuesInFilters: function() {
+        $('.attribute-search-filter').each(function() {
+            var key = $(this).data('key');
+            var value = Search.getUrlParameter(key);
+            if (key && value) {
+                // Inputs and select
+                if ($(this).prop('tagName').toLowerCase() == 'input' || 
+                    $(this).prop('tagName').toLowerCase() == 'select') {
+                    $(this).val(value);
+                }
+                // Multiselect and colors
+                else if ($(this).prop('tagName').toLowerCase() == 'div') {
+                    if ($(this).hasClass('attribute-search-filter-multiselect')) {
+                        var values = value.split(',');
+                        var element = $(this);
+                        $(values).each(function(index, value) {
+                            element.find('input[value="'+value+'"]').prop('checked', true);
+                        });
+                    }
+                    else if ($(this).hasClass('attribute-search-filter-color')) {
+                        var values = value.split(',');
+                        var element = $(this);
+                        $(values).each(function(index, value) {
+                            element.find(".attribute-search-filter-color-block[data-color='"+value+"']").addClass('active');
+                        });
+                    }
+                }
             }
         });
     },
