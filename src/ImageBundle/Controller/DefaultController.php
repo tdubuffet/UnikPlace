@@ -25,7 +25,7 @@ class DefaultController extends Controller
         $originalFile = 'images/products/'.$dir.'/'.$filename.'.jpg';
         try {
             $image = $manager->make($originalFile);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new NotFoundHttpException('Image Not Found');
         }
 
