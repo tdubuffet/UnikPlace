@@ -48,25 +48,26 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
         $accessor = PropertyAccess::createPropertyAccessor();
 
         $attributesValues = $product->getAttributeValues();
-        foreach ($attributesValues as $attributeValue) {
-            $attribute = $attributeValue->getAttribute();
-            foreach ($valueTypes as $valueType) {
-                $value = $accessor->getValue($attributeValue, $valueType.'_value');
-                if (!is_null($value)) {
-                    if ($value instanceof ReferentialValue) {
-                        $value = $value->getId();
-                    }
-                    // Cast to the right type
-                    $type = $attribute->getAttributeType()->getName();
-                    if (isset($type) && in_array($type, ['string', 'boolean', 'integer', 'float'])) {
-                        settype($value, $type);
-                    }
-                    if (!$document->has($attribute->getCode())) {
-                        $document->set($attribute->getCode(), $value);
+        if (isset($attributesValues)) {
+            foreach ($attributesValues as $attributeValue) {
+                $attribute = $attributeValue->getAttribute();
+                foreach ($valueTypes as $valueType) {
+                    $value = $accessor->getValue($attributeValue, $valueType.'_value');
+                    if (!is_null($value)) {
+                        if ($value instanceof ReferentialValue) {
+                            $value = $value->getId();
+                        }
+                        // Cast to the right type
+                        $type = $attribute->getAttributeType()->getName();
+                        if (isset($type) && in_array($type, ['string', 'boolean', 'integer', 'float'])) {
+                            settype($value, $type);
+                        }
+                        if (!$document->has($attribute->getCode())) {
+                            $document->set($attribute->getCode(), $value);
+                        }
                     }
                 }
             }
         }
     }
-
 }
