@@ -22,7 +22,7 @@ var Product = {
             e.preventDefault();
 
             var zoomImg = $('#image-main'),
-                src = $(this).find('> img').prop('src');
+                src = $(this).find('> img').data('src');
 
             $('.zoomContainer').remove();
             zoomImg.removeData('elevateZoom');

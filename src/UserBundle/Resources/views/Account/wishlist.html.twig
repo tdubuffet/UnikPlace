@@ -33,7 +33,7 @@
                         {% endif %}
                         <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
                           {% set images = product.getImages() %}
-                          <img class="img-responsive" src="{% if images[0] is defined %}{{ vich_uploader_asset(images[0], 'imageFile') }}{% endif %}" xx-src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" alt="{{ product.name }}" />
+                          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}" xx-src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" alt="{{ product.name }}" />
                         </a>
                       </div>
                       <div class="product-content">
