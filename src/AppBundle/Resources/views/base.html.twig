@@ -99,15 +99,11 @@
                     <div class="header-type">
                       <div class="header-maincart">
                         <div class="cart-container">
-                          <a href="javascript:void(0)" title="Mon Panier" class="icon-cart-header skip-link" data-target-element="#navbar-cart">
-                            <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb">0</span></span>
+                          <a href="{{ path('cart') }}" title="Mon Panier" class="icon-cart-header skip-link">
+                            <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb">{{ app.session.get('cart')|length }}</span></span>
                           </a>
-                          <div id="navbar-cart" class="cart-wrapper skip-content">
-                            <div class="cart-content">
-                              <p class="no-items-in-cart">Vous n'avez pas de produits dans votre panier.</p>
-                            </div>
-                          </div>
-                      </div>                                    </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="header-setting">
                       <div class="setting-switcher switcher-wrap">
@@ -243,15 +239,11 @@
                         </div>
                         <div class="header-maincart">
                           <div class="cart-container">
-                            <a href="{{ path('cart') }}" title="Mon Panier" class="icon-cart-header skip-link" data-target-element="#navbar-cart">
-                              <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb">0</span></span>
+                            <a href="{{ path('cart') }}" title="Mon Panier" class="icon-cart-header skip-link">
+                              <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb main-numb">{{ app.session.get('cart')|length }}</span></span>
                             </a>
-                            <div id="navbar-cart" class="cart-wrapper skip-content">
-                              <div class="cart-content">
-                                <p class="no-items-in-cart">Vous n'avez pas de produits dans votre panier.</p>
-                              </div>
-                            </div>
-                        </div>                                        </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

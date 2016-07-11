@@ -177,6 +177,9 @@ button.button span {
   text-transform:uppercase;
   background-color:#414141;
 }
+.popup-wrapper {
+  display: none;
+}
 .popup-wrapper .loading {
   background:url("http://elara.icotheme.com/skin/frontend/elara/default/images/loading.gif") no-repeat scroll center center #ffffff;
   border-radius:3px;
@@ -208,21 +211,16 @@ button.button span {
   margin-right:10px;
 }
 .popup-wrapper .content-wrapper .product-detail .product-name {
-  padding-bottom:20px;
+  margin-bottom: 12px;
   display:block;
   font-weight:400;
-  font-size:15px;
+  font-size:14px;
 }
 .popup-wrapper .content-wrapper .product-detail .product-name span {
   color:#383838;
   font-weight:600;
 }
-.popup-wrapper .content-wrapper .product-detail .btn-continue span { padding:0 4px; }
-.popup-wrapper .content-wrapper .product-detail .btn-continue span.count {
-  padding:0;
-  float:right;
-  width:25px;
-}
+.popup-wrapper .content-wrapper .product-detail .actions .btn { margin: 5px 0; }
 .tooltip.left .tooltip-arrow {
   top:50%;
   right:0;
@@ -4127,7 +4125,7 @@ button.button span {
   text-align:center;
   padding: 0 15px;
 }
-.product-view .product-shop .add-to-cart .actions .action-list .btn-cart span {
+.product-view .product-shop .add-to-cart .actions .action-list .btn-cart .btn-cart-lbl {
   height:40px;
   line-height:40px;
   display:block;
@@ -4138,11 +4136,18 @@ button.button span {
   text-align:left;
   text-transform:uppercase;
 }
-.product-view .product-shop .add-to-cart .actions .action-list .btn-cart span div {
+.product-view .product-shop .add-to-cart .actions .action-list .btn-cart .btn-cart-lbl div {
   float:left;
   padding-left:10px;
   padding-right:10px;
   font-size:16px;
+}
+.product-view .product-shop .add-to-cart .actions .action-list .btn-cart.is-added {
+  background: pink;
+  cursor: default;
+}
+.product-view .add-to-cart button.btn-cart.is-added:hover span {
+  color: #181818 !important;
 }
 .product-view .product-shop .add-to-cart .actions .action-list.addtocart { /*width:60%;*/ }
 .product-view .product-shop .add-to-box {

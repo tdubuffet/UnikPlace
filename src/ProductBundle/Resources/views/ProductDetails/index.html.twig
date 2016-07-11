@@ -122,15 +122,12 @@
                       <div class="actions-wrapper">
                         <div class="add-to-cart">
                           <div class="actions">
-
                             {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
                               <div class="action-list addtocart">
-                                <button type="button" data-toggle="tooltip" data-placement="top" title="J'ajoute" class="btn-cart" data-product-id="{{ product.getId() }}">
-                                  <span>
-                                    <span>
-                                      <i class="fa fa-shopping-bag"></i>
-                                      J'ajoute
-                                    </span>
+                                <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}J'ajoute{% endif %}" class="btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
+                                  <span class="btn-cart-lbl">
+                                    <i class="fa fa-shopping-bag"></i>
+                                    <span class="btn-cart-txt">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}J'ajoute{% endif %}</span>
                                   </span>
                                 </button>
                               </div>
@@ -263,4 +260,19 @@
 
   </div><!-- .main-wrapper -->
 </section>
+
+<div class="popup-wrapper">
+  <div class="content-wrapper">
+    <div class="product-detail">
+      {% set images = product.getImages() %}
+      <img src="{% if images[0] is defined %}{{ loadpic(images[0], 135, 135) }}{% endif %}" width="135" height="135" alt="" />
+      <span class="product-name">Le produit "<span>{{ product.name }}</span>" a été ajouté au panier.</span>
+      <div class="actions">
+        <a class="btn btn-primary" href="{{ path('cart') }}">Voir mon panier</a>
+        <button class="btn btn-primary btn-continue" title="Continuer le shopping">Continuer</button>
+      </div>
+    </div>
+  </div>
+  <div class="loading"></div>
+</div>
 {% endblock %}

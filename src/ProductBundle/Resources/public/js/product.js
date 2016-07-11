@@ -121,21 +121,42 @@ var Product = {
 
     initCartButton: function() {
         $('.btn-cart').click(function() {
-            var product_id = $(this).data('product-id');
-            $.ajax({
-                url: Routing.generate('product_cart'),
-                type: 'POST',
-                data: {product_id: product_id, action: 'add'},
-                success: function(result) {
-                    // Change btn
-                    // Show modal
-                },
-                error: function(result) {
-                    if (result.status == 401) {
-                        window.location.href = Routing.generate('fos_user_security_login');
+            if (!$(this).hasClass('is-added')) {
+                var product_id = $(this).data('product-id');
+                var loading = $('.popup-wrapper .loading');
+                $.ajax({
+                    url: Routing.generate('product_cart'),
+                    type: 'POST',
+                    data: {product_id: product_id, action: 'add'},
+                    beforeSend: function() {
+                        loading.show();
+                    },
+                    complete: function() {
+                        loading.fadeOut('fast');
+                    },
+                    success: function(result) {
+                        // Update add button
+                        $('.btn-cart-txt').text("Dans votre panier");
+                        $('.btn-cart').prop('title', "Ce produit est dans votre panier").addClass('is-added');
+
+                        // Update header cart link
+                        $('.icon-cart-header span.total strong').animate({fontSize: '20px'}, 'fast').animate({fontSize: '16px'}, 'fast');
+                        var total = parseInt($('.header-maincart .total .numb:first').text()) + 1;
+                        $('.header-maincart .total .numb').text(total);
+
+                        $('.popup-wrapper').show();
+                    },
+                    error: function(result) {
+                        if (result.status == 401) {
+                            window.location.href = Routing.generate('fos_user_security_login');
+                        }
                     }
-                }
-            });
+                });
+            }
+        });
+
+        $('.btn-continue').click(function() {
+            $(this).closest('.popup-wrapper').fadeOut();
         });
     }
 
