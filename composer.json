@@ -16,6 +16,12 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "url": "https://github.com/ownede/FOSMessageBundle.git",
+            "type": "git"
+        }
+    ],
     "require": {
         "php": ">=5.5.9",
         "symfony/symfony": "3.1.*",
@@ -36,7 +42,8 @@
         "friendsofsymfony/elastica-bundle": "dev-master",
         "vich/uploader-bundle": "^1.1",
         "intervention/image": "^2.3",
-        "friendsofsymfony/jsrouting-bundle": "^1.6"
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "friendsofsymfony/message-bundle": "dev-symfony3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

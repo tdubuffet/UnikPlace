@@ -27,7 +27,7 @@ class AppKernel extends Kernel
             new Vich\UploaderBundle\VichUploaderBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
-
+            new FOS\MessageBundle\FOSMessageBundle(),
 
             // Private bundles
             new AppBundle\AppBundle(),
@@ -35,6 +35,7 @@ class AppKernel extends Kernel
             new AdminBundle\AdminBundle(),
             new ProductBundle\ProductBundle(),
             new ImageBundle\ImageBundle(),
+            new MessageBundle\MessageBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
