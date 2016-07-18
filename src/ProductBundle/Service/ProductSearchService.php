@@ -103,7 +103,7 @@ class ProductSearchService
         if ($category) {
             $attributes = $category->getAttributes();
             foreach ($attributes as $attribute) {
-                $template = $attribute->getAttributeTemplate();
+                $template = $attribute->getAttributeSearchTemplate();
                 $filters[$attribute->getCode()] = ['template' => $template->getName(),
                                                    'viewVars' => ['label' => $attribute->getName(),
                                                                   'id' => $attribute->getCode()]];

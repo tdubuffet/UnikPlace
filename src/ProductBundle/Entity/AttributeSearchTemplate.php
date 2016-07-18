@@ -5,12 +5,12 @@ namespace ProductBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AttributeTemplate
+ * AttributeSearchTemplate
  *
- * @ORM\Table(name="attribute_template")
- * @ORM\Entity(repositoryClass="ProductBundle\Repository\AttributeTemplateRepository")
+ * @ORM\Table(name="attribute_search_template")
+ * @ORM\Entity(repositoryClass="ProductBundle\Repository\AttributeSearchTemplateRepository")
  */
-class AttributeTemplate
+class AttributeSearchTemplate
 {
     /**
      * @var int
@@ -44,7 +44,7 @@ class AttributeTemplate
      *
      * @param string $name
      *
-     * @return AttributeTemplate
+     * @return AttributeSearchTemplate
      */
     public function setName($name)
     {

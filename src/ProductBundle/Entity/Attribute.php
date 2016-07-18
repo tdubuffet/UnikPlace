@@ -54,10 +54,10 @@ class Attribute
     private $referential;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AttributeTemplate")
-     * @ORM\JoinColumn(name="attribute_template_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AttributeSearchTemplate")
+     * @ORM\JoinColumn(name="attribute_search_template_id", referencedColumnName="id")
      */
-    private $attributeTemplate;
+    private $attributeSearchTemplate;
 
     public function __construct() {
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
@@ -233,26 +233,26 @@ class Attribute
     }
 
     /**
-     * Set attributeTemplate
+     * Set attributeSearchTemplate
      *
-     * @param \ProductBundle\Entity\AttributeTemplate $attributeTemplate
+     * @param \ProductBundle\Entity\AttributeSearchTemplate $attributeSearchTemplate
      *
      * @return Attribute
      */
-    public function setAttributeTemplate(\ProductBundle\Entity\AttributeTemplate $attributeTemplate = null)
+    public function setAttributeSearchTemplate(\ProductBundle\Entity\AttributeSearchTemplate $attributeSearchTemplate = null)
     {
-        $this->attributeTemplate = $attributeTemplate;
+        $this->attributeSearchTemplate = $attributeSearchTemplate;
 
         return $this;
     }
 
     /**
-     * Get attributeTemplate
+     * Get attributeSearchTemplate
      *
-     * @return \ProductBundle\Entity\AttributeTemplate
+     * @return \ProductBundle\Entity\AttributeSearchTemplate
      */
-    public function getAttributeTemplate()
+    public function getAttributeSearchTemplate()
     {
-        return $this->attributeTemplate;
+        return $this->attributeSearchTemplate;
     }
 }
