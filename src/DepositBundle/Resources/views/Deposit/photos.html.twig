@@ -1,0 +1,85 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
+{% block javascript_include %}{{ jsinit(['deposit']) }}{% endblock javascript_include %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main deposit">
+
+      <div class="deposit-steps row">
+        <div class="col-sm-3">
+          <div class="deposit-step active">Photos</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Description</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Prix</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Livraison</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="main-photo">
+            <div class="deposit-title">Ajout de la photo principale*</div>
+            <p>Cette photographie sera retravaillée par nos équipes sur un fond blanc.<br />La mise en valeur de votre produit aide à la vente des produits.</p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="photo-tips">
+            <div class="deposit-title text-center">Astuce pour la photo principale</div>
+            <ul class="photo-tips-list">
+              <li>Prenez une photo de votre produit sur un fond uni</li>
+              <li>Prenez le produit de face et en entier</li>
+              <li>Ajoutez une photo sans filtre</li>
+              <li>N'utilisez pas les photos d'autres auteurs</li>
+              <li>Ne prenez qu'un produit en photo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="deposit-title text-center">Ajout d'autres photos</div>
+      <p>Pour donner une idée précise de l'état de votre produit à vos potentiels acheteurs, ajoutez davantage de photos. Prenez votre article de dos, de face, de côté, zoomer sur les détails ou bien les défauts. Un article accompagné de plusieurs photos augmente vos chances de vente.</p>
+
+      <div class="other-photos">
+        <div class="row">
+          <div class="col-sm-6 col-md-3">
+            <div class="other-photo">
+              <p>Arrière de l'article</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="other-photo">
+              <p>Article de face</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="other-photo">
+              <p>Détails de l'article</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="other-photo">
+              <p>Défauts de l'article</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="{{ path('sell_description') }}" class="btn btn-default">Etape suivante</a>
+      </div>
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

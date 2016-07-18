@@ -1,0 +1,114 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
+{% block javascript_include %}{{ jsinit(['deposit']) }}{% endblock javascript_include %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <div class="deposit-steps row">
+        <div class="col-sm-3">
+          <div class="deposit-step">Photos</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step active">Description</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Prix</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Livraison</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 col-center-block">
+          <form>
+            <div class="form-group">
+              <label class="required">Titre</label>
+              <input type="text" class="form-control" placeholder="Rédiger le titre de votre produit">
+            </div>
+            <div class="form-group">
+              <label class="required">Description</label>
+              <textarea class="form-control" rows="3" placeholder="Expliquer l'histoire de votre produit, son état, pourquoi vous vous en séparez ?"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="required">Marque</label>
+              <input type="text" class="form-control" placeholder="Recherchez votre marque">
+            </div>
+            <div class="form-group">
+              <label class="required">Designer</label>
+              <input type="text" class="form-control" placeholder="Recherchez votre designer">
+            </div>
+            <div class="form-group">
+              <label class="required">Couleur</label>
+              <div class="row">
+                <div class="col-sm-1">
+                  <img src="http://placehold.it/50x50" alt="couleur" />
+                </div>
+                <div class="col-sm-1">
+                  <img src="http://placehold.it/50x50" alt="couleur" />
+                </div>
+                <div class="col-sm-1">
+                  <img src="http://placehold.it/50x50" alt="couleur" />
+                </div>
+                <div class="col-sm-1">
+                  <img src="http://placehold.it/50x50" alt="couleur" />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="required">Dimensions en cm</label>
+              <div class="row">
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" placeholder="Longueur">
+                </div>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" placeholder="Largeur">
+                </div>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" placeholder="Hauteur">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-6">
+                  <label>Epoque</label>
+                  <select class="form-control">
+                    <option>Année de votre produit</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <label class="required">Etat</label>
+                  <select class="form-control">
+                    <option>Etat de votre produit</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div><!-- col -->
+      </div><!-- .row -->
+
+      <div class="text-center">
+        <a href="{{ path('sell_price') }}" class="btn btn-default">Etape suivante</a>
+      </div>
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

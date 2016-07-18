@@ -1,0 +1,57 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
+{% block javascript_include %}{{ jsinit(['deposit']) }}{% endblock javascript_include %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main deposit">
+
+      <!--<p>
+        <img src="{{ asset('images/category-choice.jpg')}}" alt="Choix de la catégorie">
+      </p>-->
+
+      <div class="row">
+        <div class="col-sm-8 col-center-block">
+
+          {% for flash_message in app.session.flashBag.get('error') %}
+            <div class="alert alert-danger">
+              {{ flash_message }}
+            </div>
+          {% endfor %}
+
+          <form method="post" action="{{ path('deposit_postcategory') }}" id="category-form">
+
+            <div class="category-choices">
+              <div class="row">
+                {% for category in categories %}
+                  <div class="col-sm-4">
+                    <label class="category-choice">
+                      <div>{{ category.name }}</div>
+                      <input data-id="{{ category.id }}" name="main_categ" type="radio">
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
+              <label id="main-categ-error" class="error">Veuillez sélectionner une catégorie.</label>
+            </div>
+
+            <select id="subcategories-select" name="category_id" style="width: 100%"></select>
+
+            <div class="text-center">
+              <input type="submit" class="btn btn-default" value="Etape suivante" />
+            </div>
+
+          </form>
+
+        </div><!-- col -->
+      </div><!-- .row -->
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

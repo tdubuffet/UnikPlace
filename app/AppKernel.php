@@ -40,6 +40,7 @@ class AppKernel extends Kernel
             new LocationBundle\LocationBundle(),
             new CartBundle\CartBundle(),
             new OrderBundle\OrderBundle(),
+            new DepositBundle\DepositBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

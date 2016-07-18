@@ -1,0 +1,67 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <div class="deposit-steps row">
+        <div class="col-sm-3">
+          <div class="deposit-step">Photos</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Description</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step active">Prix</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Livraison</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 col-center-block">
+          <form>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="required">Prix de vente</label>
+                  <input type="text" class="form-control" placeholder="Prix de vente sur le site">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Prix du produit neuf</label>
+                  <input type="text" class="form-control" placeholder="Indiquez le prix d'achat">
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <label>Montant reversé une fois votre produit vendu <i class="fa fa-info-circle"></i></label>
+              <div class="valued-amount">0,00 €</div>
+
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> J'accepte la négociation du prix de l'article
+                </label>
+              </div>
+            </div>
+
+          </form>
+        </div><!-- col -->
+      </div><!-- .row -->
+
+      <div class="text-center">
+        <a href="{{ path('sell_shipping') }}" class="btn btn-default">Etape suivante</a>
+      </div>
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

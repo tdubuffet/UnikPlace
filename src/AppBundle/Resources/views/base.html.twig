@@ -262,7 +262,6 @@
           </div>
           <div id="top-nav-wrapper" class="top-nav-wrapper hidden-xs">
             <div class="container">
-              <!-- navigation BOF -->
               <div class="navigation-wrapper hidden-xs">
                 <div class="main-navigation">
                   <ul class="top-navigation">
@@ -272,16 +271,14 @@
                     </li>
                     {{ render(controller('AppBundle:Default:categories')) }}
                     <li class="level0 nav-end level-top">
-                      <a href="totheblog"
-                         class="level-top">
-                        <span>Blog</span>
-                      </a>
+                      <a href="totheblog" class="level-top">Blog</a>
+                      <a href="{{ path('sell_signin') }}" class="level-top">Vendez</a>
                     </li>
                   </ul>
                 </div>
               </div>
-              <!-- navigation EOF -->                </div>
-          </div>
+            </div>
+          </div><!-- #top-nav-wrapper -->
         </div>
       </div>
     </header>
