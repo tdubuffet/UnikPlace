@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new AdminBundle\AdminBundle(),
             new ProductBundle\ProductBundle(),
             new ImageBundle\ImageBundle(),
+            new DepositBundle\DepositBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

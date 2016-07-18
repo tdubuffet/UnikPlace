@@ -1,0 +1,102 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <div class="deposit-steps row">
+        <div class="col-sm-3">
+          <div class="deposit-step">Photos</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Description</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Prix</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step active">Livraison</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 col-center-block">
+          <form>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="required">Poids</label>
+                  <select class="form-control">
+                    <option>Poids du produit</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Frais de port en France métropolitaine <i class="fa fa-info-circle"></i></label>
+                  <input type="text" class="form-control" placeholder="Montant en euros">
+                  <a href="#"><strong>Informations :</strong> Découvrez les tarifs colissimo de la poste</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> J'accepte la remise en main propre
+                </label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="required">Votre adresse</label>
+                  <input type="text" class="form-control" placeholder="Adresse (numéro et rue)">
+                  <input type="text" class="form-control" placeholder="Adresse suite (Appartement, bâtiment, étage)">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="required">Code postal</label>
+                  <input type="text" class="form-control" placeholder="Code postal">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="required">Ville</label>
+                  <input type="text" class="form-control" placeholder="Ville">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="required">Téléphone <i class="fa fa-info-circle"></i></label>
+                  <input type="text" class="form-control" placeholder="Numéro de téléphone">
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div><!-- col -->
+      </div><!-- .row -->
+
+      <div class="text-center">
+        <a href="{{ path('sell_thanks') }}" class="btn btn-default">Etape suivante</a>
+      </div>
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

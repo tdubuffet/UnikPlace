@@ -1,3 +1,8 @@
+deposit:
+    resource: "@DepositBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 image:
     resource: "@ImageBundle/Controller/"
     type:     annotation
