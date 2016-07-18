@@ -200,6 +200,14 @@ easy_admin:
             class: ProductBundle\Entity\Referential
         ReferentialValue:
             class: ProductBundle\Entity\ReferentialValue
+            new:
+                fields:
+                    - { property: 'value' }
+                    - { property: 'referentials', type_options: { by_reference: false} }
+            edit:
+                fields:
+                    - { property: 'value' }
+                    - { property: 'referentials', type_options: { by_reference: false} }
         Attribute:
             class: ProductBundle\Entity\Attribute
         AttributeValue:

@@ -36,7 +36,8 @@ class Referential
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="ReferentialValue", mappedBy="referential")
+     * @ORM\ManyToMany(targetEntity="ReferentialValue", inversedBy="referentials")
+     * @ORM\JoinTable(name="referentials_referential_values")
      */
     private $referentialValues;
 

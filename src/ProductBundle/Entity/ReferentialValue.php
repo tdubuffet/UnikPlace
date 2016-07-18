@@ -29,10 +29,9 @@ class ReferentialValue
     private $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Referential", inversedBy="referentialValues")
-     * @ORM\JoinColumn(name="referential_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Referential", mappedBy="referentialValues")
      */
-    private $referential;
+    private $referentials;
 
     /**
      * Get id
@@ -68,31 +67,50 @@ class ReferentialValue
         return $this->value;
     }
 
+    public function __toString() {
+        return $this->getValue();
+    }
     /**
-     * Set referential
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->referentials = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add referential
      *
      * @param \ProductBundle\Entity\Referential $referential
      *
      * @return ReferentialValue
      */
-    public function setReferential(\ProductBundle\Entity\Referential $referential = null)
+    public function addReferential(\ProductBundle\Entity\Referential $referential)
     {
-        $this->referential = $referential;
+        $referential->addReferentialValue($this);
+        $this->referentials[] = $referential;
 
         return $this;
     }
 
     /**
-     * Get referential
+     * Remove referential
      *
-     * @return \ProductBundle\Entity\Referential
+     * @param \ProductBundle\Entity\Referential $referential
      */
-    public function getReferential()
+    public function removeReferential(\ProductBundle\Entity\Referential $referential)
     {
-        return $this->referential;
+        $this->referentials->removeElement($referential);
+        $referential->removeReferentialValue($this);
     }
 
-    public function __toString() {
-        return $this->getValue();
+    /**
+     * Get referentials
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReferentials()
+    {
+        return $this->referentials;
     }
 }
