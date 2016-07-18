@@ -86,10 +86,18 @@ class Product
      */
     private $user;
 
+    /**
+     * @var ArrayCollection $collections
+     * @ORM\ManyToMany(targetEntity="ProductBundle\Entity\Collection", mappedBy="products")
+     */
+    private $collections;
+
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->collections = new ArrayCollection();
     }
 
     /**
@@ -402,4 +410,37 @@ class Product
     {
         return $this->user;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCollections()
+    {
+        return $this->collections;
+    }
+
+    /**
+     * Add collection
+     * @param Collection $collection
+     * @return Category
+     */
+    public function addCollection(Collection $collection)
+    {
+        $this->collections->add($collection);
+
+        return $this;
+    }
+
+    /**
+     * Remove collection
+     * @param Collection $collection
+     * @return Category
+     */
+    public function removeCollection(Collection $collection)
+    {
+        $this->collections->removeElement($collection);
+
+        return $this;
+    }
+
 }

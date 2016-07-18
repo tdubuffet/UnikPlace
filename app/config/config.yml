@@ -229,6 +229,31 @@ easy_admin:
             class: ProductBundle\Entity\Attribute
         AttributeValue:
             class: ProductBundle\Entity\AttributeValue
+        Collection:
+            class: ProductBundle\Entity\Collection
+            new:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'categories' }
+                    - { property: 'products' }
+                    - { property: 'image', type_options: { by_reference: false} }
+        CollectionImage:
+            class: ProductBundle\Entity\CollectionImage
+            list:
+                fields:
+                    - { property: 'imagePath', type: 'image', base_path: /images/collections }
+            show:
+                fields:
+                    - { property: 'imagePath', type: 'image', base_path: /images/collections }
+            new:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+            edit:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+                    - 'collection_id'
+
     design:
         menu:
             - { label: 'Site web', route: 'homepage' }
@@ -247,6 +272,9 @@ easy_admin:
             - Attribute
             - Status
             - Currency
+            - { label: 'Collection' }
+            - Collection
+            - CollectionImage
 
 lexik_currency:
     currencies:
@@ -321,6 +349,11 @@ vich_uploader:
         product_images:
             uri_prefix:         /images/products
             upload_destination: %kernel.root_dir%/../web/images/products
+            namer:              vich_uploader.namer_uniqid
+            directory_namer:    directory_namer.product
+        collection_images:
+            uri_prefix:         /images/collections
+            upload_destination: "%kernel.root_dir%/../web/images/collections"
             namer:              vich_uploader.namer_uniqid
             directory_namer:    directory_namer.product
 
