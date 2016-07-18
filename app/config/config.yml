@@ -64,6 +64,17 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+doctrine_cache:
+    aliases:
+        cache_apc: my_apc_cache
+
+    providers:
+        my_apc_cache:
+            type: apc
+            namespace: my_apc_cache_ns
+            aliases:
+                - apc_cache
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"

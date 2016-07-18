@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b7115ab55305bf4374054aee94e4a872",
-    "content-hash": "a74566e2111a7a01baf60daa2877589a",
+    "hash": "4bb8b8482676a90bc8e2d29dd6c25cf8",
+    "content-hash": "7b09d89e24bb6a00f099aa57fd19fe65",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -965,7 +965,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/d1fccc6335b74beca94525551cacc06b256ed261",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/298f27ce696deaa6ecd72e6ba563f892a17e0512",
                 "reference": "d1fccc6335b74beca94525551cacc06b256ed261",
                 "shasum": ""
             },
@@ -1092,7 +1092,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/79ca655427847581def1a6254ae4058606c6894c",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/285c005ff2d90b6571cc62b019d461a0356cd1b2",
                 "reference": "79ca655427847581def1a6254ae4058606c6894c",
                 "shasum": ""
             },
