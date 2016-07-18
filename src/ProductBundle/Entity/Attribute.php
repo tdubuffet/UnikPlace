@@ -59,6 +59,12 @@ class Attribute
      */
     private $attributeSearchTemplate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AttributeDepositTemplate")
+     * @ORM\JoinColumn(name="attribute_deposit_template_id", referencedColumnName="id")
+     */
+    private $attributeDepositTemplate;
+
     public function __construct() {
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -254,5 +260,29 @@ class Attribute
     public function getAttributeSearchTemplate()
     {
         return $this->attributeSearchTemplate;
+    }
+
+    /**
+     * Set attributeDepositTemplate
+     *
+     * @param \ProductBundle\Entity\AttributeDepositTemplate $attributeDepositTemplate
+     *
+     * @return Attribute
+     */
+    public function setAttributeDepositTemplate(\ProductBundle\Entity\AttributeDepositTemplate $attributeDepositTemplate = null)
+    {
+        $this->attributeDepositTemplate = $attributeDepositTemplate;
+
+        return $this;
+    }
+
+    /**
+     * Get attributeDepositTemplate
+     *
+     * @return \ProductBundle\Entity\AttributeDepositTemplate
+     */
+    public function getAttributeDepositTemplate()
+    {
+        return $this->attributeDepositTemplate;
     }
 }
