@@ -33,7 +33,7 @@ class AppExtension extends \Twig_Extension
         return $result;
     }
 
-    public function loadPicFunction($image, $width, $height)
+    public function loadPicFunction($image, $width, $height, $method = "r")
     {
         if (!$image instanceof \ProductBundle\Entity\Image) {
             throw new NotFoundHttpException('Image Not Found');
@@ -48,6 +48,7 @@ class AppExtension extends \Twig_Extension
                 'filename' => $matches[2],
                 'width' => $width,
                 'height' => $height,
+                'method' => $method
             ));
         }
 

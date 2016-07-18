@@ -68,7 +68,8 @@
 
                       <div class="product-image product-image-zoom">
                         <div class="product-image-gallery">
-                          <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
+                          {% set imgType = "c" %}
+                          <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
                         </div>
                       </div>
 

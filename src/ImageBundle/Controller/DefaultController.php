@@ -11,14 +11,21 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/images/product/{dir}/{filename}_{width}x{height}.jpg", name="productimage")
+     * @Route("/images/product/{dir}/{filename}_{width}x{height}_{method}.jpg", name="productimage",
+     *     defaults={"method" = "r"})
+     * @param $dir
+     * @param $filename
+     * @param $width
+     * @param $height
+     * @param $method
+     * @return Response
      */
-    public function indexAction($dir, $filename, $width, $height)
+    public function indexAction($dir, $filename, $width, $height, $method)
     {
-        $maxSize            = 800;
-        $thumbnailSize      = 100;
-        $quality            = 90;
-        $qualityThumbnail   = 60;
+        $maxSize = 800;
+        $thumbnailSize = 100;
+        $quality = 90;
+        $qualityThumbnail = 60;
 
         $manager = new ImageManager(array('driver' => 'imagick'));
 
@@ -37,10 +44,18 @@ class DefaultController extends Controller
                 $quality = $qualityThumbnail;
             }
 
-            $image->resize($width, $height);
+            $methodArray = ["r" => "resize", "rc" => "resizeCanvas", "c" => "crop"];
+            $method = isset($methodArray[$method]) ? $methodArray[$method] : "resize";
+
+            if ($method == "resizeCanvas") {
+                $image->resizeCanvas($width, $height, 'center', false, 'FFFFFF');
+            } else {
+                $image->$method($width, $height);
+            }
         }
 
         $headers = array('Content-Type' => 'image/jpg');
+
         return new Response($image->encode('jpg', $quality), 200, $headers);
     }
 }
