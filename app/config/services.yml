@@ -46,3 +46,7 @@ services:
         tags:
             - { name: twig.extension }
         arguments: ['@router']
+
+    fos_message.composer_product:
+        class: MessageBundle\Composer\Composer
+        arguments: ['@fos_message.message_manager', '@fos_message.thread_manager']

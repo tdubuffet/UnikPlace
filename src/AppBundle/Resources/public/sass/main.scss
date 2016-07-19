@@ -706,11 +706,20 @@ button.button span {
 }
 .header-wrapper .header-container .is-sticky .main-header .header-search .cart-container .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-search .cart-container .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-search .cart-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-search .search-container .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-search .search-container .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-search .search-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-search .setting-switcher .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-search .setting-switcher .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-search .setting-switcher .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-maincart .cart-container .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-maincart .cart-container .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-maincart .cart-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-maincart .search-container .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-maincart .search-container .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-maincart .search-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-maincart .setting-switcher .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-maincart .setting-switcher .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-maincart .setting-switcher .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-setting .cart-container .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-setting .cart-container .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-setting .cart-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-setting .search-container .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-setting .search-container .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-setting .search-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-setting .setting-switcher .main-form-search, .header-wrapper .header-container .is-sticky .main-header .header-setting .setting-switcher .cart-wrapper, .header-wrapper .header-container .is-sticky .main-header .header-setting .setting-switcher .switcher-content { margin-top:0; }
 .header-wrapper .header-container .is-sticky .main-header .header-search .cart-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-search .search-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-search .setting-switcher .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-maincart .cart-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-maincart .search-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-maincart .setting-switcher .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-setting .cart-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-setting .search-container .switcher-content, .header-wrapper .header-container .is-sticky .main-header .header-setting .setting-switcher .switcher-content { border-top:1px solid #dddddd !important; }
+
 .header-wrapper .header-container .header-maincart {
   float:left;
   width:20.5%;
   padding:10px 15px 0;
 }
+
+.header-wrapper .header-container .header-account-action {
+  width: 3.9%;
+  float:left;
+  padding:10px 0px 0;
+}
+
+.header-wrapper .header-container .header-account-action .account-container,
 .header-wrapper .header-container .header-maincart .cart-container {
   position:relative;
   text-align:left;
@@ -724,16 +733,22 @@ button.button span {
   transition:all 0.3s ease-in-out 0s;
   border:#eeeeee solid 2px;
 }
+
+.header-wrapper .header-container .header-account-action .account-container .icon-header,
 .header-wrapper .header-container .header-maincart .cart-container .icon-cart-header {
   position:relative;
   display:block;
   outline:0;
   text-decoration:initial;
 }
+
+.header-wrapper .header-container .header-account-action .account-container .icon-header div,
 .header-wrapper .header-container .header-maincart .cart-container .icon-cart-header div {
   font-size:14px;
   color:#3f3f3f;
 }
+
+.header-wrapper .header-container .header-account-action .account-container .icon-header span.total,
 .header-wrapper .header-container .header-maincart .cart-container .icon-cart-header span.total {
   font-size:10px;
   line-height:36px;
@@ -741,7 +756,11 @@ button.button span {
   font-weight:400;
   letter-spacing:0.025em;
   display:block;
+  min-height: 36px;
 }
+
+
+.header-wrapper .header-container .header-account-action .account-container .icon-header strong,
 .header-wrapper .header-container .header-maincart .cart-container .icon-cart-header span.total strong {
   border-right:#eeeeee solid 2px;
   line-height:36px;
@@ -943,7 +962,7 @@ button.button span {
   float:left;
   margin:0;
   position:relative;
-  width:79.5%;
+  width:75.6%;
   padding:10px 15px 0;
 }
 .header-wrapper .header-container .header-search .search-container .icon-search {

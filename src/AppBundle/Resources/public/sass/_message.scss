@@ -1,0 +1,19 @@
+.message{
+ .messenger_thread_message{
+
+   &.user{
+     background: lighten(#c9c9c9, 20%);
+   }
+
+   border: 1px solid #c9c9c9;
+   padding: 15px;
+   margin-bottom: 18px;
+   border-radius: 5px;
+
+   .messenger_thread_message_info{
+     font-size: 10px;
+     color: $brand-primary;
+     margin-bottom: 5px;
+   }
+ }
+}

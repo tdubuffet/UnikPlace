@@ -146,6 +146,33 @@
                           </div><!-- .actions -->
                         </div>
                       </div><!-- .actions-wrapper -->
+
+                      <div class="actions-wrapper">
+                        <div class="add-to-cart">
+                          <a class="actions" href="{{ path('fos_message_thread_new', { id: product.id }) }}">
+                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
+                              <div class="action-list contact-seller">
+                                <button type="button" data-toggle="tooltip" data-placement="top" title="Contacter le vendeur" class="btn-cart">
+                                  <span class="btn-cart-lbl">
+                                    <span class="btn-cart-txt">Contacter le vendeur</span>
+                                  </span>
+                                </button>
+                              </div>
+                            {% endif %}
+
+                            <div class="action-list wishlist">
+                              <ul class="add-to-links">
+                                <li class="first wishlist">
+                                  <button type="button" class="link-wishlist">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </a><!-- .actions -->
+                        </div>
+                      </div><!-- .actions-wrapper -->
+
                     </div><!-- .product-shop-wrapper -->
                   </div><!-- .product-shop -->
 

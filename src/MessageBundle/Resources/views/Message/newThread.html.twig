@@ -4,10 +4,22 @@
 
 <h2>{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h2>
 
-<form action="{{ url('fos_message_thread_new') }}" method="post">
-    {{ form_widget(form) }}
+{{ form_start(form) }}
 
-    <input type="submit" />
+  <div class="form-group">
+    <label class="required">Sujet</label>
+    {{ form_widget(form.subject, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.subject) }}
+  </div>
+
+  <div class="form-group">
+    <label class="required">Message</label>
+    {{ form_widget(form.body, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.body) }}
+  </div>
+
+  {{ form_rest(form) }}
+
 </form>
 
 {% endblock %}

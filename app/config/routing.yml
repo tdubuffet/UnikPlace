@@ -1,3 +1,12 @@
+message:
+    resource: "@MessageBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+fos_message:
+    resource: "@MessageBundle/Resources/config/routing.xml"
+    prefix: /messagerie
+
 image:
     resource: "@ImageBundle/Controller/"
     type:     annotation
@@ -34,7 +43,3 @@ easy_admin_bundle:
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-
-fos_message:
-    resource: "@FOSMessageBundle/Resources/config/routing.xml"
-    prefix: /messagerie
