@@ -442,11 +442,11 @@ class Product
     /**
      * Set location
      *
-     * @param \ProductBundle\Entity\Location $location
+     * @param \LocationBundle\Entity\Location $location
      *
      * @return Product
      */
-    public function setLocation(\ProductBundle\Entity\Location $location = null)
+    public function setLocation(\LocationBundle\Entity\Location $location = null)
     {
         $this->location = $location;
         return $this;
@@ -467,7 +467,7 @@ class Product
     /**
      * Get location
      *
-     * @return \ProductBundle\Entity\Location
+     * @return \LocationBundle\Entity\Location
      */
     public function getLocation()
     {
