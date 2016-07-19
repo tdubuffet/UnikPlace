@@ -20,13 +20,35 @@ class ProductDetailsController extends Controller
     public function indexAction(Request $request, Product $product)
     {
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
-        $attributes = $productAttributeService->getAttributesFromProduct($product);
+        $attributes              = $productAttributeService->getAttributesFromProduct($product);
+
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $favorite = $this->getDoctrine()->getRepository('ProductBundle:Favorite')->findOneBy(array('user' => $this->getUser(), 'product' => $product));
+
+            $favorite = $this->getDoctrine()
+                ->getRepository('ProductBundle:Favorite')
+                ->findOneBy(array(
+                    'user' => $this->getUser(),
+                    'product' => $product
+                ));
         }
 
-        $similarProducts = $this->getDoctrine()->getRepository('ProductBundle:Product')->findSimilarProducts($product, 7);
+        if($product->getUser() != $this->getUser()) {
+            $existThread = $this->getDoctrine()
+                ->getRepository('MessageBundle:Thread')
+                ->findExistsThreadByProductAndUser($product, $this->getUser());
+        }
 
-        return ['product' => $product, 'productAttributes' => $attributes, 'isFavorite' => isset($favorite), 'similarProducts' => $similarProducts];
+        $similarProducts = $this
+            ->getDoctrine()
+            ->getRepository('ProductBundle:Product')
+            ->findSimilarProducts($product, 7);
+
+        return [
+            'product' => $product,
+            'productAttributes'     => $attributes,
+            'isFavorite'            => isset($favorite),
+            'similarProducts'       => $similarProducts,
+            'thread'                => (isset($existThread)) ? $existThread : false
+        ];
     }
 }

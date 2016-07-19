@@ -147,9 +147,10 @@
                         </div>
                       </div><!-- .actions-wrapper -->
 
+                      {% if app.user != product.user %}
                       <div class="actions-wrapper">
                         <div class="add-to-cart">
-                          <a class="actions" href="{{ path('fos_message_thread_new', { id: product.id }) }}">
+                          <a class="actions" href="{% if thread %}{{ path('fos_message_thread_view', { threadId: thread[0].getId() }) }}{% else %}{{ path('fos_message_thread_new', { id: product.id }) }}{% endif %}">
                             {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
                               <div class="action-list contact-seller">
                                 <button type="button" data-toggle="tooltip" data-placement="top" title="Contacter le vendeur" class="btn-cart">
@@ -172,6 +173,7 @@
                           </a><!-- .actions -->
                         </div>
                       </div><!-- .actions-wrapper -->
+                      {% endif %}
 
                     </div><!-- .product-shop-wrapper -->
                   </div><!-- .product-shop -->

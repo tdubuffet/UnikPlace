@@ -14,6 +14,7 @@ use FOS\MessageBundle\Entity\Thread as BaseThread;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MessageBundle\Repository\MessageRepository")
  */
 class Thread extends BaseThread
 {
