@@ -75,4 +75,35 @@ class CartController extends Controller
         }
         return new JsonResponse(array('message' => 'An error occured.'), 500);
     }
+
+    /**
+     * @Route("/cart/livraison", name="cart_delivery")
+     * @Method({"GET"})
+     * @Template("ProductBundle:Cart:delivery.html.twig")
+     */
+    public function deliveryAction()
+    {
+
+
+    }
+
+    /**
+     * @Route("/cart/paiement", name="cart_payment")
+     * @Method({"GET"})
+     * @Template("ProductBundle:Cart:payment.html.twig")
+     */
+    public function paymentAction()
+    {
+
+    }
+
+    /**
+     * @Route("/cart/confirmation", name="cart_confirmation")
+     * @Method({"GET"})
+     * @Template("ProductBundle:Cart:confirmation.html.twig")
+     */
+    public function confirmationAction()
+    {
+
+    }
 }

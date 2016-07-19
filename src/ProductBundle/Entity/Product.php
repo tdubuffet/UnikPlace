@@ -417,7 +417,6 @@ class Product
     }
 
     /**
-<<<<<<< HEAD
      * @return ArrayCollection
      */
     public function getCollections()
@@ -433,7 +432,9 @@ class Product
     public function addCollection(Collection $collection)
     {
         $this->collections->add($collection);
-=======
+    }
+
+    /**
      * Set location
      *
      * @param \ProductBundle\Entity\Location $location
@@ -443,13 +444,10 @@ class Product
     public function setLocation(\ProductBundle\Entity\Location $location = null)
     {
         $this->location = $location;
->>>>>>> Add LocationBundle
-
         return $this;
     }
 
     /**
-<<<<<<< HEAD
      * Remove collection
      * @param Collection $collection
      * @return Category
@@ -461,7 +459,7 @@ class Product
         return $this;
     }
 
-=======
+    /**
      * Get location
      *
      * @return \ProductBundle\Entity\Location
@@ -470,5 +468,4 @@ class Product
     {
         return $this->location;
     }
->>>>>>> Add LocationBundle
 }
