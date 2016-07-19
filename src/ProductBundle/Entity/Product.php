@@ -87,6 +87,11 @@ class Product
     private $user;
 
     /**
+     * @ORM\OneToMany(targetEntity="MessageBundle\Entity\Thread", mappedBy="product")
+     */
+    private $threads;
+
+    /**
      * @var ArrayCollection $collections
      * @ORM\ManyToMany(targetEntity="ProductBundle\Entity\Collection", mappedBy="products")
      */
@@ -467,5 +472,21 @@ class Product
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getThreads()
+    {
+        return $this->threads;
+    }
+
+    /**
+     * @param mixed $threads
+     */
+    public function setThreads($threads)
+    {
+        $this->threads = $threads;
     }
 }
