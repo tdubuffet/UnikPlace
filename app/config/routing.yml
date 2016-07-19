@@ -1,3 +1,8 @@
+location:
+    resource: "@LocationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 image:
     resource: "@ImageBundle/Controller/"
     type:     annotation

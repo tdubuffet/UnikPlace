@@ -92,6 +92,11 @@ class Product
      */
     private $collections;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Location")
+     * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
+     */
+    private $location;
 
     public function __construct() {
         $this->images = new ArrayCollection();
@@ -412,6 +417,7 @@ class Product
     }
 
     /**
+<<<<<<< HEAD
      * @return ArrayCollection
      */
     public function getCollections()
@@ -427,11 +433,23 @@ class Product
     public function addCollection(Collection $collection)
     {
         $this->collections->add($collection);
+=======
+     * Set location
+     *
+     * @param \ProductBundle\Entity\Location $location
+     *
+     * @return Product
+     */
+    public function setLocation(\ProductBundle\Entity\Location $location = null)
+    {
+        $this->location = $location;
+>>>>>>> Add LocationBundle
 
         return $this;
     }
 
     /**
+<<<<<<< HEAD
      * Remove collection
      * @param Collection $collection
      * @return Category
@@ -443,4 +461,14 @@ class Product
         return $this;
     }
 
+=======
+     * Get location
+     *
+     * @return \ProductBundle\Entity\Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+>>>>>>> Add LocationBundle
 }

@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             new ProductBundle\ProductBundle(),
             new ImageBundle\ImageBundle(),
             new MessageBundle\MessageBundle(),
+            new LocationBundle\LocationBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
