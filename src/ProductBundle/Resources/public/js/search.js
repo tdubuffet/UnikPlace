@@ -187,7 +187,9 @@ var Search = {
             Search.params.p = 1;
         }
 
-        Search.params.q = $('#search').val();
+        // Reset search query bar
+        $('#search').val('');
+
         Search.params.cat = $('#search-category').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
 

@@ -126,15 +126,15 @@ class ProductSearchService
         if (isset($params['q']) && $params['q'] != '') {
             $fieldQuery = new \Elastica\Query\Match();
             $fieldQuery->setFieldQuery('name', $params['q']);
-            $boolQuery->addShould($fieldQuery);
+            $boolQuery->addMust($fieldQuery);
 
             $fieldQuery = new \Elastica\Query\Fuzzy();
             $fieldQuery->setField('name', $params['q']);
-            $boolQuery->addShould($fieldQuery);
+            $boolQuery->addMust($fieldQuery);
 
             $fieldQuery = new \Elastica\Query\Match();
             $fieldQuery->setFieldQuery('description', $params['q']);
-            $boolQuery->addShould($fieldQuery);
+            $boolQuery->addMust($fieldQuery);
         }
     }
 
