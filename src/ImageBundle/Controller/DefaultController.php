@@ -11,8 +11,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/images/product/{dir}/{filename}_{width}x{height}_{method}.jpg", name="productimage",
-     *     defaults={"method" = "r"})
+     * @Route("/images/{type}/{dir}/{filename}_{width}x{height}_{method}.jpg", name="productimage",
+     *     defaults={"method" = "r", "type" = "products"})
+     * @param $type
      * @param $dir
      * @param $filename
      * @param $width
@@ -20,7 +21,7 @@ class DefaultController extends Controller
      * @param $method
      * @return Response
      */
-    public function indexAction($dir, $filename, $width, $height, $method)
+    public function indexAction($type, $dir, $filename, $width, $height, $method)
     {
         $maxSize = 800;
         $thumbnailSize = 100;
@@ -29,7 +30,7 @@ class DefaultController extends Controller
 
         $manager = new ImageManager(array('driver' => 'imagick'));
 
-        $originalFile = 'images/products/'.$dir.'/'.$filename.'.jpg';
+        $originalFile = 'images/'.$type.'/'.$dir.'/'.$filename.'.jpg';
         try {
             $image = $manager->make($originalFile);
         } catch (\Exception $e) {

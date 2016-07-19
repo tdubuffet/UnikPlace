@@ -1,5 +1,8 @@
 <?php
 namespace AppBundle\Twig;
+
+use ProductBundle\Entity\CollectionImage;
+use ProductBundle\Entity\Image;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -33,9 +36,17 @@ class AppExtension extends \Twig_Extension
         return $result;
     }
 
-    public function loadPicFunction($image, $width, $height, $method = "r")
+    /**
+     * @param Image|CollectionImage $image
+     * @param int $width
+     * @param int $height
+     * @param string $method
+     * @param string $type
+     * @return string
+     */
+    public function loadPicFunction($image, $width, $height, $method = "r", $type = "products")
     {
-        if (!$image instanceof \ProductBundle\Entity\Image) {
+        if (!$image instanceof Image && !$image instanceof CollectionImage) {
             throw new NotFoundHttpException('Image Not Found');
         }
 
@@ -48,7 +59,8 @@ class AppExtension extends \Twig_Extension
                 'filename' => $matches[2],
                 'width' => $width,
                 'height' => $height,
-                'method' => $method
+                'method' => $method,
+                'type' => $type
             ));
         }
 

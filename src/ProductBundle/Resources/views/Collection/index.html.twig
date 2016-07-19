@@ -1,0 +1,56 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}{% if collection is defined %}Collection {{ collection.name }}{% else %}Résultats trouvés{% endif %}{% endblock %}
+
+{% block description %}Tous les produits premium sont sur Noname{% endblock %}
+
+{% block body %}
+    <div class="main-breadcrumbs">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="col-md-12">
+                    <div class="breadcrumbs">
+                        <ul>
+                            <li>
+                                <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                                    <a href="{{ path('homepage') }}" itemprop="url">Accueil</a>
+                                </span>
+                                <span class="separator">/</span>
+                            </li>
+                            <li><strong>{{ collection.name }}</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="main">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>{{ collection.name }}</h3>
+                        <span class="text">{{ collection.description }}</span>
+                    </div>
+                    <div class="col-md-6">
+                        <img class="img-responsive pull-right hidden-sm hidden-xs"
+                             src="{{ loadpic(collection.image, 400, 300, "r", "collections") }}"
+                             alt="miniature{{ collection.image.id }}"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="category-products block-container">
+                        <div class="col-lg-9 col-lg-offset-2">
+                            <div class="category-products-container"><!-- category-products-container -->
+                                {% include 'ProductBundle:Search:product_grid.html.twig' %}
+                            </div><!-- .col-main -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

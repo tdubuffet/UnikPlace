@@ -4,6 +4,7 @@ namespace ProductBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * Collection
@@ -13,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Collection
 {
+    use ORMBehaviors\Sluggable\Sluggable,
+        ORMBehaviors\Timestampable\Timestampable;
+
     /**
      * @var int
      *
@@ -195,5 +199,14 @@ class Collection
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return [ 'name' ];
+    }
+
 }
 
