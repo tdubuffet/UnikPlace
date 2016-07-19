@@ -7,6 +7,11 @@ fos_message:
     resource: "@MessageBundle/Resources/config/routing.xml"
     prefix: /messagerie
 
+location:
+    resource: "@LocationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 image:
     resource: "@ImageBundle/Controller/"
     type:     annotation

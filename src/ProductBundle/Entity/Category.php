@@ -2,6 +2,7 @@
 
 namespace ProductBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
@@ -49,9 +50,17 @@ class Category
      */
     private $attributes;
 
+    /**
+     * @var ArrayCollection $collections
+     * @ORM\ManyToMany(targetEntity="Collection", mappedBy="categories")
+     */
+    private $collections;
+
+
     public function __construct() {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->attributes = new ArrayCollection();
+        $this->collections = new ArrayCollection();
     }
 
     /**
@@ -100,7 +109,7 @@ class Category
      *
      * @return Category
      */
-    public function addChild(\ProductBundle\Entity\Category $child)
+    public function addChild(Category $child)
     {
         $this->children[] = $child;
 
@@ -112,7 +121,7 @@ class Category
      *
      * @param \ProductBundle\Entity\Category $child
      */
-    public function removeChild(\ProductBundle\Entity\Category $child)
+    public function removeChild(Category $child)
     {
         $this->children->removeElement($child);
     }
@@ -130,11 +139,11 @@ class Category
     /**
      * Set parent
      *
-     * @param \ProductBundle\Entity\Category $parent
+     * @param Category $parent
      *
      * @return Category
      */
-    public function setParent(\ProductBundle\Entity\Category $parent = null)
+    public function setParent(Category $parent = null)
     {
         $this->parent = $parent;
 
@@ -183,7 +192,6 @@ class Category
         return array_reverse($breadcrumb);
     }
 
-
     public function __toString() {
         $names = array();
         $breadcrumb = $this->getBreadCrumb();
@@ -197,11 +205,11 @@ class Category
     /**
      * Add attribute
      *
-     * @param \ProductBundle\Entity\Attribute $attribute
+     * @param Attribute $attribute
      *
      * @return Category
      */
-    public function addAttribute(\ProductBundle\Entity\Attribute $attribute)
+    public function addAttribute(Attribute $attribute)
     {
         $this->attributes[] = $attribute;
 
@@ -211,9 +219,9 @@ class Category
     /**
      * Remove attribute
      *
-     * @param \ProductBundle\Entity\Attribute $attribute
+     * @param Attribute $attribute
      */
-    public function removeAttribute(\ProductBundle\Entity\Attribute $attribute)
+    public function removeAttribute(Attribute $attribute)
     {
         $this->attributes->removeElement($attribute);
     }
@@ -227,4 +235,39 @@ class Category
     {
         return $this->attributes;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCollections()
+    {
+        return $this->collections;
+    }
+
+    /**
+     * Add collection
+     * @param Collection $collection
+     * @return Category
+     */
+    public function addCollection(Collection $collection)
+    {
+        $this->collections->add($collection);
+
+        return $this;
+    }
+
+    /**
+     * Remove collection
+     * @param Collection $collection
+     * @return Category
+     */
+    public function removeCollection(Collection $collection)
+    {
+        $this->collections->removeElement($collection);
+
+        return $this;
+    }
+
+
+
 }

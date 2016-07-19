@@ -86,10 +86,23 @@ class Product
      */
     private $user;
 
+    /**
+     * @var ArrayCollection $collections
+     * @ORM\ManyToMany(targetEntity="ProductBundle\Entity\Collection", mappedBy="products")
+     */
+    private $collections;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Location")
+     * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
+     */
+    private $location;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->collections = new ArrayCollection();
     }
 
     /**
@@ -401,5 +414,58 @@ class Product
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCollections()
+    {
+        return $this->collections;
+    }
+
+    /**
+     * Add collection
+     * @param Collection $collection
+     * @return Category
+     */
+    public function addCollection(Collection $collection)
+    {
+        $this->collections->add($collection);
+    }
+
+    /**
+     * Set location
+     *
+     * @param \ProductBundle\Entity\Location $location
+     *
+     * @return Product
+     */
+    public function setLocation(\ProductBundle\Entity\Location $location = null)
+    {
+        $this->location = $location;
+        return $this;
+    }
+
+    /**
+     * Remove collection
+     * @param Collection $collection
+     * @return Category
+     */
+    public function removeCollection(Collection $collection)
+    {
+        $this->collections->removeElement($collection);
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return \ProductBundle\Entity\Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }
