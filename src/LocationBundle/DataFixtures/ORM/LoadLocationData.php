@@ -19,7 +19,7 @@ class LoadLocationData implements FixtureInterface {
 
             $location->setCity($data['ville_nom_reel']);
             $location->setZipcode($data['ville_code_postal']);
-            $location->setCounty($data['ville_code_postal']);
+            $location->setCounty($data['ville_departement']);
 
             $manager->persist($location);
         }
