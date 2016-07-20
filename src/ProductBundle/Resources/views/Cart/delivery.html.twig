@@ -10,14 +10,53 @@
 
       <h1>Mon adresse de livraison</h1>
 
-      <p>Merci de préciser une adresse de livraison. Nous supportons actuellement uniquement la livraison en France métropolitaine.</p>
+      {% for flashMessage in app.session.flashbag.get('notice') %}
+      <div class="alert alert-success">{{ flashMessage }}</div>
+      {% endfor %}
 
-      {{ form_start(form) }}
-      {{ form_widget(form) }}
-      {{ form_end(form) }}
+      {% if addresses is empty %}
+      <p>Vous n'avez actuellement aucune adresse associée à votre compte. Vous pouvez en ajouter une en cliquant sur le bouton suivant :</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAddressModal">
+        Ajouter une adresse à mon compte
+      </button>
+      {% else %}
+      <p>Merci de sélectionner une adresse de livraison parmis vos addresses enregistrées. Nous supportons actuellement uniquement la livraison en France métropolitaine.</p>
+      <p>Vous pouvez également indiquer une addresse de facturation.
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addAddressModal">
+          Ajouter une autre adresse à mon compte
+        </button>
+      </p>
+      {{ form_start(selectAddressForm) }}
+      {{ form_widget(selectAddressForm) }}
+      {{ form_end(selectAddressForm) }}
+      {% endif %}
 
     </div><!-- .main -->
   </div><!-- .container -->
 </div><!-- .main-wrapper -->
+
+
+<!-- Add address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalTitle">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addAddressModalTitle">Ajouter une adresse à mon compte</h4>
+      </div>
+      {{ form_start(addAddressForm) }}
+      <div class="modal-body">
+        {{ form_row(addAddressForm.street) }}
+        {{ form_row(addAddressForm.city_code) }}
+        {{ form_row(addAddressForm.city) }}
+        {{ form_row(addAddressForm.country) }}
+      </div>
+      <div class="modal-footer">
+        {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary btn-lg'}}) }}
+      </div>
+      {{ form_end(addAddressForm) }}
+    </div>
+  </div>
+</div>
 
 {% endblock %}

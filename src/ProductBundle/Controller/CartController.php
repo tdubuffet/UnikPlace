@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use LocationBundle\Entity\Address;
 use LocationBundle\Form\AddressType;
-
+use ProductBundle\Form\selectCartAddressType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CartController extends Controller
 {
@@ -114,8 +116,12 @@ class CartController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         }
         $address = new Address;
-        $form = $this->createForm(AddressType::class, $address);
-        return ['form' => $form->createView()];
+        $addAddressForm = $this->createForm(AddressType::class, $address);
+        $addresses = $this->getUser()->getAddresses();
+        $selectAddressForm = $this->createForm(selectCartAddressType::class, null, ['addresses' => $addresses]);
+        return ['addAddressForm' => $addAddressForm->createView(),
+                'selectAddressForm' => $selectAddressForm->createView(),
+                'addresses' => $addresses];
     }
 
     /**
@@ -127,22 +133,31 @@ class CartController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('fos_user_security_login');
         }
-        $address = new Address;
-        $form = $this->createForm(AddressType::class, $address);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $zipcode = $form['city_code']->getData();
-            // Get city from zipcode
-            $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneByZipcode($zipcode);
-            if (!isset($city)) {
-                throw new \exception('Cannot find city.');
+
+        if($request->request->has('address')) {
+            $address = new Address;
+            $form = $this->createForm(AddressType::class, $address);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $zipcode = $form['city_code']->getData();
+                // Get city from zipcode
+                $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneByZipcode($zipcode);
+                if (!isset($city)) {
+                    throw new \exception('Cannot find city.');
+                }
+                $address->setCity($city);
+                $address->setUser($this->getUser());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($address);
+                $em->flush();
+                $session = new Session();
+                $session->getFlashBag()->add('notice', 'Adresse ajoutée avec succès.');
             }
-            $address->setCity($city);
-            $address->setUser($this->getUser());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($address);
-            $em->flush();
-            return $this->redirectToRoute('cart_delivery');
+        }
+        else if ($request->request->has('select_cart_address')) {
+            // Save selected addresses
+            // TODO
+            exit();
         }
         return $this->redirectToRoute('cart_delivery');
     }

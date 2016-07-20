@@ -25,6 +25,8 @@ class User extends BaseUser implements ParticipantInterface
     {
         parent::__construct();
         $this->favorites = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
     }
 
     /**
@@ -126,6 +128,11 @@ class User extends BaseUser implements ParticipantInterface
      * @ORM\OneToMany(targetEntity="ProductBundle\Entity\Product", mappedBy="user")
      */
     private $products;
+
+    /**
+     * @ORM\OneToMany(targetEntity="LocationBundle\Entity\Address", mappedBy="user")
+     */
+    private $addresses;
 
 
     public function setEmail($email)
@@ -622,5 +629,39 @@ class User extends BaseUser implements ParticipantInterface
     public function getCompanyCity()
     {
         return $this->company_city;
+    }
+
+    /**
+     * Add address
+     *
+     * @param \LocationBundle\Entity\Address $address
+     *
+     * @return User
+     */
+    public function addAddress(\LocationBundle\Entity\Address $address)
+    {
+        $this->addresses[] = $address;
+
+        return $this;
+    }
+
+    /**
+     * Remove address
+     *
+     * @param \LocationBundle\Entity\Address $address
+     */
+    public function removeAddress(\LocationBundle\Entity\Address $address)
+    {
+        $this->addresses->removeElement($address);
+    }
+
+    /**
+     * Get addresses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
     }
 }

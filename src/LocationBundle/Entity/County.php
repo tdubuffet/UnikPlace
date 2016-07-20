@@ -127,4 +127,35 @@ class County
         return (string) $this->name;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->cities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add city
+     *
+     * @param \LocationBundle\Entity\City $city
+     *
+     * @return County
+     */
+    public function addCity(\LocationBundle\Entity\City $city)
+    {
+        $this->cities[] = $city;
+
+        return $this;
+    }
+
+    /**
+     * Remove city
+     *
+     * @param \LocationBundle\Entity\City $city
+     */
+    public function removeCity(\LocationBundle\Entity\City $city)
+    {
+        $this->cities->removeElement($city);
+    }
 }
