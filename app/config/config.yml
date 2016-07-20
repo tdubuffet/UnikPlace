@@ -187,6 +187,7 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
+                    - { property: 'city', type: 'easyadmin_autocomplete' }
             new:
                 fields:
                     - { property: 'name' }
@@ -197,9 +198,10 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
+                    - { property: 'city', type: 'easyadmin_autocomplete' }
             list:
                 fields:
-                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status']
+                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'city.name']
         Image:
             class: ProductBundle\Entity\Image
             list:
@@ -255,6 +257,8 @@ easy_admin:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
                     - 'collection_id'
+        City:
+          class: LocationBundle\Entity\City
 
     design:
         menu:

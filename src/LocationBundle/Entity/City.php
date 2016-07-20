@@ -133,4 +133,8 @@ class City
         return [ 'name' ];
     }
 
+    public function __toString() {
+        return (string) $this->name. " (". $this->zipcode.")";
+    }
+
 }
