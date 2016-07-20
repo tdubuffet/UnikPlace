@@ -98,10 +98,10 @@ class Product
     private $collections;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Location")
-     * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\City")
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
      */
-    private $location;
+    private $city;
 
     public function __construct() {
         $this->images = new ArrayCollection();
@@ -440,15 +440,15 @@ class Product
     }
 
     /**
-     * Set location
+     * Set city
      *
-     * @param \LocationBundle\Entity\Location $location
+     * @param \LocationBundle\Entity\City $city
      *
      * @return Product
      */
-    public function setLocation(\LocationBundle\Entity\Location $location = null)
+    public function setCity(\LocationBundle\Entity\City $city = null)
     {
-        $this->location = $location;
+        $this->city = $city;
         return $this;
     }
 
@@ -465,13 +465,13 @@ class Product
     }
 
     /**
-     * Get location
+     * Get city
      *
-     * @return \LocationBundle\Entity\Location
+     * @return \LocationBundle\Entity\City
      */
-    public function getLocation()
+    public function getCity()
     {
-        return $this->location;
+        return $this->city;
     }
 
     /**

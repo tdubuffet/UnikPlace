@@ -1,0 +1,23 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <h1>Mon adresse de livraison</h1>
+
+      <p>Merci de préciser une adresse de livraison. Nous supportons actuellement uniquement la livraison en France métropolitaine.</p>
+
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

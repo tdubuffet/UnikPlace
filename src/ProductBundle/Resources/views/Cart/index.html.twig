@@ -13,44 +13,55 @@
       {% if products is empty %}
         <p>Votre panier est vide.</p>
         {% else %}
-        <table class="table">
-          <thead>
-          <tr>
-            <th>Produit</th>
-            <th>Nom</th>
-            <th>Prix</th>
-            <th>Ville</th>
-            <th>Mode de livraison</th>
-          </tr>
-          </thead>
-          <tbody>
-            {% for product in products %}
-            <tr>
-              <td>
-                <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
-                  <img src="{{ loadpic(product.getImages()[0], 88, 88) }}" alt="product.name" }} />
-                </a>
-              </td>
-              <td><a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a></td>
-              <td>{{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, 'EUR') }}</td>
-              <td>{{ product.getLocation.getCity }} ({{ product.getLocation.getZipcode }})</td>
-              <td>
-                <select>
-                  <option val="parcel">Livraison</option>
-                  <option val="by_hand">Remise en main propre</option>
-                </select>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
 
-        <div class="text-right">
-          Total produit: ???<br />
-          Estimation des frais de livraison: ???<br />
-          TOTAL: ??
-        </div>
+        <form action="{{ app.request.attributes.get('_route') }}" method="post">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Produit</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Ville</th>
+                <th>Mode de livraison</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in products %}
+              <tr>
+                <td>
+                  <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                    <img src="{{ loadpic(product.getImages()[0], 88, 88) }}" alt="product.name" }} />
+                  </a>
+                </td>
+                <td><a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a></td>
+                <td>
+                  {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                  {% if product.getCurrency.getCode != 'EUR' %}
+                  ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                  {% endif %}
+                </td>
+                <td>{{ product.getCity.getName }} ({{ product.getCity.getZipcode }})</td>
+                <td>
+                  <select name="{{ product.getId() }}">
+                    <option value="parcel">Livraison</option>
+                    <option value="by_hand">Remise en main propre</option>
+                  </select>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
 
+          <div class="text-right">
+            <div>
+              Total produit: {{ productsTotalPrice|currency_format('EUR') }}<br />
+              Estimation des frais de livraison: {{ deliveryFee|currency_format('EUR') }}<br />
+              TOTAL: {{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}
+            </div>
+
+            <input class="btn btn-primary" type="submit" value="Etape suivante">
+          </div>
+        </form>
       {% endif %}
 
     </div><!-- .main -->

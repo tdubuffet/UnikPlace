@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
+use LocationBundle\Entity\Address;
+use LocationBundle\Form\AddressType;
+
 
 class CartController extends Controller
 {
@@ -27,10 +30,34 @@ class CartController extends Controller
         $cart = $session->get('cart', array());
         // Fetch products from cart
         $products = array();
+        $productsTotalPrice = 0; // in EUR
+        $deliveryFee = 0; // in EUR
         foreach ($cart as $productId) {
-            $products[] = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+            $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+            $products[] = $product;
+            $productsTotalPrice += $this->get('lexik_currency.converter')->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
         }
-        return ['products' => $products];
+        return ['products' => $products, 'productsTotalPrice' => $productsTotalPrice, 'deliveryFee' => $deliveryFee];
+    }
+
+    /**
+     * @Route("/cart")
+     * @Method({"POST"})
+     */
+    public function listProcessAction(Request $request)
+    {
+        // Process delivery modes chosen
+        $data = $request->request->all();
+        $session = new Session();
+        $cart = $session->get('cart', array());
+        // Make sure delivery modes are associated with products in cart
+        foreach ($data as $productId => $delivery) {
+            if (!in_array($productId, $cart) && in_array($delivery, ['by_hand', 'parcel'])) {
+                throw new \Exception('Product id '.$productId.' is not associated with product in cart.');
+            }
+        }
+        $cartDelivery = $session->set('cart_delivery', $data);
+        return $this->redirectToRoute('cart_delivery');
     }
 
     /**
@@ -81,11 +108,30 @@ class CartController extends Controller
      * @Method({"GET"})
      * @Template("ProductBundle:Cart:delivery.html.twig")
      */
-    public function deliveryAction()
+    public function deliveryAction(Request $request)
     {
-
-
+        $address = new Address;
+        $form = $this->createForm(AddressType::class, $address);
+        return ['form' => $form->createView()];
     }
+
+    /**
+     * @Route("/cart/livraison")
+     * @Method({"POST"})
+     */
+    public function deliveryProcessAction(Request $request)
+    {
+        $address = new Address;
+        $form = $this->createForm(AddressType::class, $address);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            echo 'TODO';
+        }
+
+        exit();
+    }
+
 
     /**
      * @Route("/cart/paiement", name="cart_payment")
