@@ -269,6 +269,13 @@ var Search = {
 
         Search.params.sort = $('.sort_by_value').val();
         Search.params.ord = $('.ord_value').val();
+
+        $.each(Search.params, function (key, value) {
+            if ((value.length < 1 && key != "price") || (value.length == 1 && key == "price")) {
+                delete Search.params[key];
+            }
+        });
+
         window.history.pushState(Search.params, 'Recherche', Routing.generate('search')+'?'+$.param(Search.params));
     },
 
@@ -286,6 +293,7 @@ var Search = {
                 Search.updateBreadcrumb();
                 $('.category-products-loading').hide();
                 $('.category-products-container').show();
+                // Search.updateUrlParameters();
             },
             error: function(result) {
             }
