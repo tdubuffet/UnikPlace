@@ -208,5 +208,14 @@ class Collection
         return [ 'name' ];
     }
 
-}
 
+    /**
+     * Remove category
+     *
+     * @param \ProductBundle\Entity\Category $category
+     */
+    public function removeCategory(\ProductBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+}

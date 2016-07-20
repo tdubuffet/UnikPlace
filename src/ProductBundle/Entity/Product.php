@@ -489,4 +489,28 @@ class Product
     {
         $this->threads = $threads;
     }
+
+    /**
+     * Add thread
+     *
+     * @param \MessageBundle\Entity\Thread $thread
+     *
+     * @return Product
+     */
+    public function addThread(\MessageBundle\Entity\Thread $thread)
+    {
+        $this->threads[] = $thread;
+
+        return $this;
+    }
+
+    /**
+     * Remove thread
+     *
+     * @param \MessageBundle\Entity\Thread $thread
+     */
+    public function removeThread(\MessageBundle\Entity\Thread $thread)
+    {
+        $this->threads->removeElement($thread);
+    }
 }

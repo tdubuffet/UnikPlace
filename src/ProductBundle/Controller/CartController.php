@@ -110,6 +110,9 @@ class CartController extends Controller
      */
     public function deliveryAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $address = new Address;
         $form = $this->createForm(AddressType::class, $address);
         return ['form' => $form->createView()];
@@ -121,15 +124,27 @@ class CartController extends Controller
      */
     public function deliveryProcessAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $address = new Address;
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            echo 'TODO';
+            $zipcode = $form['city_code']->getData();
+            // Get city from zipcode
+            $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneByZipcode($zipcode);
+            if (!isset($city)) {
+                throw new \exception('Cannot find city.');
+            }
+            $address->setCity($city);
+            $address->setUser($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($address);
+            $em->flush();
+            return $this->redirectToRoute('cart_delivery');
         }
-
-        exit();
+        return $this->redirectToRoute('cart_delivery');
     }
 
 
