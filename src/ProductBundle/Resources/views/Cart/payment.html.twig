@@ -1,0 +1,36 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+{% block description %}Mon panier sur Noname{% endblock %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <h1>Paiement de la commande</h1>
+
+      <ul>
+      {% for product in products %}
+      <li>{{ product.name }} - {{ deliveryModes[product.getId()] }}</li>
+      {% endfor %}
+      </ul>
+
+      <div>
+        {% set deliveryAddress = addresses.delivery_address %}
+        Adresse de livraison : {{ deliveryAddress.getStreet() }} {{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}<br />
+        {% if addresses.billing_address is defined %}
+        {% set billingAddress = addresses.billing_address %}
+        Adresse de facturation : {{ billingAddress.getStreet() }} {{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}<br />
+        {% endif %}
+      </div>
+
+      TOTAL: {{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}
+
+      <div>TODO formulaire de paiement</div>
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

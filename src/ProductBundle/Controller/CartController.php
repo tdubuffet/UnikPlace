@@ -143,7 +143,7 @@ class CartController extends Controller
                 // Get city from zipcode
                 $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneByZipcode($zipcode);
                 if (!isset($city)) {
-                    throw new \exception('Cannot find city.');
+                    throw new \Exception('Cannot find city.');
                 }
                 $address->setCity($city);
                 $address->setUser($this->getUser());
@@ -155,9 +155,29 @@ class CartController extends Controller
             }
         }
         else if ($request->request->has('select_cart_address')) {
+            $addresses = $this->getUser()->getAddresses();
+            $form = $this->createForm(selectCartAddressType::class, null, ['addresses' => $addresses]);
+            $form->handleRequest($request);
             // Save selected addresses
-            // TODO
-            exit();
+            $addresses = [];
+            $addresses['delivery_address'] = $form['delivery_address']->getData();
+            $addresses['billing_address'] = $form['billing_address']->getData();
+            if ($addresses['delivery_address'] == $addresses['billing_address']) {
+                unset($addresses['billing_address']);
+            }
+            // Make sure addresses are owned by current user
+            foreach ($addresses as $address) {
+                $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
+                if (!isset($address)) {
+                    throw new \Exception('Address with id '.$address.' cannot be found.');
+                }
+                else if ($address->getUser() != $this->getUser()) {
+                    throw new \Exception('Current user does not own address with id '.$address.'.');
+                }
+            }
+            $session = new Session();
+            $session->set('cart_addresses', $addresses);
+            return $this->redirectToRoute('cart_payment');
         }
         return $this->redirectToRoute('cart_delivery');
     }
@@ -170,7 +190,38 @@ class CartController extends Controller
      */
     public function paymentAction()
     {
-
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        $session = new Session();
+        $cart = $session->get('cart', array());
+        // Fetch products from cart
+        $products = array();
+        $productsTotalPrice = 0; // in EUR
+        $deliveryFee = 0; // in EUR
+        foreach ($cart as $productId) {
+            $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+            $products[] = $product;
+            $productsTotalPrice += $this->get('lexik_currency.converter')->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+        }
+        $deliveryModes = $session->get('cart_delivery');
+        $cartAddresses = $session->get('cart_addresses');
+        $addresses = [];
+        foreach ($cartAddresses as $addressType => $address) {
+            $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
+            if (!isset($address)) {
+                throw new \Exception('Address with id '.$address.' cannot be found.');
+            }
+            else if ($address->getUser() != $this->getUser()) {
+                throw new \Exception('Current user does not own address with id '.$address.'.');
+            }
+            $addresses[$addressType] = $address;
+        }
+        return ['products' => $products,
+                'productsTotalPrice' => $productsTotalPrice,
+                'deliveryFee' => $deliveryFee,
+                'deliveryModes' => $deliveryModes,
+                'addresses' => $addresses];
     }
 
     /**
