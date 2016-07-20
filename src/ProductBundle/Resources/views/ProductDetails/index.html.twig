@@ -39,6 +39,18 @@
         <div class="row show-grid">
           <div class="col-main">
             <div class="product-view">
+
+              {% for key, flashs in app.session.getFlashBag.all() %}
+
+                <div class="alert alert-{{ key }}">
+                  {% for message in flashs %}
+                    {{ message }}
+                  {% endfor %}
+                </div>
+
+              {% endfor %}
+
+
               <div class="product-essential show-grid">
                 <form action="#" method="post" id="product_addtocart_form">
                   <div class="no-display col-lg-12">
@@ -150,7 +162,7 @@
                       {% if app.user != product.user %}
                       <div class="actions-wrapper">
                         <div class="add-to-cart">
-                          <a class="actions" href="{% if thread %}{{ path('fos_message_thread_view', { threadId: thread[0].getId() }) }}{% else %}{{ path('fos_message_thread_new', { id: product.id }) }}{% endif %}">
+                          <a class="actions" {% if thread %}href="{{ path('fos_message_thread_view', { threadId: thread[0].getId() }) }}"{% else %}href="#" onclick="return false;" data-toggle="modal" data-target="#message-modal"{% endif %}>
                             {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
                               <div class="action-list contact-seller">
                                 <button type="button" data-toggle="tooltip" data-placement="top" title="Contacter le vendeur" class="btn-cart">
@@ -173,6 +185,41 @@
                           </a><!-- .actions -->
                         </div>
                       </div><!-- .actions-wrapper -->
+
+                      <div class="modal fade" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="message-modal-label">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="message-modal-label">Contacter le vendeur</h4>
+                            </div>
+                            {{ form_start(formMessage) }}
+                            <div class="modal-body">
+                                <div class="form-group">
+                                  <label class="required">Sujet</label>
+                                  {{ form_widget(formMessage.subject, {'attr': {'class': 'form-control'}}) }}
+                                  {{ form_errors(formMessage.subject) }}
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="required">Message</label>
+                                  {{ form_widget(formMessage.body, {'attr': {'class': 'form-control'}}) }}
+                                  {{ form_errors(formMessage.body) }}
+                                </div>
+
+                                {{ form_rest(formMessage) }}
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                              <button type="submit" class="btn btn-primary">Envoyer</button>
+                            </div>
+
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
                       {% endif %}
 
                     </div><!-- .product-shop-wrapper -->

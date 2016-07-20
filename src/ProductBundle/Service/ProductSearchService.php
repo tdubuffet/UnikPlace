@@ -60,6 +60,7 @@ class ProductSearchService
         $results = $this->finder->findPaginated($query);
         $results->setMaxPerPage($maxPerPage);
         $results->setCurrentPage($currentPage);
+
         return $results;
     }
 
@@ -73,14 +74,17 @@ class ProductSearchService
      */
     public function getHtmlPagination($results, $params)
     {
-        $routeGenerator = function($page) use ($params) {
+        $routeGenerator = function ($page) use ($params) {
             return $this->router->generate('search', array_merge($params, ['p' => $page]));
         };
         $view = new TwitterBootstrap3View();
-        $options = array('proximity' => 3,
-                         'prev_message' => '← Précèdent',
-                         'next_message' =>'Suivant →');
+        $options = array(
+            'proximity' => 3,
+            'prev_message' => '← Précèdent',
+            'next_message' => 'Suivant →'
+        );
         $pagination = $view->render($results, $routeGenerator, $options);
+
         return $pagination;
     }
 
@@ -94,26 +98,37 @@ class ProductSearchService
     public function getHtmlFilters($category = null)
     {
         /** @var Category $category */
-        $filters = ['price' => ['template' => 'price'], 'county' => ['template' => 'county']]; // Price filter is always displayed
+        $filters = [
+            'price' => ['template' => 'price'],
+            'county' => ['template' => 'county']
+        ]; // Price filter is always displayed
         if ($category) {
             $attributes = $category->getAttributes();
             /** @var Attribute $attribute */
             foreach ($attributes as $attribute) {
                 $template = $attribute->getAttributeSearchTemplate();
-                $filters[$attribute->getCode()] = ['template' => $template->getName(),
-                                                   'viewVars' => ['label' => $attribute->getName(),
-                                                                  'id' => $attribute->getCode()]];
+                $filters[$attribute->getCode()] = [
+                    'template' => $template->getName(),
+                    'viewVars' => [
+                        'label' => $attribute->getName(),
+                        'id' => $attribute->getCode()
+                    ]
+                ];
                 $referential = $attribute->getReferential();
                 if (isset($referential)) {
-                    $filters[$attribute->getCode()]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+                    $filters[$attribute->getCode(
+                    )]['viewVars']['referentialValues'] = $referential->getReferentialValues();
                 }
             }
         }
         $html = '';
         foreach ($filters as $filter) {
-            $html .= $this->twig->render('ProductBundle:SearchFilters:'.$filter['template'].'.html.twig',
-                                         isset($filter['viewVars']) ? $filter['viewVars'] : []);
+            $html .= $this->twig->render(
+                'ProductBundle:SearchFilters:'.$filter['template'].'.html.twig',
+                isset($filter['viewVars']) ? $filter['viewVars'] : []
+            );
         }
+
         return $html;
     }
 
@@ -179,10 +194,10 @@ class ProductSearchService
             $rangeFilter = new \Elastica\Query\Range();
             $range = array();
             if (isset($priceRange[0])) {
-                $range['from']= $priceRange[0];
+                $range['from'] = $priceRange[0];
             }
             if (isset($priceRange[1])) {
-                $range['to']= $priceRange[1];
+                $range['to'] = $priceRange[1];
             }
             if (!empty($range)) {
                 $rangeFilter->addField('price', $range);
