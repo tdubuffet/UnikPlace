@@ -24,3 +24,12 @@ parameters:
     oauth.twitter.secret:   xxxxx
     oauth.google.id: xxxxx
     oauth.google.secret: xxxxx
+
+    # MangoPay configuration
+    mangopay.client_id: xxxxx
+    mangopay.client_password: xxxxx
+    mangopay.base_url: https://api.sandbox.mangopay.com
+    mangopay.fee_rate: 10
+    mangopay.fixed_fee: 0.50
+    mangopay.max_output: 600
+    mangopay.max_input: 1200

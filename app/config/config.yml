@@ -12,6 +12,16 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    mangopay:
+        client_id: %mangopay.client_id%
+        client_password: %mangopay.client_password%
+        base_url: %mangopay.base_url%
+        fee_rate: %mangopay.fee_rate%
+        fixed_fee: %mangopay.fixed_fee%
+        max_output: %mangopay.max_output%
+        max_input: %mangopay.max_input%
+        temporary_folder: "%kernel.root_dir%/../var/mangopay"
+
 
 framework:
     #esi:             ~

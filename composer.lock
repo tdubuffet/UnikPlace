@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "47974a320494b91ecf6b2a003e80ba3f",
-    "content-hash": "4c8cf11dbec08bd3ed0a5bca489a5f3f",
+    "hash": "9de1d340dcc0b3153e3283af511f693b",
+    "content-hash": "0125669485d7841d77da55c73882d5cd",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1738,6 +1738,39 @@
                 "currency"
             ],
             "time": "2016-02-29 16:42:00"
+        },
+        {
+            "name": "mangopay/php-sdk-v2",
+            "version": "2.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Mangopay/mangopay2-php-sdk.git",
+                "reference": "b9a3ec6356f4212894a045351961b1bb2f11ed14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Mangopay/mangopay2-php-sdk/zipball/b9a3ec6356f4212894a045351961b1bb2f11ed14",
+                "reference": "b9a3ec6356f4212894a045351961b1bb2f11ed14",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-openssl": "*",
+                "php": ">=5.4.0",
+                "psr/log": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MangoPay\\": "MangoPay/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "SDK PHP for Mangopay api V2",
+            "time": "2016-05-19 15:09:51"
         },
         {
             "name": "monolog/monolog",
