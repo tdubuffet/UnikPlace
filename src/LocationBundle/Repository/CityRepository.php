@@ -2,6 +2,8 @@
 
 namespace LocationBundle\Repository;
 
+use Doctrine\ORM\Query;
+
 /**
  * CityRepository
  *
@@ -10,4 +12,14 @@ namespace LocationBundle\Repository;
  */
 class CityRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByZipcodeToArray($zipcode)
+    {
+        return $this->createQueryBuilder("q")
+            ->setMaxResults(1)
+            ->where("q.zipcode = :zipcode")
+            ->setParameter("zipcode", $zipcode)
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+    }
 }

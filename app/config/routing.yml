@@ -17,6 +17,11 @@ product:
     type:     annotation
     prefix:   /
 
+location:
+    resource: "@LocationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 admin:
     resource: "@AdminBundle/Controller/"
     type:     annotation

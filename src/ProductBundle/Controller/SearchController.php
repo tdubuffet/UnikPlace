@@ -60,18 +60,4 @@ class SearchController extends Controller
         $html = $search->getHtmlFilters($category);
         return new Response($html);
     }
-
-    /**
-     * @Route("/ajax/recherche/county", name="ajax_search_county")
-     * @Method({"GET"})
-     */
-    public function countyListAction()
-    {
-        $list = $this->getDoctrine()->getRepository("LocationBundle:County")->findAllToArray();
-        if (!$list) {
-            return new JsonResponse(['message' => 'an error occured'], 500);
-        }
-
-        return new JsonResponse(['counties' => $list]);
-    }
 }
