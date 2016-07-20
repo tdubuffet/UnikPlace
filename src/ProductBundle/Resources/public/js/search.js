@@ -67,7 +67,7 @@ var Search = {
             success: function(result) {
                 var select = $(".search-county");
                 result = result['counties'];
-                var options = "";
+                var options = "<option value=''>Toute la france</option>";
                 var county = Search.getUrlParameter('county');
                 $.each(result, function (key, value) {
                     var selected = county == value['id'] ? "selected" : "";
