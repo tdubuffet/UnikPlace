@@ -455,7 +455,7 @@ class Product
     /**
      * Remove collection
      * @param Collection $collection
-     * @return Category
+     * @return Product
      */
     public function removeCollection(Collection $collection)
     {

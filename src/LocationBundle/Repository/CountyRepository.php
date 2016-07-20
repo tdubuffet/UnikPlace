@@ -2,6 +2,8 @@
 
 namespace LocationBundle\Repository;
 
+use Doctrine\ORM\Query;
+
 /**
  * CountyRepository
  *
@@ -10,4 +12,9 @@ namespace LocationBundle\Repository;
  */
 class CountyRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findAllToArray()
+    {
+        return $this->createQueryBuilder("q")->getQuery()->getResult(Query::HYDRATE_ARRAY);
+    }
 }

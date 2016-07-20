@@ -10,6 +10,8 @@ namespace ProductBundle\Transformer;
 
 use Elastica\Document;
 use FOS\ElasticaBundle\Transformer\ModelToElasticaTransformerInterface;
+use ProductBundle\Entity\Attribute;
+use ProductBundle\Entity\Product;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use ProductBundle\Entity\ReferentialValue;
 
@@ -19,7 +21,7 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
     /**
      * Transforme un produit en champs pour elasticsearch
      *
-     * @param object $product
+     * @param Product $product
      * @param array $fields
      * @return Document
      */
@@ -34,6 +36,7 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
             'category' => $product->getCategory()->getPath(),
             'price' => $product->getPrice(),
             'updated_at' => $product->getUpdatedAt()->getTimestamp(),
+            'county' => $product->getCity()->getCounty()->getId()
         ));
 
         // Import product attributes
@@ -42,6 +45,10 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
         return $document;
     }
 
+    /**
+     * @param Document $document
+     * @param Product $product
+     */
     private function setAttributes($document, $product)
     {
         $valueTypes = ['text', 'integer', 'float', 'datetime', 'date', 'referential', 'boolean'];
@@ -50,6 +57,7 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
         $attributesValues = $product->getAttributeValues();
         if (isset($attributesValues)) {
             foreach ($attributesValues as $attributeValue) {
+                /** @var Attribute $attribute */
                 $attribute = $attributeValue->getAttribute();
                 foreach ($valueTypes as $valueType) {
                     $value = $accessor->getValue($attributeValue, $valueType.'_value');

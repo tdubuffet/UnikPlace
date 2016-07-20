@@ -2,6 +2,7 @@
 
 namespace ProductBundle\Controller;
 
+use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -58,5 +59,19 @@ class SearchController extends Controller
         $search = $this->container->get('product_bundle.product_search_service');
         $html = $search->getHtmlFilters($category);
         return new Response($html);
+    }
+
+    /**
+     * @Route("/ajax/recherche/county", name="ajax_search_county")
+     * @Method({"GET"})
+     */
+    public function countyListAction()
+    {
+        $list = $this->getDoctrine()->getRepository("LocationBundle:County")->findAllToArray();
+        if (!$list) {
+            return new JsonResponse(['message' => 'an error occured'], 500);
+        }
+
+        return new JsonResponse(['counties' => $list]);
     }
 }

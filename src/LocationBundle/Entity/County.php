@@ -36,7 +36,29 @@ class County
      * @ORM\Column(name="code", type="string", length=255)
      */
     private $code;
+    /**
+     * @ORM\OneToMany(targetEntity="City", mappedBy="county")
+     */
+    private $cities;
 
+    /**
+     * @return mixed
+     */
+    public function getCities()
+    {
+        return $this->cities;
+    }
+
+    /**
+     * @param mixed $cities
+     * @return County
+     */
+    public function setCities($cities)
+    {
+        $this->cities = $cities;
+
+        return $this;
+    }
 
     /**
      * Get id

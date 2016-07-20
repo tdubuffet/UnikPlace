@@ -3,33 +3,26 @@
 namespace ProductBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Elastica\Query\BoolQuery;
 use Pagerfanta\View\TwitterBootstrap3View;
+use ProductBundle\Entity\Attribute;
+use ProductBundle\Entity\Category;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 class ProductSearchService
 {
 
-    /**
-     *
-     * @var $finder FOS\ElasticaBundle\Finder\TransformedFinder
-     */
+    /** @var $finder TransformedFinder */
     private $finder;
 
-    /**
-     *
-     * @var $route Symfony\Bundle\FrameworkBundle\Routing\Router
-     */
-    private $route;
+    /** @var $router Router */
+    private $router;
 
-    /**
-     *
-     * @var EntityManager
-     */
+    /** @var EntityManager */
     private $em;
 
-    /**
-     *
-     * @var Twig_Environment
-     */
+    /** @var \Twig_Environment */
     private $twig;
 
     public function __construct($finder, $router, EntityManager $entityManager, $twig)
@@ -46,7 +39,7 @@ class ProductSearchService
      *
      * @param array $params Search parameters
      *
-     * @return Pagerfanta\Pagerfanta
+     * @return \Pagerfanta\Pagerfanta
      */
     public function search($params)
     {
@@ -59,6 +52,7 @@ class ProductSearchService
         $this->applyCategory($boolQuery, $params);
         $this->applyPrice($boolQuery, $params);
         $this->applyAttributes($boolQuery, $params);
+        $this->applyCounty($boolQuery, $params);
 
         $query = new \Elastica\Query($boolQuery);
         $this->applySortAndOrder($query, $params);
@@ -72,7 +66,7 @@ class ProductSearchService
     /**
      * Generate HTML code for search pagination
      *
-     * @param array $results Search results
+     * @param array\\PagerFanta\PagerFanta $results Search results
      * @param array $params Search parameters
      *
      * @return string The HTML code
@@ -93,15 +87,17 @@ class ProductSearchService
     /**
      * Generate HTML code for search attribute filters
      *
-     * @param ProductBundle\Entity\Category $category The product category selected
+     * @param \ProductBundle\Entity\Category $category The product category selected
      *
      * @return string The HTML code
      */
     public function getHtmlFilters($category = null)
     {
-        $filters = ['price' => ['template' => 'price']]; // Price filter is always displayed
+        /** @var Category $category */
+        $filters = ['price' => ['template' => 'price'], 'county' => ['template' => 'county']]; // Price filter is always displayed
         if ($category) {
             $attributes = $category->getAttributes();
+            /** @var Attribute $attribute */
             foreach ($attributes as $attribute) {
                 $template = $attribute->getAttributeSearchTemplate();
                 $filters[$attribute->getCode()] = ['template' => $template->getName(),
@@ -121,6 +117,10 @@ class ProductSearchService
         return $html;
     }
 
+    /**
+     * @param BoolQuery $boolQuery
+     * @param $params
+     */
     private function applyQuery($boolQuery, $params)
     {
         if (isset($params['q']) && $params['q'] != '') {
@@ -138,6 +138,10 @@ class ProductSearchService
         }
     }
 
+    /**
+     * @param BoolQuery $boolQuery
+     * @param $params
+     */
     private function applyCategory($boolQuery, $params)
     {
         if (isset($params['cat']) && is_numeric($params['cat'])) {
@@ -148,6 +152,24 @@ class ProductSearchService
                 $boolQuery->addMust($fieldTerm);
             }
         }
+    }
+
+    /**
+     * @param BoolQuery $boolQuery
+     * @param $params
+     */
+    private function applyCounty($boolQuery, $params)
+    {
+        if (isset($params['county'])) {
+            $county = $this->em->getRepository("LocationBundle:County")->findOneBy(['id' => $params['county']]);
+            if (isset($county)) {
+                $fieldTerm = new \Elastica\Query\Match();
+                $fieldTerm->setFieldQuery('county', $county->getId());
+                $boolQuery->addMust($fieldTerm);
+            }
+
+        }
+
     }
 
     private function applyPrice($boolQuery, $params)

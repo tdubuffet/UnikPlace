@@ -40,7 +40,7 @@ class City
     /**
      * @var County $county
      *
-     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\County")
+     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\County", inversedBy="cities")
      * @ORM\JoinColumn(name="county_id", referencedColumnName="id")
      */
     private $county;
