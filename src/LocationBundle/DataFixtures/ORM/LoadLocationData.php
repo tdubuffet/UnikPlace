@@ -4,24 +4,29 @@ namespace LocationBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use LocationBundle\Entity\Location;
+use LocationBundle\Entity\City;
+use LocationBundle\Entity\County;
 use Symfony\Component\Yaml\Yaml;
 
 class LoadLocationData implements FixtureInterface {
 
     public function load(ObjectManager $manager)
     {
-        $filename = __DIR__ . DIRECTORY_SEPARATOR . 'location.yml';
+        $counties = include(__DIR__."/county.php");
+        foreach ($counties as $county) {
+            $obj = new County();
+            $obj->setName($county['name'])->setCode($county['code']);
+            $manager->persist($obj);
+        }
 
-        $yml = Yaml::parse(file_get_contents($filename));
-        foreach ($yml as $data) {
-            $location = new Location();
+        $manager->flush();
 
-            $location->setCity($data['ville_nom_reel']);
-            $location->setZipcode($data['ville_code_postal']);
-            $location->setCounty($data['ville_departement']);
-
-            $manager->persist($location);
+        $cities = include(__DIR__."/city.php");
+        foreach ($cities as $city) {
+            $obj = new City();
+            $county = $manager->getRepository("LocationBundle:County")->findOneBy(['id' => $city['county_id']]);
+            $obj->setName($city['name'])->setZipcode($city['zipcode'])->setCounty($county);
+            $manager->persist($obj);
         }
 
         $manager->flush();
