@@ -38,6 +38,7 @@ class AppKernel extends Kernel
             new MessageBundle\MessageBundle(),
             new LocationBundle\LocationBundle(),
             new CartBundle\CartBundle(),
+            new OrderBundle\OrderBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

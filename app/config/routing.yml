@@ -1,3 +1,8 @@
+order:
+    resource: "@OrderBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 cart:
     resource: "@CartBundle/Controller/"
     type:     annotation

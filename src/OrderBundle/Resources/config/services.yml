@@ -1,0 +1,4 @@
+services:
+#    order.example:
+#        class: OrderBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
