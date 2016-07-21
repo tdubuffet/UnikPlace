@@ -82,7 +82,7 @@ doctrine:
             region_cache_driver: memcached
             regions:
                 category_cache:
-                    cache_driver:  memcache
+                    cache_driver:  memcached
                     lifetime:   3600
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
