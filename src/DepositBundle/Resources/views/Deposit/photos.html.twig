@@ -25,58 +25,125 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="main-photo">
-            <div class="deposit-title">Ajout de la photo principale*</div>
-            <p>Cette photographie sera retravaillée par nos équipes sur un fond blanc.<br />La mise en valeur de votre produit aide à la vente des produits.</p>
-          </div>
+      {% for flash_message in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+          {{ flash_message }}
         </div>
-        <div class="col-sm-6">
-          <div class="photo-tips">
-            <div class="deposit-title text-center">Astuce pour la photo principale</div>
-            <ul class="photo-tips-list">
-              <li>Prenez une photo de votre produit sur un fond uni</li>
-              <li>Prenez le produit de face et en entier</li>
-              <li>Ajoutez une photo sans filtre</li>
-              <li>N'utilisez pas les photos d'autres auteurs</li>
-              <li>Ne prenez qu'un produit en photo</li>
-            </ul>
-          </div>
-        </div>
+      {% endfor %}
+
+      <div class="alert alert-danger" id="upload-alert-danger">
+        <p>Une <strong>erreur est survenue</strong> lors de l'envoi d'une ou de plusieurs de vos photos. Merci de vérifier le format et la taille.</p>
+
+        <p>Formats d'images : <strong>jpg, jpeg, gif, png</strong>. Taille maximum par image : <strong>2 Mo</strong>.</p>
       </div>
 
-      <div class="deposit-title text-center">Ajout d'autres photos</div>
-      <p>Pour donner une idée précise de l'état de votre produit à vos potentiels acheteurs, ajoutez davantage de photos. Prenez votre article de dos, de face, de côté, zoomer sur les détails ou bien les défauts. Un article accompagné de plusieurs photos augmente vos chances de vente.</p>
+      <input type="file" id="fileupload" multiple>
 
-      <div class="other-photos">
+      <form method="post" action="{{ path('deposit_postphotos') }}" id="photos-form">
+
         <div class="row">
-          <div class="col-sm-6 col-md-3">
-            <div class="other-photo">
-              <p>Arrière de l'article</p>
+          <div class="col-sm-6">
+
+            <div class="upload-pic main-photo">
+              <div class="upload-pic-input">
+                <div class="deposit-title">Ajout de la photo principale*</div>
+                <p>Cette photographie sera retravaillée par nos équipes sur un fond blanc.<br />La mise en valeur de votre produit aide à la vente des produits.</p>
+              </div>
+              <div class="upload-pic-preview">
+                <div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>
+                <span class="upload-pic-delete" title="Retirer la photo"><i class="fa fa-times"></i></span>
+              </div>
+              <input type="hidden" class="upload-pic-id" name="image1" value="" />
             </div>
+
           </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="other-photo">
-              <p>Article de face</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="other-photo">
-              <p>Détails de l'article</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="other-photo">
-              <p>Défauts de l'article</p>
+          <div class="col-sm-6">
+            <div class="photo-tips">
+              <div class="deposit-title text-center">Astuce pour la photo principale</div>
+              <ul class="photo-tips-list">
+                <li>Prenez une photo de votre produit sur un fond uni</li>
+                <li>Prenez le produit de face et en entier</li>
+                <li>Ajoutez une photo sans filtre</li>
+                <li>N'utilisez pas les photos d'autres auteurs</li>
+                <li>Ne prenez qu'un produit en photo</li>
+              </ul>
+              <img src="{{ asset('bundles/deposit/images/sofa.png') }}" class="img-responsive picture-example" />
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="text-center">
-        <a href="{{ path('sell_description') }}" class="btn btn-default">Etape suivante</a>
-      </div>
+        <div class="deposit-title text-center">Ajout d'autres photos</div>
+        <p>Pour donner une idée précise de l'état de votre produit à vos potentiels acheteurs, ajoutez davantage de photos. Prenez votre article de dos, de face, de côté, zoomer sur les détails ou bien les défauts. Un article accompagné de plusieurs photos augmente vos chances de vente.</p>
+        <div class="other-photos">
+
+          <div class="row">
+            <div class="box-upload-pictures">
+
+              <div class="col-xs-6 col-md-3">
+                <div class="upload-pic other-photo">
+                  <div class="upload-pic-input">
+                    <p>Arrière de l'article</p>
+                  </div>
+                  <div class="upload-pic-preview">
+                    <div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <span class="upload-pic-delete" title="Retirer la photo"><i class="fa fa-times"></i></span>
+                  </div>
+                  <input type="hidden" class="upload-pic-id" name="image2" value="" />
+                </div>
+              </div>
+
+              <div class="col-xs-6 col-md-3">
+                <div class="upload-pic other-photo">
+                  <div class="upload-pic-input">
+                    <p>Arrière de face</p>
+                  </div>
+                  <div class="upload-pic-preview">
+                    <div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <span class="upload-pic-delete" title="Retirer la photo"><i class="fa fa-times"></i></span>
+                  </div>
+                  <input type="hidden" class="upload-pic-id" name="image3" value="" />
+                </div>
+              </div>
+
+              <div class="col-xs-6 col-md-3">
+                <div class="upload-pic other-photo">
+                  <div class="upload-pic-input">
+                    <p>Détails de l'article</p>
+                  </div>
+                  <div class="upload-pic-preview">
+                    <div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <span class="upload-pic-delete" title="Retirer la photo"><i class="fa fa-times"></i></span>
+                  </div>
+                  <input type="hidden" class="upload-pic-id" name="image4" value="" />
+                </div>
+              </div>
+
+              <div class="col-xs-6 col-md-3">
+                <div class="upload-pic other-photo">
+                  <div class="upload-pic-input">
+                    <p>Défauts de l'article</p>
+                  </div>
+                  <div class="upload-pic-preview">
+                    <div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <span class="upload-pic-delete" title="Retirer la photo"><i class="fa fa-times"></i></span>
+                  </div>
+                  <input type="hidden" class="upload-pic-id" name="image5" value="" />
+                </div>
+              </div>
+
+            </div><!-- .box-upload-pictures -->
+            <div class="text-center">
+              <label id="minimum-photo-error" class="error">Veuillez ajouter au minimum une photo.</label>
+            </div>
+          </div> <!-- .row -->
+
+        </div><!-- .other-photos -->
+
+        <div class="text-center">
+          <input type="submit" class="btn btn-default" value="Etape suivante" />
+        </div>
+
+      </form>
 
     </div><!-- .main -->
   </div><!-- .container -->

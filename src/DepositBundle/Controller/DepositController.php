@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Intervention\Image\ImageManager;
+use ProductBundle\Entity\Image;
 
 class DepositController extends Controller
 {
@@ -37,8 +39,8 @@ class DepositController extends Controller
      * @Route("/deposit_postcategory", name="deposit_postcategory")
      * @Method({"POST"})
      */
-    public function postCategoryAction(Request $request) {
-        //var_dump($request->request->all());
+    public function postCategoryAction(Request $request)
+    {
         $categoryId = $request->get('category_id');
         $session = new Session();
 
@@ -64,7 +66,37 @@ class DepositController extends Controller
      */
     public function photosAction()
     {
-        // TODO
+    }
+
+    /**
+     * @Route("/deposit_postphotos", name="deposit_postphotos")
+     * @Method({"POST"})
+     */
+    public function postPhotosAction(Request $request)
+    {
+        $session = $this->get('session');
+
+        $picIds = array();
+        for ($i = 1; $i <= 5; $i++) {
+            if (!empty($request->get('image'.$i))) {
+                $picIds[] = $request->get('image'.$i);
+            }
+        }
+        if (count($picIds) > 0) {
+            if ($session->has('deposit')) {
+                // TODO: control to check if correct deposit step
+                $deposit = $session->get('deposit');
+                $deposit['images'] = $picIds;
+                $session->set('deposit', $deposit);
+                return $this->redirectToRoute('sell_description');
+            } else {
+                return $this->redirectToRoute('sell_photos');
+            }
+        } else {
+            $session->getFlashBag()->add('error', "Aucune image n'a été ajoutée.");
+        }
+
+        return $this->redirectToRoute('sell_photos');
     }
 
     /**
@@ -148,5 +180,30 @@ class DepositController extends Controller
         }
 
         return new JsonResponse(array('message' => 'An error occured.'), 500);
+    }
+
+    /**
+     * @Route("/upload_picture", name="upload_picture")
+     * @Method({"POST"})
+     */
+    public function uploadPictureAction(Request $request)
+    {
+        $file = $request->files->get('files');
+
+        try {
+            $img = new Image();
+            $img->setImageFile($file[0]);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($img);
+            $em->flush();
+        } catch (\Exception $e) {
+            return new JsonResponse(array('message' => "An error occured while uploading."), 500);
+        }
+
+        $pic = array(
+            'id' => $img->getId()
+        );
+
+        return new JsonResponse(array('message' => "Image successfully uploaded.", 'pic' => $pic), 201);
     }
 }

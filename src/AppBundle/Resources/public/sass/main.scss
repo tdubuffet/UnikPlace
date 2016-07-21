@@ -7522,6 +7522,12 @@ body { background-color:rgba(0,0,0,0); }
   font-weight: normal;
 }
 
+@media (max-width: 767px) {
+  .deposit .category-choice {
+    display: block;
+  }
+}
+
 .deposit .category-choice > div {
   border: 9px solid #fff;
   transition: border .3s ease;
@@ -7553,6 +7559,12 @@ body { background-color:rgba(0,0,0,0); }
   border-bottom: 5px solid #CCC;
 }
 
+@media (max-width: 767px) {
+  .deposit-steps .deposit-step:not(.active) {
+    display: none;
+  }
+}
+
 .deposit-title {
   color: #181818;
   font-size: 1.5em;
@@ -7567,7 +7579,7 @@ body { background-color:rgba(0,0,0,0); }
   margin-bottom: 20px;
 }
 
-.deposit #main-categ-error {
+.deposit #main-categ-error, .deposit #minimum-photo-error {
   display: none;
 }
 
@@ -7579,14 +7591,28 @@ body { background-color:rgba(0,0,0,0); }
   margin-left: 75px;
 }
 
+@media (max-width: 991px) {
+  .photo-tips ul {
+    margin-left: 0;
+  }
+}
+
 .photo-tips ul > li {
   list-style: disc inside;
 }
 
 .main-photo {
-  background: url(../images/icons/photo-camera.png) center 50px no-repeat;
-  padding: 180px 0 20px;
   margin-bottom: 50px;
+}
+
+.main-photo .upload-pic-input {
+  background: url(../images/icons/photo-camera.png) center 80px no-repeat;
+  padding: 230px 20px 80px;
+  cursor: pointer;
+}
+
+.upload-pic-preview {
+  display: none;
 }
 
 .other-photos {
@@ -7594,11 +7620,15 @@ body { background-color:rgba(0,0,0,0); }
 }
 
 .other-photo {
-  background: url(../images/icons/photo-camera.png) center 70px no-repeat;
-  padding: 200px 0 30px;
   color: #181818;
-  background-size: 80px;
   margin-bottom: 30px;
+}
+
+.other-photo .upload-pic-input {
+  background: url(../images/icons/photo-camera.png) center 40px no-repeat;
+  background-size: 70px;
+  padding: 145px 0 20px;
+  cursor: pointer;
 }
 
 .main-photo, .other-photo {
@@ -7612,10 +7642,52 @@ body { background-color:rgba(0,0,0,0); }
   border-color: #ccc;
 }
 
+.upload-pic-delete {
+  position: absolute;
+  background: #eee;
+  color: #181818;
+  padding: 0px 4px 0 5px;
+  right: 30px;
+  top: 15px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.upload-pic-preview .progress {
+  margin-bottom: -20px;
+  background: transparent;
+  position: relative;
+  border-radius: 0;
+}
+
+#upload-alert-danger {
+  display: none;
+}
+
+.deposit #fileupload {
+    display: none;
+}
+
 .valued-amount {
   background: #eee;
   padding: 10px;
   width: 330px;
   margin: 0 auto;
   color: #181818;
+}
+
+.deposit .sortable-placeholder {
+  border: 2px dashed #ccc;
+}
+
+.deposit .sortable-dragging {
+  padding: 0 30px;
+}
+
+.deposit .sortable-dragging .other-photo{
+  margin: 0 -15px;
+}
+
+.picture-example {
+  margin: 50px auto 0;
 }
