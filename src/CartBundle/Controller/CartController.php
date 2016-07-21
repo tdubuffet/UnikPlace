@@ -252,12 +252,10 @@ class CartController extends Controller
             $preAuth = $mangopayService->getCardPreAuthorization($get['preAuthorizationId']);
             if ($preAuth->Status == 'SUCCEEDED' && $preAuth->AuthorId == $this->getUser()->getMangopayUserId()) {
                 // Success - Create order and redirect to confirmation page
-                /*
                 $orderService = $this->get('order_service');
                 $order = $orderService->createOrderFromCartSession();
                 $orderService->removeCartSession();
-                $session->set('last_order', $order);
-                */
+                //$session->set('last_order', $order);
                 return $this->redirectToRoute('cart_confirmation');
             }
         }
