@@ -37,7 +37,7 @@ class Delivery
 
     /**
      * @var ArrayCollection $products
-     * @ORM\ManyToMany(targetEntity="ProductBundle\Entity\Product", inversedBy="eliveries")
+     * @ORM\ManyToMany(targetEntity="ProductBundle\Entity\Product", inversedBy="deliveries")
      * @ORM\JoinTable(name="product_delivery")
      */
     private $products;
