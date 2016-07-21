@@ -9,7 +9,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 /**
  * Order
  *
- * @ORM\Table(name="order")
+ * @ORM\Table(name="product_order")
  * @ORM\Entity(repositoryClass="OrderBundle\Repository\OrderRepository")
  */
 class Order
@@ -63,7 +63,7 @@ class Order
 
     /**
      * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Address")
-     * @ORM\JoinColumn(name="delivery_address_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="billing_address_id", referencedColumnName="id")
      */
     private $billing_address;
 

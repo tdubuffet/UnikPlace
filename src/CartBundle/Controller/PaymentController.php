@@ -127,9 +127,12 @@ class PaymentController extends Controller
             if ($preAuth->Status == 'SUCCEEDED' && $preAuth->AuthorId == $this->getUser()->getMangopayUserId()) {
                 // Success - Create order and redirect to confirmation page
                 $orderService = $this->get('order_service');
-                $order = $orderService->createOrderFromCartSession();
+                $orders = $orderService->createOrdersFromCartSession(
+                    $this->getUser(),
+                    'EUR',
+                    $preAuth->Id
+                );
                 $orderService->removeCartSession();
-                //$session->set('last_order', $order);
                 return $this->redirectToRoute('cart_confirmation');
             }
         }

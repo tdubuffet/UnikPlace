@@ -1,3 +1,4 @@
 services:
     order_service:
         class: OrderBundle\Service\OrderService
+        arguments: ['@doctrine.orm.entity_manager', '@lexik_currency.converter']
