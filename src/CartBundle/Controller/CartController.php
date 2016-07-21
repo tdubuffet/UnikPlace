@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use LocationBundle\Entity\Address;
 use LocationBundle\Form\AddressType;
 use CartBundle\Form\selectCartAddressType;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CartController extends Controller
 {
@@ -142,7 +143,7 @@ class CartController extends Controller
      * @Method({"GET"})
      * @Template("CartBundle:Cart:payment.html.twig")
      */
-    public function paymentAction()
+    public function paymentAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('fos_user_security_login');
@@ -171,11 +172,97 @@ class CartController extends Controller
             }
             $addresses[$addressType] = $address;
         }
+
+        $cardRegistration = $this->get('mangopay_service')->createCardRegistration($this->getUser()->getMangopayUserId(), 'EUR');
+        $session->set('card_registration_id', $cardRegistration->Id);
+        $session->set('cart_amount', $productsTotalPrice + $deliveryFee);
+
         return ['products' => $products,
                 'productsTotalPrice' => $productsTotalPrice,
                 'deliveryFee' => $deliveryFee,
                 'deliveryModes' => $deliveryModes,
-                'addresses' => $addresses];
+                'addresses' => $addresses,
+                'cardRegistration' => $cardRegistration];
+    }
+
+    /**
+     * @Route("/cart/paiement/validation", name="cart_payment_validation")
+     * @Method({"GET"})
+     */
+    public function paymentValidationAction(Request $request)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+
+        $session = new Session();
+        $get = $request->query->all();
+        $mangopayService = $this->get('mangopay_service');
+
+        if ((isset($get['data']) || isset($get['errorCode'])) && $session->has('card_registration_id')) {
+            $cardRegistration = $mangopayService->getCardRegistration($session->get('card_registration_id'));
+            $cardRegistration->RegistrationData = isset($get['data']) ? 'data=' . $get['data'] : 'errorCode=' . $get['errorCode'];
+            try {
+                $updatedCardRegistration = $mangopayService->updateCardRegistration($cardRegistration);
+            }
+            catch (\Exception $e) {
+                // Card already processed
+                $session->getFlashBag()->add('error', "Une erreur s'est produite lors du paiement.");
+                return $this->redirectToRoute('cart_payment');
+            }
+            if ($updatedCardRegistration->Status != 'VALIDATED' || !isset($updatedCardRegistration->CardId)) {
+                // Cannot create virtual card. Payment has not been created.
+                $session->getFlashBag()->add('error', "Les informations de paiement ne sont pas valides, veuillez réessayer.");
+                return $this->redirectToRoute('cart_payment');
+            }
+            $card = $mangopayService->getCard($updatedCardRegistration->CardId);
+
+            // Create Pre authorization
+            $preAuth =$mangopayService->createCardPreAuthorization(
+                $this->getUser()->getMangopayUserId(),
+                $session->get('cart_amount'),
+                'EUR',
+                $card,
+                $this->generateUrl('cart_payment_secure', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            );
+            if ($preAuth->Status == 'CREATED' && isset($preAuth->SecureModeRedirectURL)) {
+                // Redirect to 3d secure url
+                return $this->redirect($preAuth->SecureModeRedirectURL);
+            }
+            else  {
+                $session->getFlashBag()->add('error', "Une erreur s'est produite lors du paiement.");
+                return $this->redirectToRoute('cart_payment');
+            }
+        }
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
+     * @Route("/cart/paiement/secure", name="cart_payment_secure")
+     * @Method({"GET"})
+     */
+    public function paymentSecureAction(Request $request)
+    {
+        // Process after the validation from 3D secure
+        // 3d secure preauthorizationid
+        $session = new Session();
+        $get = $request->query->all();
+        $mangopayService = $this->get('mangopay_service');
+        if (isset($get['preAuthorizationId'])) {
+            $preAuth = $mangopayService->getCardPreAuthorization($get['preAuthorizationId']);
+            if ($preAuth->Status == 'SUCCEEDED' && $preAuth->AuthorId == $this->getUser()->getMangopayUserId()) {
+                // Success - Create order and redirect to confirmation page
+                /*
+                $orderService = $this->get('order_service');
+                $order = $orderService->createOrderFromCartSession();
+                $orderService->removeCartSession();
+                $session->set('last_order', $order);
+                */
+                return $this->redirectToRoute('cart_confirmation');
+            }
+        }
+        $session->getFlashBag()->add('error', "Une erreur s'est produite lors du paiement.");
+        return $this->redirectToRoute('cart_payment');
     }
 
     /**
@@ -183,8 +270,10 @@ class CartController extends Controller
      * @Method({"GET"})
      * @Template("CartBundle:Cart:confirmation.html.twig")
      */
-    public function confirmationAction()
+    public function confirmationAction(Request $request)
     {
-
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
     }
 }

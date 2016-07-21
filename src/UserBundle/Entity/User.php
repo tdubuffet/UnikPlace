@@ -134,6 +134,9 @@ class User extends BaseUser implements ParticipantInterface
      */
     private $addresses;
 
+    /** @ORM\Column(name="mangopay_user_id", type="string", length=255, nullable=true) */
+    protected $mangopay_user_id;
+
 
     public function setEmail($email)
     {
@@ -663,5 +666,29 @@ class User extends BaseUser implements ParticipantInterface
     public function getAddresses()
     {
         return $this->addresses;
+    }
+
+    /**
+     * Set mangopayUserId
+     *
+     * @param string $mangopayUserId
+     *
+     * @return User
+     */
+    public function setMangopayUserId($mangopayUserId)
+    {
+        $this->mangopay_user_id = $mangopayUserId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayUserId
+     *
+     * @return string
+     */
+    public function getMangopayUserId()
+    {
+        return $this->mangopay_user_id;
     }
 }

@@ -3,12 +3,18 @@
 {% block title %}Mon panier{% endblock %}
 {% block description %}Mon panier sur Noname{% endblock %}
 
+{% block javascript_include %}{{ jsinit(['payment']) }}{% endblock javascript_include %}
+
 {% block body %}
 <div class="main-wrapper">
   <div class="container">
     <div class="main">
 
       <h1>Paiement de la commande</h1>
+
+      {% for flashMessage in app.session.flashbag.get('error') %}
+      <div class="alert alert-danger">{{ flashMessage }}</div>
+      {% endfor %}
 
       <ul>
       {% for product in products %}
@@ -27,7 +33,48 @@
 
       TOTAL: {{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}
 
-      <div>TODO formulaire de paiement</div>
+      <div>
+        <form method="post" action="{{ cardRegistration.CardRegistrationURL }}" id="payment-form">
+              <input type="hidden" name="data" value="{{ cardRegistration.PreregistrationData }}" />
+              <input type="hidden" name="accessKeyRef" value="{{ cardRegistration.AccessKey }}" />
+              <input type="hidden" name="returnURL" value="{{ url('cart_payment_validation') }}" />
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="cardNumber">N° de carte</label>
+                  <input class="form-control" type="text" id="cc_number" placeholder="____ ____ ____ ____" autocomplete="off" required />
+                  <input type="hidden" name="cardNumber" id="cardNumber" />
+                </div>
+                <div class="form-group">
+                  <label for="cc_month">Date d'expiration</label>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <input class="form-control" type="text" id="cc_month" placeholder="__" autocomplete="off" maxlength="2" required />
+                    </div>
+                    <div class="col-md-1" style="font-size: 1.8em">
+                      /
+                    </div>
+                    <div class="col-md-3">
+                      <input class="form-control" type="text" id="cc_year" placeholder="__" autocomplete="off" maxlength="2" required />
+                    </div>
+                  </div>
+                  <span class="help-block" style="font-size: 12px;">Renseignez le mois (2 chiffres) dans le premier champ et l'année (2 chiffres) dans le second champ</span>
+                  <input type="hidden" name="cardExpirationDate" id="cardExpirationDate" />
+                </div>
+                <div class="form-group">
+                  <label for="cardCvx">CCV</label>
+                  <input class="form-control" type="text" name="cardCvx" id="cardCvx" placeholder="___" autocomplete="off" maxlength="3" required />
+                  <span class="help-block" style="font-size: 12px;">Le CCV est le code de vérification à 3 chiffres situé au verso de la carte</span>
+                </div>
+                <div class="form-group">
+                  <p class="cgu" style="margin: 10px 0 25px;">En cliquant sur valider le paiement vous acceptez les
+                    <a target="_blank" href="#">conditions générales d'utilisation de mangopay</a>
+                  </p>
+                  <input class="btn btn-primary-outline" id="validateP" type="submit"
+                         value="Valider le paiement" data-loading-text="Validation en cours..." />
+                </div>
+              </div>
+            </form>
+      </div>
 
     </div><!-- .main -->
   </div><!-- .container -->
