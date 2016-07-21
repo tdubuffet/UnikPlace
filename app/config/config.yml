@@ -282,6 +282,9 @@ easy_admin:
         City:
           class: LocationBundle\Entity\City
 
+        Delivery:
+          class: OrderBundle\Entity\Delivery
+
     design:
         menu:
             - { label: 'Site web', route: 'homepage' }
@@ -300,6 +303,7 @@ easy_admin:
             - Attribute
             - Status
             - Currency
+            - Delivery
             - { label: 'Collection' }
             - Collection
             - CollectionImage
