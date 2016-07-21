@@ -108,6 +108,12 @@ class Product
      */
     private $city;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="OrderBundle\Entity\Delivery", mappedBy="products")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
+     */
+    private $deliveries;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
@@ -517,5 +523,39 @@ class Product
     public function removeThread(\MessageBundle\Entity\Thread $thread)
     {
         $this->threads->removeElement($thread);
+    }
+
+    /**
+     * Add delivery
+     *
+     * @param \OrderBundle\Entity\Delivery $delivery
+     *
+     * @return Product
+     */
+    public function addDelivery(\OrderBundle\Entity\Delivery $delivery)
+    {
+        $this->deliveries[] = $delivery;
+
+        return $this;
+    }
+
+    /**
+     * Remove delivery
+     *
+     * @param \OrderBundle\Entity\Delivery $delivery
+     */
+    public function removeDelivery(\OrderBundle\Entity\Delivery $delivery)
+    {
+        $this->deliveries->removeElement($delivery);
+    }
+
+    /**
+     * Get deliveries
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDeliveries()
+    {
+        return $this->deliveries;
     }
 }

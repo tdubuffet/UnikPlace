@@ -35,6 +35,13 @@ class Delivery
      */
     private $code;
 
+    /**
+     * @var ArrayCollection $products
+     * @ORM\ManyToMany(targetEntity="ProductBundle\Entity\Product", inversedBy="eliveries")
+     * @ORM\JoinTable(name="product_delivery")
+     */
+    private $products;
+
 
     /**
      * Get id
@@ -93,5 +100,50 @@ class Delivery
     {
         return $this->code;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add product
+     *
+     * @param \ProductBundle\Entity\Product $product
+     *
+     * @return Delivery
+     */
+    public function addProduct(\ProductBundle\Entity\Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \ProductBundle\Entity\Product $product
+     */
+    public function removeProduct(\ProductBundle\Entity\Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+}
