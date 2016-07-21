@@ -27,6 +27,7 @@ class User extends BaseUser implements ParticipantInterface
         $this->favorites = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
@@ -136,6 +137,11 @@ class User extends BaseUser implements ParticipantInterface
 
     /** @ORM\Column(name="mangopay_user_id", type="string", length=255, nullable=true) */
     protected $mangopay_user_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="OrderBundle\Entity\Order", mappedBy="user")
+     */
+    private $orders;
 
 
     public function setEmail($email)
@@ -690,5 +696,39 @@ class User extends BaseUser implements ParticipantInterface
     public function getMangopayUserId()
     {
         return $this->mangopay_user_id;
+    }
+
+    /**
+     * Add order
+     *
+     * @param \OrderBundle\Entity\Order $order
+     *
+     * @return User
+     */
+    public function addOrder(\OrderBundle\Entity\Order $order)
+    {
+        $this->orders[] = $order;
+
+        return $this;
+    }
+
+    /**
+     * Remove order
+     *
+     * @param \OrderBundle\Entity\Order $order
+     */
+    public function removeOrder(\OrderBundle\Entity\Order $order)
+    {
+        $this->orders->removeElement($order);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }
