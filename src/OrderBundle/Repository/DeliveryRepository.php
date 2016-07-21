@@ -10,4 +10,13 @@ namespace OrderBundle\Repository;
  */
 class DeliveryRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findAllCode()
+    {
+        return $this->createQueryBuilder('d')
+            ->select('d.code')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 }

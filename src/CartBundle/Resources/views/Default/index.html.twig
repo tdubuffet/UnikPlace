@@ -43,8 +43,9 @@
                 <td>{{ product.getCity.getName }} ({{ product.getCity.getZipcode }})</td>
                 <td>
                   <select name="{{ product.getId() }}">
-                    <option value="parcel">Livraison</option>
-                    <option value="by_hand">Remise en main propre</option>
+                    {% for delivery in deliveries %}
+                      <option value="{{ delivery.code }}">{{ delivery.name }}</option>
+                    {% endfor %}
                   </select>
                 </td>
               </tr>

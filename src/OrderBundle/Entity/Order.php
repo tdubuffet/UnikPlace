@@ -80,6 +80,12 @@ class Order
      */
     private $mangopay_preauthorization_id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="OrderBundle\Entity\Delivery")
+     * @ORM\JoinColumn(name="delivery_type_id", referencedColumnName="id")
+     */
+    private $deliveryType;
+
 
     /**
      * Get id
@@ -298,5 +304,29 @@ class Order
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set deliveryType
+     *
+     * @param \OrderBundle\Entity\Delivery $deliveryType
+     *
+     * @return Order
+     */
+    public function setDeliveryType(\OrderBundle\Entity\Delivery $deliveryType = null)
+    {
+        $this->deliveryType = $deliveryType;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryType
+     *
+     * @return \OrderBundle\Entity\Delivery
+     */
+    public function getDeliveryType()
+    {
+        return $this->deliveryType;
     }
 }

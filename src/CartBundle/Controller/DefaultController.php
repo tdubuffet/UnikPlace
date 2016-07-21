@@ -22,18 +22,31 @@ class DefaultController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('fos_user_security_login');
         }
+
         $session = new Session();
         $cart = $session->get('cart', array());
+
         // Fetch products from cart
         $products = array();
         $productsTotalPrice = 0; // in EUR
-        $deliveryFee = 0; // in EUR
+        $deliveryFee        = 0; // in EUR
+
         foreach ($cart as $productId) {
-            $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+            $product = $this->getDoctrine()
+                ->getRepository('ProductBundle:Product')
+                ->findOneById($productId);
             $products[] = $product;
             $productsTotalPrice += $this->get('lexik_currency.converter')->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
         }
-        return ['products' => $products, 'productsTotalPrice' => $productsTotalPrice, 'deliveryFee' => $deliveryFee];
+
+        $deliveries = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findAll();
+
+        return [
+            'products'              => $products,
+            'productsTotalPrice'    => $productsTotalPrice,
+            'deliveryFee'           => $deliveryFee,
+            'deliveries'            => $deliveries
+        ];
     }
 
     /**
@@ -47,8 +60,11 @@ class DefaultController extends Controller
         $session = new Session();
         $cart = $session->get('cart', array());
         // Make sure delivery modes are associated with products in cart
+
+        $deliveriesType = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findAllCode();
+
         foreach ($data as $productId => $delivery) {
-            if (!in_array($productId, $cart) && in_array($delivery, ['by_hand', 'parcel'])) {
+            if (!in_array($productId, $cart) && in_array($delivery, $deliveriesType)) {
                 throw new \Exception('Product id '.$productId.' is not associated with product in cart.');
             }
         }

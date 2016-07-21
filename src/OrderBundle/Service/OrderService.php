@@ -24,8 +24,10 @@ class OrderService
          * We create an order per product at the moment
          */
 
-        $session = new Session();
-        $cart = $session->get('cart', array());
+        $session        = new Session();
+        $cart           = $session->get('cart', array());
+        $cartDelivery   = $session->get('cart_delivery', null);
+
         $addresses = $session->get('cart_addresses');
 
         // Fetch products from cart
@@ -37,21 +39,32 @@ class OrderService
             $order->setAmount($amount);
             $order->setCurrency($this->em->getRepository('ProductBundle:Currency')->findOneByCode($currency));
             $order->setUser($user);
+
             $order->setDeliveryAddress(null);
             if (isset($addresses['delivery_address'])) {
                 $deliveryAddress = $this->em->getRepository('LocationBundle:Address')->findOneById($addresses['delivery_address']);
                 $order->setDeliveryAddress($deliveryAddress);
             }
+
             $order->setBillingAddress(null);
             if (isset($addresses['billing_address'])) {
                 $billingAddress = $this->em->getRepository('LocationBundle:Address')->findOneById($addresses['billing_address']);
-                $order->setBillingAddress($addresses['billing_address']);
+                $order->setBillingAddress($billingAddress);
             }
+
             $order->setStatus($pendingStatus);
             $order->setMangopayPreauthorizationId($preAuthId);
             $order->addProduct($product);
+
+            if (!isset($cartDelivery[$productId])) {
+                throw new \Exception('Not found delivery type');
+            }
+
+            $order->setDeliveryType($this->em->getRepository('OrderBundle:Delivery')->findOneByCode($cartDelivery[$productId]));
+
             $this->em->persist($order);
         }
+
         $this->em->flush();
         return $order;
     }
