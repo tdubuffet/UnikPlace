@@ -31,7 +31,12 @@ class PaymentController extends Controller
         foreach ($cart as $productId) {
             $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
             $products[] = $product;
-            $productsTotalPrice += $this->get('lexik_currency.converter')->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+            $productsTotalPrice += $this->get('lexik_currency.converter')->convert(
+                $product->getPrice(),
+                'EUR',
+                true,
+                $product->getCurrency()->getCode()
+            );
         }
         $deliveryModes = $session->get('cart_delivery');
         $cartAddresses = $session->get('cart_addresses');
@@ -40,23 +45,29 @@ class PaymentController extends Controller
             $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
             if (!isset($address)) {
                 throw new \Exception('Address with id '.$address.' cannot be found.');
-            }
-            else if ($address->getUser() != $this->getUser()) {
-                throw new \Exception('Current user does not own address with id '.$address.'.');
+            } else {
+                if ($address->getUser() != $this->getUser()) {
+                    throw new \Exception('Current user does not own address with id '.$address.'.');
+                }
             }
             $addresses[$addressType] = $address;
         }
 
-        $cardRegistration = $this->get('mangopay_service')->createCardRegistration($this->getUser()->getMangopayUserId(), 'EUR');
+        $cardRegistration = $this->get('mangopay_service')->createCardRegistration(
+            $this->getUser()->getMangopayUserId(),
+            'EUR'
+        );
         $session->set('card_registration_id', $cardRegistration->Id);
         $session->set('cart_amount', $productsTotalPrice + $deliveryFee);
 
-        return ['products' => $products,
-                'productsTotalPrice' => $productsTotalPrice,
-                'deliveryFee' => $deliveryFee,
-                'deliveryModes' => $deliveryModes,
-                'addresses' => $addresses,
-                'cardRegistration' => $cardRegistration];
+        return [
+            'products' => $products,
+            'productsTotalPrice' => $productsTotalPrice,
+            'deliveryFee' => $deliveryFee,
+            'deliveryModes' => $deliveryModes,
+            'addresses' => $addresses,
+            'cardRegistration' => $cardRegistration
+        ];
     }
 
     /**
@@ -75,24 +86,28 @@ class PaymentController extends Controller
 
         if ((isset($get['data']) || isset($get['errorCode'])) && $session->has('card_registration_id')) {
             $cardRegistration = $mangopayService->getCardRegistration($session->get('card_registration_id'));
-            $cardRegistration->RegistrationData = isset($get['data']) ? 'data=' . $get['data'] : 'errorCode=' . $get['errorCode'];
+            $cardRegistration->RegistrationData = isset($get['data']) ? 'data='.$get['data'] : 'errorCode='.$get['errorCode'];
             try {
                 $updatedCardRegistration = $mangopayService->updateCardRegistration($cardRegistration);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // Card already processed
                 $session->getFlashBag()->add('error', "Une erreur s'est produite lors du paiement.");
+
                 return $this->redirectToRoute('cart_payment');
             }
             if ($updatedCardRegistration->Status != 'VALIDATED' || !isset($updatedCardRegistration->CardId)) {
                 // Cannot create virtual card. Payment has not been created.
-                $session->getFlashBag()->add('error', "Les informations de paiement ne sont pas valides, veuillez réessayer.");
+                $session->getFlashBag()->add(
+                    'error',
+                    "Les informations de paiement ne sont pas valides, veuillez réessayer."
+                );
+
                 return $this->redirectToRoute('cart_payment');
             }
             $card = $mangopayService->getCard($updatedCardRegistration->CardId);
 
             // Create Pre authorization
-            $preAuth =$mangopayService->createCardPreAuthorization(
+            $preAuth = $mangopayService->createCardPreAuthorization(
                 $this->getUser()->getMangopayUserId(),
                 $session->get('cart_amount'),
                 'EUR',
@@ -102,12 +117,13 @@ class PaymentController extends Controller
             if ($preAuth->Status == 'CREATED' && isset($preAuth->SecureModeRedirectURL)) {
                 // Redirect to 3d secure url
                 return $this->redirect($preAuth->SecureModeRedirectURL);
-            }
-            else  {
+            } else {
                 $session->getFlashBag()->add('error', "Une erreur s'est produite lors du paiement.");
+
                 return $this->redirectToRoute('cart_payment');
             }
         }
+
         return $this->redirectToRoute('homepage');
     }
 
@@ -133,10 +149,12 @@ class PaymentController extends Controller
                     $preAuth->Id
                 );
                 $orderService->removeCartSession();
+
                 return $this->redirectToRoute('cart_confirmation');
             }
         }
         $session->getFlashBag()->add('error', "Une erreur s'est produite lors du paiement.");
+
         return $this->redirectToRoute('cart_payment');
     }
 }
