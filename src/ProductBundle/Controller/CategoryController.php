@@ -19,26 +19,42 @@ class CategoryController extends Controller
      */
     public function indexAction(Request $request, $path)
     {
+
         $pathElems = explode('/', $path);
-        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
 
-        $mainCategories = $repository->findBy(array('parent' => null));
+        $repository = $this
+            ->getDoctrine()
+            ->getRepository('ProductBundle:Category');
 
-        $categories = $repository->findBy(array('slug' => end($pathElems)));
+        $mainCategories = $repository
+            ->findByParentCache(null);
+
+        $categories = $repository
+            ->findBySlugCache(end($pathElems));
+
+
         foreach ($categories as $potentialCategory) {
+
             if ($potentialCategory->getPath() == $path) {
                 $category = $potentialCategory;
             }
         }
+
         if (!isset($category)) {
             throw $this->createNotFoundException('The category does not exist');
         }
-        $finder = $this->container->get("fos_elastica.finder.noname.product");
-        $boolQuery = new \Elastica\Query\Bool();
-        $fieldTerm = new \Elastica\Query\Term();
+
+        $finder     = $this->get("fos_elastica.finder.noname.product");
+        $boolQuery  = new \Elastica\Query\Bool();
+        $fieldTerm  = new \Elastica\Query\Term();
         $fieldTerm->setTerm('category', $path);
         $boolQuery->addMust($fieldTerm);
         $results = $finder->find($boolQuery);
-        return ['category' => $category, 'products' => $results, 'mainCategories' => $mainCategories];
+
+        return [
+            'category' => $category,
+            'products' => $results,
+            'mainCategories' => $mainCategories
+        ];
     }
 }

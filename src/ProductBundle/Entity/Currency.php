@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="currency")
  * @ORM\Entity(repositoryClass="ProductBundle\Repository\CurrencyRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class Currency
 {

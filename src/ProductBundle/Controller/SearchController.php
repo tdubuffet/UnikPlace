@@ -20,7 +20,7 @@ class SearchController extends Controller
     public function searchAction(Request $request)
     {
         $params = $request->query->all();
-        $search = $this->container->get('product_bundle.product_search_service');
+        $search = $this->get('product_bundle.product_search_service');
         $results = $search->search($params);
         $pagination = $search->getHtmlPagination($results, $params);
 
@@ -39,7 +39,7 @@ class SearchController extends Controller
     public function postSearchAction(Request $request)
     {
         $params = $request->request->all();
-        $search = $this->container->get('product_bundle.product_search_service');
+        $search = $this->get('product_bundle.product_search_service');
         $results = $search->search($params);
         $pagination = $search->getHtmlPagination($results, $params);
         return ['products' => $results, 'pagination' => $pagination];
@@ -56,7 +56,7 @@ class SearchController extends Controller
         if ($categoryId) {
             $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($categoryId);
         }
-        $search = $this->container->get('product_bundle.product_search_service');
+        $search = $this->get('product_bundle.product_search_service');
         $html = $search->getHtmlFilters($category);
         return new Response($html);
     }

@@ -10,6 +10,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  *
  * @ORM\Table(name="city")
  * @ORM\Entity(repositoryClass="LocationBundle\Repository\CityRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class City
 {
@@ -42,6 +43,7 @@ class City
      *
      * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\County", inversedBy="cities")
      * @ORM\JoinColumn(name="county_id", referencedColumnName="id")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $county;
 

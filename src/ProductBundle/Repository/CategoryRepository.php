@@ -12,4 +12,30 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryRepository extends EntityRepository
 {
+
+    public function findByParentCache($parent)
+    {
+        $q = $this->createQueryBuilder('c');
+
+        if ($parent == null) {
+            $q->where('c.parent IS NULL');
+        } else {
+            $q->where('c.parent = :parent')->setParameter('parent', $parent);
+        }
+
+        return $q->getQuery()
+            ->useResultCache(true, 3600, 'list_categories_by_parent')
+            ->getResult();
+    }
+
+    public function findBySlugCache($slug)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->useResultCache(true, 3600, 'list_categories-_by_slug')
+            ->getResult();
+    }
+
 }

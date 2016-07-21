@@ -50,23 +50,27 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity="Currency")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $currency;
 
     /**
      * @ORM\ManyToOne(targetEntity="Status")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $status;
 
     /**
      * @ORM\OneToMany(targetEntity="AttributeValue", mappedBy="product")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $attributeValues;
 
@@ -100,6 +104,7 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\City")
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $city;
 

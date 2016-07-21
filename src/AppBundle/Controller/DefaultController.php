@@ -35,21 +35,10 @@ class DefaultController extends Controller
      */
     public function categoriesAction()
     {
-        $categories = $this
-            ->get('apc_cache')
-            ->fetch('menu_categories');
 
-        if (!$categories) {
-
-            $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-            $categories = $repository->findBy(array('parent' => null));
-
-            $this->get('apc_cache')->save(
-                'menu_categories',
-                $categories,
-                60
-            );
-        }
+        $categories = $this->getDoctrine()
+            ->getRepository('ProductBundle:Category')
+            ->findByParentCache(null);
 
         return array('categories' => $categories);
     }
@@ -59,21 +48,10 @@ class DefaultController extends Controller
      */
     public function searchCategoriesAction()
     {
-        $categories = $this
-            ->get('apc_cache')
-            ->fetch('search_categories');
 
-        if (!$categories) {
-
-            $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-            $categories = $repository->findBy(array('parent' => null));
-
-            $this->get('apc_cache')->save(
-                'search_categories',
-                $categories,
-                60
-            );
-        }
+        $categories = $this->getDoctrine()
+            ->getRepository('ProductBundle:Category')
+            ->findByParentCache(null);
 
         return array('categories' => $categories);
     }
@@ -83,21 +61,10 @@ class DefaultController extends Controller
      */
     public function mobileCategoriesAction()
     {
-        $categories = $this
-            ->get('apc_cache')
-            ->fetch('search_mobile_categories');
 
-        if (!$categories) {
-
-            $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-            $categories = $repository->findBy(array('parent' => null));
-
-            $this->get('apc_cache')->save(
-                'search_mobile_categories',
-                $categories,
-                60
-            );
-        }
+        $categories = $this->getDoctrine()
+            ->getRepository('ProductBundle:Category')
+            ->findByParentCache(null);
 
         return array('categories' => $categories);
     }

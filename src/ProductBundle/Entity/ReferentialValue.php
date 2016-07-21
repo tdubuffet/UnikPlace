@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="referential_value")
  * @ORM\Entity(repositoryClass="ProductBundle\Repository\ReferentialValueRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class ReferentialValue
 {

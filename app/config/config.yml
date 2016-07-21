@@ -74,20 +74,30 @@ doctrine:
         #     path:     "%database_path%"
 
     orm:
+        result_cache_driver: memcached
+        query_cache_driver: memcached
+        second_level_cache:
+            enabled: true
+            log_enabled: true
+            region_cache_driver: memcached
+            regions:
+                category_cache:
+                    cache_driver:  memcache
+                    lifetime:   3600
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
 doctrine_cache:
     aliases:
-        cache_apc: my_apc_cache
+        cache: my_cache
 
     providers:
-        my_apc_cache:
-            type: apc
-            namespace: my_apc_cache_ns
+        my_cache:
+            type: memcached
+            namespace: my_cache_ns
             aliases:
-                - apc_cache
+                - app_cache
 
 # Swiftmailer Configuration
 swiftmailer:

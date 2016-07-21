@@ -11,6 +11,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="ProductBundle\Repository\CategoryRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE", region="category_cache")
  */
 class Category
 {
@@ -29,12 +30,14 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE", region="category_cache")
      */
     private $children;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE", region="category_cache")
      */
     private $parent;
 

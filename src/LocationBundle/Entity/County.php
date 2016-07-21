@@ -10,6 +10,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  *
  * @ORM\Table(name="county")
  * @ORM\Entity(repositoryClass="LocationBundle\Repository\CountyRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class County
 {
