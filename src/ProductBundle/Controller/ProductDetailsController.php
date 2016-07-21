@@ -32,12 +32,6 @@ class ProductDetailsController extends Controller
                 ));
         }
 
-        if($product->getUser() != $this->getUser()) {
-            $existThread = $this->getDoctrine()
-                ->getRepository('MessageBundle:Thread')
-                ->findExistsThreadByProductAndUser($product, $this->getUser());
-        }
-
         $similarProducts = $this
             ->getDoctrine()
             ->getRepository('ProductBundle:Product')
@@ -47,35 +41,23 @@ class ProductDetailsController extends Controller
         /**
          * contact message
          */
-        $formMessage = $this->createForm(\MessageBundle\Form\NewThreadMessageFormType::class);
-        $formMessage->handleRequest($request);
 
-        if ($formMessage->isValid()) {
+        if($product->getUser() != $this->getUser()) {
+            $existThread = $this->getDoctrine()
+                ->getRepository('MessageBundle:Thread')
+                ->findExistsThreadByProductAndUser($product, $this->getUser());
+        }
 
-            $data           = $formMessage->getData();
-            $sender         = $this->getUser();
-            $threadSender   = $this->get('fos_message.sender');
-            $threadBuilder  = $this->get('fos_message.composer_product')->newThread();
+        if (isset($existThread) && !$existThread) {
+            $process = $this->get('app.message')->processSentProductMessage($request, $product);
 
-            $message = $threadBuilder
-                ->addRecipient($product->getUser())
-                ->setSender($sender)
-                ->setSubject($data['subject'])
-                ->setBody($data['body'])
-                ->setProduct($product)
-                ->getMessage();
-
-
-            $threadSender->send($message);
-
-
-            $this->get('session')->getFlashBag()->add('success', 'Message envoyé au vendeur.');
-
-            //Reset request
-            return $this->redirectToRoute('product_details', [
-                'id' => $product->getId(),
-                'slug' => $product->getSlug()
-            ]);
+            if ($process === true) {
+                //Reset request
+                return $this->redirectToRoute('product_details', [
+                    'id' => $product->getId(),
+                    'slug' => $product->getSlug()
+                ]);
+            }
         }
 
         return [
@@ -84,7 +66,7 @@ class ProductDetailsController extends Controller
             'isFavorite'            => isset($favorite),
             'similarProducts'       => $similarProducts,
             'thread'                => (isset($existThread)) ? $existThread : false,
-            'formMessage'           => $formMessage->createView()
+            'formMessage'           => (isset($process) && $process !== true) ? $process->createView() : false
         ];
     }
 }

@@ -51,6 +51,10 @@ services:
         class: MessageBundle\Composer\Composer
         arguments: ['@fos_message.message_manager', '@fos_message.thread_manager']
 
+    app.message:
+        class: MessageBundle\Service\Message
+        arguments: ['@service_container']
+
     mangopay_service:
         class: AppBundle\Service\MangoPayService
         arguments: [%mangopay%]

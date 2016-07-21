@@ -3,11 +3,6 @@ cart:
     type:     annotation
     prefix:   /
 
-message:
-    resource: "@MessageBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 fos_message:
     resource: "@MessageBundle/Resources/config/routing.xml"
     prefix: /messagerie
