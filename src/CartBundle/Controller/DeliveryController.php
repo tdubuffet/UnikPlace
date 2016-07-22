@@ -6,25 +6,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use LocationBundle\Entity\Address;
 use LocationBundle\Form\AddressType;
 use CartBundle\Form\selectCartAddressType;
 
+/**
+ * Class DeliveryController
+ * @package CartBundle\Controller
+ *
+ * @Security("has_role('ROLE_USER')")
+ * @Route("/panier/livraison")
+ */
 class DeliveryController extends Controller
 {
 
     /**
-     * @Route("/cart/livraison", name="cart_delivery")
+     * @Route("", name="cart_delivery")
      * @Method({"GET"})
      * @Template("CartBundle:Delivery:delivery.html.twig")
      */
     public function deliveryAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
         $address = new Address;
         $addAddressForm = $this->createForm(AddressType::class, $address);
         $addresses = $this->getUser()->getAddresses();
@@ -35,15 +40,11 @@ class DeliveryController extends Controller
     }
 
     /**
-     * @Route("/cart/livraison")
+     * @Route("")
      * @Method({"POST"})
      */
     public function deliveryProcessAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
-
         if($request->request->has('address')) {
             $address = new Address;
             $form = $this->createForm(AddressType::class, $address);

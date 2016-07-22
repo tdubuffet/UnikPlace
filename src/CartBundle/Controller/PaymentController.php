@@ -6,22 +6,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class DefaultController
+ * @package CartBundle\Controller
+ *
+ * @Security("has_role('ROLE_USER')")
+ * @Route("/panier/paiement")
+ */
 class PaymentController extends Controller
 {
     /**
-     * @Route("/cart/paiement", name="cart_payment")
+     * @Route("", name="cart_payment")
      * @Method({"GET"})
      * @Template("CartBundle:Payment:payment.html.twig")
      */
     public function paymentAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
         $session = new Session();
         $cart = $session->get('cart', array());
         // Fetch products from cart
@@ -71,15 +76,11 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/cart/paiement/validation", name="cart_payment_validation")
+     * @Route("/validation", name="cart_payment_validation")
      * @Method({"GET"})
      */
     public function paymentValidationAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
-
         $session = new Session();
         $get = $request->query->all();
         $mangopayService = $this->get('mangopay_service');
@@ -128,7 +129,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/cart/paiement/secure", name="cart_payment_secure")
+     * @Route("/secure", name="cart_payment_secure")
      * @Method({"GET"})
      */
     public function paymentSecureAction(Request $request)

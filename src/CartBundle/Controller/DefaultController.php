@@ -6,23 +6,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+/**
+* Class DefaultController
+* @package CartBundle\Controller
+*
+* @Security("has_role('ROLE_USER')")
+* @Route("/panier")
+*/
 class DefaultController extends Controller
 {
 
     /**
-     * @Route("/cart", name="cart")
+     * @Route("", name="cart")
      * @Method({"GET"})
      * @Template("CartBundle:Default:index.html.twig")
      */
     public function listAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
-
         $session = new Session();
         $cart = $session->get('cart', array());
 
@@ -50,7 +54,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/cart")
+     * @Route("")
      * @Method({"POST"})
      */
     public function listProcessAction(Request $request)
@@ -73,14 +77,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/cart/confirmation", name="cart_confirmation")
+     * @Route("/confirmation", name="cart_confirmation")
      * @Method({"GET"})
      * @Template("CartBundle:Default:confirmation.html.twig")
      */
     public function confirmationAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
     }
 }
