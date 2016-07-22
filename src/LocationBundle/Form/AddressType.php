@@ -4,8 +4,10 @@ namespace LocationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AddressType extends AbstractType
 {
@@ -14,10 +16,15 @@ class AddressType extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Nom du destinataire', 'required' => true])
             ->add('street', TextType::class, ['label' => 'Adresse', 'required' => true])
-            ->add('city_code', TextType::class, ['mapped' => false, 'label' => 'Code postal'])
-            ->add('city', TextType::class, ['mapped' => false, 'label' => 'Ville', 'disabled' => true])
             ->add('country', TextType::class, ['mapped' => false, 'label' => 'Pays', 'disabled' => true, 'data' => 'FRANCE'])
             ->add('save', SubmitType::class, ['label' => 'Ajouter cette adresse'])
             ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'allow_extra_fields' => true
+        ));
     }
 }

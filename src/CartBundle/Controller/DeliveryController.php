@@ -49,9 +49,9 @@ class DeliveryController extends Controller
             $form = $this->createForm(AddressType::class, $address);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $zipcode = $form['city_code']->getData();
-                // Get city from zipcode
-                $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneByZipcode($zipcode);
+                $cityId = $request->request->get('address')['city'];
+                // Get city from id
+                $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneById($cityId);
                 if (!isset($city)) {
                     throw new \Exception('Cannot find city.');
                 }

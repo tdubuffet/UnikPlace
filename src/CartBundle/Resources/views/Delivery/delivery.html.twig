@@ -3,6 +3,8 @@
 {% block title %}Mon panier{% endblock %}
 {% block description %}Mon panier sur Noname{% endblock %}
 
+{% block javascript_include %}{{ jsinit(['addAddress']) }}{% endblock javascript_include %}
+
 {% block body %}
 <div class="main-wrapper">
   <div class="container">
@@ -48,8 +50,12 @@
       <div class="modal-body">
         {{ form_row(addAddressForm.name) }}
         {{ form_row(addAddressForm.street) }}
-        {{ form_row(addAddressForm.city_code) }}
-        {{ form_row(addAddressForm.city) }}
+        <div class="form-group">
+          <label class="control-label required" for="address_city">Ville</label>
+          <select id="address_city" name="address[city]" required="required" class="autocomplete-city form-control">
+            <option value=""  selected="selected">Sélectionnez une ville</option>
+          </select>
+        </div>
         {{ form_row(addAddressForm.country) }}
       </div>
       <div class="modal-footer">

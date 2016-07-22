@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CountyController extends Controller
 {
     /**
-     * @Route("/ajax/recherche/county", name="ajax_search_county")
+     * @Route("/ajax/search/county", name="ajax_search_county")
      * @Method({"GET"})
      */
     public function countyListAction()
@@ -36,24 +36,33 @@ class CountyController extends Controller
     }
 
     /**
-     * @Route("/ajax/recherche/city", name="ajax_search_city")
+     * @Route("/ajax/search/city", name="ajax_search_city")
      * @Method({"POST"})
      * @param Request $request
      * @return JsonResponse
      */
-    public function getCityByZipCodeAction(Request $request)
+    public function searchCities(Request $request)
     {
-        if ($request->request->has('zipcode')) {
-            $zipcode = $request->request->get("zipcode");
-            $city = $this->getDoctrine()->getRepository("LocationBundle:City")->findByZipcodeToArray($zipcode);
-            if (!$city) {
-                return new JsonResponse(['message' => "City not found"], 404);
+        if ($request->request->has('q') && strlen($request->request->get('q')) >= 3) {
+            $query = $request->request->get("q");
+
+            $cities = $this->getDoctrine()->getRepository("LocationBundle:City")->createQueryBuilder('c')
+                ->where('c.name LIKE :q')
+                ->orWhere('c.zipcode LIKE :q')
+                ->setParameter('q', '%'.$query.'%')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+
+            $results = [];
+            foreach ($cities as $city) {
+                $results[] = ['id' =>$city->getId(),
+                              'name' => $city->getName(),
+                              'zipcode' => $city->getZipcode()];
             }
-
-            return new JsonResponse(['city' => $city]);
+            return new JsonResponse(['cities' => $results]);
         }
-
-        return new JsonResponse(['message' => "City not found"], 404);
+        return new JsonResponse(['cities' => $results]);
     }
 
 
