@@ -67,7 +67,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/mes-achats", name="user_account_purchases")
+     * @Route("/achats", name="user_account_purchases")
      * @Template("UserBundle:Account:purchases-list.html.twig")
      */
     public function purchasesAction(Request $request)
@@ -90,7 +90,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/mes-ventes", name="user_account_sales")
+     * @Route("/ventes", name="user_account_sales")
      * @Template("UserBundle:Account:sales-list.html.twig")
      */
     public function salesAction(Request $request)
