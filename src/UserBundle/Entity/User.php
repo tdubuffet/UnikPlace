@@ -120,6 +120,17 @@ class User extends BaseUser implements ParticipantInterface
      */
     protected $company_city;
 
+
+    /**
+     * @ORM\Column(name="newsletter", type="boolean")
+     */
+    protected $newsletter;
+
+    /**
+     * @ORM\Column(name="email_classified", type="boolean")
+     */
+    protected $emailClassified;
+
     /**
      * @ORM\OneToMany(targetEntity="ProductBundle\Entity\Favorite", mappedBy="user")
      */
@@ -730,5 +741,53 @@ class User extends BaseUser implements ParticipantInterface
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * Set newsletter
+     *
+     * @param boolean $newsletter
+     *
+     * @return User
+     */
+    public function setNewsletter($newsletter)
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    /**
+     * Get newsletter
+     *
+     * @return boolean
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+
+    /**
+     * Set emailClassified
+     *
+     * @param boolean $emailClassified
+     *
+     * @return User
+     */
+    public function setEmailClassified($emailClassified)
+    {
+        $this->emailClassified = $emailClassified;
+
+        return $this;
+    }
+
+    /**
+     * Get emailClassified
+     *
+     * @return boolean
+     */
+    public function getEmailClassified()
+    {
+        return $this->emailClassified;
     }
 }

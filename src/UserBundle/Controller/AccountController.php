@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Form\PreferenceFormType;
 
 /**
  * Class AccountController
@@ -36,9 +37,33 @@ class AccountController extends Controller
      */
     public function wishlistAction(Request $request)
     {
+
+        return [
+            'favorites' => $this->getUser()->getFavorites()
+        ];
+    }
+
+    /**
+     * @Route("/preferences", name="user_account_preference")
+     * @Template("UserBundle:Account:preference.html.twig")
+     */
+    public function preferenceAction(Request $request)
+    {
+
         $user = $this->getUser();
-        $favorites = $user->getFavorites();
-        return ['favorites' => $favorites];
+
+        $form = $this->createForm(PreferenceFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return [
+            'form' => $form->createView()
+        ];
     }
 
     /**
