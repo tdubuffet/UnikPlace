@@ -8,7 +8,7 @@
         resource="@UserBundle/Resources/config/routing/fos_user/security.xml" />
     <import
         resource="@UserBundle/Resources/config/routing/fos_user/profile.xml"
-        prefix="/profil" />
+        prefix="/compte" />
     <import
         resource="@UserBundle/Resources/config/routing/fos_user/registration.xml"
         prefix="/inscription" />
@@ -17,6 +17,6 @@
         prefix="/mot-de-passe-oublie" />
     <import
         resource="@UserBundle/Resources/config/routing/fos_user/change_password.xml"
-        prefix="/profil" />
+        prefix="/compte" />
 
 </routes>
