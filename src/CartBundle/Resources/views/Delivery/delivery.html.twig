@@ -46,6 +46,7 @@
       </div>
       {{ form_start(addAddressForm) }}
       <div class="modal-body">
+        {{ form_row(addAddressForm.name) }}
         {{ form_row(addAddressForm.street) }}
         {{ form_row(addAddressForm.city_code) }}
         {{ form_row(addAddressForm.city) }}

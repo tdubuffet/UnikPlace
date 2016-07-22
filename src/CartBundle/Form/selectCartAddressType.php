@@ -18,7 +18,7 @@ class selectCartAddressType extends AbstractType
                           'label' => 'Adresse de livraison',
                           'choices' => $options['addresses'],
                           'choice_label' => function ($value, $key, $index) {
-                              return $value->getStreet().' '.$value->getCity()->getZipcode().' '.$value->getCity()->getName();
+                              return $value->getName().' - '.$value->getStreet().' '.$value->getCity()->getZipcode().' '.$value->getCity()->getName();
                           },
                       )
         )->add('billing_address', ChoiceType::class,
@@ -26,7 +26,7 @@ class selectCartAddressType extends AbstractType
                    'label' => 'Adresse de facturation',
                    'choices' => $options['addresses'],
                    'choice_label' => function ($value, $key, $index) {
-                       return $value->getStreet().' '.$value->getCity()->getZipcode().' '.$value->getCity()->getName();
+                       return $value->getName().' - '.$value->getStreet().' '.$value->getCity()->getZipcode().' '.$value->getCity()->getName();
                    },
                )
         )->add('save', SubmitType::class, ['label' => 'Enregistrer et passer à l\'étape suivante']);
