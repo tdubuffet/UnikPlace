@@ -15,10 +15,12 @@ class PreferenceFormType extends AbstractType
     {
         $builder
             ->add('emailClassified', CheckboxType::class, array(
-                'label'    => 'Recevoir des emails de vos annonces'
+                'label'    => 'Recevoir des emails de vos annonces',
+                'required' => false
             ))
             ->add('newsletter', CheckboxType::class, array(
-                'label'    => 'Recevoir des emails d\'informations de NoName'
+                'label'    => 'Recevoir des emails d\'informations de NoName',
+                'required' => false
             ))
             ->add('submit', SubmitType::class, array(
                 'label' => "Enregistrer",
