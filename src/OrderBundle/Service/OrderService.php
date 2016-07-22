@@ -65,6 +65,10 @@ class OrderService
             $this->em->persist($order);
         }
 
+        if (!isset($order)) {
+            throw new \Exception('No order found');
+        }
+
         $this->em->flush();
         return $order;
     }
