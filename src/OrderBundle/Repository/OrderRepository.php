@@ -2,6 +2,8 @@
 
 namespace OrderBundle\Repository;
 
+use UserBundle\Entity\User;
+
 /**
  * OrderRepository
  *
@@ -10,4 +12,26 @@ namespace OrderBundle\Repository;
  */
 class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findPurchaseByUser(User $user)
+    {
+
+        return $this->createQueryBuilder('o')
+            ->where('o.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    public function findSaleByUser(User $user)
+    {
+
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.products', 'p', 'WITH', 'p.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

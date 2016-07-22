@@ -29,4 +29,32 @@ class AccountController extends Controller
         $favorites = $user->getFavorites();
         return ['favorites' => $favorites];
     }
+
+    /**
+     * @Route("/profil/mes-achats", name="user_account_purchases")
+     * @Template("UserBundle:Account:purchases-list.html.twig")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function purchasesAction()
+    {
+        $orders = $this->getDoctrine()->getRepository('OrderBundle:Order')->findPurchaseByUser($this->getUser());
+
+        return [
+            'orders' => $orders
+        ];
+    }
+
+    /**
+     * @Route("/profil/mes-ventes", name="user_account_sales")
+     * @Template("UserBundle:Account:sales-list.html.twig")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function salesAction()
+    {
+        $orders = $this->getDoctrine()->getRepository('OrderBundle:Order')->findSaleByUser($this->getUser());
+
+        return [
+            'orders' => $orders
+        ];
+    }
 }

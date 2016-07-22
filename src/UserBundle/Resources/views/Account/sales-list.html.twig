@@ -1,0 +1,42 @@
+{% extends "UserBundle::base.html.twig" %}
+
+{% block title %}Mon achats{% endblock %}
+{% block description %}Mes achats sur Noname{% endblock %}
+
+
+{% block account_content %}
+
+  <h2>Mes achats</h2>
+
+  <table class="table">
+
+    <thead>
+      <tr>
+        <th>Nom du produit</th>
+        <th>Montant</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.products.first().name }}</td>
+          <td>{{ order.amount }} {{ order.currency.code }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
+          <td></td>
+        </tr>
+      {% else %}
+
+        <td colspan="5" class="text-center">Aucune commande</td>
+
+      {% endfor %}
+
+    </tbody>
+
+  </table>
+{% endblock %}
