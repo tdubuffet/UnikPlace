@@ -19,8 +19,9 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('o')
             ->where('o.user = :user')
             ->setParameter('user', $user)
+            ->orderBy('o.updatedAt', 'DESC')
             ->getQuery()
-            ->getResult();
+        ;
 
     }
 
@@ -30,8 +31,9 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('o')
             ->innerJoin('o.products', 'p', 'WITH', 'p.user = :user')
             ->setParameter('user', $user)
+            ->orderBy('o.updatedAt', 'DESC')
             ->getQuery()
-            ->getResult();
+        ;
     }
 
 }

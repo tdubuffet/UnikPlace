@@ -2,6 +2,8 @@
 
 namespace UserBundle\Controller;
 
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -35,12 +37,22 @@ class AccountController extends Controller
      * @Template("UserBundle:Account:purchases-list.html.twig")
      * @Security("has_role('ROLE_USER')")
      */
-    public function purchasesAction()
+    public function purchasesAction(Request $request)
     {
-        $orders = $this->getDoctrine()->getRepository('OrderBundle:Order')->findPurchaseByUser($this->getUser());
+        $query = $this->getDoctrine()->getRepository('OrderBundle:Order')->findPurchaseByUser($this->getUser());
+
+
+        $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($query));
+        $pagerfanta->setMaxPerPage(10);
+
+        try {
+            $pagerfanta->setCurrentPage($request->get('page', 1));
+        } catch(NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
 
         return [
-            'orders' => $orders
+            'orders' => $pagerfanta
         ];
     }
 
@@ -49,12 +61,21 @@ class AccountController extends Controller
      * @Template("UserBundle:Account:sales-list.html.twig")
      * @Security("has_role('ROLE_USER')")
      */
-    public function salesAction()
+    public function salesAction(Request $request)
     {
-        $orders = $this->getDoctrine()->getRepository('OrderBundle:Order')->findSaleByUser($this->getUser());
+        $query = $this->getDoctrine()->getRepository('OrderBundle:Order')->findSaleByUser($this->getUser());
+
+        $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($query));
+        $pagerfanta->setMaxPerPage(10);
+
+        try {
+            $pagerfanta->setCurrentPage($request->get('page', 1));
+        } catch(NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
 
         return [
-            'orders' => $orders
+            'orders' => $pagerfanta
         ];
     }
 }
