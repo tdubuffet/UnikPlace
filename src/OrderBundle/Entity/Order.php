@@ -41,13 +41,12 @@ class Order
     private $currency;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ProductBundle\Entity\Product")
-     * @ORM\JoinTable(name="orders_products",
-     *      joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id")}
-     *      )
+     * @var Product $product
+     *
+     * @ORM\ManyToOne(targetEntity="ProductBundle\Entity\Product", inversedBy="orders")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
-    private $products;
+    private $product;
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="orders")
@@ -177,40 +176,6 @@ class Order
     }
 
     /**
-     * Add product
-     *
-     * @param \ProductBundle\Entity\Product $product
-     *
-     * @return Order
-     */
-    public function addProduct(\ProductBundle\Entity\Product $product)
-    {
-        $this->products[] = $product;
-
-        return $this;
-    }
-
-    /**
-     * Remove product
-     *
-     * @param \ProductBundle\Entity\Product $product
-     */
-    public function removeProduct(\ProductBundle\Entity\Product $product)
-    {
-        $this->products->removeElement($product);
-    }
-
-    /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProducts()
-    {
-        return $this->products;
-    }
-
-    /**
      * Set user
      *
      * @param \UserBundle\Entity\User $user
@@ -328,5 +293,21 @@ class Order
     public function getDeliveryType()
     {
         return $this->deliveryType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param mixed $product
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
     }
 }

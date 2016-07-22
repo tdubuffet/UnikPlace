@@ -54,7 +54,7 @@ class OrderService
 
             $order->setStatus($pendingStatus);
             $order->setMangopayPreauthorizationId($preAuthId);
-            $order->addProduct($product);
+            $order->setProduct($product);
 
             if (!isset($cartDelivery[$productId])) {
                 throw new \Exception('Not found delivery type');

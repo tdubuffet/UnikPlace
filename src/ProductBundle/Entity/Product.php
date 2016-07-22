@@ -114,11 +114,17 @@ class Product
      */
     private $deliveries;
 
+    /**
+     * @ORM\OneToMany(targetEntity="OrderBundle\Entity\Order", mappedBy="product")
+     */
+    private $orders;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
         $this->favorites = new ArrayCollection();
         $this->collections = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
@@ -557,5 +563,39 @@ class Product
     public function getDeliveries()
     {
         return $this->deliveries;
+    }
+
+    /**
+     * Add order
+     *
+     * @param \OrderBundle\Entity\Order $order
+     *
+     * @return Product
+     */
+    public function addOrder(\OrderBundle\Entity\Order $order)
+    {
+        $this->orders[] = $order;
+
+        return $this;
+    }
+
+    /**
+     * Remove order
+     *
+     * @param \OrderBundle\Entity\Order $order
+     */
+    public function removeOrder(\OrderBundle\Entity\Order $order)
+    {
+        $this->orders->removeElement($order);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }
