@@ -124,12 +124,12 @@ class User extends BaseUser implements ParticipantInterface
     /**
      * @ORM\Column(name="newsletter", type="boolean")
      */
-    protected $newsletter;
+    protected $newsletter = true;
 
     /**
      * @ORM\Column(name="email_classified", type="boolean")
      */
-    protected $emailClassified;
+    protected $emailClassified = true;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductBundle\Entity\Favorite", mappedBy="user")
