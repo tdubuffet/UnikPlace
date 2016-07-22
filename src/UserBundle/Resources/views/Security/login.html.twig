@@ -38,6 +38,9 @@
           </label>
         </div>
 
+        {% if app.request.get('redirect_to') %}
+          <input type="hidden" name="redirect_to" value="{{ app.request.get('redirect_to')  }}" />
+        {% endif %}
         <p>* Champs obligatoires</p>
 
         <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="{{ 'security.login.submit'|trans }}" /><a href="{{ path('fos_user_resetting_request') }}" style="margin-left: 15px;">Mot de passe oublié ?</a></p>

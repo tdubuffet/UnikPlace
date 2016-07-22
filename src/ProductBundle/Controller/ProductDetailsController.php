@@ -42,7 +42,7 @@ class ProductDetailsController extends Controller
          * contact message
          */
 
-        if($product->getUser() != $this->getUser()) {
+        if($this->getUser() && $product->getUser() != $this->getUser()) {
             $existThread = $this->getDoctrine()
                 ->getRepository('MessageBundle:Thread')
                 ->findExistsThreadByProductAndUser($product, $this->getUser());

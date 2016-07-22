@@ -162,7 +162,7 @@
                       {% if app.user != product.user %}
                       <div class="actions-wrapper">
                         <div class="add-to-cart">
-                          <a class="actions" {% if thread %}href="{{ path('fos_message_thread_view', { threadId: thread[0].getId() }) }}"{% else %}href="#" onclick="return false;" data-toggle="modal" data-target="#message-modal"{% endif %}>
+                          <a class="actions" {% if thread %}href="{{ path('fos_message_thread_view', { threadId: thread[0].getId() }) }}"{% elseif app.user is null %} href="{{ path('fos_user_security_login', {'redirect_to' : app.request.schemeAndHttpHost ~ app.request.requestUri }) }}" {% else %}href="#" onclick="return false;" data-toggle="modal" data-target="#message-modal"{% endif %}>
                             {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
                               <div class="action-list contact-seller">
                                 <button type="button" data-toggle="tooltip" data-placement="top" title="Contacter le vendeur" class="btn-cart">
