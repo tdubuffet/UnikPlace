@@ -8,11 +8,11 @@
 
   <h2>Mes achats</h2>
 
-  <table class="table">
+  <table class="table table-products">
 
     <thead>
       <tr>
-        <th>Nom du produit</th>
+        <th colspan="2">Nom du produit</th>
         <th>Montant</th>
         <th>Status</th>
         <th>Date</th>
@@ -24,11 +24,17 @@
 
       {% for order in orders %}
         <tr>
-          <td>{{ order.product.name }}</td>
-          <td>{{ order.amount }} {{ order.currency.code }}</td>
+          <td>
+            {% set images = order.product.getImages() %}
+            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 50, 50) }}{% endif %}" xx-src="http://elara.icotheme.com/skin/frontend/elara/default/images/AjaxLoader.gif" alt="{{ order.product.name }}" />
+          </td>
+          <td class="title">
+            {{ order.product.name }}
+          </td>
+          <td>{{ order.amount }} {% if order.currency.code|lower == 'eur'  %}€{% endif %}</td>
           <td>{{ order.status }}</td>
           <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
-          <td></td>
+          <td><a class="btn btn-primary" href="">Voir</a></td>
         </tr>
       {% else %}
 

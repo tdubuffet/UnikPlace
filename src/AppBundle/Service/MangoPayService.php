@@ -125,4 +125,33 @@ class MangoPayService
 
         return ['blocked' => $blockedWalletResult, 'free' => $freeWalletResult];
     }
+
+    /**
+     * Get transactions on free wallet
+     *
+     * @param $walletId
+     * @param int $currentPage
+     * @param int $itemsPerPage
+     * @return mixed
+     */
+    public function getFreeWalletTransactions($walletId, &$pagination)
+    {
+
+        $sorting = new \MangoPay\Sorting();
+        $sorting->AddField('CreationDate', \MangoPay\SortDirection::DESC);
+
+        return $this->mangoPayApi->Wallets->GetTransactions($walletId, $pagination, null, $sorting);
+    }
+
+    /**
+     * Get wallet by Id
+     * @param int $walletId Wallet identifier
+     * @return \MangoPay\Wallet
+     */
+    public function getWalletId($walletId)
+    {
+
+        return $this->mangoPayApi->Wallets->Get($walletId);
+    }
+
 }

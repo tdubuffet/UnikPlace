@@ -110,4 +110,22 @@ class AccountController extends Controller
             'orders' => $pagerfanta
         ];
     }
+
+    /**
+     * @Route("/portefeuille", name="user_account_wallet")
+     * @Template("UserBundle:Account:wallet.html.twig")
+     */
+    public function walletAction(Request $request)
+    {
+
+
+        $currentPage    = $request->get('page', 1);
+        $pagination     = new \MangoPay\Pagination($currentPage, 10);
+        $transactions   = $this->get('mangopay_service')->getFreeWalletTransactions($this->getUser()->getMangopayFreeWalletId(), $pagination);
+
+        return [
+            'transactions' => $transactions,
+            'wallet' => $this->get('mangopay_service')->getWalletId($this->getUser()->getMangopayFreeWalletId())
+        ];
+    }
 }
