@@ -130,8 +130,7 @@ class MangoPayService
      * Get transactions on free wallet
      *
      * @param $walletId
-     * @param int $currentPage
-     * @param int $itemsPerPage
+     * @param int $pagination
      * @return mixed
      */
     public function getFreeWalletTransactions($walletId, &$pagination)
@@ -152,6 +151,57 @@ class MangoPayService
     {
 
         return $this->mangoPayApi->Wallets->Get($walletId);
+    }
+
+    /**
+     * Create Iban Bank
+     *
+     * @param $userId MangoUser id
+     * @param $data Data for create ibanBank
+     * @return \MangoPay\BankAccount
+     */
+    public function createIbanBank($userId, $data)
+    {
+        $BankAccount = new \MangoPay\BankAccount();
+        $BankAccount->Type = "IBAN";
+        $BankAccount->Details = new MangoPay\BankAccountDetailsIBAN();
+        $BankAccount->Details->IBAN = $data['iban'];
+        $BankAccount->Details->BIC  = $data['bic'];
+        $BankAccount->OwnerName     = $data['name'];
+        $BankAccount->OwnerAddress                  = new \MangoPay\Address();
+        $BankAccount->OwnerAddress->AddressLine1    = $data['address_street'];
+        $BankAccount->OwnerAddress->AddressLine2    = 'Address line 2';
+        $BankAccount->OwnerAddress->City            = $data['address_city'];
+        $BankAccount->OwnerAddress->Country         = $data['address_country'];
+        $BankAccount->OwnerAddress->PostalCode      = $data['address_postal_code'];
+        $BankAccount->OwnerAddress->Region          = 'Region';
+
+
+
+            $response = $this->mangoPayApi->Users->CreateBankAccount($userId, $BankAccount);
+
+        return $response;
+    }
+
+    /**
+     * Get Last IBAN Bank
+     *
+     * @param $userId MangoUser id
+     * @return \MangoPay\BankAccount
+     */
+    public function getIbanBank($userId)
+    {
+
+        $sorting = new \MangoPay\Sorting();
+        $sorting->AddField('CreationDate', "desc");
+
+        $banks =  $this->mangoPayApi->Users->GetBankAccounts($userId, new \MangoPay\Pagination(), $sorting);
+        if (count($banks) == 0) {
+            return array();
+        }
+
+
+        return $banks[0];
     }
 
 }

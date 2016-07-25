@@ -1,0 +1,45 @@
+{% extends "UserBundle::base.html.twig" %}
+
+{% block title %}Gérer mon RIB{% endblock %}
+{% block description %}Gérer mon RIB sur Noname{% endblock %}
+
+
+{% block account_content %}
+
+  <h2>Gérer mon RIB</h2>
+
+  {{ form_start(form) }}
+
+    {{ form_row(form.iban) }}
+
+    {{ form_row(form.bic) }}
+
+    {{ form_row(form.name) }}
+
+    {{ form_row(form.address_street) }}
+    <div class="row">
+      <div class="col-md-4">
+        {{ form_label(form.address_postal_code) }}
+        {{ form_widget(form.address_postal_code) }}
+      </div>
+      <div class="col-md-8">
+        {{ form_label(form.address_city) }}
+        {{ form_widget(form.address_city) }}
+      </div>
+    </div>
+    {{ form_row(form.address_country) }}
+
+
+    {{ form_rest(form) }}
+
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <button class="btn btn-primary btn-block">
+          Enregistrer mon RIB
+        </button>
+      </div>
+    </div>
+
+  {{ form_end(form) }}
+
+{% endblock %}

@@ -17,13 +17,13 @@
         {{ (wallet.Balance.Amount/100)|number_format(2, ',', ' ') }} {{ wallet.Balance.Currency }}
       </div>
 
-      <button class="btn btn-primary btn-block">
+      <a class="btn btn-primary btn-block"  data-toggle="modal" data-target="#transferBank">
         Retrait de mon argent
-      </button>
+      </a>
 
-      <button class="btn btn-outline btn-block">
+      <a class="btn btn-outline btn-block" href="{{ path('user_account_bank') }}" title="Gérer mon RIB">
         Gérer mon RIB
-      </button>
+      </a>
 
     </div>
 
@@ -75,6 +75,35 @@
       {% endfor %}
       </tbody>
     </table>
+  </div>
+
+
+  <div id="transferBank" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Demande de reversement</h4>
+        </div>
+        <div class="modal-body">
+          {% if  wallet.Balance.Amount > 0 %}
+            <div class="text-center">
+              <h5>Découvrez le montant de votre argent disponible<br />sur votre compte NoName.</h5>
+              <p class="wallet-amount">{{ (wallet.Balance.Amount/100)|number_format(2, ',', ' ') }} €</p>
+              <p>Prêt à faire le virement sur votre compte bancaire ?</p>
+              <p><a href="{{ path('account_wallet_transfer') }}" class="btn btn-important btn-lg btn-transfer-confirm" data-loading-text="Chargement en cours..."><i class="fa fa-credit-card"></i> Demande de virement</a></p>
+            </div>
+          {% else %}
+            Vous ne pouvez pas demander votre reversement, vous n'avez pas d'argent sur votre portefeuille.
+          {% endif %}
+        </div>
+        {% if wallet.Balance.Amount <= 0 %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary-outline" data-dismiss="modal">Fermer</button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
   </div>
 
 {% endblock %}

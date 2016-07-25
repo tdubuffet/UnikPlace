@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Form\PreferenceFormType;
 
@@ -128,4 +130,104 @@ class AccountController extends Controller
             'wallet' => $this->get('mangopay_service')->getWalletId($this->getUser()->getMangopayFreeWalletId())
         ];
     }
+
+    /**
+     * @Route("/portefeuille/transfert", name="user_account_wallet_tranfer")
+     */
+    public function transfertBankAction(Request $request)
+    {
+
+        $user = $this->getUser();
+
+        if ( count($user->getIbanBank()) == 0) {
+            return $this->redirectToRoute('account_register_bank');
+        }
+
+        if ($this->get('mangopay_service')->validateWalletToTransferBank($user->getFreeWallet()->Id) == false) {
+            return $this->redirectToRoute('account_wallet', [ 'transfer' => 'failed_payout_exist' ]);
+        }
+
+        $this->get('mangopay_service')->freeWalletToTransferBank($user);
+
+        return $this->redirectToRoute('account_wallet', [ 'transfer' => 'ok' ]);
+    }
+
+
+    /**
+     * @Route("/portefeuille/rib", name="user_account_bank")
+     * @Template("UserBundle:Account:bank.html.twig")
+     */
+    public function accountBankAction(Request $request)
+    {
+
+        $data       = [];
+        $user       = $this->getUser();
+        $ibanBank   = $this->get('mangopay_service')->getIbanBank(
+            $user->getMangopayUserId()
+        );
+
+        if ($ibanBank) {
+
+            $data = [
+                'iban' => $ibanBank->Details->IBAN,
+                'bic'  => $ibanBank->Details->BIC,
+                'name'  => $ibanBank->OwnerName,
+                'address_street'  => $ibanBank->OwnerAddress->AddressLine1,
+                'address_postal_code'  => $ibanBank->OwnerAddress->PostalCode,
+                'address_city'  => $ibanBank->OwnerAddress->City,
+                'address_country'  => $ibanBank->OwnerAddress->Country
+            ];
+        }
+
+        $form = $this->createFormBuilder($data)
+            ->add('iban', TextType::class, [
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Iban([
+                        'message' => 'Le numéro de compte banquaire international n\'est pas valide.'
+                    ])
+                ],
+                'label' => 'IBAN'
+            ])
+            ->add('bic', TextType::class, [
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Bic([
+                        'message' => 'Le numéro BIC n\'est pas valide.'
+                    ])
+                ],
+                'label' => 'BIC'
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Nom et Prénom'
+            ])
+            ->add('address_street', TextType::class, [
+                'label' => 'Adresse'
+            ])
+            ->add('address_postal_code', TextType::class, [
+                'label' => 'Code postal'
+            ])
+            ->add('address_city', TextType::class, [
+                'label' => 'Ville'
+            ])
+            ->add('address_country', CountryType::class, [
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Country([
+                        'message' => 'Le pays de résidence n\'est pas valide.'
+                    ])
+                ],
+                'label' => 'Pays de résidence'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $this->get('mangopay_service')->createIbanBank($user->getMangopayUserId(), $form->getData());
+        }
+
+        return [
+            'form' => $form->createView()
+        ];
+    }
+
+
 }
