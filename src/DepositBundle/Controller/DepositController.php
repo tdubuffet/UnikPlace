@@ -105,7 +105,133 @@ class DepositController extends Controller
      */
     public function descriptionAction()
     {
-        // TODO
+        $session = $this->get('session');
+
+        if ($session->has('deposit')) {
+            $deposit = $session->get('deposit');
+
+            if (isset($deposit['category_id'])) {
+                $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
+                $category = $repository->findOneById($deposit['category_id']);
+                if ($category) {
+                    $attributes = $category->getAttributes();
+
+                    foreach ($attributes as $attribute) {
+                        $template = $attribute->getAttributeDepositTemplate();
+                        $filters[$attribute->getCode()] = [
+                            'template' => $template->getName(),
+                            'viewVars' => [
+                                'label'     => $attribute->getName(),
+                                'id'        => $attribute->getCode(),
+                                'mandatory' => $attribute->getMandatory()
+                            ]
+                        ];
+                        $referential = $attribute->getReferential();
+                        if (isset($referential)) {
+                            $filters[$attribute->getCode()]['viewVars']['referentialName'] = $referential->getName();
+                            $filters[$attribute->getCode()]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+                        }
+                    }
+
+                    $customFields = [];
+                    foreach ($filters as $filter) {
+                        $customFields[] = $this->renderView(
+                            'DepositBundle:DepositFilters:'.$filter['template'].'.html.twig',
+                            isset($filter['viewVars']) ? $filter['viewVars'] : []
+                        );
+                    }
+
+                    return array('customFields' => $customFields);
+                } else {
+                    return $this->redirectToRoute('sell_photos');
+                }
+            } else {
+                return $this->redirectToRoute('sell_photos');
+            }
+        } else {
+            return $this->redirectToRoute('sell_photos');
+        }
+    }
+
+    /**
+     * @Route("/deposit_postdescription", name="deposit_postdescription")
+     * @Method({"POST"})
+     */
+    public function postDescriptionAction(Request $request)
+    {
+        $session = $this->get('session');
+
+        if ($session->has('deposit')) {
+            // TODO: control to check if correct deposit step
+            $deposit = $session->get('deposit');
+
+            $errors = $listAttributes = [];
+            foreach (['name' => "nom", 'description' => "description"] as $field => $fieldName) {
+                if (!$request->get($field) || empty($request->get($field))) {
+                    $errors[] = "Le champ ".$fieldName." doit être renseigné.";
+                }
+            }
+            foreach ($request->request->all() as $field => $value) {
+                if (strpos($field, 'attribute-') === 0) {
+                    list(, $fieldName) = explode('-', $field, 2);
+                    $listAttributes[$fieldName] = $value;
+                }
+            }
+
+            $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
+            $category = $repository->findOneById($deposit['category_id']);
+            if ($category) {
+                $attributes = $category->getAttributes();
+                foreach ($attributes as $attribute) {
+                    if ($attribute->getMandatory() && (!array_key_exists($attribute->getCode(), $listAttributes) || empty($listAttributes[$attribute->getCode()]))) {
+                        $errors[] = "Le champ ".$attribute->getName()." doit être renseigné.";
+                    }
+                }
+
+                if (count($errors) <= 0) {
+                    // Reset possible attribute values
+                    $deposit['attribute_values'] = [];
+
+                    foreach ($attributes as $attribute) {
+                        $postValue = $listAttributes[$attribute->getCode()];
+                        $referential = $attribute->getReferential();
+                        $referentialValues = [];
+                        if ($referential) {
+                            foreach ($referential->getReferentialValues() as $referentialVal) {
+                                $referentialValues[$referentialVal->getId()] = $referentialVal->getValue();
+                            }
+                        }
+
+                        if (count($referentialValues) > 0 && in_array($postValue, array_keys($referentialValues))) {
+                            // Case for existing value from referential
+                            $deposit['attribute_values'][$attribute->getId()]['referential_value_id'] = $postValue;
+                        } else {
+                            // Case for free value
+                            $attributeTypeName = $attribute->getAttributeType()->getName();
+
+                            // Cast value in the correct type
+                            settype($postValue, $attributeTypeName);
+
+                            // Fix exception to correctly associate attribute type with attribute value fields
+                            if ($attributeTypeName == 'string') $attributeTypeName = 'text';
+
+                            $deposit['attribute_values'][$attribute->getId()][$attributeTypeName.'_value'] = $postValue;
+                        }
+                    }
+
+                    if (count($deposit['attribute_values']) > 0) {
+                        $session->set('deposit', $deposit);
+                        return $this->redirectToRoute('sell_price');
+                    } else {
+                        return $this->redirectToRoute('sell_photos');
+                    }
+                }
+            } else {
+                return $this->redirectToRoute('sell_photos');
+            }
+        } else {
+            return $this->redirectToRoute('sell_photos');
+        }
     }
 
     /**

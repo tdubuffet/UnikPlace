@@ -36,6 +36,13 @@ class Attribute
     private $name;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="mandatory", type="boolean", nullable=true)
+     */
+    private $mandatory;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AttributeType")
      * @ORM\JoinColumn(name="attribute_type_id", referencedColumnName="id")
      */
@@ -284,5 +291,29 @@ class Attribute
     public function getAttributeDepositTemplate()
     {
         return $this->attributeDepositTemplate;
+    }
+
+    /**
+     * Set mandatory
+     *
+     * @param boolean $mandatory
+     *
+     * @return Attribute
+     */
+    public function setMandatory($mandatory)
+    {
+        $this->mandatory = $mandatory;
+
+        return $this;
+    }
+
+    /**
+     * Get mandatory
+     *
+     * @return boolean
+     */
+    public function getMandatory()
+    {
+        return $this->mandatory;
     }
 }

@@ -19,6 +19,8 @@ var Deposit = {
         Deposit.submitPhotosForm();
 
         Deposit.fileUpload();
+
+        Deposit.loadDescriptionValidation();
     },
 
     loadSubCategories: function () {
@@ -212,5 +214,89 @@ var Deposit = {
             $(this).find('.upload-pic-id').attr('name', 'image' + numpic);
         });
     },
+
+    loadDescriptionValidation: function () {
+        $('.attribute-select2').select2({
+            "language": {
+                "noResults": function(){
+                    return "Aucun résultat trouvé.";
+                }
+            },
+            "placeholder": "Sélectionnez une valeur.",
+            "width": "100%"
+        });
+
+        $('.color-choice input').click(function() {
+            $(this).parent('.color-choice').toggleClass('active');
+        });
+
+        var descriptionRules = {
+            "name": {
+                required: true,
+                minlength: 3,
+                maxlength: 80,
+            },
+            "description": {
+                required: true,
+                minlength: 80,
+                maxlength: 2000,
+            },
+        };
+
+        $('.attribute-field').each(function(k, v) {
+            var name = $(this).attr('name');
+            var rules = {};
+
+            if ($(this).data('required')) {
+                rules.required = $(this).data('required');
+            }
+            if ($(this).data('minlength')) {
+                rules.minlength = $(this).data('minlength');
+            }
+            if ($(this).data('maxlength')) {
+                rules.maxlength = $(this).data('maxlength');
+            }
+            if ($(this).data('digits')) {
+                rules.digits = $(this).data('digits');
+            }
+
+            if (!$.isEmptyObject(rules)) {
+                descriptionRules[name] = rules;
+            }
+        });
+
+        $("#description-form").validate({
+            ignore: [],
+            rules: descriptionRules,
+            errorPlacement: function(error, element) {
+                if(element.hasClass('attribute-select2')) {
+                    error.insertAfter(".select2-container");
+                } else if (element.hasClass('attribute-color')) {
+                    error.insertAfter(".box-color-choice");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass) {
+                if ($(element).hasClass('attribute-select2')) {
+                    $('.select2').addClass(errorClass);
+                } else {
+                    $(element).addClass(errorClass);
+                }
+            },
+            unhighlight: function(element, errorClass) {
+                if ($(element).hasClass('attribute-select2')) {
+                    $('.select2').removeClass(errorClass);
+                } else {
+                    $(element).removeClass(errorClass);
+                }
+            }
+        });
+
+        // hide select error if it's still displayed
+        $("select").on("select2:close", function (e) {
+            $(this).valid();
+        });
+    }
 
 };

@@ -1,0 +1,4 @@
+<div class="form-group">
+  <label class="{% if mandatory %}required{% endif %}" for="field-{{ id }}">{{ label }}</label>
+  <input type="number" id="field-{{ id }}" name="attribute-{{ id }}" class="form-control attribute-field" placeholder="{{ label }} de votre produit" {% if mandatory %}data-required="true"{% endif %} data-digits="true">
+</div>
