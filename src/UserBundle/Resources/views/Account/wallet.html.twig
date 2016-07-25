@@ -91,7 +91,7 @@
               <h5>Découvrez le montant de votre argent disponible<br />sur votre compte NoName.</h5>
               <p class="wallet-amount">{{ (wallet.Balance.Amount/100)|number_format(2, ',', ' ') }} €</p>
               <p>Prêt à faire le virement sur votre compte bancaire ?</p>
-              <p><a href="{{ path('account_wallet_transfer') }}" class="btn btn-important btn-lg btn-transfer-confirm" data-loading-text="Chargement en cours..."><i class="fa fa-credit-card"></i> Demande de virement</a></p>
+              <p><a href="{{ path('user_account_wallet_tranfer') }}" class="btn btn-important btn-lg btn-transfer-confirm" data-loading-text="Chargement en cours..."><i class="fa fa-credit-card"></i> Demande de virement</a></p>
             </div>
           {% else %}
             Vous ne pouvez pas demander votre reversement, vous n'avez pas d'argent sur votre portefeuille.
