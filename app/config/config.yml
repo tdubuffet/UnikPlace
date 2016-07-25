@@ -123,6 +123,7 @@ fos_user:
             type: UserBundle\Form\RegistrationType
         confirmation:
             enabled: true
+            template: UserBundle:email:registration_confirmation.email.twig
             from_email:
                 address:        noreply@noname.com
                 sender_name:    NoName Inscription
