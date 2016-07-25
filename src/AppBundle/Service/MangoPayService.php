@@ -204,4 +204,63 @@ class MangoPayService
         return $banks[0];
     }
 
+    /**
+     * Transfer money on free wallet to bank
+     *
+     * @param $user
+     * @param $freeWallet
+     * @param $bankAccount
+     * @return mixed
+     */
+    public function freeWalletToTransferBank($user)
+    {
+
+        $bankAccount = $this->getIbanBank($user->mango_user_id);
+        $freeWallet  = $user->getFreeWallet();
+
+        $PayOut = new \MangoPay\PayOut();
+        $PayOut->AuthorId           = $user->mango_user_id;
+        $PayOut->DebitedWalletID    = $freeWallet->Id;
+        $PayOut->DebitedFunds       = new \MangoPay\Money();
+        $PayOut->DebitedFunds->Currency = "EUR";
+        $PayOut->DebitedFunds->Amount = $freeWallet->Balance->Amount;
+        $PayOut->Fees               = new \MangoPay\Money();
+        $PayOut->Fees->Currency     = "EUR";
+        $PayOut->Fees->Amount       = 0;
+        $PayOut->PaymentType        = "BANK_WIRE";
+        $PayOut->MeanOfPaymentDetails = new \MangoPay\PayOutPaymentDetailsBankWire();
+        $PayOut->MeanOfPaymentDetails->BankAccountId = $bankAccount->Id;
+
+        $response =  $this->mangoPayApi->PayOuts->Create($PayOut);
+
+        $this->addTrace(
+            $response,
+            "[PayOut] MangoPayUserId => " . $user->getMangoPayUser()->Id . " | FreeWalletId => " . $user->getFreeWallet()->Id
+        );
+
+        return $response;
+    }
+
+    public function validateWalletToTransferBank($walletId)
+    {
+
+        $sorting = new \MangoPay\Sorting();
+        $sorting->AddField('CreationDate', \MangoPay\SortDirection::DESC);
+
+        $filters = new \MangoPay\FilterTransactions();
+        $filters->Status    = 'CREATED';
+        $filters->Type      = 'PAYOUT';
+        $filters->Nature    = 'REGULAR';
+
+        $pagination = new \MangoPay\Pagination();
+
+        $values = $this->mangoPayApi->Wallets->GetTransactions($walletId, $pagination, $filters, $sorting);
+
+        if (count($values) > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

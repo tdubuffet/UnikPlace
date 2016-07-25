@@ -139,17 +139,17 @@ class AccountController extends Controller
 
         $user = $this->getUser();
 
-        if ( count($user->getIbanBank()) == 0) {
-            return $this->redirectToRoute('account_register_bank');
+        if ( count($this->get('mangopay_service')->getIbanBank($user->getMangopayUserId())) == 0) {
+            return $this->redirectToRoute('user_account_bank');
         }
 
         if ($this->get('mangopay_service')->validateWalletToTransferBank($user->getFreeWallet()->Id) == false) {
-            return $this->redirectToRoute('account_wallet', [ 'transfer' => 'failed_payout_exist' ]);
+            return $this->redirectToRoute('user_account_wallet', [ 'transfer' => 'failed_payout_exist' ]);
         }
 
-        $this->get('mangopay_service')->freeWalletToTransferBank($user);
+        $this->get('mangopay_service')->freeWalletToTransferBank($user->getFreeWallet()->Id);
 
-        return $this->redirectToRoute('account_wallet', [ 'transfer' => 'ok' ]);
+        return $this->redirectToRoute('user_account_wallet', [ 'transfer' => 'ok' ]);
     }
 
 
