@@ -48,6 +48,20 @@ class Product
     private $price;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="original_price", type="decimal", precision=8, scale=2)
+     */
+    private $originalPrice;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="allow_offer", type="boolean")
+     */
+    private $allowOffer;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
@@ -541,7 +555,18 @@ class Product
     public function addDelivery(\OrderBundle\Entity\Delivery $delivery)
     {
         $this->deliveries[] = $delivery;
+    }
 
+    /*
+     * Set originalPrice
+     *
+     * @param string $originalPrice
+     *
+     * @return Product
+     */
+    public function setOriginalPrice($originalPrice)
+    {
+        $this->originalPrice = $originalPrice;
         return $this;
     }
 
@@ -575,6 +600,28 @@ class Product
     public function addOrder(\OrderBundle\Entity\Order $order)
     {
         $this->orders[] = $order;
+    }
+
+    /*
+     * Get originalPrice
+     *
+     * @return string
+     */
+    public function getOriginalPrice()
+    {
+        return $this->originalPrice;
+    }
+
+    /**
+     * Set allowOffer
+     *
+     * @param boolean $allowOffer
+     *
+     * @return Product
+     */
+    public function setAllowOffer($allowOffer)
+    {
+        $this->allowOffer = $allowOffer;
 
         return $this;
     }
@@ -597,5 +644,15 @@ class Product
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /*
+     * Get allowOffer
+     *
+     * @return boolean
+     */
+    public function getAllowOffer()
+    {
+        return $this->allowOffer;
     }
 }

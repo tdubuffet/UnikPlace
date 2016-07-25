@@ -188,7 +188,10 @@ class DepositController extends Controller
                     }
                 }
 
-                if (count($errors) <= 0) {
+                if (count($errors) > 0) {
+                    $session->getFlashBag()->add('error', $errors);
+                    return $this->redirectToRoute('sell_description');
+                } else {
                     // Reset possible attribute values
                     $deposit['attribute_values'] = [];
 
@@ -240,7 +243,43 @@ class DepositController extends Controller
      */
     public function priceAction()
     {
-        // TODO
+    }
+
+    /**
+     * @Route("/deposit_postprice", name="deposit_postprice")
+     * @Method({"POST"})
+     */
+    public function postPriceAction(Request $request)
+    {
+        $session = $this->get('session');
+
+        if ($session->has('deposit')) {
+            // TODO: control to check if correct deposit step
+            $deposit = $session->get('deposit');
+
+            $errors = [];
+            foreach (['price', 'original_price', 'allow_offer'] as $k => $field) {
+                if ($request->get($field) && !empty($request->get($field))) {
+                    $deposit[$field] = $request->get($field);
+                } else {
+                    if ($field == 'price') {
+                        $errors[] = "Le champ prix de vente doit être renseigné.";
+                    } elseif ($field == 'allow_offer') {
+                        $deposit[$field] = 0;
+                    }
+                }
+            }
+
+            if (count($errors) > 0) {
+                $session->getFlashBag()->add('error', $errors);
+                return $this->redirectToRoute('sell_price');
+            } else {
+                $session->set('deposit', $deposit);
+                return $this->redirectToRoute('sell_shipping');
+            }
+        } else {
+            return $this->redirectToRoute('sell_description');
+        }
     }
 
     /**

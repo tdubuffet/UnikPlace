@@ -21,6 +21,25 @@ var Deposit = {
         Deposit.fileUpload();
 
         Deposit.loadDescriptionValidation();
+
+        $('#product-price').blur(function() {
+            var valueAmount = Math.round($(this).val() * 0.65);
+            if (valueAmount <= 0) valueAmount = 0;
+            valueAmount = valueAmount.toFixed(2);
+            $('.valued-amount').text(valueAmount + ' €');
+        });
+
+        $("#price-form").validate({
+            rules: {
+                "price": {
+                    required: true,
+                    number: true,
+                },
+                "original_price": {
+                    number: true
+                },
+            }
+        });
     },
 
     loadSubCategories: function () {
