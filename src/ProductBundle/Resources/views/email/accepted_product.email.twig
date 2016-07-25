@@ -1,0 +1,17 @@
+{% block subject %}Votre produit a été accepté{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ user.firstname }} !
+
+Votre produit "{{ product.name }}" a été accepté par notre équipe de modération.
+Il est désormais en ligne et disponible à la vente.
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% include 'ProductBundle:email:accepted_product.html.twig' %}
+{% endblock %}

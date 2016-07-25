@@ -58,3 +58,7 @@ services:
     mangopay_service:
         class: AppBundle\Service\MangoPayService
         arguments: [%mangopay%]
+
+    mailer_sender:
+        class: AppBundle\Service\MailerSender
+        arguments: ['@mailer', '@router', '@twig', %mailer_sender%]

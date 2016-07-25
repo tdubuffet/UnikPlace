@@ -23,7 +23,8 @@ parameters:
         max_output: %mangopay.max_output%
         max_input: %mangopay.max_input%
         temporary_folder: "%kernel.root_dir%/../var/mangopay"
-
+    mailer_sender:
+        from_email: 'contact@noname.dev'
 
 framework:
     #esi:             ~
