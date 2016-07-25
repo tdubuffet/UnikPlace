@@ -3,7 +3,7 @@
 namespace AppBundle\Service;
 
 use MangoPay;
-
+use UserBundle\Entity\User as UserEntity;
 
 class MangoPayService
 {
@@ -75,5 +75,54 @@ class MangoPayService
     public function getCardPreAuthorization($preAuthorizationId)
     {
         return $this->mangoPayApi->CardPreAuthorizations->Get($preAuthorizationId);
+    }
+
+    public function createNaturalUser(UserEntity $user)
+    {
+        $mangoUser = new \MangoPay\UserNatural();
+        $mangoUser->PersonType          = "NATURAL";
+        $mangoUser->FirstName           = $user->getFirstname();
+        $mangoUser->LastName            = $user->getLastname();
+        $mangoUser->Birthday            = $user->getBirthday()->getTimestamp()+3600; // Fix one day gap
+        $mangoUser->Nationality         = $user->getNationality();
+        $mangoUser->CountryOfResidence  = $user->getResidentialCountry();
+        $mangoUser->Email               = $user->getEmail();
+
+        return $this->mangoPayApi->Users->Create($mangoUser);
+    }
+
+    public function createLegalUser(UserEntity $user)
+    {
+        $mangoUser = new \MangoPay\UserLegal();
+        $mangoUser->Name                                    = $user->getCompanyName();
+        $mangoUser->LegalPersonType                         = "BUSINESS";
+        $mangoUser->LegalRepresentativeFirstName            = $user->getFirstname();
+        $mangoUser->LegalRepresentativeLastName             = $user->getLastname();
+        $mangoUser->LegalRepresentativeBirthday             = $user->getBirthday()->getTimestamp()+3600; // Fix one day gap
+        $mangoUser->LegalRepresentativeNationality          = $user->getNationality();
+        $mangoUser->LegalRepresentativeCountryOfResidence   = $user->getResidentialCountry();
+        $mangoUser->Email                                   = $user->getEmail();
+
+        return $this->mangoPayApi->Users->Create($mangoUser);
+    }
+
+    public function createWallets($mangoPayUserId)
+    {
+        $blockedWallet = new \MangoPay\Wallet();
+        $blockedWallet->Tag = "BLOCKED";
+        $blockedWallet->Owners = array($mangoPayUserId);
+        $blockedWallet->Description = "Blocked wallet";
+        $blockedWallet->Currency = "EUR";
+
+        $freeWallet = new \MangoPay\Wallet();
+        $freeWallet->Tag = "FREE";
+        $freeWallet->Owners = array($mangoPayUserId);
+        $freeWallet->Description = "Free wallet";
+        $freeWallet->Currency = "EUR";
+
+        $blockedWalletResult    = $this->mangoPayApi->Wallets->Create($blockedWallet);
+        $freeWalletResult       = $this->mangoPayApi->Wallets->Create($freeWallet);
+
+        return ['blocked' => $blockedWalletResult, 'free' => $freeWalletResult];
     }
 }

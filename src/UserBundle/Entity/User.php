@@ -149,6 +149,12 @@ class User extends BaseUser implements ParticipantInterface
     /** @ORM\Column(name="mangopay_user_id", type="string", length=255, nullable=true) */
     protected $mangopay_user_id;
 
+    /** @ORM\Column(name="mangopay_blocked_wallet_id", type="string", length=255, nullable=true) */
+    protected $mangopay_blocked_wallet_id;
+
+    /** @ORM\Column(name="mangopay_free_wallet_id", type="string", length=255, nullable=true) */
+    protected $mangopay_free_wallet_id;
+
     /**
      * @ORM\OneToMany(targetEntity="OrderBundle\Entity\Order", mappedBy="user")
      */
@@ -789,5 +795,53 @@ class User extends BaseUser implements ParticipantInterface
     public function getEmailClassified()
     {
         return $this->emailClassified;
+    }
+
+    /**
+     * Set mangopayBlockedWalletId
+     *
+     * @param string $mangopayBlockedWalletId
+     *
+     * @return User
+     */
+    public function setMangopayBlockedWalletId($mangopayBlockedWalletId)
+    {
+        $this->mangopay_blocked_wallet_id = $mangopayBlockedWalletId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayBlockedWalletId
+     *
+     * @return string
+     */
+    public function getMangopayBlockedWalletId()
+    {
+        return $this->mangopay_blocked_wallet_id;
+    }
+
+    /**
+     * Set mangopayFreeWalletId
+     *
+     * @param string $mangopayFreeWalletId
+     *
+     * @return User
+     */
+    public function setMangopayFreeWalletId($mangopayFreeWalletId)
+    {
+        $this->mangopay_free_wallet_id = $mangopayFreeWalletId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayFreeWalletId
+     *
+     * @return string
+     */
+    public function getMangopayFreeWalletId()
+    {
+        return $this->mangopay_free_wallet_id;
     }
 }

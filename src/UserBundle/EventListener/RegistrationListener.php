@@ -32,8 +32,22 @@ class RegistrationListener implements EventSubscriberInterface
     {
         // Create the mangopay user for the current user
         $user = $event->getUser();
+        if ($user->getPro() === true) {
+            $mangopayUser = $this->mangopayService->createLegalUser($user);
+        }
+        else {
+            $mangopayUser = $this->mangopayService->createNaturalUser($user);
+        }
+        // Also create wallets
+        $wallets = $this->mangopayService->createWallets($mangopayUser->Id);
 
-        // TODO
+        // Put mangopay user id and wallets in user entity
+        $user->setMangopayUserId($mangopayUser->Id);
+        $user->setMangopayBlockedWalletId($wallets['blocked']->Id);
+        $user->setMangopayFreeWalletId($wallets['free']->Id);
 
+        // Flush user
+        $this->em->persist($user);
+        $this->em->flush();
     }
 }
