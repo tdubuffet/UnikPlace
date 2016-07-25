@@ -116,6 +116,8 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: UserBundle\Entity\User
+    service:
+        mailer: fos_user.mailer.twig_swift
     registration:
         form:
             type: UserBundle\Form\RegistrationType
@@ -124,8 +126,9 @@ fos_user:
             from_email:
                 address:        noreply@noname.com
                 sender_name:    NoName Inscription
-
-
+    resetting:
+        email:
+            template: UserBundle:email:password_resetting.email.twig
     profile:
         form:
             type: UserBundle\Form\ProfileFormType
