@@ -1,0 +1,18 @@
+{% block subject %}Votre produit a été refusé{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ user.firstname }} !
+
+Votre produit "{{ product.name }}" a été refusé par notre équipe de modération.
+Vérifiez que votre annonce ne comporte pas <b>d'erreur de saisie</b>, que cette dernière correspond bien à nos Conditions Générales d'Utilisation.
+Si vous pensez néanmoins que votre annonce respecte nos règles n'hésitez pas à nous écrire.
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% include 'ProductBundle:email:refused_product.html.twig' %}
+{% endblock %}
