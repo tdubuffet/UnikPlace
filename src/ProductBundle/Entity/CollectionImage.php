@@ -16,6 +16,7 @@ use Vich\UploaderBundle\Mapping\PropertyMapping;
  *
  * @ORM\Table(name="collection_image")
  * @ORM\Entity(repositoryClass="ProductBundle\Repository\ImageRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  * @Vich\Uploadable
  */
 class CollectionImage
