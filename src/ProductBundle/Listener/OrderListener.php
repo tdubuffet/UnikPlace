@@ -79,18 +79,19 @@ class OrderListener
             $order->setMangopayPayinDate(new \DateTime());
 
             /**
-             * DUPLICATE PRODUCT
+             * set status sold at product
              */
-            if ($request->get('keep_published')) {
-                $duplicateProduct = clone $order->getProduct();
-                $this->container->get('doctrine')->getManager()->persist($duplicateProduct);
-            }
+
+            $statusSold = $this->container->get('doctrine')->getRepository('ProductBundle:Status')->findOneByName('sold');
+            $product = $order->getProduct();
+            $product->setStatus($statusSold);
 
             $statusAccepted = $this->container->get('doctrine')->getRepository('OrderBundle:Status')->findOneByName('accepted');
 
             $order->setStatus($statusAccepted);
 
             $this->container->get('doctrine')->getManager()->persist($order);
+            $this->container->get('doctrine')->getManager()->persist($product);
             $this->container->get('doctrine')->getManager()->flush();
         }
     }
