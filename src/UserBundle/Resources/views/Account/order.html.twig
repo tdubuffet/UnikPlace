@@ -152,9 +152,6 @@
           <ul>
             <li>
               <span>Type</span>{{ order.deliveryType.name }}
-              {% if order.status == 'accepted' and order.deliveryType.code == 'by_hand' %}
-                (<a href="{{ path('faq') }}#tab_paiement" target="_blank">en savoir plus</a>)
-              {% endif %}
             </li>
               {% if order.deliveryAddress is defined %}
               <li>
@@ -171,15 +168,15 @@
 
   {% if order.status == 'pending' and sale %}
     <div class="order-summary">
-      <a class="btn btn-primary-outline" data-toggle="modal" data-target="#confirm-sell">Je confirme</a>
       <form method="post">
+        <a class="btn btn-primary" data-toggle="modal" data-target="#confirm-sell">Je confirme</a>
         <input type="hidden" name="action" value="canceledOrder" />
-        <input type="submit" value="J'annule la vente">
+        <input class="btn btn-link btn-confirm-link" type="submit" value="J'annule la vente" data-message="Êtes-vous bien certain de vouloir annuler la vente de votre produit ?" data-button="Je confirme l'annulation de la vente">
       </form>
     </div>
   {% endif %}
 
-  {% if sale and order.status == 'pending' and order.deliveryType.code != 'by_hand' %}
+  {% if sale and order.status == 'pending' %}
     <div class="modal fade" id="confirm-sell" tabindex="-1" role="dialog" aria-labelledby="confirm-sell-label">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
