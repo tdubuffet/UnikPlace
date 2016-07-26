@@ -40,7 +40,15 @@
                 {{ product.name }}
               {% endif %}
             </td>
-            <td>{{ product.status.label }}</td>
+            <td>
+              {% if product.status.name == "awaiting" %}
+                <span class="label label-info">{{ product.status.label }}</span>
+              {% elseif product.status.name == "published" %}
+                <span class="label label-success">{{ product.status.label }}</span>
+              {% elseif product.status.name == "refused" %}
+                <span class="label label-danger">{{ product.status.label }}</span>
+              {% endif %}
+            </td>
             <td>{{ product.price|currency_convert_format(product.currency.code) }}</td>
             <td>
               <button class="btn btn-danger" data-id="{{ product.id }}" data-name="{{ product.name }}"
