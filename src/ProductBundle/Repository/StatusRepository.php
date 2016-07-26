@@ -10,4 +10,17 @@ namespace ProductBundle\Repository;
  */
 class StatusRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @return array
+     */
+    public function findForUserProducts()
+    {
+        return $this->createQueryBuilder("q")
+            ->where("q.name = :first")
+            ->orWhere("q.name = :second")
+            ->orWhere("q.name = :third")
+            ->setParameters(['first' => "awaiting", 'second' => "published", 'third' => "refused"])
+            ->getQuery()
+            ->getResult();
+    }
 }

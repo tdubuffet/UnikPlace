@@ -3,16 +3,18 @@
 namespace UserBundle\Controller;
 
 use OrderBundle\Entity\Order;
+use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use ProductBundle\Listener\OrderListener;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use UserBundle\Form\PreferenceFormType;
@@ -29,6 +31,8 @@ class AccountController extends Controller
     /**
      * @Route("", name="user_account_profile")
      * @Template("UserBundle:Account:profile.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function profileAction(Request $request)
     {
@@ -40,6 +44,8 @@ class AccountController extends Controller
     /**
      * @Route("/wishlist", name="user_account_wishlist")
      * @Template("UserBundle:Account:wishlist.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function wishlistAction(Request $request)
     {
@@ -52,6 +58,8 @@ class AccountController extends Controller
     /**
      * @Route("/preferences", name="user_account_preference")
      * @Template("UserBundle:Account:preference.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function preferenceAction(Request $request)
     {
@@ -75,6 +83,8 @@ class AccountController extends Controller
     /**
      * @Route("/achats", name="user_account_purchases")
      * @Template("UserBundle:Account:purchases-list.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function purchasesAction(Request $request)
     {
@@ -98,6 +108,8 @@ class AccountController extends Controller
     /**
      * @Route("/ventes", name="user_account_sales")
      * @Template("UserBundle:Account:sales-list.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function salesAction(Request $request)
     {
@@ -120,6 +132,8 @@ class AccountController extends Controller
     /**
      * @Route("/portefeuille", name="user_account_wallet")
      * @Template("UserBundle:Account:wallet.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function walletAction(Request $request)
     {
@@ -137,6 +151,8 @@ class AccountController extends Controller
 
     /**
      * @Route("/portefeuille/transfert", name="user_account_wallet_tranfer")
+     * @param Request $request
+     * @return array
      */
     public function transfertBankAction(Request $request)
     {
@@ -156,10 +172,11 @@ class AccountController extends Controller
         return $this->redirectToRoute('user_account_wallet', [ 'transfer' => 'ok' ]);
     }
 
-
     /**
      * @Route("/portefeuille/rib", name="user_account_bank")
      * @Template("UserBundle:Account:bank.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function accountBankAction(Request $request)
     {
@@ -237,6 +254,9 @@ class AccountController extends Controller
      * @Route("/achat/{id}", name="user_account_purchase")
      * @Route("/vente/{id}", name="user_account_sale")
      * @Template("UserBundle:Account:order.html.twig")
+     * @param Request $request
+     * @param Order $order
+     * @return array
      */
     public function orderAction(Request $request, Order $order)
     {
@@ -286,6 +306,80 @@ class AccountController extends Controller
             'thread' => $thread,
             'formMessage' => (isset($form)) ? $form->createView() : null
         ];
+
+    }
+
+    /**
+     * @Route("/produits", name="user_account_products")
+     * @Template("UserBundle:Account:products.html.twig")
+     * @param Request $request
+     * @return array
+     */
+    public function productsAction(Request $request)
+    {
+        $status = $this->getDoctrine()->getRepository("ProductBundle:Status")->findForUserProducts();
+        $repo = $this->getDoctrine()->getRepository("ProductBundle:Product");
+        $adapter = new ArrayAdapter($repo->findForUserAndStatus($this->getUser(), $status));
+        $pagerfanta = new Pagerfanta($adapter);
+        try {
+            $pagerfanta->setMaxPerPage(10)->setCurrentPage($request->query->get('page', 1));
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return ['pager' => $pagerfanta];
+    }
+
+    /**
+     * @Route("/product", name="ajax_product_action")
+     * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function productAction(Request $request)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new JsonResponse(['message' => 'You must be authentificated to add product favorite.'], 401);
+        }
+        if (!$request->request->has("product_id")) {
+            return new JsonResponse(['message' => 'A product id (product_id) must be specified.'], 409);
+        }
+        $actions = ['remove', 'update'];
+        if (!$request->request->has("action") || !in_array($action = $request->request->get('action'), $actions)) {
+            return new JsonResponse(['message' => 'An action must be specified.'], 409);
+        }
+
+        $id = $request->request->get("product_id");
+        $product = $this->getDoctrine()->getRepository("ProductBundle:Product")->findOneBy(['id' => $id]);
+        if (!$product) {
+            return new JsonResponse(['message' => 'Product not found.'], 404);
+        }
+        if ($action == 'remove') {
+            $status = $this->getDoctrine()->getRepository("ProductBundle:Status")->findOneBy(['name' => 'deleted']);
+            if (!$status) {
+                return new JsonResponse(['message' => 'Status not found.'], 404);
+            }
+            $product->setStatus($status);
+            $this->getDoctrine()->getManager()->persist($product);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash("success", "Le produit ".$product->getName()." a bien été supprimé");
+
+            return new JsonResponse(['message' => 'Product deleted']);
+        }elseif ($action == 'update') {
+            if (!$request->request->has("field")) {
+                return new JsonResponse(['message' => 'A field to update must be specified.'], 409);
+            }
+            if ($field = $request->request->get('field') == "price" && $request->request->has('price')) {
+                $product->setPrice($request->request->get('price'));
+                $this->getDoctrine()->getManager()->persist($product);
+                $this->getDoctrine()->getManager()->flush();
+                $this->addFlash("success", "Le prix du produit ".$product->getName()." a bien été modifié");
+
+                return new JsonResponse(['message' => 'Product updated']);
+            }else {
+                return new JsonResponse(['message' => 'A price must be specified.'], 409);
+            }
+        }
 
     }
 

@@ -2,6 +2,9 @@
 
 namespace ProductBundle\Repository;
 
+use ProductBundle\Entity\Product;
+use UserBundle\Entity\User;
+
 /**
  * ProductRepository
  *
@@ -32,8 +35,34 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    /**
+     * @param Product $product
+     * @return int
+     */
     public function countSimilarProducts($product)
     {
         return count($this->findBy(['category' => $product->getCategory()])) - 1;
+    }
+
+    /**
+     * @param User $user
+     * @param array $status
+     * @return array
+     * @throws \Exception
+     */
+    public function findForUserAndStatus(User $user, array $status)
+    {
+        if (count($status) != 3) {
+            throw new \Exception("status must be an array with 3 fields");
+        }
+        $params = ['user' => $user, 'status1' => $status[0], 'status2' => $status[1], 'status3' => $status[1]];
+        return $this->createQueryBuilder("q")
+            ->orWhere("q.status = :status1")
+            ->orWhere("q.status = :status2")
+            ->orWhere("q.status = :status3")
+            ->andWhere("q.user = :user")
+            ->setParameters($params)
+            ->getQuery()
+            ->getResult();
     }
 }

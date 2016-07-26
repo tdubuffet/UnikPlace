@@ -16,7 +16,8 @@ class LoadStatusData implements FixtureInterface
             ['name' => 'deleted',     'label' => 'Supprimé'],
             ['name' => 'expired',     'label' => 'Expiré'],
             ['name' => 'sold',        'label' => 'Vendu'],
-            ['name' => 'unavailable', 'label' => 'Non disponible à la vente']];
+            ['name' => 'unavailable', 'label' => 'Non disponible à la vente'],
+            ['name' => 'refused'    , 'label' => 'Refusé']];
 
         foreach ($availableStatus as $statusInfos) {
             $status = new Status();
