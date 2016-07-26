@@ -30,6 +30,13 @@ class DeliveryController extends Controller
      */
     public function deliveryAction(Request $request)
     {
+        $session = new Session();
+        $cart = $session->get('cart', array());
+        if (empty($cart)) {
+            // Redirect to homepage if cart is empty
+            return $this->redirectToRoute('homepage');
+        }
+
         $address = new Address;
         $addAddressForm = $this->createForm(AddressType::class, $address);
         $addresses = $this->getUser()->getAddresses();

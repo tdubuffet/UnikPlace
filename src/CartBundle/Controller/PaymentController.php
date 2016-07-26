@@ -45,6 +45,12 @@ class PaymentController extends Controller
         }
         $deliveryModes = $session->get('cart_delivery');
         $cartAddresses = $session->get('cart_addresses');
+
+        if (empty($deliveryModes) || empty($cartAddresses)) {
+            $session->getFlashBag()->add('notice', 'Votre panier a expiré. Merci de renouveler l\'opération.');
+            return $this->redirectToRoute('cart');
+        }
+
         $addresses = [];
         foreach ($cartAddresses as $addressType => $address) {
             $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
