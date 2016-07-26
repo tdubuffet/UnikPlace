@@ -57,6 +57,10 @@ class MailerSender
 
     private function sendMessage($templateName, $context, $fromEmail, $toEmail)
     {
+        // Add name if from_email is the same as in config
+        if ($fromEmail === $this->parameters['from_email']) {
+            $fromEmail = [$this->parameters['from_email'] => $this->parameters['from_name']];
+        }
         $context = $this->twig->mergeGlobals($context);
         $template = $this->twig->loadTemplate($templateName);
         $subject = $template->renderBlock('subject', $context);

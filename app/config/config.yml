@@ -25,7 +25,8 @@ parameters:
         max_input: %mangopay.max_input%
         temporary_folder: "%kernel.root_dir%/../var/mangopay"
     mailer_sender:
-        from_email: 'contact@noname.dev'
+        from_email: %mailer_sender_email%
+        from_name: %mailer_sender_name%
 
 framework:
     #esi:             ~
@@ -127,8 +128,8 @@ fos_user:
             enabled: true
             template: UserBundle:email:registration_confirmation.email.twig
             from_email:
-                address:        noreply@noname.com
-                sender_name:    NoName Inscription
+                address:        %mailer_sender_email%
+                sender_name:    %mailer_sender_name%
     resetting:
         email:
             template: UserBundle:email:password_resetting.email.twig
@@ -136,8 +137,8 @@ fos_user:
         form:
             type: UserBundle\Form\ProfileFormType
     from_email:
-        address:        noreply@noname.com
-        sender_name:    NoName :)
+        address:        %mailer_sender_email%
+        sender_name:    %mailer_sender_name%
 
 
 fos_message:
