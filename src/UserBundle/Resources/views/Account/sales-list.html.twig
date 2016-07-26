@@ -32,7 +32,26 @@
           {{ order.product.name }}
         </td>
         <td>{{ order.amount }} {% if order.currency.code|lower == 'eur'  %}€{% endif %}</td>
-        <td>{{ order.status }}</td>
+        <td>
+          {% if order.status == 'pending' %}
+            <span class="label label-success">En attente de confirmation</span>
+          {% endif %}
+          {% if order.status == 'accepted' %}
+            <span class="label label-success">Confirmé</span>
+          {% endif %}
+          {% if order.status == 'canceled' %}
+            <span class="label label-danger">Annulé</span>
+          {% endif %}
+          {% if order.status == 'disputed' %}
+            <span class="label label-success">Litige en cours</span>
+          {% endif %}
+          {% if order.status == 'done' %}
+            <span class="label label-success">Terminé</span>
+          {% endif %}
+          {% if order.status == 'error' %}
+            <span class="label label-danger">Erreur</span>
+          {% endif %}
+        </td>
         <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
         <td><a class="btn btn-primary" href="{{ path('user_account_sale', { id: order.id}) }}">Voir</a></td>
       </tr>
