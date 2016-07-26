@@ -1,3 +1,22 @@
+{% if collections|length > 0 %}
+  <li class="level0 level-top m-dropdown parent parent">
+    <a href="{{ path('homepage') }}" class="level-top"><span>Tendances</span></a>
+    <div class="dropdown menu-wrap-sub">
+      <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-4col">
+        <ul class="level0">
+          <li class="level1 group item">
+            <span class="title_group_head">Les dernières inspirations</span>
+          </li>
+          {% for idx, collection in collections %}
+            <li class="level1 item nav-2-{{ idx }}">
+              <a href="{{ path("collection", {"slug" : collection.slug}) }}"><span>{{ collection.name }}</span></a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </li>
+{% endif %}
 {% for idx, category in categories %}
 <li class="level0 nav-{{ idx }} level-top parent">
   <a href="{{ path('category', {path: category.getPath()}) }}" class="level-top">
@@ -29,12 +48,22 @@
         {% endfor %}
       </ul>
     </div>
+    {% if category.getCollections()|length > 0 %}
     <div class="ulmenu-block ulmenu-block-bottom grid12-12 std">
       <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><img class="img-responsive" src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner_menu1.jpg" alt="" /></div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><img class="img-responsive" src="http://elara.icotheme.com/media/wysiwyg/icotheme/banner_menu2.jpg" alt="" /></div>
+        {% set nb = 0 %}
+        {% for collection in category.getCollections() if nb <= 4 %}
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+          <a href="{{ path('collection', {'slug' : collection.slug}) }}">
+            <img class="img-responsive" alt="{{ collection.name }}"
+                 src="{{ loadpic(collection.image, 600, 200, "c", "collections") }}" />
+          </a>
+        </div>
+          {% set nb = nb+1 %}
+        {% endfor %}
       </div>
     </div>
+    {% endif %}
   </div>
   {% endif %}
 </li>

@@ -1,3 +1,17 @@
+{% if collections|length > 0 %}
+  <li class="level0 level-top parent">
+      <span class="m_title_group_head">Les dernières inspirations</span>
+  </li>
+  <ul class="level1">
+    {% for collection in collections %}
+      <li class="level2">
+        <a href="{{ path("collection", {'slug': collection.slug}) }}">{{ collection.name }}</a>
+      </li>
+    {% endfor %}
+
+  </ul>
+{% endif %}
+
 {% for idx, category in categories %}
   <li class="level0 nav-{{ idx }} level-top parent">
     <a href="{{ path('category', {path: category.getPath()}) }}" class="level-top">

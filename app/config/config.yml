@@ -281,6 +281,7 @@ easy_admin:
             class: ProductBundle\Entity\CollectionImage
             list:
                 fields:
+                    - { property: 'id' }
                     - { property: 'imagePath', type: 'image', base_path: /images/collections }
             show:
                 fields:

@@ -13,10 +13,14 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      * @Template("AppBundle:default:index.html.twig")
+     * @param Request $request
+     * @return array
      */
     public function indexAction(Request $request)
     {
+        $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findAllForNoCategories();
 
+        return ["collections" => $collections];
     }
 
     /**
@@ -36,11 +40,10 @@ class DefaultController extends Controller
     public function categoriesAction()
     {
 
-        $categories = $this->getDoctrine()
-            ->getRepository('ProductBundle:Category')
-            ->findByParentCache(null);
+        $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')->findByParentCache(null);
+        $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findLast10();
 
-        return array('categories' => $categories);
+        return ['categories' => $categories, "collections" => $collections];
     }
 
     /**
@@ -62,10 +65,9 @@ class DefaultController extends Controller
     public function mobileCategoriesAction()
     {
 
-        $categories = $this->getDoctrine()
-            ->getRepository('ProductBundle:Category')
-            ->findByParentCache(null);
+        $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')->findByParentCache(null);
+        $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findLast10();
 
-        return array('categories' => $categories);
+        return ['categories' => $categories, "collections" => $collections];
     }
 }
