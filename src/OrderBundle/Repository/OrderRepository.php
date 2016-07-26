@@ -36,4 +36,18 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         ;
     }
 
+    public function getTotalAmount($preAuthId)
+    {
+        return $this->createQueryBuilder('o')
+            ->select('SUM(o.amount)')
+            ->join('o.status', 's', 'WITH', 's.name = :status')
+            ->where('o.mangopay_preauthorization_id = :preAuthId')
+            ->setParameter('preAuthId', $preAuthId)
+            ->setParameter('status', 'pending')
+            ->groupBy('o.mangopay_preauthorization_id')
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
+
 }

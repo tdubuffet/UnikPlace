@@ -272,7 +272,7 @@ class MangoPayService
         return $preauthorization;
     }
 
-    public function createPayIn(User $buyer, Order $order, $currencyCode = 'EUR')
+    public function createPayIn(User $buyer, Order $order, $totalAmount, $currencyCode = 'EUR')
     {
 
         $preauthorization = $this->checkStatusPreAuth($order->getMangopayPreauthorizationId());
@@ -287,7 +287,7 @@ class MangoPayService
             $payIn->CreditedWalletId = $wallet->Id;
             $payIn->AuthorId = $buyer->getMangopayUserId();
             $payIn->DebitedFunds = new \MangoPay\Money();
-            $payIn->DebitedFunds->Amount = $order->getAmount() * 100;
+            $payIn->DebitedFunds->Amount = $totalAmount * 100;
             $payIn->DebitedFunds->Currency = $currencyCode;
             $payIn->Fees = new \MangoPay\Money();
             $payIn->Fees->Amount = 0;
@@ -315,6 +315,39 @@ class MangoPayService
         //@todo log transaction
 
         return false;
+
+    }
+
+    /**
+     * Refound Pay In
+     * @param $userId MangoPay User Id
+     * @param $PayInId MangoPay PayIn Id
+     * @param $amount Amount Integer
+     * @return mixed
+     */
+    public function refundOrder($userMangoPayId, $PayInId, $amount)
+    {
+
+        $Refund = new \MangoPay\Refund();
+        $Refund->AuthorId       = $userMangoPayId;
+        $Refund->DebitedFunds   = new \MangoPay\Money();
+
+        $Refund->DebitedFunds->Currency = "EUR";
+        $Refund->DebitedFunds->Amount = $amount*100;
+        $Refund->Fees = new \MangoPay\Money();
+        $Refund->Fees->Currency = "EUR";
+        $Refund->Fees->Amount = 0; // No fee on refund
+
+
+        $result = $this->mangoPayApi->PayIns->CreateRefund($PayInId, $Refund);
+
+
+        $this->addTrace($result,
+            '[REFUND] Refund order | PayInId => ' . $PayInId
+        );
+
+
+        return $result;
 
     }
 

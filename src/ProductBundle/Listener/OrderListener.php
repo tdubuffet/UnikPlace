@@ -67,7 +67,12 @@ class OrderListener
             throw new NotFoundHttpException();
         }
 
-        $payInId = $this->mangopayService->createPayIn($order->getUser(), $order);
+        $totalAmount = $this->container
+            ->get('doctrine')
+            ->getRepository('OrderBundle:Order')
+            ->getTotalAmount($order->getMangopayPreauthorizationId());
+
+        $payInId = $this->mangopayService->createPayIn($order->getUser(), $order, $totalAmount);
 
         if ($payInId !== false) {
             $order->setMangopayPayinId($payInId);
@@ -88,6 +93,51 @@ class OrderListener
             $this->container->get('doctrine')->getManager()->persist($order);
             $this->container->get('doctrine')->getManager()->flush();
         }
+    }
+
+    public function canceledOrder(Request $request, Order $order)
+    {
+
+        $updateStatus = false;
+
+        if ($order->getProduct()->getUser() != $this->getConnectedUser() || $order->getStatus()->getName() != 'pending') {
+            throw new NotFoundHttpException();
+        }
+
+        $preAuth = $this->mangopayService->checkStatusPreAuth($order->getMangopayPreauthorizationId());
+
+        if ($preAuth->PayInId == null) {
+
+            $updateStatus = true;
+
+        } else {
+
+            /**
+             * Refund
+             */
+            $refund = $this->mangopayService->refundOrder($order->getUser()->getMangopayUserId(), $preAuth->PayInId, $order->getAmount());
+            if ($refund) {
+
+                $updateStatus =  true;
+
+            }
+
+
+        }
+
+        if ($updateStatus) {
+
+
+            $statusCanceled = $this->container->get('doctrine')->getRepository('OrderBundle:Status')->findOneByName('canceled');
+
+            $order->setStatus($statusCanceled);
+
+
+            $this->container->get('doctrine')->getManager()->persist($order);
+            $this->container->get('doctrine')->getManager()->flush();
+        }
+
+
     }
 
 
