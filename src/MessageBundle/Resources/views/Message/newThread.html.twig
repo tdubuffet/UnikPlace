@@ -7,12 +7,6 @@
 {{ form_start(form) }}
 
   <div class="form-group">
-    <label class="required">Sujet</label>
-    {{ form_widget(form.subject, {'attr': {'class': 'form-control'}}) }}
-    {{ form_errors(form.subject) }}
-  </div>
-
-  <div class="form-group">
     <label class="required">Message</label>
     {{ form_widget(form.body, {'attr': {'class': 'form-control'}}) }}
     {{ form_errors(form.body) }}

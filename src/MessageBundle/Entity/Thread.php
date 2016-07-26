@@ -15,6 +15,7 @@ use FOS\MessageBundle\Entity\Thread as BaseThread;
 /**
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="MessageBundle\Repository\MessageRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Thread extends BaseThread
 {
@@ -70,5 +71,15 @@ class Thread extends BaseThread
     public function setProduct($product)
     {
         $this->product = $product;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist() {
+
+        if ($this->product) {
+            $this->subject = 'Message concernant l\'annonce: ' . $this->product->getName();
+        }
     }
 }

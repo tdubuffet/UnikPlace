@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use UserBundle\Form\PreferenceFormType;
@@ -258,9 +259,32 @@ class AccountController extends Controller
 
         $this->get('order_listener')->listen($request, $order);
 
+
+        $thread = $this->getDoctrine()
+            ->getRepository('MessageBundle:Thread')
+            ->findThreadByProductAndUser($order->getProduct(), $this->getUser());
+
+        if ($thread) {
+            $form = $this->get('fos_message.reply_form.factory')->create($thread);
+            $formHandler = $this->get('fos_message.reply_form.handler');
+
+            if ($message = $formHandler->process($form)) {
+                return $this->redirect($request->headers->get('referer'));
+            }
+        } else {
+            $form = $this->get('app.message')->processSentProductMessage($request, $order->getProduct());
+
+            if ($form === true) {
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
+
+
         return [
             'order' => $order,
-            'sale' => $sale
+            'sale' => $sale,
+            'thread' => $thread,
+            'formMessage' => (isset($form)) ? $form->createView() : null
         ];
 
     }

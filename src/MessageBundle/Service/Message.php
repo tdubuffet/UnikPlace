@@ -51,7 +51,7 @@ class Message
             $message = $threadBuilder
                 ->addRecipient($product->getUser())
                 ->setSender($sender)
-                ->setSubject($data['subject'])
+                //->setSubject($data['subject'])
                 ->setBody($data['body'])
                 ->setProduct($product)
                 ->getMessage();

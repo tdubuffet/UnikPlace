@@ -207,4 +207,56 @@
   {% endif %}
 
 
+  <h2>Discussion avec {% if sale %}l'acheteur{% else %}le vendeur{% endif %}</h2>
+  {% if thread %}
+
+    <div class="message">
+
+      {% for message in thread.messages %}
+        <div class="row">
+          <div class="messenger_thread_message {% if message.sender == app.user %}col-md-9 col-md-offset-3 user{% else %}col-md-9{% endif %}">
+            <div class="messenger_thread_message_info">
+              {% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date('d/m/Y H:i')} from 'FOSMessageBundle' %}message_info{% endtrans %}
+            </div>
+
+            <div class="messenger_thread_message_body" id="message_{{ message.id }}">
+              {{ message.body|nl2br }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+
+      <h3>{% trans from 'FOSMessageBundle' %}reply{% endtrans %}</h3>
+
+      <form method="post">
+
+        <div class="form-group">
+          <label class="required">Message</label>
+          {{ form_widget(formMessage.body, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(formMessage.body) }}
+        </div>
+
+        {{ form_rest(formMessage) }}
+        <p><input class="btn btn-primary" value="Répondre" type="submit"></p>
+      </form>
+    </div>
+
+  {% else %}
+
+    {{ form_start(formMessage) }}
+
+        <div class="form-group">
+          {{ form_widget(formMessage.body, {'attr': {'class': 'form-control'}}) }}
+          {{ form_errors(formMessage.body) }}
+        </div>
+
+      {{ form_rest(formMessage) }}
+      <button type="submit" class="btn btn-primary">Envoyer</button>
+
+    </form>
+
+  {% endif %}
+
+
 {% endblock %}
