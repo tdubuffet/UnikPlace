@@ -3,7 +3,9 @@
 namespace AppBundle\Service;
 
 use MangoPay;
+use OrderBundle\Entity\Order;
 use UserBundle\Entity\User as UserEntity;
+use UserBundle\Entity\User;
 
 class MangoPayService
 {
@@ -261,6 +263,59 @@ class MangoPayService
         }
 
         return true;
+    }
+
+    public function checkStatusPreAuth($preauthorizationId)
+    {
+        $preauthorization = $this->mangoPayApi->CardPreAuthorizations->Get($preauthorizationId);
+
+        return $preauthorization;
+    }
+
+    public function createPayIn(User $buyer, Order $order, $currencyCode = 'EUR')
+    {
+
+        $preauthorization = $this->checkStatusPreAuth($order->getMangopayPreauthorizationId());
+
+        // Get buyer blocked wallet
+        $wallet = $this->getWalletId($buyer->getMangopayBlockedWalletId());
+
+        if ($preauthorization->PaymentStatus == "WAITING") {
+
+            // Create Pay In
+            $payIn = new \MangoPay\PayIn();
+            $payIn->CreditedWalletId = $wallet->Id;
+            $payIn->AuthorId = $buyer->getMangopayUserId();
+            $payIn->DebitedFunds = new \MangoPay\Money();
+            $payIn->DebitedFunds->Amount = $order->getAmount() * 100;
+            $payIn->DebitedFunds->Currency = $currencyCode;
+            $payIn->Fees = new \MangoPay\Money();
+            $payIn->Fees->Amount = 0;
+            $payIn->Fees->Currency = 'EUR';
+            $payIn->PaymentType = "CARD";
+
+            // Payment type as PREAUTHORIZED
+            $payIn->PaymentDetails = new \MangoPay\PayInPaymentDetailsPreAuthorized();
+            $payIn->PaymentDetails->PreauthorizationId = $order->getMangopayPreauthorizationId();
+
+            // Execution type as DIRECT
+            $payIn->ExecutionDetails = new \MangoPay\PayInExecutionDetailsDirect();
+
+            $createdPayIn = $this->mangoPayApi->PayIns->Create($payIn);
+            if ($createdPayIn->Status == 'SUCCEEDED') {
+                return $createdPayIn->Id;
+            }
+
+        }
+        if ($preauthorization->PayInId != null) {
+            return $preauthorization->PayInId;
+        }
+
+
+        //@todo log transaction
+
+        return false;
+
     }
 
 }

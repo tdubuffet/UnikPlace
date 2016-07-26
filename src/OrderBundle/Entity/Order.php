@@ -80,6 +80,20 @@ class Order
     private $mangopay_preauthorization_id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mangopay_payin_id", type="string", length=255, nullable=true)
+     */
+    private $mangopay_payin_id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mangopay_payin_date", type="datetime", nullable=true)
+     */
+    private $mangopay_payin_date;
+
+    /**
      * @ORM\ManyToOne(targetEntity="OrderBundle\Entity\Delivery")
      * @ORM\JoinColumn(name="delivery_type_id", referencedColumnName="id")
      */
@@ -309,5 +323,37 @@ class Order
     public function setProduct($product)
     {
         $this->product = $product;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMangopayPayinId()
+    {
+        return $this->mangopay_payin_id;
+    }
+
+    /**
+     * @param mixed $mangopay_payin_id
+     */
+    public function setMangopayPayinId($mangopay_payin_id)
+    {
+        $this->mangopay_payin_id = $mangopay_payin_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMangopayPayinDate()
+    {
+        return $this->mangopay_payin_date;
+    }
+
+    /**
+     * @param mixed $mangopay_payin_date
+     */
+    public function setMangopayPayinDate($mangopay_payin_date)
+    {
+        $this->mangopay_payin_date = $mangopay_payin_date;
     }
 }

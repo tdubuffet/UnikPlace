@@ -2,8 +2,10 @@
 
 namespace UserBundle\Controller;
 
+use OrderBundle\Entity\Order;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
+use ProductBundle\Listener\OrderListener;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -11,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use UserBundle\Form\PreferenceFormType;
 
 /**
@@ -227,6 +230,39 @@ class AccountController extends Controller
         return [
             'form' => $form->createView()
         ];
+    }
+
+    /**
+     * @Route("/achat/{id}", name="user_account_purchase")
+     * @Route("/vente/{id}", name="user_account_sale")
+     * @Template("UserBundle:Account:order.html.twig")
+     */
+    public function orderAction(Request $request, Order $order)
+    {
+
+        $sale = false;
+
+        $routeName = $request->get('_route');
+
+        if ($routeName == 'user_account_sale') {
+            $sale = true;
+        }
+
+        if ($routeName == 'user_account_purchase' && $order->getUser() != $this->getUser()) {
+            throw new NotFoundHttpException('Not found Order');
+        }
+
+        if ($routeName == 'user_account_sale' && $order->getProduct()->getUser() != $this->getUser()) {
+            throw new NotFoundHttpException('Not found Order');
+        }
+
+        $this->get('order_listener')->listen($request, $order);
+
+        return [
+            'order' => $order,
+            'sale' => $sale
+        ];
+
     }
 
 

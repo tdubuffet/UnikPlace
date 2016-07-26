@@ -21,3 +21,53 @@ table.table-products{
   border-radius: 3px;
   font-size: 1.5em;
 }
+
+.order{
+  .order-status{
+    float: right;
+    font-size: 0.6em;
+    margin-top: 0.4em;
+  }
+
+  .order-summary{
+    padding: 20px;
+    text-align: center;
+
+    h3{
+      font-size: 1.3em;
+      color: rgb(24,24,24);
+    }
+  }
+
+  .box-order-infos {
+    background: #F5F5F5;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .box-order-infos .order-infos-head {
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .box-order-infos .order-infos-body {
+    min-height: 60px;
+  }
+
+  .box-order-infos ul {
+    margin: 0;
+  }
+
+  .box-order-infos ul li {
+    list-style: circle inside;
+    font-size: .95em;
+  }
+
+  .box-order-infos ul li span {
+    width: 135px;
+    display: inline-block;
+  }
+}

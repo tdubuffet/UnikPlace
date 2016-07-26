@@ -1,0 +1,213 @@
+{% extends "UserBundle::base.html.twig" %}
+
+{% block title %}Commande n°{{ order.id }}{% endblock %}
+{% block description %}Commande n°{{ order.id }} sur Noname{% endblock %}
+{% block mainClass %}order{% endblock %}
+
+
+{% block account_content %}
+
+  <h2>
+
+    {% if sale %}Vente{% else %}Achat{% endif %} n°{{ order.id }}
+
+
+    <div class="order-status">
+      <span class="order-status-label">Statut :</span>
+      {% if order.status == 'pending' %}
+        <span class="label label-success">En attente de confirmation</span>
+      {% endif %}
+      {% if order.status == 'accepted' %}
+        <span class="label label-success">Confirmé</span>
+      {% endif %}
+      {% if order.status == 'canceled' %}
+        <span class="label label-danger">Annulé</span>
+      {% endif %}
+      {% if order.status == 'disputed' %}
+        <span class="label label-success">Litige en cours</span>
+      {% endif %}
+      {% if order.status == 'done' %}
+        <span class="label label-success">Terminé</span>
+      {% endif %}
+      {% if order.status == 'error' %}
+        <span class="label label-danger">Erreur</span>
+      {% endif %}
+    </div>
+
+  </h2>
+
+  {% if order.status == 'pending' %}
+    {% if sale %}
+
+      <div class="order-summary">
+        <h3 class="order-summary-title">Nouvelle commande</h3>
+        <p>Une nouvelle commande vient d'être effectuée !<br />Il s'agit d'une commande concernant le produit suivant : <a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a></p>
+        {% if order.deliveryType.code == 'tracked_letter' or order.deliveryType.code == 'parcel' %}
+          <p>Les frais de port sont remboursés par NoName.</p>
+        {% endif %}
+        <p>Tous les détails de la vente sont disponibles ci-dessous.</p>
+      </div>
+
+    {% else %}
+
+      <div class="order-summary">
+        <h3 class="order-summary-title">Merci pour votre commande</h3>
+        <p><span class="text-danger">Vous ne serez pas débité tant que le vendeur n'aura pas accepté la vente.</span> Vous serez notifié par email.</p>
+        {% if order.deliveryType.code == 'by_hand' %}
+          <p>Vous pouvez le contacter via le formulaire ci-dessous afin de convenir d'un lieu et d'une date pour la remise en main propre.</p>
+        {% else %}
+          <p>Vous pouvez le contacter via le formulaire ci-dessous pour toute question.</p>
+        {% endif %}
+      </div>
+
+    {% endif %}
+  {% elseif order.status == 'accepted' and sale == false%}
+    <div class="order-summary">
+      {% if order.deliveryType.code == 'by_hand' %}
+        <h3 class="order-summary-title">Le vendeur a accepté la vente</h3>
+        <ol class="order-instructions">
+          <li>Une fois la remise effectuée, communiquez-lui le code suivant <strong>XXXXX</strong> afin qu'il puisse recevoir le paiement. Vous pouvez également cliquer sur le bouton ci-dessous pour confirmer directement la vente.</li>
+          <li><strong>Attention : Communiquez le code au vendeur uniquement lorsque vous avez bien le produit entre les mains et pas avant.</strong></li>
+        </ol>
+      {% else %}
+        <h3 class="order-summary-title">Le vendeur a accepté la vente</h3>
+        <ol class="order-instructions">
+          <li>La commande est en cours d'expédition ({{ order.deliveryType.name }}). N'hésitez pas à lui poser des questions via le formulaire ci-dessous.</li>
+          <li>Il doit vous informer de l'état de la commande.</li>
+        </ol>
+      {% endif %}
+    </div>
+  {% elseif order.status == 'accepted' and sale == true%}
+    <div class="order-summary">
+      <h3 class="order-summary-title">Commande confirmée</h3>
+      {% if order.deliveryType.code == 'by_hand' %}
+        <ol class="order-instructions">
+          <li>Convenez rapidement d'un rendez-vous avec l'acheteur.</li>
+          <li>Un code vous sera communiqué par l'acheteur lors de la réception du produit.</li>
+          <li>Saisissez ce code avec le bouton ci-dessous pour recevoir le paiement de votre vente.</li>
+        </ol>
+      {% elseif order.deliveryType.code == 'parcel' %}
+        <ol class="order-instructions">
+          <li>Préparez votre colis avec le produit commandé à l'intérieur.</li>
+          <li>Au bureau de poste, demandez un envoi en colissimo à l'adresse suivante : <br />
+            <address>
+              {{ order.deliveryAddress.name }}<br />
+              {{ order.deliveryAddress.street }}<br />
+              {{ order.deliveryAddress.city.zipcode }} {{ order.deliveryAddress.city.name }} France
+            </address>
+            <strong>Conservez le numéro de suivi Colissimo</strong>. Les frais de port sont remboursés.</li>
+          <li>Contactez l'acheteur via le formulaire ci-dessous pour l'informer de l'expédition.</li>
+          <li>Une fois que l'acheteur confirmera la bonne reception du produit, votre paiement arrivera.</li>
+        </ol>
+      {% endif %}
+    </div>
+  {% elseif order.status == 'disputed' %}
+    <div class="order-summary">
+      <h3 class="order-summary-title">Litige actuellement en cours</h3>
+      <p>L'équipe de Kicherchekoi va intervenir sous peu pour essayer de régler votre problème.</p>
+    </div>
+  {% elseif order.status == 'canceled' %}
+    <div class="order-summary">
+      <h3 class="order-summary-title">Commande annulée</h3>
+      <p>Le vendeur a annulé cette commande.</p>
+    </div>
+  {% elseif order.status == 'done' %}
+    <div class="order-summary">
+      <h3 class="order-summary-title">Commande terminée</h3>
+      <p>Cette commande est désormais terminée.</p>
+    </div>
+  {% elseif order.status == 'error' %}
+    <div class="order-summary">
+      <h3 class="order-summary-title">Commande bloquée</h3>
+      La commande est bloquée suite à une erreur technique.
+      <p><a target="_blank" href="{{HTTP_SCHEME}}://{{BASE_DOMAIN}}{{path('contact')}}">Contacter Kicherchekoi</a> </p>
+    </div>
+  {% endif %}
+
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="box-order-infos">
+        <div class="order-infos-head">
+          <strong>A propos de {% if sale %}la vente{% else %}l'achat{% endif %}</strong>
+        </div>
+        <div class="order-infos-body">
+          <ul>
+            <li>
+                <span>Produit</span><a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a>
+            </li>
+            <li><span>Prix</span>{{ order.amount|number_format(2, '.', ' ') }} €</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="box-order-infos">
+        <div class="order-infos-head">
+          <strong>A propos de l'envoi</strong>
+        </div>
+        <div class="order-infos-body">
+          <ul>
+            <li>
+              <span>Type</span>{{ order.deliveryType.name }}
+              {% if order.status == 'accepted' and order.deliveryType.code == 'by_hand' %}
+                (<a href="{{ path('faq') }}#tab_paiement" target="_blank">en savoir plus</a>)
+              {% endif %}
+            </li>
+              {% if order.deliveryAddress is defined %}
+              <li>
+                <span>Livraison</span>{{ order.deliveryAddress.name }} - {{ order.deliveryAddress.street }} {{ order.deliveryAddress.city }}
+              </li>
+              {% endif %}
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if order.status == 'pending' and sale %}
+    <div class="order-summary">
+      <form method="post">
+        {% if order.deliveryType.code == 'by_hand' %}
+          <a class="btn btn-primary-outline" data-toggle="modal" data-target="#confirm-sell">Je confirme</a>
+        {% else %}
+          <a class="btn btn-primary-outline" data-toggle="modal" data-target="#confirm-sell">Je confirme</a>
+        {% endif %}
+        <input type="submit" name="sellcancel" class="btn btn-link btn-confirm-link" data-message="Êtes-vous bien certain de vouloir annuler la vente de votre produit ?" data-button="Je confirme l'annulation de la vente" value="J'annule la vente">
+      </form>
+    </div>
+  {% endif %}
+
+
+
+
+
+  {% if sale and order.status == 'pending' and order.deliveryType.code != 'by_hand' %}
+    <div class="modal fade" id="confirm-sell" tabindex="-1" role="dialog" aria-labelledby="confirm-sell-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="confirm-sell-label">Confirmation de ma vente</h4>
+          </div>
+          <div class="modal-body">
+            <p>Soyez bien certain d'avoir le produit en stock avant de confirmer la vente.</p>
+           <form method="post" class="form-horizontal" id="confirm-sell-form">
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="submit"></label>
+                <div class="col-md-4">
+                  <input type="hidden" name="action" value="validateOrder" data-loading-text="Validation en cours..." />
+                  <input class="btn btn-primary-outline" type="submit" name="validateOrder" value="Je valide ma vente" data-loading-text="Validation en cours..." />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+
+{% endblock %}

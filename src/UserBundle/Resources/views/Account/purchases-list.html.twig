@@ -3,7 +3,6 @@
 {% block title %}Mes achats{% endblock %}
 {% block description %}Mes achats sur Noname{% endblock %}
 
-
 {% block account_content %}
 
   <h2>Mes achats</h2>
@@ -34,7 +33,7 @@
           <td>{{ order.amount }} {% if order.currency.code|lower == 'eur'  %}€{% endif %}</td>
           <td>{{ order.status }}</td>
           <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
-          <td><a class="btn btn-primary" href="">Voir</a></td>
+          <td><a class="btn btn-primary" href="{{ path('user_account_purchase', { id: order.id}) }}">Voir</a></td>
         </tr>
       {% else %}
 
