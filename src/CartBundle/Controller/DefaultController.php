@@ -29,6 +29,8 @@ class DefaultController extends Controller
     {
         $session = new Session();
         $cart = $session->get('cart', array());
+        $publishedStatus = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneByName('published');
+        $publishedProducts = array();
 
         // Fetch products from cart
         $products = array();
@@ -41,6 +43,16 @@ class DefaultController extends Controller
                 ->findOneById($productId);
             $products[] = $product;
             $productsTotalPrice += $this->get('lexik_currency.converter')->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+            if ($product->getStatus()->getName() == $publishedStatus->getName()) {
+                $publishedProducts[] = $product->getId();
+            }
+        }
+
+        // Make sure products are still published in cart
+        if (count($publishedProducts) != count($cart)) {
+            $session->getFlashBag()->add('notice', 'Votre panier a été modifié car certains produits ne sont plus disponibles');
+            $session->set('cart', $publishedProducts);
+            return $this->redirectToRoute('cart');
         }
 
         $deliveries = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findAll();
