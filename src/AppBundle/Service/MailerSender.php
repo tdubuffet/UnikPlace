@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use ProductBundle\Entity\Product;
+use MessageBundle\Entity\Message;
 
 class MailerSender
 {
@@ -35,6 +36,22 @@ class MailerSender
         $user = $product->getUser();
         $context = ['product' => $product, 'user' => $user];
         $this->sendMessage($template, $context, $this->parameters['from_email'], $user->getEmail());
+    }
+
+    public function sendPrivateMessageNotificationEmailMessage(Message $message)
+    {
+        $sender = $message->getSender();
+        $thread = $message->getThread();
+        $participants = $thread->getParticipants();
+        $product = $thread->getProduct();
+        $threadUrl = $this->router->generate('fos_message_thread_view', ['threadId' => $thread->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        foreach ($participants as $participant) {
+            if ($participant->getEmail() != $message->getSender()) {
+                $template = 'MessageBundle:email:notification.email.twig';
+                $context = ['message' => $message, 'recipient' => $participant, 'sender' => $sender, 'product' => $product, 'threadUrl' => $threadUrl];
+                $this->sendMessage($template, $context, $this->parameters['from_email'], $participant->getEmail());
+            }
+        }
     }
 
 

@@ -1,1 +1,6 @@
 services:
+    message.send_listener:
+        class: MessageBundle\EventListener\MessageSendSubscriber
+        arguments: ['@fos_message.message_manager', '@mailer_sender']
+        tags:
+            - { name: kernel.event_subscriber }

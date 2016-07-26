@@ -7,6 +7,7 @@ imports:
     - { resource: "@ProductBundle/Resources/config/services.yml" }
     - { resource: "@ImageBundle/Resources/config/services.yml" }
     - { resource: "@LocationBundle/Resources/config/services.yml" }
+    - { resource: "@MessageBundle/Resources/config/services.yml" }
     - { resource: "@CartBundle/Resources/config/services.yml" }
     - { resource: "@OrderBundle/Resources/config/services.yml" }
 

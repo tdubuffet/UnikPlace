@@ -1,0 +1,18 @@
+{% block subject %}Nouveau message à propos du produit "{{ product.name }}"{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ recipient.firstname }} !
+
+Un utilisateur du site vient de vous envoyer un message à propos du produit "{{ product.name }}"
+
+Vous pouvez lui répondre à partir du lien suivant {{ threadUrl }}
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% include 'MessageBundle:email:notification.html.twig' %}
+{% endblock %}
