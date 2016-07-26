@@ -40,6 +40,7 @@ gulp.task('scripts-dev', function() {
             './web/components/owl.carousel/dist/owl.carousel.js',
             './web/components/jquery-sticky/jquery.sticky.js',
             './web/components/elevatezoom/jquery.elevatezoom.js',
+            './web/components/bootbox.js/bootbox.js',
             './web/components/select2/dist/js/select2.js',
             './web/bundles/**/js/*.js'
         ])

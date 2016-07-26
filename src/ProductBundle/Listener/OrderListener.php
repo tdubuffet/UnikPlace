@@ -9,6 +9,7 @@
 namespace ProductBundle\Listener;
 
 
+use MangoPay\Libraries\Exception;
 use OrderBundle\Entity\Order;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,6 +141,34 @@ class OrderListener
             $this->container->get('doctrine')->getManager()->persist($order);
             $this->container->get('doctrine')->getManager()->flush();
         }
+
+
+    }
+
+    public function doneOrder(Request $request, Order $order)
+    {
+        if ($order->getUser() != $this->getConnectedUser() || $order->getStatus()->getName() != 'accepted') {
+            throw new NotFoundHttpException();
+        }
+
+        try {
+            $this->mangopayService->validateOrder($order);
+
+            $statusDone = $this->container->get('doctrine')->getRepository('OrderBundle:Status')->findOneByName('done');
+
+            $order->setStatus($statusDone);
+
+
+            $this->container->get('doctrine')->getManager()->persist($order);
+            $this->container->get('doctrine')->getManager()->flush();
+
+
+        } catch (Exception $e){
+
+
+
+        }
+
 
 
     }

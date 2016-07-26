@@ -5,6 +5,8 @@
 {% block mainClass %}order{% endblock %}
 
 
+{% block javascript_include %}{{ jsinit(['DetailOrder']) }}{% endblock javascript_include %}
+
 {% block account_content %}
 
   <h2>
@@ -177,10 +179,6 @@
     </div>
   {% endif %}
 
-
-
-
-
   {% if sale and order.status == 'pending' and order.deliveryType.code != 'by_hand' %}
     <div class="modal fade" id="confirm-sell" tabindex="-1" role="dialog" aria-labelledby="confirm-sell-label">
       <div class="modal-dialog" role="document">
@@ -204,6 +202,17 @@
         </div>
       </div>
     </div>
+  {% endif %}
+
+  {% if sale == false and order.status == 'accepted' %}
+
+    <div class="order-summary">
+      <form method="post" style="display: inline;">
+        <input type="hidden" name="action" value="doneOrder" />
+        <input type="submit"  class="btn btn-primary-outline btn-confirm-link" data-message="Ne confirmez la vente que si vous avez bien reçu et vérifié l'état du produit." value="J'ai reçu mon produit et je confirme la vente">
+      </form>
+    </div>
+
   {% endif %}
 
 

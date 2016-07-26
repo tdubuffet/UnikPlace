@@ -287,7 +287,7 @@ class MangoPayService
             $payIn->CreditedWalletId = $wallet->Id;
             $payIn->AuthorId = $buyer->getMangopayUserId();
             $payIn->DebitedFunds = new \MangoPay\Money();
-            $payIn->DebitedFunds->Amount = $totalAmount * 100;
+            $payIn->DebitedFunds->Amount = $totalAmount[1] * 100;
             $payIn->DebitedFunds->Currency = $currencyCode;
             $payIn->Fees = new \MangoPay\Money();
             $payIn->Fees->Amount = 0;
@@ -349,6 +349,33 @@ class MangoPayService
 
         return $result;
 
+    }
+
+    public function validateOrder(Order $order)
+    {
+
+        $Transfer = new \MangoPay\Transfer();
+        $Transfer->AuthorId                 = $order->getUser()->getMangopayUserId();
+        $Transfer->DebitedFunds             = new \MangoPay\Money();
+
+        $Transfer->DebitedFunds->Currency   = 'EUR';
+        $Transfer->DebitedFunds->Amount     = $order->getAmount() * 100;
+
+        $Transfer->Fees = new \MangoPay\Money();
+        $Transfer->Fees->Currency       = "EUR";
+        $Transfer->Fees->Amount         = ($Transfer->DebitedFunds->Amount * ($this->config['fee_rate']/100) + $this->config['fixed_fee']*100);
+
+        $Transfer->DebitedWalletID      = $order->getUser()->getMangopayBlockedWalletId();
+        $Transfer->CreditedWalletId     = $order->getProduct()->getUser()->getMangopayFreeWalletId();
+
+
+        $result = $this->mangoPayApi->Transfers->Create($Transfer);
+
+        if (isset($result->Status) && $result->Status == "FAILED") {
+            throw new \Exception('Erreur ' . $result->ResultCode . ' - Message: ' . $result->ResultMessage);
+        }
+
+        return $result;
     }
 
 }
