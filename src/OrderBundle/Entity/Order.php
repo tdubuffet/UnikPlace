@@ -94,6 +94,20 @@ class Order
     private $mangopay_payin_date;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mangopay_refund_id", type="string", length=255, nullable=true)
+     */
+    private $mangopay_refund_id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mangopay_refund_date", type="datetime", nullable=true)
+     */
+    private $mangopay_refund_date;
+
+    /**
      * @ORM\ManyToOne(targetEntity="OrderBundle\Entity\Delivery")
      * @ORM\JoinColumn(name="delivery_type_id", referencedColumnName="id")
      */
@@ -355,5 +369,37 @@ class Order
     public function setMangopayPayinDate($mangopay_payin_date)
     {
         $this->mangopay_payin_date = $mangopay_payin_date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMangopayRefundId()
+    {
+        return $this->mangopay_refund_id;
+    }
+
+    /**
+     * @param mixed $mangopay_refund_id
+     */
+    public function setMangopayRefundId($mangopay_refund_id)
+    {
+        $this->mangopay_refund_id = $mangopay_refund_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMangopayRefundDate()
+    {
+        return $this->mangopay_refund_date;
+    }
+
+    /**
+     * @param string $mangopay_refund_date
+     */
+    public function setMangopayRefundDate($mangopay_refund_date)
+    {
+        $this->mangopay_refund_date = $mangopay_refund_date;
     }
 }

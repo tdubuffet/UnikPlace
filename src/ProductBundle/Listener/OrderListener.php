@@ -120,6 +120,9 @@ class OrderListener
 
                 $updateStatus =  true;
 
+                $order->setMangopayRefundId($refund->Id);
+                $order->setMangopayRefundDate(new \DateTime());
+
             }
 
 
