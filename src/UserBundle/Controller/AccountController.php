@@ -339,7 +339,7 @@ class AccountController extends Controller
     public function productAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse(['message' => 'You must be authentificated to add product favorite.'], 401);
+            return new JsonResponse(['message' => 'You must be authentificated to update the product.'], 401);
         }
         if (!$request->request->has("product_id")) {
             return new JsonResponse(['message' => 'A product id (product_id) must be specified.'], 409);
@@ -351,8 +351,11 @@ class AccountController extends Controller
 
         $id = $request->request->get("product_id");
         $product = $this->getDoctrine()->getRepository("ProductBundle:Product")->findOneBy(['id' => $id]);
-        if (!$product) {
+        if (!$product || $product->getUser() != $this->getUser()) {
             return new JsonResponse(['message' => 'Product not found.'], 404);
+        }
+        if (!in_array($product->getStatus()->getName(), ["awaiting", "published", "refused"])) {
+            return new JsonResponse(['message' => 'The product can not be removed.'], 409);
         }
         if ($action == 'remove') {
             $status = $this->getDoctrine()->getRepository("ProductBundle:Status")->findOneBy(['name' => 'deleted']);
@@ -362,20 +365,24 @@ class AccountController extends Controller
             $product->setStatus($status);
             $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash("success", "Le produit ".$product->getName()." a bien été supprimé");
 
             return new JsonResponse(['message' => 'Product deleted']);
         }elseif ($action == 'update') {
             if (!$request->request->has("field")) {
                 return new JsonResponse(['message' => 'A field to update must be specified.'], 409);
             }
-            if ($field = $request->request->get('field') == "price" && $request->request->has('price')) {
-                $product->setPrice($request->request->get('price'));
+            if ($request->request->get('field') == "price" && $request->request->has('price')) {
+                $price = str_replace(",", ".", $request->request->get('price'));
+                if (!is_numeric($price)) {
+                    return new JsonResponse(['message' => 'The price field must be numeric.'], 410);
+                }
+                $product->setPrice($price);
                 $this->getDoctrine()->getManager()->persist($product);
                 $this->getDoctrine()->getManager()->flush();
-                $this->addFlash("success", "Le prix du produit ".$product->getName()." a bien été modifié");
+                $service = $this->get('lexik_currency.formatter');
+                $price = $service->format($product->getPrice(), $product->getCurrency()->getCode());
 
-                return new JsonResponse(['message' => 'Product updated']);
+                return new JsonResponse(['message' => 'Product updated', 'price' => $price]);
             }else {
                 return new JsonResponse(['message' => 'A price must be specified.'], 409);
             }
