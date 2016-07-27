@@ -197,12 +197,14 @@ class DepositController extends Controller
                     $session->getFlashBag()->add('error', $errors);
                     return $this->redirectToRoute('sell_description');
                 } else {
-                    $attributeValues = $this->setAttributesInSession($attributes, $listAttributes);
-                    if ($attributeValues) {
-                        $deposit['attribute_values'] = $attributeValues;
-                        $session->set('deposit', $deposit);
-                        return $this->redirectToRoute('sell_price');
+                    if (count($listAttributes) > 0) {
+                        $attributeValues = $this->setAttributesInSession($attributes, $listAttributes);
+                        if ($attributeValues) {
+                            $deposit['attribute_values'] = $attributeValues;
+                        }
                     }
+                    $session->set('deposit', $deposit);
+                    return $this->redirectToRoute('sell_price');
                 }
             }
         }
