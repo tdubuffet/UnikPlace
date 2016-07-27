@@ -68,8 +68,8 @@
       {% if order.deliveryType.code == 'by_hand' %}
         <h3 class="order-summary-title">Le vendeur a accepté la vente</h3>
         <ol class="order-instructions">
-          <li>Une fois la remise effectuée, communiquez-lui le code suivant <strong>XXXXX</strong> afin qu'il puisse recevoir le paiement. Vous pouvez également cliquer sur le bouton ci-dessous pour confirmer directement la vente.</li>
-          <li><strong>Attention : Communiquez le code au vendeur uniquement lorsque vous avez bien le produit entre les mains et pas avant.</strong></li>
+          <li>Une fois la remise effectuée, cliquer sur le bouton ci-dessous pour confirmer directement la vente.</li>
+
         </ol>
       {% else %}
         <h3 class="order-summary-title">Le vendeur a accepté la vente</h3>
@@ -85,8 +85,7 @@
       {% if order.deliveryType.code == 'by_hand' %}
         <ol class="order-instructions">
           <li>Convenez rapidement d'un rendez-vous avec l'acheteur.</li>
-          <li>Un code vous sera communiqué par l'acheteur lors de la réception du produit.</li>
-          <li>Saisissez ce code avec le bouton ci-dessous pour recevoir le paiement de votre vente.</li>
+          <li>Vous recevrez le paiement de votre vente une fois que l'acheteur aura validé la remise du produit.</li>
         </ol>
       {% elseif order.deliveryType.code == 'parcel' %}
         <ol class="order-instructions">
@@ -122,7 +121,7 @@
     <div class="order-summary">
       <h3 class="order-summary-title">Commande bloquée</h3>
       La commande est bloquée suite à une erreur technique.
-      <p><a target="_blank" href="{{HTTP_SCHEME}}://{{BASE_DOMAIN}}{{path('contact')}}">Contacter Kicherchekoi</a> </p>
+      <p><a target="_blank" href="{{path('contact')}}">Contacter NoName</a> </p>
     </div>
   {% endif %}
 

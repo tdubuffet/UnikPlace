@@ -165,10 +165,9 @@ class OrderListener
 
         } catch (Exception $e){
 
-
+            return false;
 
         }
-
     }
 
     /**
