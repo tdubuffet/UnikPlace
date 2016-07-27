@@ -1,0 +1,21 @@
+{% block subject %}Fermeture du litige{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+{% if user is defined %}
+Bonjour {{ user.firstname }},
+
+{% endif%}
+Nous vous informons de la fermture du litige concernant la commande {{ product.name }}.
+{% if context == 'sell' %}
+Consultez l'état de votre vente via le lien suivant : {{ orderSellUrl }}
+{% elseif context == 'purchase' %}
+Consultez l'état de votre achat via le lien suivant : {{ orderPurchaseUrl }}
+{% elseif context == 'admin' %}
+Litige fermé
+{% endif %}
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}

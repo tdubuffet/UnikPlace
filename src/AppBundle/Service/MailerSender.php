@@ -96,12 +96,50 @@ class MailerSender
 
     public function sendOpenedOrderDisputeEmailMessage(Order $order)
     {
+        $template = 'OrderBundle:email:dispute_opened.email.twig';
+        $product = $order->getProduct();
+        $seller = $product->getUser();
+        $buyer = $order->getUser();
+        $orderSellUrl = $this->router->generate('user_account_sale', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $orderPurchaseUrl = $this->router->generate('user_account_purchase', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
+        // Seller
+        $context = ['order' => $order, 'product' => $product, 'user' => $seller, 'orderSellUrl' => $orderSellUrl, 'context' => 'sell'];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
+
+        // Buyer
+        $context = ['order' => $order, 'product' => $product, 'user' => $buyer, 'orderPurchaseUrl' => $orderPurchaseUrl, 'context' => 'purchase'];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
+
+
+        // Admin
+        $adminEmail = 'contact@kicherchekoi.com'; // Should be in configuration
+        $context = ['order' => $order, 'product' => $product, 'context' => 'admin'];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $adminEmail);
     }
 
     public function sendClosedOrderDisputeEmailMessage(Order $order)
     {
+        $template = 'OrderBundle:email:dispute_closed.email.twig';
+        $product = $order->getProduct();
+        $seller = $product->getUser();
+        $buyer = $order->getUser();
+        $orderSellUrl = $this->router->generate('user_account_sale', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $orderPurchaseUrl = $this->router->generate('user_account_purchase', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
+        // Seller
+        $context = ['order' => $order, 'product' => $product, 'user' => $seller, 'orderSellUrl' => $orderSellUrl, 'context' => 'sell'];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
+
+        // Buyer
+        $context = ['order' => $order, 'product' => $product, 'user' => $buyer, 'orderPurchaseUrl' => $orderPurchaseUrl, 'context' => 'purchase'];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
+
+
+        // Admin
+        $adminEmail = 'contact@kicherchekoi.com'; // Should be in configuration
+        $context = ['order' => $order, 'product' => $product, 'context' => 'admin'];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $adminEmail);
     }
 
     private function sendMessage($templateName, $context, $fromEmail, $toEmail)

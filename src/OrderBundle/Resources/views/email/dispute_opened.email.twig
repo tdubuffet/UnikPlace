@@ -1,0 +1,21 @@
+{% block subject %}Ouverture d'un litige{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+{% if user is defined %}
+Bonjour {{ user.firstname }},
+
+{% endif%}
+Un litige a été ouvert concernant la commande {{ product.name }}.
+{% if context == 'sell' %}
+Consultez l'état de votre vente via le lien suivant : {{ orderSellUrl }}
+{% elseif context == 'purchase' %}
+Consultez l'état de votre achat via le lien suivant : {{ orderPurchaseUrl }}
+{% elseif context == 'admin' %}
+Vous pouvez accéder à l'administration du litige depuis le back-office et contacter les 2 parties.
+{% endif %}
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
