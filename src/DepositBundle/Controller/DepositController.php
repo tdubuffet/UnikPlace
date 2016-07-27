@@ -541,5 +541,4 @@ class DepositController extends Controller
             }
         }
     }
-
 }
