@@ -317,8 +317,13 @@ class AccountController extends Controller
      */
     public function productsAction(Request $request)
     {
-        $status = $this->getDoctrine()->getRepository("ProductBundle:Status")->findForUserProducts();
-        $repo = $this->getDoctrine()->getRepository("ProductBundle:Product");
+        $status = $this->getDoctrine()
+            ->getRepository("ProductBundle:Status")
+            ->findByName(['awaiting', 'published', 'refused']);
+
+        $repo = $this->getDoctrine()
+            ->getRepository("ProductBundle:Product");
+
         $adapter = new ArrayAdapter($repo->findForUserAndStatus($this->getUser(), $status));
         $pagerfanta = new Pagerfanta($adapter);
         try {
