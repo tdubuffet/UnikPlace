@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use UserBundle\Form\PreferenceFormType;
+use UserBundle\Form\RatingType;
 
 /**
  * Class AccountController
@@ -262,9 +263,7 @@ class AccountController extends Controller
     {
 
         $sale = false;
-
         $routeName = $request->get('_route');
-
         if ($routeName == 'user_account_sale') {
             $sale = true;
         }
@@ -272,14 +271,16 @@ class AccountController extends Controller
         if ($routeName == 'user_account_purchase' && $order->getUser() != $this->getUser()) {
             throw new NotFoundHttpException('Not found Order');
         }
-
         if ($routeName == 'user_account_sale' && $order->getProduct()->getUser() != $this->getUser()) {
             throw new NotFoundHttpException('Not found Order');
         }
 
-        $this->get('order_listener')->listen($request, $order);
+        $this->get('order_listener')
+            ->listen($request, $order);
 
-
+        /**
+         * Thread compose
+         */
         $thread = $this->getDoctrine()
             ->getRepository('MessageBundle:Thread')
             ->findThreadByProductAndUser($order->getProduct(), $this->getUser());
@@ -299,12 +300,50 @@ class AccountController extends Controller
             }
         }
 
+        /**
+         * User Rating
+         */
+        if ($order->getStatus()->getName() == 'done') {
+
+            if ($sale == true) {
+                $userRating = $this->getDoctrine()
+                    ->getRepository('UserBundle:Rating')
+                    ->findRatedSeller($order);
+            } else {
+                $userRating = $this->getDoctrine()
+                    ->getRepository('UserBundle:Rating')
+                    ->findRatedBuyer($order);
+            }
+
+            if (!$userRating) {
+
+                $formRating = $this->createForm(RatingType::class);
+                $formRating->handleRequest($request);
+
+                if ($formRating->isValid()) {
+
+                    $rating = $formRating->getData();
+
+                    $rating->setRatedUser(($sale) ? $order->getUser(): $order->getProduct()->getUser());
+                    $rating->setAuthorUser((!$sale) ? $order->getUser(): $order->getProduct()->getUser());
+                    $rating->setOrder($order);
+
+                    $this->getDoctrine()->getManager()->persist($rating);
+                    $this->getDoctrine()->getManager()->flush();
+
+                    return $this->redirect($request->headers->get('referer'));
+                }
+
+            }
+        }
+
 
         return [
-            'order' => $order,
-            'sale' => $sale,
-            'thread' => $thread,
-            'formMessage' => (isset($form)) ? $form->createView() : null
+            'order'         => $order,
+            'sale'          => $sale,
+            'thread'        => $thread,
+            'formMessage'   => (isset($form)) ? $form->createView() : null,
+            'formRating'    => (isset($formRating)) ? $formRating->createView() : null
         ];
 
     }

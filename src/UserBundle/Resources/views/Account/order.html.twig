@@ -220,6 +220,14 @@
     </div>
   {% endif %}
 
+  {% if formRating %}
+    <div class="order-summary">
+        <div style="margin: 15px 0;">
+          <button type="button" name="rating-btn" class="btn btn-primary"  data-toggle="modal" data-target="#rating">Evaluer {% if sale %}l'acheteur{% else %}le vendeur{% endif %}</button>
+        </div>
+    </div>
+  {% endif %}
+
 
   <h2>Discussion avec {% if sale %}l'acheteur{% else %}le vendeur{% endif %}</h2>
   {% if thread %}
@@ -304,5 +312,31 @@
     </div>
   {% endif %}
 
+  {% if formRating  %}
+    <!-- Modal -->
+    <div class="modal fade" id="rating" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+         {{ form_start(formRating) }}
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Qu'avez-vous pensé de votre commande avec le vendeur</h4>
+            </div>
+            <div class="modal-body">
+              {{ form_row(formRating.rate) }}
+
+              {{ form_row(formRating.message) }}
+            </div>
+            <div class="modal-footer">
+              {{ form_widget(formRating.submit) }}
+            </div>
+
+
+            {{ form_rest(formRating) }}
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
 {% endblock %}

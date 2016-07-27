@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="user_rating")
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\RatingRepository")
  */
 class Rating
 {
