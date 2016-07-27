@@ -1,0 +1,16 @@
+{% block subject %}Commande annulée{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ user.firstname }} !
+
+Votre achat {{ product.name }} a été annulé par le vendeur et vous allez être remboursé sous peu. Cette commande est à présent terminée.
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% include 'OrderBundle:email:refused.html.twig' %}
+{% endblock %}

@@ -72,13 +72,16 @@ class MailerSender
         $buyer = $order->getUser();
         $orderUrl = $this->router->generate('user_account_purchase', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $context = ['order' => $order, 'product' => $product, 'user' => $buyer, 'orderUrl' => $orderUrl];
-        $this->sendMessage($template, $context, $this->parameters['from_email'], $Buyer->getEmail());
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
     }
 
     public function sendRefusedOrderToBuyerEmailMessage(Order $order)
     {
-
-
+        $template = 'OrderBundle:email:refused.email.twig';
+        $product = $order->getProduct();
+        $buyer = $order->getUser();
+        $context = ['order' => $order, 'product' => $product, 'user' => $buyer];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
     }
 
     public function sendOpenedOrderDisputeEmailMessage(Order $order)
