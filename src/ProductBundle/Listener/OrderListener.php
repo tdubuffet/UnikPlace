@@ -11,6 +11,7 @@ namespace ProductBundle\Listener;
 
 use MangoPay\Libraries\Exception;
 use OrderBundle\Entity\Order;
+use OrderBundle\Event\OrderEvent;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -94,6 +95,8 @@ class OrderListener
             $this->container->get('doctrine')->getManager()->persist($order);
             $this->container->get('doctrine')->getManager()->persist($product);
             $this->container->get('doctrine')->getManager()->flush();
+
+            $this->container->get('event_dispatcher')->dispatch('order.accepted' , new OrderEvent($order));
         }
     }
 
@@ -138,6 +141,9 @@ class OrderListener
             $order->setStatus($statusCanceled);
 
 
+            $this->container->get('event_dispatcher')->dispatch('order.refused' , new OrderEvent($order));
+
+
             $this->container->get('doctrine')->getManager()->persist($order);
             $this->container->get('doctrine')->getManager()->flush();
         }
@@ -161,6 +167,9 @@ class OrderListener
 
             $this->container->get('doctrine')->getManager()->persist($order);
             $this->container->get('doctrine')->getManager()->flush();
+
+
+            $this->container->get('event_dispatcher')->dispatch('order.done' , new OrderEvent($order));
 
 
         } catch (Exception $e){
@@ -188,6 +197,9 @@ class OrderListener
 
         $this->container->get('doctrine')->getManager()->persist($order);
         $this->container->get('doctrine')->getManager()->flush();
+
+
+        $this->container->get('event_dispatcher')->dispatch('order.dispute_opened' , new OrderEvent($order));
     }
 
     /**
@@ -208,6 +220,9 @@ class OrderListener
 
         $this->container->get('doctrine')->getManager()->persist($order);
         $this->container->get('doctrine')->getManager()->flush();
+
+
+        $this->container->get('event_dispatcher')->dispatch('order.dispute_closed' , new OrderEvent($order));
     }
 
 
