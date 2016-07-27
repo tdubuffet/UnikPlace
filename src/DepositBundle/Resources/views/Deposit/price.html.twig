@@ -1,0 +1,76 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Choix du prix{% endblock %}
+{% block description %}Dépôt d'annonce - Prix{% endblock %}
+
+{% block javascript_include %}{{ jsinit(['deposit']) }}{% endblock javascript_include %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main deposit">
+
+      <div class="deposit-steps row">
+        <div class="col-sm-3">
+          <div class="deposit-step">Photos</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Description</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step active">Prix</div>
+        </div>
+        <div class="col-sm-3">
+          <div class="deposit-step">Livraison</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 col-center-block">
+          {% for flash_message in app.session.flashBag.get('error') %}
+            {% for error in flash_message %}
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>
+            {% endfor %}
+          {% endfor %}
+
+          <form method="post" action="{{ path('deposit_postprice') }}" id="price-form">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="required">Prix de vente</label>
+                  <input type="number" name="price" id="product-price" class="form-control" placeholder="Prix de vente sur le site">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Prix du produit neuf</label>
+                  <input type="number" name="original_price" class="form-control" placeholder="Indiquez le prix d'achat">
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <label>Montant reversé une fois votre produit vendu <i class="fa fa-info-circle"></i></label>
+              <div class="valued-amount">0,00 €</div>
+
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="allow_offer" value="1"> J'accepte la négociation du prix de l'article
+                </label>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <input type="submit" class="btn btn-default" value="Etape suivante" />
+            </div>
+          </form>
+        </div><!-- col -->
+      </div><!-- .row -->
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

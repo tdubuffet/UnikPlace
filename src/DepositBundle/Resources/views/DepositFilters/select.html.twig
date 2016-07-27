@@ -1,0 +1,9 @@
+<div class="form-group">
+  <label class="{% if mandatory %}required{% endif %}" for="field-{{ id }}">{{ label }}</label>
+  <select class="form-control attribute-field" name="attribute-{{ id }}" {% if mandatory %}data-required="true"{% endif %}>
+    <option value="">{{ referentialName }} de votre produit</option>
+    {% for value in referentialValues %}
+    <option value="{{ value.getId() }}">{{ value.getValue() }}</option>
+    {% endfor %}
+  </select>
+</div>

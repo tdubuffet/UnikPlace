@@ -26,6 +26,12 @@
     "owl.carousel": "~2.1",
     "jquery-sticky": "sticky#~1.0.3",
     "elevatezoom": "~2.2.3",
-    "select2" : "4.0.3"
+<<<<<<< HEAD
+    "select2": "~4.0.3",
+    "blueimp-file-upload": "jQuery-File-Upload#~9.12.5",
+    "html.sortable": "~0.4.0"
+=======
+    "select2": "~4.0.3"
+>>>>>>> 0f434b0ce59033db6f8543155f3ba0510d2a2984
   }
 }

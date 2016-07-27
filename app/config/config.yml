@@ -10,6 +10,7 @@ imports:
     - { resource: "@MessageBundle/Resources/config/services.yml" }
     - { resource: "@CartBundle/Resources/config/services.yml" }
     - { resource: "@OrderBundle/Resources/config/services.yml" }
+    - { resource: "@DepositBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -221,7 +222,6 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
-                    - { property: 'city', type: 'easyadmin_autocomplete' }
                     - { property: 'deliveries' }
             new:
                 fields:
@@ -233,11 +233,10 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
-                    - { property: 'city', type: 'easyadmin_autocomplete' }
                     - { property: 'deliveries' }
             list:
                 fields:
-                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'city.name']
+                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'address']
         Image:
             class: ProductBundle\Entity\Image
             list:
@@ -419,4 +418,4 @@ vich_uploader:
             directory_namer:    directory_namer.product
 
 fos_js_routing:
-    routes_to_expose: [ 'fos_user_security_login', 'product_favorite', 'product_cart', 'ajax_search', 'search', 'ajax_search_attribute_filters', 'ajax_search_city', 'ajax_product_action' ]
+    routes_to_expose: [ 'fos_user_security_login', 'product_favorite', 'product_cart', 'ajax_search', 'search', 'ajax_search_attribute_filters', 'ajax_search_city', 'ajax_product_action', 'deposit_subcategories' ]

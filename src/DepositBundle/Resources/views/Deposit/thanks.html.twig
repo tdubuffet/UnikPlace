@@ -1,0 +1,32 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Annonce déposée{% endblock %}
+{% block description %}Dépôt d'annonce - Annonce déposée avec succès{% endblock %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <div class="row">
+        <div class="col-sm-6">
+          <h1 style="margin-bottom: 50px;">Merci !</h1>
+
+          <p>Votre annonce va à présent être prise en charge par notre équipe.</p>
+
+          <p>Vous recevrez une confirmation par email sous 24 heures.</p>
+
+          <p style="margin-top: 50px;">
+            <a href="{{ path('homepage') }}" class="btn btn-default">C'est terminé !</a>
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <img src="{{ asset('bundles/app/images/pinewood.jpg') }}" class="img-responsive" />
+        </div>
+      </div>
+
+    </div><!-- .main -->
+  </div><!-- .container -->
+</div><!-- .main-wrapper -->
+
+{% endblock %}

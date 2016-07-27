@@ -153,4 +153,8 @@ class Address
     {
         return $this->name;
     }
+
+    public function __toString() {
+        return $this->name.' - '.$this->street.' ('.$this->getCity()->getZipcode().' '.$this->getCity()->getName().')';
+    }
 }

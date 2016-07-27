@@ -22,8 +22,9 @@ var AddAddress = {
                 cache: true
             },
             dropdownAutoWidth: true,
-            dropdownParent: $("#addAddressModal"),
-            minimumInputLength: 3
+            dropdownParent: ($("#addAddressModal").length > 0) ? $("#addAddressModal") : '',
+            minimumInputLength: 3,
+            width: "100%"
         });
     }
 };
