@@ -217,11 +217,12 @@ class MangoPayService
     public function freeWalletToTransferBank($user)
     {
 
-        $bankAccount = $this->getIbanBank($user->mango_user_id);
-        $freeWallet  = $user->getFreeWallet();
+        $bankAccount = $this->getIbanBank($user->getMangopayUserId());
+        $freeWallet  = $this->getWalletId($user->getMangopayFreeWalletId());
+
 
         $PayOut = new \MangoPay\PayOut();
-        $PayOut->AuthorId           = $user->mango_user_id;
+        $PayOut->AuthorId           = $user->getMangopayUserId();
         $PayOut->DebitedWalletID    = $freeWallet->Id;
         $PayOut->DebitedFunds       = new \MangoPay\Money();
         $PayOut->DebitedFunds->Currency = "EUR";
@@ -235,10 +236,6 @@ class MangoPayService
 
         $response =  $this->mangoPayApi->PayOuts->Create($PayOut);
 
-        $this->addTrace(
-            $response,
-            "[PayOut] MangoPayUserId => " . $user->getMangoPayUser()->Id . " | FreeWalletId => " . $user->getFreeWallet()->Id
-        );
 
         return $response;
     }
