@@ -418,4 +418,4 @@ vich_uploader:
             directory_namer:    directory_namer.product
 
 fos_js_routing:
-    routes_to_expose: [ 'fos_user_security_login', 'product_favorite', 'product_cart', 'ajax_search', 'search', 'ajax_search_attribute_filters', 'ajax_search_city', 'ajax_product_action', 'deposit_subcategories' ]
+    routes_to_expose: [ 'fos_user_security_login', 'product_favorite', 'product_cart', 'ajax_search', 'search', 'ajax_search_attribute_filters', 'ajax_search_city', 'ajax_product_action', 'deposit_subcategories', 'upload_picture' ]
