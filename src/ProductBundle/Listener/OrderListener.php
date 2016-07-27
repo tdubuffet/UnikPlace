@@ -12,6 +12,7 @@ namespace ProductBundle\Listener;
 use MangoPay\Libraries\Exception;
 use OrderBundle\Entity\Order;
 use OrderBundle\Event\OrderEvent;
+use OrderBundle\Event\OrderEvents;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -96,7 +97,7 @@ class OrderListener
             $this->container->get('doctrine')->getManager()->persist($product);
             $this->container->get('doctrine')->getManager()->flush();
 
-            $this->container->get('event_dispatcher')->dispatch('order.accepted' , new OrderEvent($order));
+            $this->container->get('event_dispatcher')->dispatch(OrderEvents::ORDER_ACCEPTED , new OrderEvent($order));
         }
     }
 
@@ -141,7 +142,7 @@ class OrderListener
             $order->setStatus($statusCanceled);
 
 
-            $this->container->get('event_dispatcher')->dispatch('order.refused' , new OrderEvent($order));
+            $this->container->get('event_dispatcher')->dispatch(OrderEvents::ORDER_REFUSED , new OrderEvent($order));
 
 
             $this->container->get('doctrine')->getManager()->persist($order);
@@ -169,7 +170,7 @@ class OrderListener
             $this->container->get('doctrine')->getManager()->flush();
 
 
-            $this->container->get('event_dispatcher')->dispatch('order.done' , new OrderEvent($order));
+            $this->container->get('event_dispatcher')->dispatch(OrderEvents::ORDER_DONE , new OrderEvent($order));
 
 
         } catch (Exception $e){
@@ -199,7 +200,7 @@ class OrderListener
         $this->container->get('doctrine')->getManager()->flush();
 
 
-        $this->container->get('event_dispatcher')->dispatch('order.dispute_opened' , new OrderEvent($order));
+        $this->container->get('event_dispatcher')->dispatch(OrderEvents::ORDER_DISPUTE_OPENED, new OrderEvent($order));
     }
 
     /**
@@ -222,7 +223,7 @@ class OrderListener
         $this->container->get('doctrine')->getManager()->flush();
 
 
-        $this->container->get('event_dispatcher')->dispatch('order.dispute_closed' , new OrderEvent($order));
+        $this->container->get('event_dispatcher')->dispatch(OrderEvents::ORDER_DISPUTE_CLOSED , new OrderEvent($order));
     }
 
 
