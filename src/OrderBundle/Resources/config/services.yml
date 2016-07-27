@@ -1,4 +1,9 @@
 services:
     order_service:
         class: OrderBundle\Service\OrderService
-        arguments: ['@doctrine.orm.entity_manager', '@lexik_currency.converter']
+        arguments: ['@doctrine.orm.entity_manager', '@lexik_currency.converter', '@event_dispatcher']
+    order.order_events_listener:
+        class: OrderBundle\EventListener\OrderEventsListener
+        arguments: ['@mailer_sender']
+        tags:
+            - { name: kernel.event_subscriber }

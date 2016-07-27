@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use ProductBundle\Entity\Product;
 use MessageBundle\Entity\Message;
+use OrderBundle\Entity\Order;
 
 class MailerSender
 {
@@ -52,6 +53,16 @@ class MailerSender
                 $this->sendMessage($template, $context, $this->parameters['from_email'], $participant->getEmail());
             }
         }
+    }
+
+    public function sendPendingOrderToSellerEmailMessage(Order $order)
+    {
+        $template = 'OrderBundle:email:seller_pending.email.twig';
+        $product = $order->getProduct();
+        $seller = $product->getUser();
+        $orderUrl = $this->router->generate('user_account_sale', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['order' => $order, 'product' => $product, 'user' => $seller, 'orderUrl' => $orderUrl];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
     }
 
 

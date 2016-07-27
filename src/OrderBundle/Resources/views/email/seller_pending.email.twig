@@ -1,0 +1,17 @@
+{% block subject %}Nouvelle vente{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ user.firstname }} !
+
+Un acheteur vient de vous commander votre produit {{ product.name }}.
+Vous pouvez confirmer cette commande en cliquant sur le lien suivant {{ orderUrl }}
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% include 'OrderBundle:email:seller_pending.html.twig' %}
+{% endblock %}

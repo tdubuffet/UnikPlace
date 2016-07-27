@@ -4,16 +4,20 @@ namespace OrderBundle\Service;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use OrderBundle\Entity\Order;
+use OrderBundle\Event\OrderEvents;
+use OrderBundle\Event\OrderEvent;
 
 class OrderService
 {
     private $em;
     private $currencyConverter;
+    private $eventDispatcher;
 
-    public function __construct($em, $currencyConverter)
+    public function __construct($em, $currencyConverter, $eventDispatcher)
     {
         $this->em = $em;
         $this->currencyConverter = $currencyConverter;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function createOrdersFromCartSession($user, $currency, $preAuthId)
@@ -32,6 +36,7 @@ class OrderService
 
         // Fetch products from cart
         $products = array();
+        $orders = array();
         foreach ($cart as $productId) {
             $product = $this->em->getRepository('ProductBundle:Product')->findOneById($productId);
             $amount = $this->currencyConverter->convert($product->getPrice(), $currency, true, $product->getCurrency()->getCode());
@@ -63,14 +68,19 @@ class OrderService
             $order->setDeliveryType($this->em->getRepository('OrderBundle:Delivery')->findOneByCode($cartDelivery[$productId]));
 
             $this->em->persist($order);
+            $orders[] = $order;
         }
 
-        if (!isset($order)) {
-            throw new \Exception('No order found');
-        }
 
         $this->em->flush();
-        return $order;
+
+        foreach ($orders as $order) {
+            // Create the OrderEvent and dispatch it
+            $event = new OrderEvent($order);
+            $this->eventDispatcher->dispatch(OrderEvents::ORDER_CREATED, $event);
+        }
+
+        return $orders;
     }
 
     public function removeCartSession()
