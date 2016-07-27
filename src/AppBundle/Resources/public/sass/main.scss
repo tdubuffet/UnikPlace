@@ -7520,7 +7520,9 @@ body { background-color:rgba(0,0,0,0); }
   color: #181818;
   text-align: center;
   font-weight: normal;
+  display: block;
 }
+
 
 @media (max-width: 767px) {
   .deposit .category-choice {
@@ -7532,6 +7534,7 @@ body { background-color:rgba(0,0,0,0); }
   border: 9px solid #fff;
   transition: border .3s ease;
   padding: 10px;
+  min-height: 115px;
 }
 
 .deposit .category-choice > div:hover, .deposit .category-choice.active > div {
