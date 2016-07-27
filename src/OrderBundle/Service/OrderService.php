@@ -39,6 +39,11 @@ class OrderService
         $orders = array();
         foreach ($cart as $productId) {
             $product = $this->em->getRepository('ProductBundle:Product')->findOneById($productId);
+
+            $product->setStatus(
+                $this->em->getRepository('ProductBundle:Status')->findOneByName('unavailable')
+            );
+
             $amount = $this->currencyConverter->convert($product->getPrice(), $currency, true, $product->getCurrency()->getCode());
             $order = new Order();
             $order->setAmount($amount);
@@ -67,6 +72,7 @@ class OrderService
 
             $order->setDeliveryType($this->em->getRepository('OrderBundle:Delivery')->findOneByCode($cartDelivery[$productId]));
 
+            $this->em->persist($product);
             $this->em->persist($order);
             $orders[] = $order;
         }
