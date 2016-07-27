@@ -32,10 +32,13 @@ class DepositController extends Controller
      */
     public function categoryAction()
     {
-        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-        $categories = $repository->findBySlug(array('maison-deco', 'art-culture', 'loisirs-multimedia'));
+        $categories = $this->getDoctrine()
+            ->getRepository('ProductBundle:Category')
+            ->findByParentCache(NULL);
 
-        return array('categories' => $categories);
+        return [
+            'categories' => $categories
+        ];
     }
 
     /**
@@ -201,12 +204,10 @@ class DepositController extends Controller
                         return $this->redirectToRoute('sell_price');
                     }
                 }
-            } else {
-                return $this->redirectToRoute('sell_photos');
             }
-        } else {
-            return $this->redirectToRoute('sell_photos');
         }
+
+        return $this->redirectToRoute('sell_photos');
     }
 
     /**
