@@ -7,7 +7,8 @@ var Deposit = {
                     return "Aucun résultat trouvé.";
                 }
             },
-            "placeholder": "Sélectionnez d'abord une catégorie ci-dessus."
+            "placeholder": "Sélectionnez d'abord une catégorie ci-dessus.",
+            "width": "100%"
         });
 
         // Initialize select as disabled
@@ -22,24 +23,9 @@ var Deposit = {
 
         Deposit.loadDescriptionValidation();
 
-        $('#product-price').blur(function() {
-            var valueAmount = Math.round($(this).val() * 0.65);
-            if (valueAmount <= 0) valueAmount = 0;
-            valueAmount = valueAmount.toFixed(2);
-            $('.valued-amount').text(valueAmount + ' €');
-        });
+        Deposit.loadPriceStep();
 
-        $("#price-form").validate({
-            rules: {
-                "price": {
-                    required: true,
-                    number: true,
-                },
-                "original_price": {
-                    number: true
-                },
-            }
-        });
+        Deposit.loadShippingValidation();
     },
 
     loadSubCategories: function () {
@@ -235,7 +221,7 @@ var Deposit = {
     },
 
     loadDescriptionValidation: function () {
-        $('.attribute-select2').select2({
+        $('.select-select2').select2({
             "language": {
                 "noResults": function(){
                     return "Aucun résultat trouvé.";
@@ -288,7 +274,7 @@ var Deposit = {
             ignore: [],
             rules: descriptionRules,
             errorPlacement: function(error, element) {
-                if(element.hasClass('attribute-select2')) {
+                if(element.hasClass('select-select2')) {
                     error.insertAfter(".select2-container");
                 } else if (element.hasClass('attribute-color')) {
                     error.insertAfter(".box-color-choice");
@@ -297,14 +283,14 @@ var Deposit = {
                 }
             },
             highlight: function(element, errorClass) {
-                if ($(element).hasClass('attribute-select2')) {
+                if ($(element).hasClass('select-select2')) {
                     $('.select2').addClass(errorClass);
                 } else {
                     $(element).addClass(errorClass);
                 }
             },
             unhighlight: function(element, errorClass) {
-                if ($(element).hasClass('attribute-select2')) {
+                if ($(element).hasClass('select-select2')) {
                     $('.select2').removeClass(errorClass);
                 } else {
                     $(element).removeClass(errorClass);
@@ -315,6 +301,85 @@ var Deposit = {
         // hide select error if it's still displayed
         $("select").on("select2:close", function (e) {
             $(this).valid();
+        });
+    },
+
+    loadPriceStep: function () {
+        $('#product-price').blur(function() {
+            var valueAmount = Math.round($(this).val() * 0.65);
+            if (valueAmount <= 0) valueAmount = 0;
+            valueAmount = valueAmount.toFixed(2);
+            $('.valued-amount').text(valueAmount + ' €');
+        });
+
+        $("#price-form").validate({
+            rules: {
+                "price": {
+                    required: true,
+                    number: true,
+                },
+                "original_price": {
+                    number: true
+                },
+            }
+        });
+    },
+
+    loadShippingValidation: function () {
+        $("#shipping-form").validate({
+            rules: {
+                "weight": {
+                    required: true,
+                    number: true,
+                },
+                "shipping_fees": {
+                    number: true
+                }
+            },
+        });
+
+        $("#add-address-form").validate({
+            rules: {
+                "name": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100,
+                },
+                "street": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 250,
+                },
+                "city": {
+                    required: true,
+                },
+                "phone": {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 20,
+                }
+            },
+            errorPlacement: function(error, element) {
+                if(element.hasClass('select-select2')) {
+                    error.insertAfter(".select2-container");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass) {
+                if ($(element).hasClass('select-select2')) {
+                    $('.select2').addClass(errorClass);
+                } else {
+                    $(element).addClass(errorClass);
+                }
+            },
+            unhighlight: function(element, errorClass) {
+                if ($(element).hasClass('select-select2')) {
+                    $('.select2').removeClass(errorClass);
+                } else {
+                    $(element).removeClass(errorClass);
+                }
+            }
         });
     }
 

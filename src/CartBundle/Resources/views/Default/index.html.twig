@@ -45,7 +45,7 @@
                   ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
                   {% endif %}
                 </td>
-                <td>{{ product.getCity.getName }} ({{ product.getCity.getZipcode }})</td>
+                <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
                 <td>
                   <select name="{{ product.getId() }}">
                     {% for delivery in deliveries %}

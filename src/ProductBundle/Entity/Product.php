@@ -50,9 +50,9 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="original_price", type="decimal", precision=8, scale=2)
+     * @ORM\Column(name="original_price", type="decimal", precision=8, scale=2, nullable=true)
      */
-    private $originalPrice;
+    private $originalPrice = null;
 
     /**
      * @var string
@@ -60,6 +60,20 @@ class Product
      * @ORM\Column(name="allow_offer", type="boolean")
      */
     private $allowOffer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="weight", type="integer")
+     */
+    private $weight;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="shipping_fees", type="decimal", precision=8, scale=2, nullable=true)
+     */
+    private $shippingFees = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category")
@@ -116,11 +130,11 @@ class Product
     private $collections;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\City")
-     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Address")
+     * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
-    private $city;
+    private $address;
 
     /**
      * @ORM\ManyToMany(targetEntity="OrderBundle\Entity\Delivery", mappedBy="products")
@@ -471,19 +485,6 @@ class Product
     }
 
     /**
-     * Set city
-     *
-     * @param \LocationBundle\Entity\City $city
-     *
-     * @return Product
-     */
-    public function setCity(\LocationBundle\Entity\City $city = null)
-    {
-        $this->city = $city;
-        return $this;
-    }
-
-    /**
      * Remove collection
      * @param Collection $collection
      * @return Product
@@ -493,16 +494,6 @@ class Product
         $this->collections->removeElement($collection);
 
         return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return \LocationBundle\Entity\City
-     */
-    public function getCity()
-    {
-        return $this->city;
     }
 
     /**
@@ -554,6 +545,7 @@ class Product
      */
     public function addDelivery(\OrderBundle\Entity\Delivery $delivery)
     {
+        $delivery->addProduct($this);
         $this->deliveries[] = $delivery;
     }
 
@@ -646,6 +638,7 @@ class Product
         return $this->orders;
     }
 
+
     /*
      * Get allowOffer
      *
@@ -654,5 +647,77 @@ class Product
     public function getAllowOffer()
     {
         return $this->allowOffer;
+    }
+
+    /**
+     * Set address
+     *
+     * @param \LocationBundle\Entity\Address $address
+     *
+     * @return Product
+     */
+    public function setAddress(\LocationBundle\Entity\Address $address = null)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return \LocationBundle\Entity\Address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     *
+     * @return Product
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * Set shippingFees
+     *
+     * @param string $shippingFees
+     *
+     * @return Product
+     */
+    public function setShippingFees($shippingFees)
+    {
+        $this->shippingFees = $shippingFees;
+
+        return $this;
+    }
+
+    /**
+     * Get shippingFees
+     *
+     * @return string
+     */
+    public function getShippingFees()
+    {
+        return $this->shippingFees;
     }
 }

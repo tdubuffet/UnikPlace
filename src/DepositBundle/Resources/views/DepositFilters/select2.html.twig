@@ -1,6 +1,6 @@
 <div class="form-group">
   <label class="{% if mandatory %}required{% endif %}">{{ label }}</label>
-  <select class="attribute-select2 attribute-field" name="attribute-{{ id }}" {% if mandatory %}data-required="true"{% endif %} {% if mandatory %}required{% endif %}>
+  <select class="select-select2 attribute-field" name="attribute-{{ id }}" {% if mandatory %}data-required="true"{% endif %} {% if mandatory %}required{% endif %}>
     <option value="">{{ referentialName }} de votre produit</option>
     {% for value in referentialValues %}
     <option value="{{ value.getId() }}">{{ value.getValue() }}</option>

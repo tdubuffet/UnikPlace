@@ -89,6 +89,11 @@ class User extends BaseUser implements ParticipantInterface
     protected $residential_country;
 
     /**
+     * @ORM\Column(name="phone", type="string", nullable=true, length=20)
+     */
+    protected $phone;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="pro", type="boolean")
@@ -843,5 +848,29 @@ class User extends BaseUser implements ParticipantInterface
     public function getMangopayFreeWalletId()
     {
         return $this->mangopay_free_wallet_id;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     *
+     * @return User
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
     }
 }

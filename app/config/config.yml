@@ -222,7 +222,6 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
-                    - { property: 'city', type: 'easyadmin_autocomplete' }
                     - { property: 'deliveries' }
             new:
                 fields:
@@ -234,11 +233,10 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
-                    - { property: 'city', type: 'easyadmin_autocomplete' }
                     - { property: 'deliveries' }
             list:
                 fields:
-                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'city.name']
+                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'address']
         Image:
             class: ProductBundle\Entity\Image
             list:
