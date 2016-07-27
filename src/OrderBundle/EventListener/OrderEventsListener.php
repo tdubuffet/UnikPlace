@@ -21,6 +21,7 @@ class OrderEventsListener implements EventSubscriberInterface
             Event::ORDER_CREATED          => 'onOrderCreated',
             Event::ORDER_ACCEPTED         => 'onOrderAccepted',
             Event::ORDER_REFUSED          => 'onOrderRefused',
+            Event::ORDER_DONE             => 'onOrderDone',
             Event::ORDER_DISPUTE_OPENED   => 'onOrderDisputeOpened',
             Event::ORDER_DISPUTE_CLOSED   => 'onOrderDisputeClosed'
         );
@@ -42,6 +43,12 @@ class OrderEventsListener implements EventSubscriberInterface
     {
         $order = $event->getOrder();
         $this->mailerSender->sendRefusedOrderToBuyerEmailMessage($order);
+    }
+
+    public function onOrderDone(OrderEvent $event)
+    {
+        $order = $event->getOrder();
+        $this->mailerSender->sendDoneOrderToSellerEmailMessage($order);
     }
 
     public function onOrderDisputeOpened(OrderEvent $event)

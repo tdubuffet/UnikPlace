@@ -84,6 +84,16 @@ class MailerSender
         $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
     }
 
+    public function sendDoneOrderToSellerEmailMessage(Order $order)
+    {
+        $template = 'OrderBundle:email:done.email.twig';
+        $product = $order->getProduct();
+        $seller = $product->getUser();
+        $walletUrl = $this->router->generate('user_account_wallet', UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['order' => $order, 'product' => $product, 'user' => $seller, 'walletUrl' => $orderUrl];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
+    }
+
     public function sendOpenedOrderDisputeEmailMessage(Order $order)
     {
 
