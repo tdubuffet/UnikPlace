@@ -141,11 +141,16 @@ class OrderListener
 
             $order->setStatus($statusCanceled);
 
+            $product = $order->getProduct();
+            $product->setStatus(
+                $this->container->get('doctrine')->getRepository('ProductBundle:Status')->findOneByName('published')
+            );
 
             $this->container->get('event_dispatcher')->dispatch(OrderEvents::ORDER_REFUSED , new OrderEvent($order));
 
 
             $this->container->get('doctrine')->getManager()->persist($order);
+            $this->container->get('doctrine')->getManager()->persist($product);
             $this->container->get('doctrine')->getManager()->flush();
         }
 
