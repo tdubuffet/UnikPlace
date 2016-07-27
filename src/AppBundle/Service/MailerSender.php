@@ -65,6 +65,26 @@ class MailerSender
         $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
     }
 
+    public function sendAcceptedOrderToBuyerEmailMessage(Order $order)
+    {
+
+    }
+
+    public function sendRefusedOrderToBuyerEmailMessage(Order $order)
+    {
+
+
+    }
+
+    public function sendOpenedOrderDisputeEmailMessage(Order $order)
+    {
+
+    }
+
+    public function sendClosedOrderDisputeEmailMessage(Order $order)
+    {
+
+    }
 
     private function sendMessage($templateName, $context, $fromEmail, $toEmail)
     {
