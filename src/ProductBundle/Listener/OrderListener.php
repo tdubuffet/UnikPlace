@@ -169,8 +169,46 @@ class OrderListener
 
         }
 
+    }
 
+    /**
+     * @param Request $request
+     * @param Order $order
+     * @throws \Exception
+     */
+    public function disputeOrder(Request $request, Order $order)
+    {
 
+        if ($order->getUser() != $this->getConnectedUser() || $order->getStatus()->getName() != 'accepted') {
+            throw new NotFoundHttpException();
+        }
+
+        $statusDisputed = $this->container->get('doctrine')->getRepository('OrderBundle:Status')->findOneByName('disputed');
+
+        $order->setStatus($statusDisputed);
+
+        $this->container->get('doctrine')->getManager()->persist($order);
+        $this->container->get('doctrine')->getManager()->flush();
+    }
+
+    /**
+     * @param Request $request
+     * @param Order $order
+     * @throws \Exception
+     */
+    public function closeDisputeOrder(Request $request, Order $order)
+    {
+
+        if ($order->getUser() != $this->getConnectedUser() || $order->getStatus()->getName() != 'disputed') {
+            throw new NotFoundHttpException();
+        }
+
+        $statusAccepted = $this->container->get('doctrine')->getRepository('OrderBundle:Status')->findOneByName('accepted');
+
+        $order->setStatus($statusAccepted);
+
+        $this->container->get('doctrine')->getManager()->persist($order);
+        $this->container->get('doctrine')->getManager()->flush();
     }
 
 
