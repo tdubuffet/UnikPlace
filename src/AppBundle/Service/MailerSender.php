@@ -67,7 +67,12 @@ class MailerSender
 
     public function sendAcceptedOrderToBuyerEmailMessage(Order $order)
     {
-
+        $template = 'OrderBundle:email:accepted.email.twig';
+        $product = $order->getProduct();
+        $buyer = $order->getUser();
+        $orderUrl = $this->router->generate('user_account_purchase', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['order' => $order, 'product' => $product, 'user' => $buyer, 'orderUrl' => $orderUrl];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $Buyer->getEmail());
     }
 
     public function sendRefusedOrderToBuyerEmailMessage(Order $order)
