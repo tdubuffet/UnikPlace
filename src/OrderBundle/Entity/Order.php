@@ -5,6 +5,7 @@ namespace OrderBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use ProductBundle\Entity\Product;
 
 /**
  * Order
@@ -324,7 +325,7 @@ class Order
     }
 
     /**
-     * @return mixed
+     * @return Product
      */
     public function getProduct()
     {

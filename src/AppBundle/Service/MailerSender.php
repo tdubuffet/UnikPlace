@@ -97,7 +97,7 @@ class MailerSender
         $product = $order->getProduct();
         $seller = $product->getUser();
         $walletUrl = $this->router->generate('user_account_wallet', UrlGeneratorInterface::ABSOLUTE_URL);
-        $context = ['order' => $order, 'product' => $product, 'user' => $seller, 'walletUrl' => $orderUrl];
+        $context = ['order' => $order, 'product' => $product, 'user' => $seller, 'walletUrl' => $walletUrl];
         $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
     }
 
