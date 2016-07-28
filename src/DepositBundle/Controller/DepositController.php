@@ -233,6 +233,11 @@ class DepositController extends Controller
             $errors = [];
             foreach (['price', 'original_price', 'allow_offer'] as $field) {
                 if ($request->get($field) && !empty($request->get($field))) {
+                    if ($field == 'price' && $request->get($field) < 1) {
+                        throw new \Exception('Price cannot be lower than 1.00');
+                    } else if($field == 'original_price' && $request->get($field) < 1) {
+                        throw new \Exception('Price cannot be lower than 1.00');
+                    }
                     $deposit[$field] = $request->get($field);
                 } else {
                     if ($field == 'price') {
@@ -314,10 +319,15 @@ class DepositController extends Controller
                         $errors[] = "Le champ ".$label." doit être renseigné.";
                     } else {
                         if ($field == 'weight') {
+                            if ($request->get($field) < 1) {
+                                throw new \Exception('Weight cannot be lower than 1 kg');
+                            }
                             if ($request->get($field) < 30) {
                                 $deposit['delivery']['codes'][] = 'parcel';
                             }
                             $deposit['delivery'][$field] = ($request->get($field) * 1000); // transform Kg to g
+                        } elseif ($field == 'shipping_fees') {
+                            throw new \Exception('Shipping fees cannot be lower than 1.00');
                         } else {
                             $deposit['delivery'][$field] = $request->get($field);
                         }
