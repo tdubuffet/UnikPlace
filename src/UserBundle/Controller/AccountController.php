@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use UserBundle\Form\PreferenceFormType;
 use UserBundle\Form\RatingType;
+use UserBundle\Form\MangopayKYCNaturalType;
+use UserBundle\Form\MangopayKYCLegalType;
 
 /**
  * Class AccountController
@@ -423,5 +425,29 @@ class AccountController extends Controller
 
     }
 
+    /**
+     * @Route("/portefeuille/kyc", name="user_account_wallet_kyc")
+     * @Template("UserBundle:Account:wallet_kyc.html.twig")
+     * @param Request $request
+     * @return array
+     */
+    public function walletKYCAction(Request $request)
+    {
+        $mangopayService = $this->get('mangopay_service');
+        $mangopayUser = $mangopayService->getMangoPayUser($this->getUser()->getMangopayUserId());
+        if ($mangopayUser->KYCLevel == "REGULAR"){
+            return $this->redirectToRoute('user_account_wallet');
+        }
+        if ($mangopayUser->PersonType == 'NATURAL') {
+            $form = $this->createForm(MangoPayKYCNaturalType::class);
+        }
+        else if ($mangopayUser->PersonType == 'LEGAL') {
+            $form = $this->createForm(MangoPayKYCLegalType::class);
+        }
+        else {
+            throw new \Exception('Bad person type for current mangopay user.');
+        }
+        return ['form' => $form->createView()];
+    }
 
 }

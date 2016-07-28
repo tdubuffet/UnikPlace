@@ -1,0 +1,17 @@
+{% extends "UserBundle::base.html.twig" %}
+
+{% block title %}Validation KYC{% endblock %}
+{% block description %}Validation KYC{% endblock %}
+
+
+{% block account_content %}
+
+  <h2>Validation du compte KYC</h2>
+
+  {% for flashMessage in app.session.flashbag.get('kyc_errors') %}
+  <div class="alert alert-warning">{{ flashMessage }}</div>
+  {% endfor %}
+
+  {{ form(form) }}
+
+{% endblock %}
