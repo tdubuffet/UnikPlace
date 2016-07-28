@@ -31,16 +31,18 @@ use UserBundle\Form\RatingType;
 class AccountController extends Controller
 {
     /**
-     * @Route("", name="user_account_profile")
+     * @Route("/test", name="user_account_profile")
      * @Template("UserBundle:Account:profile.html.twig")
      * @param Request $request
      * @return array
      */
     public function profileAction(Request $request)
     {
-        /*
-         * @todo A supprimer
-         */
+
+        $this->get('user.notification')->createNotification($this->getUser(), 'order_pending', [
+            'product_title' => 'super annonce',
+            'order_id' => 70
+        ]);
     }
 
     /**

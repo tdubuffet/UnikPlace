@@ -6,7 +6,7 @@ use OrderBundle\Event\OrderEvents as Event;
 use OrderBundle\Event\OrderEvent;
 use AppBundle\Service\MailerSender;
 
-class OrderEventsListener implements EventSubscriberInterface
+class EmailOrderEventsListener implements EventSubscriberInterface
 {
     private $mailerSender;
 

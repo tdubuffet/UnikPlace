@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: "@UserBundle/Resources/config/notification.yml" }
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: admin.yml }
