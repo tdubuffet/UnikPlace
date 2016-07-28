@@ -66,17 +66,6 @@ Check that you environment is correct by running the following command
 
 Please fix if there are any errors
 
-### Images directory permissions
-
-Allow webserver user (such as www-data) to read and write inside some image folders
-
-    sudo chown -R www-data:www-data src/cdn/localized/fr/css
-    mkdir src/cdn/localized/fr/js
-    sudo chown -R www-data:www-data src/cdn/localized/fr/js
-    mkdir src/cdn/tmp/data
-    sudo chown -R www-data:www-data src/cdn/tmp/data
-    sudo chmod 777 src/cdn/i
-
 ### Database
 
 Create database tables structures
