@@ -76,6 +76,9 @@ Populate the database by loading fixtures
 
     php bin/console doctrine:fixtures:load
 
+Import currencies and rates
+
+    php bin/console lexik:currency:import ecb
 
 ### Assets management
 
