@@ -66,3 +66,8 @@ services:
     order_listener:
         class: ProductBundle\Listener\OrderListener
         arguments: ['@service_container']
+
+    product_bundle.category_service:
+        class: ProductBundle\Service\CategoryService
+        arguments: ['@doctrine.orm.entity_manager']
+

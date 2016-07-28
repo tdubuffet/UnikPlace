@@ -35,7 +35,6 @@ class DepositController extends Controller
         $categories = $this->getDoctrine()
             ->getRepository('ProductBundle:Category')
             ->findByParentCache(NULL);
-
         return [
             'categories' => $categories
         ];
@@ -48,9 +47,9 @@ class DepositController extends Controller
     public function postCategoryAction(Request $request)
     {
         $categoryId = $request->get('category_id');
-        $session = new Session();
+        $session = $this->get('session');
 
-        if (isset($categoryId) && !empty($categoryId)) {
+        if ($categoryId) {
             $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($categoryId);
             if ($category) {
                 $deposit = array('category_id' => $categoryId);
@@ -415,35 +414,13 @@ class DepositController extends Controller
      */
     public function getSubCategoriesAction(Request $request)
     {
+
         $categoryId = $request->get('category_id');
-        if (!isset($categoryId)) {
-            return new JsonResponse(array('message' => 'A category id (category_id) must be specified.'), 409);
-        }
+        if (isset($categoryId)) {
+            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($categoryId);
 
-        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-        $subCategories = $repository->findAll();
-
-        $subcategs = array();
-        foreach ($subCategories as $subcateg) {
-            if ($subcateg->getParent() != null) {
-                if ($subcateg->getParent()->getId() == $categoryId) {
-                    $subcategs[$subcateg->getId()] = array(
-                        'id' => $subcateg->getId(),
-                        'name' => $subcateg->getName()
-                    );
-                }
-            }
-        }
-
-        foreach ($subCategories as $subcateg) {
-            if ($subcateg->getParent() != null) {
-                if (in_array($subcateg->getParent()->getId(), array_keys($subcategs))) {
-                    $subcategs[$subcateg->getParent()->getId()]['children'][$subcateg->getId()] = array(
-                        'id' => $subcateg->getId(),
-                        'name' => $subcateg->getName()
-                    );
-                }
-            }
+            $categoryService = $this->get('product_bundle.category_service');
+            $subcategs = $categoryService->getSubCategories($category);
         }
 
         if (count($subcategs) == 0) {
