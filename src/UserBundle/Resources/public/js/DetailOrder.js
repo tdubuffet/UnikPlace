@@ -51,7 +51,7 @@ var DetailOrder = {
             // Add data loading to cancel button
             var bootboxButton = $('.bootbox').find('button');
             if (bootboxButton.length > 0) {
-                bootboxButton.attr('data-loading-text', "Annulation en cours...");
+                bootboxButton.attr('data-loading-text', "Confirmation en cours...");
                 bootboxButton.click(function () {
                     $(this).button('loading');
                 });

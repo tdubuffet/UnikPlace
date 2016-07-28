@@ -19,6 +19,7 @@ class RatingType extends AbstractType
     {
         $builder
             ->add('rate', ChoiceType::class, array(
+                'label' => 'Note',
                 'choices'  => [
                     'Excellent' => 5,
                     'Très bien' => 4,

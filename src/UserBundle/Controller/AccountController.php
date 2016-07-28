@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use UserBundle\Form\PreferenceFormType;
@@ -257,7 +258,7 @@ class AccountController extends Controller
      * @Template("UserBundle:Account:order.html.twig")
      * @param Request $request
      * @param Order $order
-     * @return array
+     * @return array|RedirectResponse
      */
     public function orderAction(Request $request, Order $order)
     {
