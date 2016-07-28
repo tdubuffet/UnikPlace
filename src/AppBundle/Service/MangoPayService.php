@@ -375,4 +375,35 @@ class MangoPayService
         return $result;
     }
 
+
+    public function isKYCValidUser(UserEntity $user, $inputAmount = 0, $outputAmount = 0)
+    {
+        $input  = $inputAmount;
+        $output  = $outputAmount;
+
+        /** User is regular, KYC is validate */
+        if ($this->getMangoPayUser($user->getMangopayUserId())->KYCLevel == "REGULAR"){
+            return true;
+        }
+
+        // As buyer
+        $orders = $user->getOrders();
+        foreach($orders as $order) {
+            $input += $order->getAmount();
+        }
+
+        // As seller
+        $products = $user->getProducts();
+        foreach ($products as $product) {
+            foreach ($product->getOrders() as $orders) {
+                $output += $order->getAmount();
+            }
+        }
+
+        // Check
+        if ($input >= $this->config['max_input'] || $output >= $this->config['max_output']) {
+            return false;
+        }
+        return true;
+    }
 }
