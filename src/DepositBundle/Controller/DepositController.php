@@ -217,6 +217,10 @@ class DepositController extends Controller
      */
     public function priceAction()
     {
+        return [
+            'fee_rate' =>   $this->getParameter('mangopay.fee_rate'),
+            'fixed_fee' =>  $this->getParameter('mangopay.fixed_fee')
+        ];
     }
 
     /**
