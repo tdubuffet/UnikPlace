@@ -2,6 +2,7 @@
 
 namespace CartBundle\Controller;
 
+use ProductBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -15,6 +16,8 @@ class AjaxController extends Controller
     /**
      * @Route("/product_cart", name="product_cart")
      * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
      */
     public function addAction(Request $request)
     {
@@ -30,6 +33,7 @@ class AjaxController extends Controller
         if (!isset($productId)) {
             return new JsonResponse(array('message' => 'A product id (product_id) must be specified.'), 409);
         }
+        /** @var Product $product */
         $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
         if (!isset($product)) {
             return new JsonResponse(array('message' => 'Product not found.'), 404);
@@ -45,13 +49,48 @@ class AjaxController extends Controller
         if ($action == 'add' && !in_array($product->getId(), $cart)) {
             $cart[] = $product->getId();
             $session->set('cart', $cart);
+
             return new JsonResponse(array('message' => 'Product added in cart.'), 201);
         }
         else if ($action == 'remove') {
             $cart = array_diff($cart, [$product->getId()]);
             $session->set('cart', $cart);
-            return new JsonResponse(array('message' => 'Product removed from cart.'));
+            $prices = $this->getCartPrices(true);
+
+            return new JsonResponse(['message' => 'Product removed from cart.', 'prices' => $prices]);
         }
         return new JsonResponse(array('message' => 'An error occured.'), 500);
+    }
+
+    /**
+     * @param boolean $formated
+     * @param string $currency
+     * @return array
+     */
+    private function getCartPrices($formated = false, $currency = 'EUR')
+    {
+        $cart = $this->get('session')->get('cart', []);
+        $productsTotalPrice = 0; // in EUR
+        $deliveryFee = 0; // in EUR
+
+        foreach ($cart as $productId) {
+            $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneBy(['id' => $productId]);
+            $productsTotalPrice += $this->get('lexik_currency.converter')
+                ->convert($product->getPrice(), $currency, true, $product->getCurrency()->getCode());
+        }
+        $total = $productsTotalPrice+ $deliveryFee;
+
+        if (!$formated) {
+            return ['total' => $total, 'product' => $productsTotalPrice, 'delivery' => $deliveryFee];
+        }else {
+            $service = $this->get('lexik_currency.formatter');
+
+            return [
+                'product' => $service->format($productsTotalPrice, $currency),
+                'delivery' => $service->format($deliveryFee, $currency),
+                'total' => $service->format($total, $currency),
+            ];
+        }
+
     }
 }

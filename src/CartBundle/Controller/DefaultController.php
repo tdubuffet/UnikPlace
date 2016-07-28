@@ -2,11 +2,14 @@
 
 namespace CartBundle\Controller;
 
+use ProductBundle\Entity\Product;
+use ProductBundle\Entity\Status;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -24,11 +27,14 @@ class DefaultController extends Controller
      * @Route("", name="cart")
      * @Method({"GET"})
      * @Template("CartBundle:Default:index.html.twig")
+     * @param Request $request
+     * @return array|RedirectResponse
      */
     public function listAction(Request $request)
     {
         $session = new Session();
         $cart = $session->get('cart', array());
+        /** @var Status $publishedStatus */
         $publishedStatus = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneByName('published');
         $publishedProducts = array();
 
@@ -38,11 +44,11 @@ class DefaultController extends Controller
         $deliveryFee        = 0; // in EUR
 
         foreach ($cart as $productId) {
-            $product = $this->getDoctrine()
-                ->getRepository('ProductBundle:Product')
-                ->findOneById($productId);
+            /** @var Product $product */
+            $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
             $products[] = $product;
-            $productsTotalPrice += $this->get('lexik_currency.converter')->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+            $productsTotalPrice += $this->get('lexik_currency.converter')
+                ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
             if ($product->getStatus()->getName() == $publishedStatus->getName()) {
                 $publishedProducts[] = $product->getId();
             }

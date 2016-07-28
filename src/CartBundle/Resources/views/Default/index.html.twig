@@ -2,13 +2,14 @@
 
 {% block title %}Mon panier{% endblock %}
 {% block description %}Mon panier sur Noname{% endblock %}
+    {% block javascript_include %}{{ jsinit(['cart']) }}{% endblock javascript_include %}
 
 {% block body %}
 <div class="main-wrapper">
   <div class="container">
     <div class="main">
 
-      <h1>Mon Panier</h1>
+      <h1 class="title-h1">Mon Panier</h1>
 
       {% for flashMessage in app.session.flashbag.get('notice') %}
       <div class="alert alert-warning">{{ flashMessage }}</div>
@@ -28,6 +29,7 @@
                 <th>Prix</th>
                 <th>Ville</th>
                 <th>Mode de livraison</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -53,6 +55,7 @@
                     {% endfor %}
                   </select>
                 </td>
+                <td><button type="button" class="btn btn-danger" data-id="{{ product.id }}">Supprimer</button></td>
               </tr>
               {% endfor %}
             </tbody>
@@ -60,9 +63,9 @@
 
           <div class="text-right">
             <div>
-              Total produit: {{ productsTotalPrice|currency_format('EUR') }}<br />
-              Estimation des frais de livraison: {{ deliveryFee|currency_format('EUR') }}<br />
-              TOTAL: {{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}
+              Total produit: <span class="product">{{ productsTotalPrice|currency_format('EUR') }}</span><br/>
+              Estimation des frais de livraison: <span class="delivery">{{ deliveryFee|currency_format('EUR') }}</span> <br/>
+              TOTAL: <span class="totalProduct">{{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</span>
             </div>
 
             <input class="btn btn-primary" type="submit" value="Etape suivante">
