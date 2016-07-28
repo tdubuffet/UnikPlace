@@ -35,7 +35,6 @@ class Collection
 
     /**
      * @ORM\OneToOne(targetEntity="CollectionImage", mappedBy="collection")
-     * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $image;
