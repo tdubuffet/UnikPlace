@@ -2,10 +2,16 @@
 
 {% block body_class %}easyadmin sidebar-mini show show-product{% endblock %}
 
-{% block content_title %}Produit (#{{ product.id }}) | {{ pager.nbPages }} produit(s) à modérer{% endblock %}
+{% block content_title %}
+  {% if product is not empty %}
+    Produit (#{{ product.id }}) | {{ pager.nbPages }} produit(s) à modérer
+  {% else %}
+    Aucun produit
+  {% endif %}
+{% endblock %}
 
 {% block main %}
-  {% if product is defined and product is not empty %}
+  {% if product is not empty %}
     <div class="form-horizontal">
       {# id #}
       <div class="form-group">

@@ -70,9 +70,15 @@ class AdminController extends BaseAdminController
             return $this->redirectToRoute("admin_moderate");
         }
         $pagerfanta->setCurrentPage($page);
-        /** @var Product $product */
-        $product = $pagerfanta->getCurrentPageResults()[0];
-        $attributes = $this->get('product_bundle.product_attribute_service')->getAttributesFromProduct($product);
+        $product = $pagerfanta->getCurrentPageResults();
+        if (isset($product[0])) {
+            /** @var Product $product */
+            $product = $product[0];
+            $attributes = $this->get('product_bundle.product_attribute_service')->getAttributesFromProduct($product);
+        }else {
+            $product = null;
+            $attributes = null;
+        }
 
         return ['product' => $product, 'attributes' => $attributes, 'pager' => $pagerfanta];
     }
