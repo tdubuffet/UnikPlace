@@ -28,6 +28,7 @@
     "elevatezoom": "~2.2.3",
     "select2": "~4.0.3",
     "blueimp-file-upload": "jQuery-File-Upload#~9.12.5",
-    "html.sortable": "~0.4.0"
+    "html.sortable": "~0.4.0",
+    "bootbox.js": "bootbox#^4.4.0"
   }
 }
