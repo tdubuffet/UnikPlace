@@ -15,7 +15,7 @@
             <tr>
                 <td>
                     <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
-                        {{ thread.subject }} {% if thread.product %}concernant l'annonce <b>{{ thread.product.name }}</b>{% endif %}
+                        {{ thread.subject }}
                     </a>
 
                     {% if not fos_message_is_read(thread) %}
