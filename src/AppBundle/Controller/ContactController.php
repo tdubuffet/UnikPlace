@@ -19,7 +19,7 @@ class ContactController extends Controller
 {
     /**
      * @Route("/contact", name="contact")
-     * @Template("AppBundle::contact.html.twig")
+     * @Template("AppBundle:default:contact.html.twig")
      * @param Request $request
      * @return array
      */

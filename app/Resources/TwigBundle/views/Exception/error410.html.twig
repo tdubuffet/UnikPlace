@@ -1,0 +1,18 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Contenu supprimé{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-md-6 col-xs-12 text-center">
+      <h1>Page supprimée...</h1>
+      <p>Il semblerait que la page que vous cherchez ait été supprimée.</p>
+      <p>Nous vous invitons à aller voir nos <a href="{{ path('homepage') }}">produits</a>.</p>
+      <p>Vous pouvez également <a href="{{ path('sell_category') }}">déposer un produit</a>.</p>
+      <a href="{{ path('homepage') }}" class="btn btn-primary btn-lg">
+        <i class="fa fa-share"></i> Retour à l'accueil du site
+      </a>
+    </div>
+  </div>
+{% endblock %}
+
