@@ -48,10 +48,13 @@ class CategoryController extends Controller
         $results = $search->search([
             'cat' => $category->getId()
         ]);
+        $params = $request->query->all();
+        $pagination = $search->getHtmlPagination($results, array_merge($params, ['cat' => $category->getId()]));
 
         return [
             'category' => $category,
             'products' => $results,
+            'pagination' => $pagination,
             'mainCategories' => $mainCategories
         ];
     }

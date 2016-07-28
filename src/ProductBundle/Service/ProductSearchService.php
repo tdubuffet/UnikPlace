@@ -43,7 +43,7 @@ class ProductSearchService
      */
     public function search($params)
     {
-        $maxPerPage = 3; // Products per page
+        $maxPerPage = 9; // Products per page
         $currentPage = isset($params['p']) ? $params['p'] : 1;
 
         // Build search query
@@ -80,7 +80,7 @@ class ProductSearchService
         };
         $view = new TwitterBootstrap3View();
         $options = array(
-            'proximity' => 3,
+            'proximity' => 9,
             'prev_message' => '← Précèdent',
             'next_message' => 'Suivant →'
         );
