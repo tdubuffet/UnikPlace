@@ -39,6 +39,13 @@ class MailerSender
         $this->sendMessage($template, $context, $this->parameters['from_email'], $user->getEmail());
     }
 
+    public function sendContactEmailMessage(array $context)
+    {
+        $template = "AppBundle:email:contact.email.twig";
+
+        $this->sendMessage($template, $context, $context['email'], $this->parameters['contact_email']);
+    }
+
     public function sendPrivateMessageNotificationEmailMessage(Message $message)
     {
         $sender = $message->getSender();
@@ -113,9 +120,8 @@ class MailerSender
 
 
         // Admin
-        $adminEmail = 'contact@kicherchekoi.com'; // Should be in configuration
         $context = ['order' => $order, 'product' => $product, 'context' => 'admin'];
-        $this->sendMessage($template, $context, $this->parameters['from_email'], $adminEmail);
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $this->parameters['contact_email']);
     }
 
     public function sendClosedOrderDisputeEmailMessage(Order $order)
@@ -137,9 +143,8 @@ class MailerSender
 
 
         // Admin
-        $adminEmail = 'contact@kicherchekoi.com'; // Should be in configuration
         $context = ['order' => $order, 'product' => $product, 'context' => 'admin'];
-        $this->sendMessage($template, $context, $this->parameters['from_email'], $adminEmail);
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $this->parameters['contact_email']);
     }
 
     private function sendMessage($templateName, $context, $fromEmail, $toEmail)

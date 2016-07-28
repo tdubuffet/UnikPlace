@@ -1,0 +1,27 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Contacter Noname{% endblock %}
+
+{% block body %}
+
+  <div class="row">
+    <div class="col-md-6 col-xs-12 col-center-block">
+      <h1 class="h2">Contacter l'équipe Noname</h1>
+      {# flashbag #}
+      {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+          <div class="alert alert-{{ type }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endfor %}
+
+      {{ form_start(form) }}
+      {{ form_row(form.subject) }}
+      {{ form_row(form.name, {'value' : app.user ? "#{app.user.firstname} #{app.user.lastname}" : ""}) }}
+      {{ form_row(form.email, {'value' : app.user ? app.user.email : ""}) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}
+

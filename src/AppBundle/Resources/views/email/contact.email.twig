@@ -1,0 +1,16 @@
+{% block subject %}Contact depuis le site{% endblock %}
+
+{% block body_text %}
+  {% autoescape false %}
+    Bonjour,
+    Vous avez recu un nouveau message depuis le formulaire de contact de NONAME.
+    Objet : {{ subject is defined ? subject : 'not set' }}
+    Nom : {{ name }} ({{ is_logged_username is defined ? 'Utilisateur inscrit' : 'Utilisateur non inscrit ou non authentifié' }})
+    Email : {{ email }}
+    Message : {{ message }}
+    ---
+    IP : {{ ip is defined ? ip : 'not set' }}
+    User-agent : {{ user_agent is defined ? user_agent : 'not set' }}
+  {% endautoescape %}
+{% endblock %}
+

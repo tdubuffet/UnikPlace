@@ -30,6 +30,7 @@ parameters:
     mailer_sender:
         from_email: %mailer_sender_email%
         from_name: %mailer_sender_name%
+        contact_email: "%mailer_contact_email%"
 
 framework:
     #esi:             ~

@@ -37,3 +37,5 @@ parameters:
     # Sender email
     mailer_sender_email: contact@noname.dev
     mailer_sender_name: Noname
+    mailer_contact_email: contact@noname.dev
+
