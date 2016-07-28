@@ -322,7 +322,7 @@ class Product
     /**
      * Get images
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getImages()
     {

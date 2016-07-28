@@ -1,14 +1,131 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 
-{% block content_title %}Modération des produits{% endblock %}
+{% block body_class %}easyadmin sidebar-mini show show-product{% endblock %}
+
+{% block content_title %}Produit (#{{ product.id }}) | {{ pager.nbPages }} produit(s) à modérer{% endblock %}
 
 {% block main %}
-{% if products is empty %}
-Aucun produit à modérer.
-{% else %}
-{{ products|length }} produit(s) à modérer.
-{% for product in products %}
-{{ product.name }}
-{% endfor %}
-{% endif %}
+  {% if product is defined and product is not empty %}
+    <div class="form-horizontal">
+      {# id #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">ID</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.id }}</div>
+        </div>
+      </div>
+      {# name #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Nom</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.name }}</div>
+        </div>
+      </div>
+      {# categories #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Catégorie</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.category.__toString }}</div>
+        </div>
+      </div>
+      {# description #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.description|nl2br }}</div>
+        </div>
+      </div>
+      {# price #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Prix</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.price|currency_convert_format(product.currency.code) }}</div>
+        </div>
+      </div>
+      {# original price #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Prix d'origine</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.originalPrice|currency_convert_format(product.currency.code) }}</div>
+        </div>
+      </div>
+      {# delivery type #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Type de livraison</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.deliveries.toArray|join(" | ") }}</div>
+        </div>
+      </div>
+      {# weight #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Poids</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.weight }} g</div>
+        </div>
+      </div>
+      {# shipping_fees #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Frais de port</label>
+        <div class="col-sm-10">
+          <div class="form-control">{{ product.shippingFees|currency_convert_format(product.currency.code) }}</div>
+        </div>
+      </div>
+      {# attributes #}
+      {% for attribute in attributes if attributes is not empty %}
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Attribut {{ attribute.name }}</label>
+          <div class="col-sm-10">
+            <div class="form-control">{{ attribute.value }}</div>
+          </div>
+        </div>
+      {% endfor %}
+      {# images #}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Photos</label>
+        <div class="col-sm-10">
+          <div class="form-control">
+            {% for image in product.images.toArray if product.images.toArray is not null %}
+              <a class="easyadmin-thumbnail" href="#" data-featherlight-close-on-click="anywhere"
+                 data-featherlight="#image{{ image.id }}">
+                <img src="{{ loadpic(image, 150, 100) }}">
+              </a>
+              <div class="easyadmin-lightbox" id="image{{ image.id }}">
+                <img src="{{ loadpic(image, 500, 600) }}">
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {# actions and pagination #}
+      <div class="form-group form-actions">
+        <div class="col-sm-10 col-sm-offset-2">
+          <form method="post" id="formAction" onsubmit="return confirmation()">
+            <div class="col-sm-3 pagination">
+              <input type="hidden" readonly name="id" value="{{ product.id }}" placeholder="">
+              <a href="{{ path('easyadmin', {'entity': 'Product', 'action': 'edit', 'id': product.id}) }}"
+                 class="btn btn-primary"><i class="fa fa-edit"></i> Editer
+              </a>
+              <button type="submit" name="status" value="published" class="btn btn-success">
+                <i class="fa fa-check"></i> Accepter
+              </button>
+              <button type="submit" name="status" value="refused" class="btn btn-danger">
+                <i class="fa fa-ban"></i> Refuser
+              </button>
+            </div>
+            {% if pager.getNbPages() > 1 %}
+              {{ pagerfanta(pager, "twitter_bootstrap3_translated", pagerfanta_opts) }}
+            {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>Aucun produit à modérer</p>
+
+  {% endif %}
+  <script>
+    function confirmation() {
+      return confirm("Cliquez sur OK pour confirmer");
+    }
+  </script>
 {% endblock %}
