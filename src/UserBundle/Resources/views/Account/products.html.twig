@@ -7,7 +7,7 @@
 {% block javascript_include %}{{ jsinit(['products']) }}{% endblock javascript_include %}
 
 {% block account_content %}
-  <h2>Mes produits</h2>
+  <h2 class="page-title">Mes produits</h2>
   {# flashbag #}
   {% for type, messages in app.session.flashbag.all() %}
     {% for message in messages %}

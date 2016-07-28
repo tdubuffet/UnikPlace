@@ -30,7 +30,7 @@ var Products = {
                 success: function (result) {
                     $("#row"+Products.id).hide();
                     $('#deleteProductModal').modal('hide');
-                    $('h2').after("<div class='alert alert-success'>Le produit a bien été supprimé</div>");
+                    $('.page-title').after("<div class='alert alert-success'>Le produit a bien été supprimé</div>");
                 },
                 error: function (result) {
                     if (result.status == 401) {
@@ -65,7 +65,7 @@ var Products = {
                     if (result['price']) {
                         $("#price"+Products.id).html(result['price']);
                         $('#updateProductModal').modal('hide');
-                        $('h2').after("<div class='alert alert-success'>Le prix du produit a bien été modifié</div>");
+                        $('.page-title').after("<div class='alert alert-success'>Le prix du produit a bien été modifié</div>");
                     }
                 },
                 error: function (result) {
