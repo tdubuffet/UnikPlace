@@ -104,7 +104,7 @@ easy_admin:
             edit:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
-                    - 'collection_id'
+                    - 'collection'
         City:
           class: LocationBundle\Entity\City
 

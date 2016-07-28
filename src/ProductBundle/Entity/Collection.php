@@ -34,7 +34,7 @@ class Collection
     private $categories;
 
     /**
-     * @ORM\OneToOne(targetEntity="CollectionImage")
+     * @ORM\OneToOne(targetEntity="CollectionImage", mappedBy="collection")
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
@@ -218,5 +218,13 @@ class Collection
     public function removeCategory(\ProductBundle\Entity\Category $category)
     {
         $this->categories->removeElement($category);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->name;
     }
 }

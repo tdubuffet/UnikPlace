@@ -47,6 +47,12 @@ class CollectionImage
     private $imageFile;
 
     /**
+     * @ORM\OneToOne(targetEntity="ProductBundle\Entity\Collection", inversedBy="image")
+     * @ORM\JoinColumn(name="collection", referencedColumnName="id")
+     */
+    private $collection;
+
+    /**
      * Get id
      *
      * @return int
