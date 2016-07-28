@@ -36,7 +36,8 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
             'category' => $product->getCategory()->getPath(),
             'price' => $product->getPrice(),
             'updated_at' => $product->getUpdatedAt()->getTimestamp(),
-            'county' => $product->getAddress()->getCity()->getCounty()->getId()
+            'county' => $product->getAddress()->getCity()->getCounty()->getId(),
+            'status' => $product->getStatus()->getName()
         ));
 
         // Import product attributes

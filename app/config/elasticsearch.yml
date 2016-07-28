@@ -1,0 +1,61 @@
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        noname:
+            client: default
+            index_name: noname_%kernel.environment%
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            custom_french_analyzer:
+                                type: custom
+                                tokenizer: letter
+                                filter: ["standard", "asciifolding", "lowercase", "french_stem", "stop_fr", "min_length_filter"]
+                            custom_analyzer:
+                                type: custom
+                                tokenizer: letter
+                                filter: ["standard", "asciifolding", "lowercase", "min_length_filter"]
+                            path_analyzer:
+                                type: custom
+                                tokenizer: path_hierarchy
+                                reverse: true
+                                filter: ["lowercase", "asciifolding"]
+                        filter:
+                            stop_fr:
+                                type: "stop"
+                                stopwords: ["l", "m", "t", "qu", "n", "s", "j", "d"]
+                            min_length_filter:
+                                type: length
+                                min: 3
+            types:
+                product:
+                    mappings:
+                        id:
+                            type: integer
+                        name:
+                            type: string
+                            boost: 3
+                            analyzer: custom_french_analyzer
+                        description:
+                            type: string
+                            boost: 1
+                            analyzer: custom_french_analyzer
+                        category:
+                            type: string
+                            analyzer: path_analyzer
+                        price:
+                            type: float
+                        updated_at:
+                            type: date
+                        status:
+                            type: string
+                    persistence:
+                        model_to_elastica_transformer:
+                            service: product.elastica.transformer
+                        model: ProductBundle\Entity\Product
+                        finder: ~
+                        provider: ~
+                        listener: ~
+                        driver: orm

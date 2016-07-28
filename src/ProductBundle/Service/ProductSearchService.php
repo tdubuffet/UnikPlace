@@ -50,6 +50,7 @@ class ProductSearchService
         $boolQuery = new \Elastica\Query\BoolQuery();
         $this->applyQuery($boolQuery, $params);
         $this->applyCategory($boolQuery, $params);
+        $this->applyStatus($boolQuery);
         $this->applyPrice($boolQuery, $params);
         $this->applyAttributes($boolQuery, $params);
         $this->applyCounty($boolQuery, $params);
@@ -244,6 +245,13 @@ class ProductSearchService
         }
         $order = isset($params['ord']) && in_array($params['ord'], ['asc', 'desc']) ? $params['ord'] : 'desc';
         $bool->addSort(array($field => array('order' => $order)));
+    }
+
+    private function applyStatus($boolQuery)
+    {
+        $fieldTerm = new \Elastica\Query\Terms();
+        $fieldTerm->setTerms('status', ['sold', 'published']);
+        $boolQuery->addMust($fieldTerm);
     }
 
 }

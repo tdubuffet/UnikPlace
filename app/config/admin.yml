@@ -1,0 +1,148 @@
+easy_admin:
+    site_name: 'NoName'
+    entities:
+        User:
+            class: UserBundle\Entity\User
+            list:
+                fields: ['username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'enabled']
+            edit:
+                fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin']
+            new:
+                fields: ['enabled', 'username', 'firstname', 'lastname', 'plainPassword', 'email', 'roles', 'lastLogin']
+        Category:
+            class: ProductBundle\Entity\Category
+            list:
+                fields: ['id', 'name', 'parent', 'slug', 'path']
+            new:
+                fields: ['name', 'parent']
+            edit:
+                fields: ['name', 'parent']
+        Currency:
+            class: ProductBundle\Entity\Currency
+        Status:
+            class: ProductBundle\Entity\Status
+        Product:
+            class: ProductBundle\Entity\Product
+            edit:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'category' }
+                    - { property: 'price' }
+                    - { property: 'currency' }
+                    - { property: 'status' }
+                    - { property: 'user' }
+                    - { property: 'images', type_options: { by_reference: false} }
+                    - { property: 'deliveries' }
+            new:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'category' }
+                    - { property: 'price' }
+                    - { property: 'currency' }
+                    - { property: 'status' }
+                    - { property: 'user' }
+                    - { property: 'images', type_options: { by_reference: false} }
+                    - { property: 'deliveries' }
+            list:
+                fields:
+                    ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'address']
+        Image:
+            class: ProductBundle\Entity\Image
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'imagePath', type: 'image', base_path: /images/products }
+            show:
+                fields:
+                    - { property: 'imagePath', type: 'image', base_path: /images/products }
+            new:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+            edit:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+                    - 'product'
+        Referential:
+            class: ProductBundle\Entity\Referential
+        ReferentialValue:
+            class: ProductBundle\Entity\ReferentialValue
+            new:
+                fields:
+                    - { property: 'value' }
+                    - { property: 'referentials', type_options: { by_reference: false} }
+            edit:
+                fields:
+                    - { property: 'value' }
+                    - { property: 'referentials', type_options: { by_reference: false} }
+        Attribute:
+            class: ProductBundle\Entity\Attribute
+        AttributeValue:
+            class: ProductBundle\Entity\AttributeValue
+        Collection:
+            class: ProductBundle\Entity\Collection
+            new:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'categories' }
+                    - { property: 'products' }
+                    - { property: 'image', type_options: { by_reference: false} }
+        CollectionImage:
+            class: ProductBundle\Entity\CollectionImage
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'imagePath', type: 'image', base_path: /images/collections }
+            show:
+                fields:
+                    - { property: 'imagePath', type: 'image', base_path: /images/collections }
+            new:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+            edit:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+                    - 'collection_id'
+        City:
+          class: LocationBundle\Entity\City
+
+        Delivery:
+          class: OrderBundle\Entity\Delivery
+          edit:
+              fields:
+                  - { property: 'name' }
+                  - { property: 'code' }
+          new:
+              fields:
+                  - { property: 'name' }
+                  - { property: 'code' }
+          list:
+              fields:
+                  - { property: 'name' }
+                  - { property: 'code' }
+
+
+    design:
+        menu:
+            - { label: 'Site web', route: 'homepage' }
+            - { label: 'Ecommerce' }
+            - { label: 'Modération', route: 'admin_moderate' }
+            - Product
+            - Image
+            - AttributeValue
+            - { label: 'Utilisateur' }
+            - User
+            - { label: 'Référentiel' }
+            - Referential
+            - ReferentialValue
+            - { label: 'Configuration' }
+            - Category
+            - Attribute
+            - Status
+            - Currency
+            - Delivery
+            - { label: 'Collection' }
+            - Collection
+            - CollectionImage

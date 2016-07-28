@@ -44,12 +44,10 @@ class CategoryController extends Controller
             throw $this->createNotFoundException('The category does not exist');
         }
 
-        $finder     = $this->get("fos_elastica.finder.noname.product");
-        $boolQuery  = new \Elastica\Query\Bool();
-        $fieldTerm  = new \Elastica\Query\Term();
-        $fieldTerm->setTerm('category', $path);
-        $boolQuery->addMust($fieldTerm);
-        $results = $finder->find($boolQuery);
+        $search = $this->get('product_bundle.product_search_service');
+        $results = $search->search([
+            'cat' => $category->getId()
+        ]);
 
         return [
             'category' => $category,
