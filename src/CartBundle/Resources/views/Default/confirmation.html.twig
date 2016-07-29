@@ -9,10 +9,25 @@
 <div class="main-wrapper">
   <div class="container">
     <div class="main">
+      <div class="row">
+        <div class="col-sm-6">
+          <h1 style="margin-bottom: 50px;">Confirmation de la commande</h1>
 
-      <h1>Confirmation de la commande</h1>
+          <p>Merci ! votre commande a bien été prise en compte.</p>
 
-      <div class="alert alert-success">Merci, votre commande a bien été prise en compte.</div>
+          <p>Votre commande est en attente de validation de la part du vendeur.</p>
+
+          <p>Vous recevrez une confirmation par email sous 48 heures.</p>
+
+          <p style="margin-top: 50px;">
+            <a href="{{ path('homepage') }}" class="btn btn-default">C'est terminé !</a>
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <img src="{{ asset('bundles/app/images/pinewood.jpg') }}" class="img-responsive" />
+        </div>
+      </div>
+
 
     </div><!-- .main -->
   </div><!-- .container -->
