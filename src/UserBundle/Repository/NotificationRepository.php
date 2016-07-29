@@ -19,7 +19,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository
             ->where('n.user = :user')
             ->setParameter('user', $user)
             ->orderBy('n.createdAt', 'DESC')
-            ->setMaxResults(10)
+            ->setMaxResults(6)
             ->getQuery()
             ->useResultCache(true, 3600, 'list_notification_by_user_' . $user->getId())
             ->getResult();
