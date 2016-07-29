@@ -1,0 +1,11 @@
+{% for notification in notifications %}
+  <div class="row-fluid notification clearfix {% if notification.read == false %}unactionned{% endif %}" data-href="{{ path('user_notification_request', { id: notification.id }) }}">
+    <div class="col-xs-1">
+        <i class="fa fa-shopping-cart"></i>
+    </div>
+    <div class="col-xs-11">
+      {{ notification.message|raw }}<br />
+      <div class="text-left date">{{ notification.createdAt|date('d/m/Y H:i') }}</div>
+    </div>
+  </div>
+{% endfor %}

@@ -2,68 +2,68 @@ parameters:
   notification:
       order_pending:
         message: "Vous avez une nouvelle commande concernant l'annonce #product_title#."
-        route: 'account_sell'
+        route: 'user_account_sale'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
 
       order_canceled:
         message: "Le vendeur a annulé la commande concernant l'annonce #product_title#. Vous allez être remboursé."
-        route: 'account_purchase'
+        route: 'user_account_purchase'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
 
       order_accepted:
         message: "Le vendeur a accepté la commande concernant l'annonce #product_title#."
-        route: 'account_purchase'
+        route: 'user_account_purchase'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
 
       order_disputed_open_buyer:
         message: "L'acheteur a ouvert un litige concernant l'annonce #product_title#."
-        route: 'account_purchase'
+        route: 'user_account_purchase'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
 
       order_disputed_open_seller:
         message: "L'acheteur a ouvert un litige concernant l'annonce #product_title#."
-        route: 'account_sell'
+        route: 'user_account_sale'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
 
       order_disputed_closed_buyer:
         message: "Le litige concernant l'annonce #product_title# est terminé."
-        route: 'account_purchase'
+        route: 'user_account_purchase'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
       order_disputed_closed_seller:
         message: "Le litige concernant l'annonce #product_title# est terminé."
-        route: 'account_sell'
+        route: 'user_account_sale'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
       order_done:
         message: "L'acheteur confirmé la bonne réception de sa commande concernant votre annonce #product_title#."
-        route: 'account_sell'
+        route: 'user_account_sale'
         params: ['product_title', 'order_id']
         routeParams:
-          - id: 'order_id'
+          id: 'order_id'
 
       order_done_wallet_transfer:
         message: "L'argent de la commande concernant l'annonce #product_title# est crédité sur votre porte-monnaie."
-        route: 'account_wallet'
+        route: 'user_account_wallet'
         params: ['product_title']
 
 

@@ -35,6 +35,36 @@ var Common = {
         });
 
         Common.mobileSkipLink();
+        Common.notificationInit();
+    },
+
+    notificationInit: function() {
+        var oneClick = false;
+
+        $("#notificationLink").click(function() {
+            $("#notificationContainer").fadeToggle(300);
+            $("#notificationLink .count").hide(300);
+
+            if (oneClick == false) {
+                $.getJSON( "/notification-unread");
+
+                oneClick = true;
+            }
+
+            return false;
+        });
+
+        $('.notification').click(function() {
+
+            var href = $(this).data('href');
+
+            window.location = href;
+
+        });
+
+        $(document).click(function() {
+            $("#notificationContainer").hide();
+        });
     },
 
     mobileSkipLink: function(e){

@@ -10,6 +10,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 /**
  * @ORM\Entity
  * @ORM\Table(name="user_notification")
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\NotificationRepository")
  */
 class Notification
 {
@@ -43,6 +44,8 @@ class Notification
      * @ORM\Column(name="data", type="object", nullable=false)
      */
     private $data;
+
+    private $message;
 
 
     /**
@@ -149,5 +152,15 @@ class Notification
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
     }
 }
