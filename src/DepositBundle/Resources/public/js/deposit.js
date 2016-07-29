@@ -305,13 +305,12 @@ var Deposit = {
     },
 
     loadPriceStep: function () {
+        if ($('.valued-amount').length > 0) {
+            Deposit.updateFinalAmount();
+        }
+
         $('#product-price').blur(function() {
-            var amount = $('.valued-amount');
-            console.log(($(this).val() * (100 - amount.data('rate')) / 100));
-            var valueAmount = Math.round(($(this).val() * (100 - amount.data('rate')) / 100) - amount.data('fee'));
-            if (valueAmount <= 0) valueAmount = 0;
-            valueAmount = valueAmount.toFixed(2);
-            amount.text(valueAmount + ' €');
+            Deposit.updateFinalAmount();
         });
 
         $("#price-form").validate({
@@ -325,6 +324,14 @@ var Deposit = {
                 },
             }
         });
+    },
+
+    updateFinalAmount: function() {
+        var amount = $('.valued-amount');
+        var valueAmount = Math.round(($('#product-price').val() * (100 - amount.data('rate')) / 100) - amount.data('fee'));
+        if (valueAmount <= 0) valueAmount = 0;
+        valueAmount = valueAmount.toFixed(2);
+        amount.text(valueAmount + ' €');
     },
 
     loadShippingValidation: function () {

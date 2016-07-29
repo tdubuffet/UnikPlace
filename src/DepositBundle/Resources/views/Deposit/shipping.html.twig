@@ -63,7 +63,7 @@
             <div class="text-center">
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="by_hand" value="1"> J'accepte la remise en main propre
+                  <input type="checkbox" name="by_hand" value="1" {% if app.session.get('deposit').by_hand is not defined or (app.session.get('deposit').by_hand is defined and app.session.get('deposit').by_hand == '1') %}checked{% endif %}> J'accepte la remise en main propre
                 </label>
               </div>
             </div>
@@ -75,17 +75,19 @@
               </button>
             </p>
 
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <select type="text" name="address_id" class="form-control">
-                    {% for address in addresses %}
-                      <option value="{{ address.id }}">{{ address.name }} - {{ address.street }} {{ address.getCity.zipcode }} {{ address.getCity.name }}</option>
-                    {% endfor %}
-                  </select>
+            {% if addresses|length > 0 %}
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <select type="text" name="address_id" class="form-control">
+                      {% for address in addresses %}
+                        <option value="{{ address.id }}">{{ address.name }} - {{ address.street }} {{ address.getCity.zipcode }} {{ address.getCity.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
+            {% endif %}
 
             <div class="text-center">
               <input type="submit" class="btn btn-default" value="Etape suivante" />

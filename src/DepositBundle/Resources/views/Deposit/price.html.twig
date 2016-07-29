@@ -40,13 +40,13 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label class="required">Prix de vente</label>
-                  <input type="number" name="price" id="product-price" class="form-control" min="1" placeholder="Prix de vente sur le site">
+                  <input type="number" name="price" id="product-price" class="form-control" min="1" placeholder="Prix de vente sur le site" value="{% if app.session.get('deposit').price is defined %}{{ app.session.get('deposit').price }}{% endif %}">
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>Prix du produit neuf</label>
-                  <input type="number" name="original_price" class="form-control" min="1" placeholder="Indiquez le prix d'achat">
+                  <input type="number" name="original_price" class="form-control" min="1" placeholder="Indiquez le prix d'achat" value="{% if app.session.get('deposit').original_price is defined %}{{ app.session.get('deposit').original_price }}{% endif %}">
                 </div>
               </div>
             </div>
@@ -57,7 +57,7 @@
 
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="allow_offer" value="1"> J'accepte la négociation du prix de l'article
+                  <input type="checkbox" name="allow_offer" value="1" {% if app.session.get('deposit').allow_offer is not defined or (app.session.get('deposit').allow_offer is defined and app.session.get('deposit').allow_offer == '1') %}checked{% endif %}> J'accepte la négociation du prix de l'article
                 </label>
               </div>
             </div>
