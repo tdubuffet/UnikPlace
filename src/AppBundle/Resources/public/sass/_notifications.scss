@@ -3,7 +3,8 @@
 #notificationLi
 {
   position:relative;
-  z-index: 9999;
+  z-index: 1;
+  height: 40px;
 }
 
 #notificationContainer {
@@ -42,6 +43,11 @@
   max-height: 400px;
   overflow-y: auto;
 }
+
+.notification-page .notification{
+  display: block;
+}
+
 .notification-page .notification b,
 #notificationsBody .notification b{
   color: #2D3E58;

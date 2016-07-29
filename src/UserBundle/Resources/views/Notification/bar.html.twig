@@ -1,5 +1,5 @@
 <a href="#" id="notificationLink" title="Mes notifications" class="icon-header skip-link">
-  <span class="total"><strong class="fa fa fa-bell" aria-hidden="true"></strong><span class="count-numb">{{ count }}</span></span>
+  <span class="total"><strong class="fa fa fa-bell" aria-hidden="true"></strong>{% if count > 0 %}<span class="count-numb">{{ count }}</span>{% endif %}</span>
 </a>
 <div id="notificationContainer" class="dropdown-menu">
   <div id="notificationTitle">Notifications</div>
@@ -16,5 +16,5 @@
       </div>
     {% endfor %}
   </div>
-  <div id="notificationFooter"><a href="">Voir toutes les notifications</a></div>
+  <div id="notificationFooter"><a href="{{ path('user_notification_list') }}" title="Voir toutes les notifications">Voir toutes les notifications</a></div>
 </div>

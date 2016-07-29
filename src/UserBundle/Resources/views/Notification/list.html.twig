@@ -6,21 +6,23 @@
 
 {% block account_content %}
 
-  <h2>Mes notifications</h2>
+  <div class="notification-page">
+    <h2>Mes notifications</h2>
 
-  {% for notification in results %}
-    <div class="row-fluid notification clearfix" data-redirect="{{ notification.id }}">
-      <div class="col-xs-1">
-          <i class="fa fa-2x fa-fw fa-shopping-cart"></i>
-      </div>
-      <div class="col-xs-11">
-        {{ notification.getMessage()|raw }}<br/>
-        <div class="text-left date">{{ notification.createdAt|date('d/m/Y H:i') }}</div>
-      </div>
-    </div>
-  {% endfor %}
+    {% for notification in results %}
+      <a class="row-fluid notification clearfix {% if notification.read == false %}unactionned{% endif %}" href="{{ path('user_notification_request', {id: notification.id}) }}">
+        <div class="col-xs-1">
+            <i class="fa fa-2x fa-fw fa-shopping-cart"></i>
+        </div>
+        <div class="col-xs-11">
+          {{ notification.getMessage()|raw }}<br/>
+          <div class="text-left date">{{ notification.createdAt|date('d/m/Y H:i') }}</div>
+        </div>
+      </a>
+    {% endfor %}
 
-  {% if results.getNbPages() > 1 %}
-    {{ pagerfanta(results, "twitter_bootstrap3_translated", pagerfanta_opts) }}
-  {% endif %}
+    {% if results.getNbPages() > 1 %}
+      {{ pagerfanta(results, "twitter_bootstrap3_translated", pagerfanta_opts) }}
+    {% endif %}
+  </div>
 {% endblock %}

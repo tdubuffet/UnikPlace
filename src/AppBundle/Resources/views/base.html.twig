@@ -248,7 +248,7 @@
                         <div class="header-account-action">
                           <div class="account-container">
                             <a href="{{ path('fos_message_inbox') }}" title="Ma messagerie" class="icon-header skip-link">
-                              <span class="total"><strong class="fa fa fa-envelope" aria-hidden="true"></strong></span>
+                              <span class="total"><strong class="fa fa fa-envelope" aria-hidden="true"></strong>{% if fos_message_nb_unread() > 0 %}<span class="count-numb">{{ fos_message_nb_unread() }}</span>{% endif %}</span>
                             </a>
                           </div>
                         </div>
