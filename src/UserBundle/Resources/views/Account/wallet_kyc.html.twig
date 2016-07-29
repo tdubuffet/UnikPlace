@@ -18,8 +18,61 @@
   <div class="alert alert-success">{{ flashMessage }}</div>
   {% endfor %}
 
-  {{ form_errors(form) }}
+  <div class="row">
 
+    <div class="col-md-12">
+
+      <table class="classifieds-table table table-hover">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for document in documents %}
+          <tr>
+            <td>{{ document.CreationDate|date('d/m/Y H:i') }}</td>
+            <td>
+              {% if document.Type == "IDENTITY_PROOF" %}
+              Carte d'identité {% if app.user.getPro() == true %} de la personne légale{% endif %}
+              {% elseif document.Type == "REGISTRATION_PROOF" %}
+              Extrait KBIS
+              {% elseif document.Type == "ARTICLES_OF_ASSOCIATION" %}
+              Mémo de l'entreprise
+              {% elseif document.Type == "SHAREHOLDER_DECLARATION" %}
+              Déclaration d'actionnaire
+              {% endif %}
+            </td>
+            <td>
+              {% if document.Status == "CREATED" %}
+              <span class="label label-primary">Créé</span>
+              {% elseif document.Status == "VALIDATION_ASKED" %}
+              <span class="label label-info">Demande de validation en cours</span>
+              {% elseif document.Status == "VALIDATED" %}
+              <span class="label label-success">Validé</span>
+              {% elseif document.Status == "REFUSED" %}
+              <span class="label label-danger">Refusé</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="3" class="text-center">Aucun document transmis</td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  {% if documents is empty %}
+  {{ form_errors(form) }}
   {{ form(form) }}
+  {% endif %}
 
 {% endblock %}

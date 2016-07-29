@@ -510,4 +510,9 @@ class MangoPayService
 
         return $this->mangoPayApi->Users->Update($mangoUser);
     }
+
+    public function getListDocumentsByUserId($userId)
+    {
+        return $this->mangoPayApi->Users->GetKycDocuments($userId);
+    }
 }

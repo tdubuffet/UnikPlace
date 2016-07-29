@@ -456,6 +456,8 @@ class AccountController extends Controller
             throw new \Exception('Bad person type for current mangopay user.');
         }
 
+        $documents = $this->get('mangopay_service')->getListDocumentsByUserId($mangopayUser->Id);
+
         $form->handleRequest($request);
         if ($form->isValid()) {
             if ($mangopayUser->PersonType == 'NATURAL') {
@@ -475,7 +477,7 @@ class AccountController extends Controller
             return $this->redirectToRoute('user_account_wallet_kyc');
         }
 
-        return ['form' => $form->createView()];
+        return ['form' => $form->createView(), 'documents' => $documents];
     }
 
 }
