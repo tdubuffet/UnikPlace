@@ -134,3 +134,12 @@ Then enable it by running
 Reload the webserver
 
     sudo systemctl restart apache2
+
+
+### Cron task
+
+    # m h  dom mon dow   command
+    0 1,13 * * * php bin/console recall:order_pending
+    0 2 * * * php bin/console check:order_pending
+    0 0 */2 * * php bin/console recall:order_accepted 
+

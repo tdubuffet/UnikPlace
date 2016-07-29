@@ -317,9 +317,9 @@ class MangoPayService
 
     /**
      * Refound Pay In
-     * @param $userId MangoPay User Id
-     * @param $PayInId MangoPay PayIn Id
-     * @param $amount Amount Integer
+     * @param $userId MangoPay\User Id
+     * @param $PayInId MangoPay\PayIn|string Id
+     * @param $amount int Integer
      * @return mixed
      */
     public function refundOrder($userMangoPayId, $PayInId, $amount)
@@ -338,10 +338,8 @@ class MangoPayService
 
         $result = $this->mangoPayApi->PayIns->CreateRefund($PayInId, $Refund);
 
-
-        $this->addTrace($result,
-            '[REFUND] Refund order | PayInId => ' . $PayInId
-        );
+        /** TODO fix by creating a logger of remove */
+//        $this->addTrace($result,'[REFUND] Refund order | PayInId => ' . $PayInId);
 
 
         return $result;

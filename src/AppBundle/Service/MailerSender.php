@@ -73,6 +73,16 @@ class MailerSender
         $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
     }
 
+    public function sendAcceptedOrderToSellerEmailMessage(Order $order)
+    {
+        $template = 'OrderBundle:email:recall_order_accepted.email.twig';
+        $product = $order->getProduct();
+        $seller = $product->getUser();
+        $orderUrl = $this->router->generate('user_account_sale', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['order' => $order, 'product' => $product, 'user' => $seller, 'orderUrl' => $orderUrl];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
+    }
+
     public function sendAcceptedOrderToBuyerEmailMessage(Order $order)
     {
         $template = 'OrderBundle:email:accepted.email.twig';

@@ -64,7 +64,7 @@ services:
         arguments: ['@mailer', '@router', '@twig', %mailer_sender%]
 
     order_listener:
-        class: ProductBundle\Listener\OrderListener
+        class: OrderBundle\Listener\OrderListener
         arguments: ['@service_container']
 
     product_bundle.category_service:

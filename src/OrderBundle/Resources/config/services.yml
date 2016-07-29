@@ -1,7 +1,7 @@
 services:
     order_service:
         class: OrderBundle\Service\OrderService
-        arguments: ['@doctrine.orm.entity_manager', '@lexik_currency.converter', '@event_dispatcher']
+        arguments: ['@doctrine.orm.entity_manager', '@lexik_currency.converter', '@event_dispatcher', '@mangopay_service']
     order.order_events_listener:
         class: OrderBundle\EventListener\EmailOrderEventsListener
         arguments: ['@mailer_sender']

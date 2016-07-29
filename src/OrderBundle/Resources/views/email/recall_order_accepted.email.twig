@@ -1,0 +1,17 @@
+{% block subject %}Vente {{ product.name }}{% endblock %}
+
+{% block body_text %}
+  {% autoescape false %}
+    Bonjour {{ user.firstname }} !
+
+    Votre produit {{ product.name }} doit être envoyé à l'acheteur sous 15 jours sans quoi la commande sera annulée.
+    Vous pouvez obtenir plus d'informations sur cette commande en cliquant sur le lien suivant {{ orderUrl }}
+
+    A bientôt,
+    L'équipe
+  {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+  {% include 'OrderBundle:email:recall_order_accepted.html.twig' %}
+{% endblock %}

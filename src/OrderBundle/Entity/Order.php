@@ -350,10 +350,13 @@ class Order
 
     /**
      * @param mixed $mangopay_payin_id
+     * @return Order
      */
     public function setMangopayPayinId($mangopay_payin_id)
     {
         $this->mangopay_payin_id = $mangopay_payin_id;
+
+        return $this;
     }
 
     /**
@@ -382,10 +385,13 @@ class Order
 
     /**
      * @param mixed $mangopay_refund_id
+     * @return Order
      */
     public function setMangopayRefundId($mangopay_refund_id)
     {
         $this->mangopay_refund_id = $mangopay_refund_id;
+
+        return $this;
     }
 
     /**
