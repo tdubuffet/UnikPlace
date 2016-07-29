@@ -32,8 +32,20 @@ class OrderListener
             $methodName = $request->get('action');
 
             if(method_exists($this, $methodName)) {
-                $this->$methodName($request, $order);
+
+                try {
+
+                    $this->$methodName($request, $order);
+
+                } catch(\Exception $e) {
+
+                    $this->container->get('logger')->error('MANGOPAY - Action: ' . $methodName . ' - Message: ' . $e->getMessage() . ' - Trace: ' . $e->getTraceAsString());
+                }
+
+                return true;
             }
+
+            return false;
 
         }
 
