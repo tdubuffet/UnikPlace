@@ -73,7 +73,27 @@
     <p>* Champs obligatoires</p>
 
     <p><input type="submit" class="btn btn-primary" value="{{ 'profile.edit.submit'|trans }}" /></p>
+    <button type="button" class="btn btn-link btn-xs pull-right" title="Supprimer mon compte"  data-toggle="modal" data-target="#removeAccount">Supprimer mon compte</button>
 
     {{ form_widget(form._token) }}
   {{ form_end(form, {'render_rest': false}) }}
+
+
+  <div class="modal fade" id="removeAccount" tabindex="-1" role="dialog" aria-labelledby="removeAccount">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="removeAccount">Supprimer mon compte</h4>
+        </div>
+        <div class="modal-body">
+          Confirmez-vous le suppression de votre compte ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+          <a href="{{ path('user_account_remove') }}" class="btn btn-danger">Supprimer mon compte</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

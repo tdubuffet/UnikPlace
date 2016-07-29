@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use UserBundle\Entity\User;
 use UserBundle\Form\PreferenceFormType;
 use UserBundle\Form\RatingType;
 use UserBundle\Form\MangopayKYCNaturalType;
@@ -478,6 +479,36 @@ class AccountController extends Controller
         }
 
         return ['form' => $form->createView(), 'documents' => $documents];
+    }
+
+    /**
+     * @Route("/supprimer-mon-compte", name="user_account_remove")
+     * @param Request $request
+     */
+    public function removeAction(Request $request)
+    {
+        $products = $this->getDoctrine()
+            ->getRepository('ProductBundle:Product')
+            ->findByUser($this->getUser());
+
+        $status = $this->getDoctrine()
+            ->getRepository('ProductBundle:Status')
+            ->findOneByName('deleted');
+
+        foreach($products as $product) {
+            $product->setStatus($status);
+
+            $this->getDoctrine()->getManager()->persist($product);
+        }
+
+
+        $user = $this->getUser();
+        $user->setLocked(true);
+
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('fos_user_security_logout');
     }
 
 }
