@@ -338,10 +338,6 @@ class MangoPayService
 
         $result = $this->mangoPayApi->PayIns->CreateRefund($PayInId, $Refund);
 
-        /** TODO fix by creating a logger of remove */
-//        $this->addTrace($result,'[REFUND] Refund order | PayInId => ' . $PayInId);
-
-
         return $result;
 
     }
