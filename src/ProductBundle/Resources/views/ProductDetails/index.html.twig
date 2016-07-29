@@ -1,7 +1,7 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block title %}{{ product.name }}{% endblock %}
-{% block description %}{{ product.name }} sur Noname{% endblock %}
+{% block description %}{{ product.name }} sur {{ siteName }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['product']) }}{% endblock javascript_include %}
 

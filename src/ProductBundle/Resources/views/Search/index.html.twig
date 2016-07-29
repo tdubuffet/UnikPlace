@@ -2,7 +2,7 @@
 
 {% block title %}{% if category is defined %}Catégorie {{ category.name }}{% else %}Résultats trouvés{% endif %}{% endblock %}
 
-{% block description %}Tous les produits premium sont sur Noname{% endblock %}
+{% block description %}Tous les produits premium sont sur {{ siteName }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['search']) }}{% endblock javascript_include %}
 

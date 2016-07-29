@@ -1,7 +1,7 @@
 {% extends "UserBundle::base.html.twig" %}
 
 {% block title %}Commande n°{{ order.id }}{% endblock %}
-{% block description %}Commande n°{{ order.id }} sur Noname{% endblock %}
+{% block description %}Commande n°{{ order.id }} sur {{ siteName }}{% endblock %}
 {% block mainClass %}order{% endblock %}
 
 
@@ -45,7 +45,7 @@
         <h3 class="order-summary-title">Nouvelle commande</h3>
         <p>Une nouvelle commande vient d'être effectuée !<br />Il s'agit d'une commande concernant le produit suivant : <a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a></p>
         {% if order.deliveryType.code == 'tracked_letter' or order.deliveryType.code == 'parcel' %}
-          <p>Les frais de port sont remboursés par NoName.</p>
+          <p>Les frais de port sont remboursés par {{ siteName }}.</p>
         {% endif %}
         <p>Tous les détails de la vente sont disponibles ci-dessous.</p>
       </div>
@@ -105,7 +105,7 @@
   {% elseif order.status == 'disputed' %}
     <div class="order-summary">
       <h3 class="order-summary-title">Litige actuellement en cours</h3>
-      <p>L'équipe de NoName va intervenir sous peu pour essayer de régler votre problème.</p>
+      <p>L'équipe de {{ siteName }} va intervenir sous peu pour essayer de régler votre problème.</p>
     </div>
   {% elseif order.status == 'canceled' %}
     <div class="order-summary">
@@ -121,7 +121,7 @@
     <div class="order-summary">
       <h3 class="order-summary-title">Commande bloquée</h3>
       La commande est bloquée suite à une erreur technique.
-      <p><a target="_blank" href="{{path('contact')}}">Contacter NoName</a> </p>
+      <p><a target="_blank" href="{{path('contact')}}">Contacter {{ siteName }}</a> </p>
     </div>
   {% endif %}
 
@@ -293,7 +293,7 @@
             <div class="modal-body">
 
             {% if order.status =="accepted" %}
-              Après l'ouverture de votre litige, l'équipe de modération NoName vous contactera pour trouver rapidement une solution.
+              Après l'ouverture de votre litige, l'équipe de modération {{ siteName }} vous contactera pour trouver rapidement une solution.
 
               <input type="hidden" name="action" value="disputeOrder" />
             {% else %}

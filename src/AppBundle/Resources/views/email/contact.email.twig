@@ -3,7 +3,7 @@
 {% block body_text %}
   {% autoescape false %}
     Bonjour,
-    Vous avez recu un nouveau message depuis le formulaire de contact de NONAME.
+    Vous avez recu un nouveau message depuis le formulaire de contact de {{ siteName }}.
     Objet : {{ subject is defined ? subject : 'not set' }}
     Nom : {{ name }} ({{ is_logged_username is defined ? 'Utilisateur inscrit' : 'Utilisateur non inscrit ou non authentifié' }})
     Email : {{ email }}

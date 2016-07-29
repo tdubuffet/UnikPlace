@@ -6,7 +6,7 @@
 
   <div class="row">
     <div class="col-md-6 col-xs-12 col-center-block">
-      <h1 class="h2">Contacter l'équipe Noname</h1>
+      <h1 class="h2">Contacter l'équipe {{ siteName }}</h1>
       {# flashbag #}
       {% for type, messages in app.session.flashbag.all() %}
         {% for message in messages %}

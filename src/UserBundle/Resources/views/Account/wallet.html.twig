@@ -1,7 +1,7 @@
 {% extends "UserBundle::base.html.twig" %}
 
 {% block title %}Mon portefeuille{% endblock %}
-{% block description %}Mon portefeuille sur Noname{% endblock %}
+{% block description %}Mon portefeuille sur {{ siteName }}{% endblock %}
 
 
 {% block account_content %}
@@ -88,7 +88,7 @@
         <div class="modal-body">
           {% if  wallet.Balance.Amount > 0 %}
             <div class="text-center">
-              <h5>Découvrez le montant de votre argent disponible<br />sur votre compte NoName.</h5>
+              <h5>Découvrez le montant de votre argent disponible<br />sur votre compte {{ siteName }}.</h5>
               <p class="wallet-amount">{{ (wallet.Balance.Amount/100)|number_format(2, ',', ' ') }} €</p>
               <p>Prêt à faire le virement sur votre compte bancaire ?</p>
               <p><a href="{{ path('user_account_wallet_tranfer') }}" class="btn btn-important btn-lg btn-transfer-confirm" data-loading-text="Chargement en cours..."><i class="fa fa-credit-card"></i> Demande de virement</a></p>

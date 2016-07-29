@@ -67,6 +67,7 @@ twig:
     globals:
         pagerfanta_opts:
             dots_message:     ‘ … ‘
+        siteName: "%site_name%"
 
 
 # Doctrine Configuration

@@ -1,7 +1,7 @@
 {% extends "UserBundle::base.html.twig" %}
 
 {% block title %}Mon compte{% endblock %}
-{% block description %}Mon compte sur Noname{% endblock %}
+{% block description %}Mon compte sur {{ siteName }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['profile']) }}{% endblock javascript_include %}
 

@@ -1,7 +1,7 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block title %}Ma wishlist{% endblock %}
-{% block description %}Ma wishlist sur Noname{% endblock %}
+{% block description %}Ma wishlist sur {{ siteName }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['wishlist']) }}{% endblock javascript_include %}
 

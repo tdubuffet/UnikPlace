@@ -19,7 +19,7 @@ class PreferenceFormType extends AbstractType
                 'required' => false
             ))
             ->add('newsletter', CheckboxType::class, array(
-                'label'    => 'Recevoir des emails d\'informations de NoName',
+                'label'    => 'Recevoir des emails d\'informations du site',
                 'required' => false
             ))
             ->add('submit', SubmitType::class, array(

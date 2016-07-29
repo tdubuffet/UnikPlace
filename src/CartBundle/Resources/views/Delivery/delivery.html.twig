@@ -1,7 +1,7 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block title %}Mon panier{% endblock %}
-{% block description %}Mon panier sur Noname{% endblock %}
+{% block description %}Mon panier sur {{ siteName }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['addAddress']) }}{% endblock javascript_include %}
 

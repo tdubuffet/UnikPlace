@@ -1,7 +1,7 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block title %}Mot de passe oublié{% endblock %}
-{% block description %}Réinitialiser son mot de passe sur Noname{% endblock %}
+{% block description %}Réinitialiser son mot de passe sur {{ siteName }}{% endblock %}
 
 {% block fos_user_content %}
 {% include "FOSUserBundle:Resetting:request_content.html.twig" %}
