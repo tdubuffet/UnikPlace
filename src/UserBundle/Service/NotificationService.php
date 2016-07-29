@@ -148,6 +148,7 @@ class NotificationService
     public function invalidateCache($id)
     {
         $this->entityManager->getConfiguration()->getResultCacheImpl()->delete('list_notification_by_user_' . $id);
+        $this->entityManager->getConfiguration()->getResultCacheImpl()->delete('count_notification_by_user_' . $id);
     }
 
 }

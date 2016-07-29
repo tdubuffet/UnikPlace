@@ -26,4 +26,26 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function countNotificationUnreadByUserCache(User $user)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('count(n.id)')
+            ->where('n.user = :user')
+            ->andWhere('n.read = :read')
+            ->setParameter('user', $user)
+            ->setParameter('read', false)
+            ->getQuery()
+            ->useResultCache(true, 3600, 'count_notification_by_user_' . $user->getId())
+            ->getSingleScalarResult();
+    }
+
+    public function findAllByUser(User $user)
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('n.createdAt', 'DESC')
+            ->getQuery();
+    }
+
 }

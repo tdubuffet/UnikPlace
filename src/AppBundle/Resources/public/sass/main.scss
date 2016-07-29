@@ -786,6 +786,8 @@ button.button span {
   margin-right:10px;
   color:#181818;
 }
+
+.count-numb,
 .header-wrapper .header-container .header-maincart .cart-container .icon-cart-header span.total .numb {
   background-color:#ebd570;
   border-radius:100%;
@@ -796,6 +798,18 @@ button.button span {
   line-height:20px;
   margin-left:10px;
 }
+
+.count-numb{
+  position: relative;
+  top: -16px;
+  float: left;
+  height: 15px;
+  width: 15px;
+  font-size: 8px;
+  line-height: 15px;
+  left: 8px;
+}
+
 .header-wrapper .header-container .header-maincart .cart-container .cart-wrapper {
   padding:0;
   z-index:9999;

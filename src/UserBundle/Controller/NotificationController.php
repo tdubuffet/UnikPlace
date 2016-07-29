@@ -26,22 +26,25 @@ use UserBundle\Form\RatingType;
  * Class NotificationController
  * @package UserBundle\Controller
  *
- * @Route("/notification")
  */
 class NotificationController extends Controller
 {
 
     /**
-     * @Route("/bar", name="user_notification_bar")
      * @Template("UserBundle:Notification:bar.html.twig")
      */
     public function notificationBarAction()
     {
 
         $notifications = [];
+        $count = 0;
 
         if ($this->getUser()) {
             $notifications = $this->getDoctrine()->getRepository('UserBundle:Notification')->getLastNotificationByUserCache(
+                $this->getUser()
+            );
+
+            $count = $this->getDoctrine()->getRepository('UserBundle:Notification')->countNotificationUnreadByUserCache(
                 $this->getUser()
             );
 
@@ -49,12 +52,13 @@ class NotificationController extends Controller
         }
 
         return [
-            'notifications' => $notifications
+            'notifications' => $notifications,
+            'count' => $count
         ];
     }
 
     /**
-     * @Route("/{id}", name="user_notification_request")
+     * @Route("/notification/{id}", name="user_notification_request")
      */
     public function routerNotificationAction(Request $request, Notification $notification)
     {
@@ -68,6 +72,29 @@ class NotificationController extends Controller
 
         return $this->redirectToRoute($routeParams['route'], $routeParams['params']);
 
+    }
+
+    /**
+     * @Route("/compte/notifications", name="user_notification_list")
+     * @Template("UserBundle:Notification:list.html.twig")
+     */
+    public function listAction(Request $request)
+    {
+
+        $query = $this->getDoctrine()->getRepository('UserBundle:Notification')->findAllByUser($this->getUser());
+
+        $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($query));
+        $pagerfanta->setMaxPerPage(10);
+
+        try {
+            $pagerfanta->setCurrentPage($request->get('page', 1));
+        } catch(NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return [
+            'results' => $pagerfanta
+        ];
     }
 
 }
