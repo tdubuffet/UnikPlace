@@ -148,7 +148,7 @@ var Product = {
                     },
                     error: function(result) {
                         if (result.status == 401) {
-                            window.location.href = Routing.generate('fos_user_security_login');
+                            window.location.href = Routing.generate('fos_user_security_login') + '?redirect_to=' + window.location.href ;;
                         }
                     }
                 });

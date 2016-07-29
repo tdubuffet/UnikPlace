@@ -18,7 +18,6 @@ var Cart = {
                 success: function (result) {
                     row.remove();
                     var total = $('span.numb.main-numb');
-                    console.log(result);
                     $('h1.title-h1').after("<div class='alert alert-success'>Le produit a bien été retiré du panier</div>");
                     $('span.product').html(result['prices']['product']);
                     $('span.delivery').html(result['prices']['delivery']);
@@ -28,7 +27,8 @@ var Cart = {
                 },
                 error: function (result) {
                     if (result.status == 401) {
-                        window.location.href = Routing.generate('fos_user_security_login');
+                        alert('test');
+                        window.location.href = Routing.generate('fos_user_security_login') + '?redirect_to=' + window.location.href ;
                     }
                 }
             });
