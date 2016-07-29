@@ -328,10 +328,14 @@ class DepositController extends Controller
                             }
                             if ($request->get($field) < 30) {
                                 $deposit['delivery']['codes'][] = 'parcel';
+                            } elseif ($request->get($field) >= 30 && (!$request->get('shipping_fees') || empty($request->get('shipping_fees')))) {
+                                $errors[] = "Le champ frais de port doit être renseigné.";
                             }
                             $deposit['delivery'][$field] = ($request->get($field) * 1000); // transform Kg to g
                         } elseif ($field == 'shipping_fees') {
-                            throw new \Exception('Shipping fees cannot be lower than 1.00');
+                            if ($request->get($field) < 1) {
+                                throw new \Exception('Shipping fees cannot be lower than 1.00');
+                            }
                         } else {
                             $deposit['delivery'][$field] = $request->get($field);
                         }

@@ -335,6 +335,14 @@ var Deposit = {
     },
 
     loadShippingValidation: function () {
+        $('#product-weight').blur(function() {
+            if ($(this).val() >= 30) {
+                $('input[name="shipping_fees"]').rules("add", "required");
+            } else {
+                $('input[name="shipping_fees"]').rules("remove", "required");
+            }
+        });
+
         $("#shipping-form").validate({
             rules: {
                 "weight": {
@@ -342,9 +350,9 @@ var Deposit = {
                     number: true,
                 },
                 "shipping_fees": {
-                    number: true
+                    number: true,
                 }
-            },
+            }
         });
 
         $("#add-address-form").validate({
