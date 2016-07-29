@@ -38,8 +38,8 @@
           </label>
         </div>
 
-        {% if app.request.get('redirect_to') %}
-          <input type="hidden" name="redirect_to" value="{{ app.request.get('redirect_to')  }}" />
+        {% if app.request.get('redirect_to') and redirectToRelative(app.request.get('redirect_to')) %}
+          <input type="hidden" name="redirect_to" value="{{ redirectToRelative(app.request.get('redirect_to'))  }}" />
         {% endif %}
         <p>* Champs obligatoires</p>
 

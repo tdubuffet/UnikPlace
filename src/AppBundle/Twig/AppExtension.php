@@ -20,6 +20,7 @@ class AppExtension extends \Twig_Extension
         return array(
             'jsinit' => new \Twig_SimpleFunction('jsinit', array($this, 'jsInitFunction'), array('is_safe' => array('html'))),
             'loadpic' => new \Twig_SimpleFunction('loadpic', array($this, 'loadPicFunction'), array('is_safe' => array('html'))),
+            'redirectToRelative' => new \Twig_SimpleFunction('redirectToRelative', array($this, 'parseUrl'))
         );
     }
 
@@ -65,6 +66,23 @@ class AppExtension extends \Twig_Extension
         }
 
         return $path;
+    }
+
+    public function parseUrl($url)
+    {
+        $parse = parse_url($url);
+
+
+        if (!isset($parse['path'])) {
+            return false;
+        }
+
+        $redirectUri = $parse['path'];
+
+        if (isset($parse['query'])) {
+            $redirectUri .= $parse['query'];
+        }
+        return $redirectUri;
     }
 
     public function getName()
