@@ -1,0 +1,16 @@
+{% block subject %}Validation de votre identité bancaire{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ user.firstname }},
+
+Le document "{{ type }}" concernant votre identité bancaire a été validé.
+Vous pouvez dés à présent, valider vos commandes en attente ou effectuer des retraits sur votre compte.
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
+
+
+

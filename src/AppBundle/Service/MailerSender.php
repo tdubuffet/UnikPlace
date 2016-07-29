@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use ProductBundle\Entity\Product;
 use MessageBundle\Entity\Message;
 use OrderBundle\Entity\Order;
+use UserBundle\Entity\User;
 
 class MailerSender
 {
@@ -145,6 +146,20 @@ class MailerSender
         // Admin
         $context = ['order' => $order, 'product' => $product, 'context' => 'admin'];
         $this->sendMessage($template, $context, $this->parameters['from_email'], $this->parameters['contact_email']);
+    }
+
+    public function sendKYCValidatedEmailMessage(User $user, $type)
+    {
+        $template = 'UserBundle:email:kyc_validated.email.twig';
+        $context = ['user' => $user, 'type' => $type];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $user->getEmail());
+    }
+
+    public function sendKYCFailedEmailMessage(User $user, $type)
+    {
+        $template = 'UserBundle:email:kyc_failed.email.twig';
+        $context = ['user' => $user, 'type' => $type];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $user->getEmail());
     }
 
     private function sendMessage($templateName, $context, $fromEmail, $toEmail)

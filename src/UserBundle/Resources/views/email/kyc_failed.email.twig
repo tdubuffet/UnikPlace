@@ -1,0 +1,17 @@
+{% block subject %}Validation de votre identité bancaire{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ user.firstname }},
+
+Le document "{{ type }}" concernant votre identité bancaire n'a pas permis de valider votre identité bancaire.
+Vous êtes invités à fournir toutes les informations nécessaires et une copie de votre pièce d'identité.
+N'hésitez pas à nous contacter pour plus d'informations.
+
+A bientôt,
+L'équipe
+{% endautoescape %}
+{% endblock %}
+
+
+
