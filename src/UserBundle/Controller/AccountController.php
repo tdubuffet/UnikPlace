@@ -450,8 +450,21 @@ class AccountController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-
-
+            if ($mangopayUser->PersonType == 'NATURAL') {
+                $mangopayService->sendKYCRegularNaturalUser(
+                    $mangopayUser,
+                    $form->getData()
+                );
+            }
+            else if ($mangopayUser->PersonType == 'LEGAL') {
+                $mangopayService->sendKYCRegularLegalUser(
+                    $mangopayUser,
+                    $form->getData()
+                );
+            }
+            $this->get('session')->getFlashBag()->add('kyc_success',
+                                                      "Vos informations ont bien été transmises, vous receverez par email une réponse dans un délai de 24 à 72 heures maximum");
+            return $this->redirectToRoute('user_account_wallet_kyc');
         }
 
         return ['form' => $form->createView()];

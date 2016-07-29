@@ -12,6 +12,10 @@
   <div class="alert alert-warning">{{ flashMessage }}</div>
   {% endfor %}
 
+  {% for flashMessage in app.session.flashbag.get('kyc_success') %}
+  <div class="alert alert-success">{{ flashMessage }}</div>
+  {% endfor %}
+
   {{ form_errors(form) }}
 
   {{ form(form) }}

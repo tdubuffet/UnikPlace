@@ -406,4 +406,108 @@ class MangoPayService
         }
         return true;
     }
+
+
+    public function sendKYCRegularNaturalUser(MangoPay\UserNatural $mangoUser, $data)
+    {
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Type = "IDENTITY_PROOF";
+        $result = $this->mangoPayApi->Users->CreateKycDocument($mangoUser->Id, $KycDocument);
+
+        $doneKyc = $this->mangoPayApi->Users->CreateKycPageFromFile($mangoUser->Id, $result->Id, $data['identity_file']->getPathName());
+
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Id = $result->Id;
+        $KycDocument->Status = "VALIDATION_ASKED";
+
+        $this->mangoPayApi->Users->UpdateKycDocument($mangoUser->Id, $KycDocument);
+
+        $mangoUser->Occupation      = $data['occupation'];
+        $mangoUser->IncomeRange     = $data['income_range'];
+
+        $Address = new \MangoPay\Address();
+        $Address->AddressLine1   = $data['address_street'];
+        $Address->PostalCode     = $data['address_postal_code'];
+        $Address->City           = $data['address_city'];
+        $Address->Country        = $data['address_country'];
+
+        $mangoUser->Address         = $Address;
+
+        return $this->mangoPayApi->Users->Update($mangoUser);
+    }
+
+    public function sendKYCRegularLegalUser(MangoPay\UserLegal $mangoUser, $data)
+    {
+        $cardIdentity = $data['card_identity']->getPathName();
+
+        /** @var  cardIdentity */
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Type = "IDENTITY_PROOF";
+        $result = $this->mangoPayApi->Users->CreateKycDocument($mangoUser->Id, $KycDocument);
+        $doneKyc = $this->mangoPayApi->Users->CreateKycPageFromFile($mangoUser->Id, $result->Id, $cardIdentity);
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Id = $result->Id;
+        $KycDocument->Status = "VALIDATION_ASKED";
+        $this->mangoPayApi->Users->UpdateKycDocument($mangoUser->Id, $KycDocument);
+
+
+
+
+        $proofRegistration = $data['proof_registration']->getPathName();
+
+        /** @var  REGISTRATION_PROOF */
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Type = "REGISTRATION_PROOF";
+        $result = $this->mangoPayApi->Users->CreateKycDocument($mangoUser->Id, $KycDocument);
+        $doneKyc = $this->mangoPayApi->Users->CreateKycPageFromFile($mangoUser->Id, $result->Id, $proofRegistration);
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Id = $result->Id;
+        $KycDocument->Status = "VALIDATION_ASKED";
+        $this->mangoPayApi->Users->UpdateKycDocument($mangoUser->Id, $KycDocument);
+
+
+        $certifiedArticles = $data['certified_articles']->getPathName();
+
+        /** @var  REGISTRATION_PROOF */
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Type = "ARTICLES_OF_ASSOCIATION";
+        $result = $this->mangoPayApi->Users->CreateKycDocument($mangoUser->Id, $KycDocument);
+        $doneKyc = $this->mangoPayApi->Users->CreateKycPageFromFile($mangoUser->Id, $result->Id, $certifiedArticles);
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Id = $result->Id;
+        $KycDocument->Status = "VALIDATION_ASKED";
+        $this->mangoPayApi->Users->UpdateKycDocument($mangoUser->Id, $KycDocument);
+
+        $shareholderDeclaration = $data['shareholder_declaration']->getPathName();
+
+        /**
+         @var  SHAREHOLDER_DECLARATION */
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Type = "SHAREHOLDER_DECLARATION";
+        $result = $this->mangoPayApi->Users->CreateKycDocument($mangoUser->Id, $KycDocument);
+        $doneKyc = $this->mangoPayApi->Users->CreateKycPageFromFile($mangoUser->Id, $result->Id, $shareholderDeclaration);
+        $KycDocument = new \MangoPay\KycDocument();
+        $KycDocument->Id = $result->Id;
+        $KycDocument->Status = "VALIDATION_ASKED";
+        $response = $this->mangoPayApi->Users->UpdateKycDocument($mangoUser->Id, $KycDocument);
+
+
+        $headquarterAddress = new \MangoPay\Address();
+        $headquarterAddress->AddressLine1   = $data['headquarter_address_street'];
+        $headquarterAddress->PostalCode     = $data['headquarter_address_postal_code'];
+        $headquarterAddress->City           = $data['headquarter_address_city'];
+        $headquarterAddress->Country        = $data['headquarter_address_country'];
+
+
+        $legalRepresentativeAddress = new \MangoPay\Address();
+        $legalRepresentativeAddress->AddressLine1   = $data['legal_representative_address_street'];
+        $legalRepresentativeAddress->PostalCode     = $data['legal_representative_address_postal_code'];
+        $legalRepresentativeAddress->City           = $data['legal_representative_address_city'];
+        $legalRepresentativeAddress->Country        = $data['legal_representative_address_country'];
+
+        $mangoUser->HeadquartersAddress         = $headquarterAddress;
+        $mangoUser->LegalRepresentativeAddress  = $legalRepresentativeAddress;
+
+        return $this->mangoPayApi->Users->Update($mangoUser);
+    }
 }
