@@ -447,6 +447,13 @@ class AccountController extends Controller
         else {
             throw new \Exception('Bad person type for current mangopay user.');
         }
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+
+        }
+
         return ['form' => $form->createView()];
     }
 

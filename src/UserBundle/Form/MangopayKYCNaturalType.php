@@ -10,6 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
+
 
 class MangopayKYCNaturalType extends AbstractType
 {
@@ -86,20 +89,43 @@ class MangopayKYCNaturalType extends AbstractType
                 'multiple' => false
             ))
             ->add('address_street', TextType::class, array(
-                'label' => 'Rue du domicile'
+                'label' => 'Rue du domicile',
+                'required' => true,
+                'constraints' => array(
+                    new NotBlank())
             ))
             ->add('address_postal_code', TextType::class, array(
-                'label' => 'Code postal du domicile'
+                'label' => 'Code postal du domicile',
+                'required' => true,
+                'constraints' => array(
+                    new NotBlank())
             ))
             ->add('address_city', TextType::class, array(
-                'label' => 'Ville'
+                'label' => 'Ville',
+                'required' => true,
+                'constraints' => array(
+                    new NotBlank())
             ))
             ->add('address_country', CountryType::class, array(
                 'label' => 'Pays',
-                'preferred_choices' => array('FR')
+                'preferred_choices' => array('FR'),
+                'required' => true
             ))
             ->add('identity_file', FileType::class, array(
-                'label' => 'Copie de la carte d\'identité'
+                'label' => 'Copie de la carte d\'identité',
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '6M',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                    ])
+                ]
             ))
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer mes informations',

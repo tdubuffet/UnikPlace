@@ -12,6 +12,8 @@
   <div class="alert alert-warning">{{ flashMessage }}</div>
   {% endfor %}
 
+  {{ form_errors(form) }}
+
   {{ form(form) }}
 
 {% endblock %}
