@@ -57,15 +57,22 @@ class OrderService
          * We create an order per product at the moment
          */
 
-        $session = new Session();
-        $cart = $session->get('cart', array());
-        $cartDelivery = $session->get('cart_delivery', null);
+        $session        = new Session();
+        $cart           = $session->get('cart', array());
+        $cartDelivery   = $session->get('cart_delivery', null);
 
-        $addresses = $session->get('cart_addresses');
+        $addresses      = $session->get('cart_addresses');
 
         // Fetch products from cart
-        $products = array();
-        $orders = array();
+        $products       = array();
+        $orders         = array();
+
+
+        $acceptedStatus = $this->em
+            ->getRepository('OrderBundle:Status')
+            ->findOneByName('accepted');
+
+
         foreach ($cart as $productId) {
             $product = $this->em->getRepository('ProductBundle:Product')->findOneById($productId);
 
@@ -73,8 +80,18 @@ class OrderService
                 $this->em->getRepository('ProductBundle:Status')->findOneByName('unavailable')
             );
 
+            $orderProposal = $this->em->getRepository('OrderBundle:OrderProposal')->findOneBy([
+                'product' => $product,
+                'user' => $user,
+                'status' => $acceptedStatus
+            ]);
+
+            if($orderProposal) {
+                $product->setProposalAccepted($orderProposal);
+            }
+
             $amount = $this->currencyConverter->convert(
-                $product->getPrice(),
+                (!is_null($product->getProposalAccepted())) ? $product->getProposalAccepted()->getAmount() : $product->getPrice(),
                 $currency,
                 true,
                 $product->getCurrency()->getCode()

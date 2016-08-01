@@ -29,12 +29,35 @@ class PaymentController extends Controller
     {
         $session = new Session();
         $cart = $session->get('cart', array());
+
+        $acceptedStatus = $this->getDoctrine()
+            ->getRepository('OrderBundle:Status')
+            ->findOneByName('accepted'); 
+        
         // Fetch products from cart
-        $products = array();
-        $productsTotalPrice = 0; // in EUR
-        $deliveryFee = 0; // in EUR
+        $products               = array();
+        $productsTotalPrice     = 0; // in EUR
+        $deliveryFee            = 0; // in EUR
+        
         foreach ($cart as $productId) {
-            $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+            
+            $product = $this->getDoctrine()
+                ->getRepository('ProductBundle:Product')
+                ->findOneById($productId);
+
+
+            $orderProposal = $this->getDoctrine()
+                ->getRepository('OrderBundle:OrderProposal')
+                ->findOneBy([
+                'product' => $product,
+                'user' => $this->getUser(),
+                'status' => $acceptedStatus
+            ]);
+
+            if($orderProposal) {
+                $product->setPrice($orderProposal->getAmount());
+            }
+
             $products[] = $product;
             $productsTotalPrice += $this->get('lexik_currency.converter')->convert(
                 $product->getPrice(),

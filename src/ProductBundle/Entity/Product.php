@@ -146,6 +146,12 @@ class Product
      */
     private $proposals;
 
+    /**
+     * @ORM\OneToOne(targetEntity="OrderBundle\Entity\OrderProposal")
+     * @ORM\JoinColumn(name="proposal_accepted_id", referencedColumnName="id", nullable=true)
+     */
+    private $proposalAccepted;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
@@ -714,5 +720,21 @@ class Product
         $this->proposals = $proposals;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProposalAccepted()
+    {
+        return $this->proposalAccepted;
+    }
+
+    /**
+     * @param mixed $proposalAccepted
+     */
+    public function setProposalAccepted($proposalAccepted)
+    {
+        $this->proposalAccepted = $proposalAccepted;
     }
 }

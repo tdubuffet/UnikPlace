@@ -36,6 +36,7 @@ class DefaultController extends Controller
         $cart = $session->get('cart', array());
         /** @var Status $publishedStatus */
         $publishedStatus = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneByName('published');
+        $acceptedStatus = $this->getDoctrine()->getRepository('OrderBundle:Status')->findOneByName('accepted');
         $publishedProducts = array();
 
         // Fetch products from cart
@@ -45,6 +46,17 @@ class DefaultController extends Controller
         foreach ($cart as $productId) {
             /** @var Product $product */
             $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+
+            $orderProposal = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')->findOneBy([
+                'product' => $product,
+                'user' => $this->getUser(),
+                'status' => $acceptedStatus
+            ]);
+
+            if($orderProposal) {
+                $product->setPrice($orderProposal->getAmount());
+            }
+
             $products[] = $product;
             $productsTotalPrice += $this->get('lexik_currency.converter')
                 ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
