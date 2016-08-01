@@ -61,7 +61,7 @@ class OrderService
 
         $session        = new Session();
         $cart           = $session->get('cart', array());
-        $cartDelivery   = $session->get('cart_delivery', null);
+        $cartDelivery  = $session->get('cart_delivery', null);
 
         $addresses      = $session->get('cart_addresses');
 
@@ -98,6 +98,24 @@ class OrderService
                 true,
                 $product->getCurrency()->getCode()
             );
+
+            // Also add delivery fee to order amount
+            if (!isset($cartDelivery[$productId])) {
+                throw new \Exception('Not found delivery type');
+            }
+            $deliveryModeCode = $cartDelivery[$product->getId()];
+            $deliveryMode = $this->em->getRepository('OrderBundle:DeliveryMode')->findOneByCode($deliveryModeCode);
+            if (!isset($deliveryMode)) {
+                throw new \Exception('Delivery mode not found.');
+            }
+            $delivery = $this->em->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
+            $amount += $this->currencyConverter->convert(
+                $delivery->getFee(),
+                'EUR',
+                true,
+                $product->getCurrency()->getCode()
+            );
+
             $order = new Order();
             $order->setAmount($amount);
             $order->setCurrency($this->em->getRepository('ProductBundle:Currency')->findOneByCode($currency));
@@ -122,14 +140,6 @@ class OrderService
             $order->setStatus($pendingStatus);
             $order->setMangopayPreauthorizationId($preAuthId);
             $order->setProduct($product);
-
-            if (!isset($cartDelivery[$productId])) {
-                throw new \Exception('Not found delivery type');
-            }
-
-            $order->setDeliveryType(
-                $this->em->getRepository('OrderBundle:Delivery')->findOneByCode($cartDelivery[$productId])
-            );
 
             $this->em->persist($product);
             $this->em->persist($order);

@@ -32,15 +32,17 @@ class PaymentController extends Controller
 
         $acceptedStatus = $this->getDoctrine()
             ->getRepository('OrderBundle:Status')
-            ->findOneByName('accepted'); 
-        
+            ->findOneByName('accepted');
+
         // Fetch products from cart
         $products               = array();
         $productsTotalPrice     = 0; // in EUR
         $deliveryFee            = 0; // in EUR
-        
+
+        $cartDelivery = $session->get('cart_delivery');
+        $cartAddresses = $session->get('cart_addresses');
+
         foreach ($cart as $productId) {
-            
             $product = $this->getDoctrine()
                 ->getRepository('ProductBundle:Product')
                 ->findOneById($productId);
@@ -65,11 +67,26 @@ class PaymentController extends Controller
                 true,
                 $product->getCurrency()->getCode()
             );
-        }
-        $deliveryModes = $session->get('cart_delivery');
-        $cartAddresses = $session->get('cart_addresses');
 
-        if (empty($deliveryModes) || empty($cartAddresses)) {
+            if (!isset($cartDelivery[$productId])) {
+                throw new \Exception('Not found delivery type');
+            }
+            $deliveryModeCode = $cartDelivery[$product->getId()];
+            $deliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode($deliveryModeCode);
+            if (!isset($deliveryMode)) {
+                throw new \Exception('Delivery mode not found.');
+            }
+            $delivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
+            $deliveryFee += $this->get('lexik_currency.converter')->convert(
+                $delivery->getFee(),
+                'EUR',
+                true,
+                $product->getCurrency()->getCode()
+            );
+        }
+
+
+        if (empty($cartDelivery) || empty($cartAddresses)) {
             $session->getFlashBag()->add('notice', 'Votre panier a expiré. Merci de renouveler l\'opération.');
             return $this->redirectToRoute('cart');
         }
@@ -106,7 +123,7 @@ class PaymentController extends Controller
             'products' => $products,
             'productsTotalPrice' => $productsTotalPrice,
             'deliveryFee' => $deliveryFee,
-            'deliveryModes' => $deliveryModes,
+            'deliveryModes' => $cartDelivery,
             'addresses' => $addresses,
             'cardRegistration' => $cardRegistration
         ];
