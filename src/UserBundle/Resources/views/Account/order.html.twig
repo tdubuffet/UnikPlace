@@ -44,7 +44,7 @@
       <div class="order-summary">
         <h3 class="order-summary-title">Nouvelle commande</h3>
         <p>Une nouvelle commande vient d'être effectuée !<br />Il s'agit d'une commande concernant le produit suivant : <a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a></p>
-        {% if order.deliveryType.code == 'tracked_letter' or order.deliveryType.code == 'parcel' %}
+        {% if order.delivery.deliveryMode.code == 'tracked_letter' or order.delivery.deliveryMode.code == 'parcel' %}
           <p>Les frais de port sont remboursés par {{ siteName }}.</p>
         {% endif %}
         <p>Tous les détails de la vente sont disponibles ci-dessous.</p>
@@ -55,7 +55,7 @@
       <div class="order-summary">
         <h3 class="order-summary-title">Merci pour votre commande</h3>
         <p><span class="text-danger">Vous ne serez pas débité tant que le vendeur n'aura pas accepté la vente.</span> Vous serez notifié par email.</p>
-        {% if order.deliveryType.code == 'by_hand' %}
+        {% if order.delivery.deliveryMode.code == 'by_hand' %}
           <p>Vous pouvez le contacter via le formulaire ci-dessous afin de convenir d'un lieu et d'une date pour la remise en main propre.</p>
         {% else %}
           <p>Vous pouvez le contacter via le formulaire ci-dessous pour toute question.</p>
@@ -65,7 +65,7 @@
     {% endif %}
   {% elseif order.status == 'accepted' and sale == false%}
     <div class="order-summary">
-      {% if order.deliveryType.code == 'by_hand' %}
+      {% if order.delivery.deliveryMode.code == 'by_hand' %}
         <h3 class="order-summary-title">Le vendeur a accepté la vente</h3>
         <ol class="order-instructions">
           <li>Une fois la remise effectuée, cliquer sur le bouton ci-dessous pour confirmer directement la vente.</li>
@@ -74,7 +74,7 @@
       {% else %}
         <h3 class="order-summary-title">Le vendeur a accepté la vente</h3>
         <ol class="order-instructions">
-          <li>La commande est en cours d'expédition ({{ order.deliveryType.name }}). N'hésitez pas à lui poser des questions via le formulaire ci-dessous.</li>
+          <li>La commande est en cours d'expédition ({{ order.delivery.deliveryMode.name }}). N'hésitez pas à lui poser des questions via le formulaire ci-dessous.</li>
           <li>Il doit vous informer de l'état de la commande.</li>
         </ol>
       {% endif %}
@@ -82,12 +82,12 @@
   {% elseif order.status == 'accepted' and sale == true%}
     <div class="order-summary">
       <h3 class="order-summary-title">Commande confirmée</h3>
-      {% if order.deliveryType.code == 'by_hand' %}
+      {% if order.delivery.deliveryMode.code == 'by_hand' %}
         <ol class="order-instructions">
           <li>Convenez rapidement d'un rendez-vous avec l'acheteur.</li>
           <li>Vous recevrez le paiement de votre vente une fois que l'acheteur aura validé la remise du produit.</li>
         </ol>
-      {% elseif order.deliveryType.code == 'parcel' %}
+      {% elseif order.delivery.deliveryMode.code == 'parcel' %}
         <ol class="order-instructions">
           <li>Préparez votre colis avec le produit commandé à l'intérieur.</li>
           <li>Au bureau de poste, demandez un envoi en colissimo à l'adresse suivante : <br />
@@ -150,7 +150,7 @@
         <div class="order-infos-body">
           <ul>
             <li>
-              <span>Type</span>{{ order.deliveryType.name }}
+              <span>Type</span>{{ order.delivery.deliveryMode.name }}
             </li>
               {% if order.deliveryAddress is defined %}
               <li>
