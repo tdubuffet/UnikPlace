@@ -319,9 +319,9 @@ class DepositController extends Controller
                 $fields = [
                     'weight' => "poids",
                     'address_id' => "adresse",
-                    'length' => '',
-                    'width' => '',
-                    'height' => ''
+                    'length' => 'longueur',
+                    'width' => 'largeur',
+                    'height' => 'hauteur'
                 ];
 
                 $errors = [];
