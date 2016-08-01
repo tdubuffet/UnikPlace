@@ -20,9 +20,10 @@ var Cart = {
         $('.cartDeliverySelection').each(function(index, elem) {
             totalDeliveryFee += parseFloat($(elem).find(':selected').data('fee'));
         });
-        $('.totalDelivery').text(totalDeliveryFee);
+        $('.totalDelivery').text("€"+totalDeliveryFee);
         var totalProduct = parseFloat($('.totalProduct').data('total'));
-        $('.totalOrder').text(totalDeliveryFee+totalProduct);
+        var total = totalDeliveryFee+totalProduct;
+        $('.totalOrder').text("€"+total);
     },
 
     cartAction: function () {
