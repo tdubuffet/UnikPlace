@@ -52,53 +52,6 @@ class Delivery
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Delivery
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set code
-     *
-     * @param string $code
-     *
-     * @return Delivery
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-    /**
      * Constructor
      */
     public function __construct()
