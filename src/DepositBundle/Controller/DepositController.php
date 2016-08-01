@@ -401,7 +401,8 @@ class DepositController extends Controller
                     $delivery->setFee($deposit['delivery']['shipping_fees']);
                 }
                 else {
-                    $delivery->setFee(0); // TODO compute fee here from deliveryMode
+                    $delivery->setFee($this->get('order.delivery_calculator')->getFeeFromProductAndDeliveryModeCode(
+                        $deliveryMode->getCode(), ['weight' => $product->getWeight()]));
                 }
                 $delivery->setDeliveryMode($deliveryMode);
                 $product->addDelivery($delivery);

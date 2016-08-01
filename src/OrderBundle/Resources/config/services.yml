@@ -12,3 +12,5 @@ services:
         arguments: ['@user.notification']
         tags:
             - { name: kernel.event_subscriber }
+    order.delivery_calculator:
+        class: OrderBundle\Service\DeliveryCalculatorService
