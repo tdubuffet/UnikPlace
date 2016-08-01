@@ -38,11 +38,11 @@
           <form method="post" action="{{ path('deposit_postdescription') }}" id="description-form">
             <div class="form-group">
               <label class="required">Titre</label>
-              <input type="text" name="name" class="form-control" placeholder="Rédiger le titre de votre produit" value="{% if app.session.get('deposit').name %}{{ app.session.get('deposit').name }}{% endif %}">
+              <input type="text" name="name" class="form-control" placeholder="Rédiger le titre de votre produit" value="{% if app.session.get('deposit').name is defined %}{{ app.session.get('deposit').name }}{% endif %}">
             </div>
             <div class="form-group">
               <label class="required">Description</label>
-              <textarea name="description" class="form-control" rows="3" placeholder="Expliquer l'histoire de votre produit, son état, pourquoi vous vous en séparez ?">{% if app.session.get('deposit').description %}{{ app.session.get('deposit').description }}{% endif %}</textarea>
+              <textarea name="description" class="form-control" rows="3" placeholder="Expliquer l'histoire de votre produit, son état, pourquoi vous vous en séparez ?">{% if app.session.get('deposit').description is defined %}{{ app.session.get('deposit').description }}{% endif %}</textarea>
             </div>
 
             {% for customField in customFields %}

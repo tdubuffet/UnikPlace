@@ -545,7 +545,7 @@ class Product
      */
     public function addDelivery(\OrderBundle\Entity\Delivery $delivery)
     {
-        $delivery->addProduct($this);
+        $delivery->setProduct($this);
         $this->deliveries[] = $delivery;
     }
 
