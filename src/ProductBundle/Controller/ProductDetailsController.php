@@ -2,6 +2,8 @@
 
 namespace ProductBundle\Controller;
 
+use OrderBundle\Entity\OrderProposal;
+use OrderBundle\Form\OrderProposalForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -16,35 +18,28 @@ class ProductDetailsController extends Controller
      * @Route("/p/{id}-{slug}", name="product_details")
      * @ParamConverter("product", class="ProductBundle:Product")
      * @Template("ProductBundle:ProductDetails:index.html.twig")
+     * @param Request $request
+     * @param Product $product
+     * @return array
      */
     public function indexAction(Request $request, Product $product)
     {
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
-        $attributes              = $productAttributeService->getAttributesFromProduct($product);
+        $attributes = $productAttributeService->getAttributesFromProduct($product);
+        $routeparams = ['id' => $product->getId(), 'slug' => $product->getSlug()];
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-
-            $favorite = $this->getDoctrine()
-                ->getRepository('ProductBundle:Favorite')
-                ->findOneBy(array(
-                    'user' => $this->getUser(),
-                    'product' => $product
-                ));
+            $favorite = $this->getDoctrine()->getRepository('ProductBundle:Favorite')
+                ->findOneBy(['user' => $this->getUser(), 'product' => $product]);
         }
 
-        $similarProducts = $this
-            ->getDoctrine()
-            ->getRepository('ProductBundle:Product')
+        $similarProducts = $this->getDoctrine()->getRepository('ProductBundle:Product')
             ->findSimilarProducts($product, 7);
 
 
-        /**
-         * contact message
-         */
-
-        if($this->getUser() && $product->getUser() != $this->getUser()) {
-            $existThread = $this->getDoctrine()
-                ->getRepository('MessageBundle:Thread')
+        /** * contact message */
+        if ($this->getUser() && $product->getUser() != $this->getUser()) {
+            $existThread = $this->getDoctrine()->getRepository('MessageBundle:Thread')
                 ->findExistsThreadByProductAndUser($product, $this->getUser());
         }
 
@@ -53,20 +48,40 @@ class ProductDetailsController extends Controller
 
             if ($process === true) {
                 //Reset request
-                return $this->redirectToRoute('product_details', [
-                    'id' => $product->getId(),
-                    'slug' => $product->getSlug()
-                ]);
+                return $this->redirectToRoute('product_details', $routeparams);
+            }
+        }
+        $proposal = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')
+            ->findOneBy(['user' => $this->getUser(), 'product' => $product], ['id' => 'DESC']);
+        $limit = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')->findUserLimit($this->getUser());
+        $offLimit = $limit >= 3;
+
+        if (!$proposal || in_array($proposal->getStatus()->getName(), ['canceled']) && !$offLimit) {
+            $proposal = new OrderProposal();
+            $price = (int)$product->getPrice();
+            $proposalForm = $this->createForm(OrderProposalForm::class, $proposal, ['max' => $price]);
+            $proposalForm->handleRequest($request);
+            if ($proposalForm->isSubmitted() && $proposalForm->isValid()) {
+                $status = $this->getDoctrine()->getRepository('OrderBundle:Status')->findOneBy(['name' => 'pending']);
+                $proposal->setUser($this->getUser())->setProduct($product)->setStatus($status);
+                $this->getDoctrine()->getManager()->persist($proposal);
+                $this->getDoctrine()->getManager()->flush();
+                $this->addFlash('success', 'Votre offre a bien été prise en compte');
+                //Reset request
+                return $this->redirectToRoute('product_details', $routeparams);
             }
         }
 
         return [
             'product' => $product,
-            'productAttributes'     => $attributes,
-            'isFavorite'            => isset($favorite),
-            'similarProducts'       => $similarProducts,
-            'thread'                => (isset($existThread)) ? $existThread : false,
-            'formMessage'           => (isset($process) && $process !== true) ? $process->createView() : false
+            'productAttributes' => $attributes,
+            'isFavorite' => isset($favorite),
+            'similarProducts' => $similarProducts,
+            'thread' => (isset($existThread)) ? $existThread : false,
+            'formMessage' => (isset($process) && $process !== true) ? $process->createView() : false,
+            'proposalForm' => isset($proposalForm) ? $proposalForm->createView() : null,
+            'proposal' => $proposal,
+            'offLimit' => $offLimit,
         ];
     }
 }

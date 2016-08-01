@@ -156,8 +156,89 @@
                               </ul>
                             </div>
                           </div><!-- .actions -->
+                          {% set isProposal = proposalForm is defined and proposalForm is not null %}
+                            <a class="actions" href="#"
+                                {% if offLimit == false %} data-toggle="modal" data-target="#orderProposalModal" {% endif %}>
+                              <div class="action-list contact-seller">
+                                <button type="button" data-toggle="tooltip" data-placement="top"
+                                        title="Faire une offre" class="btn-contact">
+                                  <span class="btn-contact-lbl">
+                                    <span class="btn-contact-txt">
+                                      {% if offLimit %}
+                                        Nombre d'offre maximum atteint
+                                      {% elseif isProposal %}
+                                        Faire une offre
+                                      {% elseif proposal.status.name == "pending" %}
+                                        Offre en cours
+                                        {% else %}
+                                        Offre acceptée
+                                      {% endif %}
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                            </a><!-- .actions -->
                         </div>
                       </div><!-- .actions-wrapper -->
+                      {% if offLimit == false %}
+                        <div class="modal fade in" id="orderProposalModal" tabindex="-1" role="dialog">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">
+                                  <span aria-hidden="true">×</span><span class="sr-only">Fermer</span>
+                                </button>
+                                <div class="h4 modal-title">
+                                  <span class="h4">
+                                  {{ isProposal ? "Faire une offre" : "Offre" }} pour le produit <i>{{ product.name }}</i>
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="modal-body text-center">
+                                <div class="row">
+                                  <div class="col-sm-6">
+                                    <div class="proposal-product">
+                                      <div class="proposal-price">
+                                        Prix du produit :
+                                        {{  product.price|currency_convert_format(product.getCurrency.getCode) }}
+                                      </div>
+                                      <div>
+                                        {% set img = images[0] is defined ? loadpic(images[0], 275, 275) : "#" %}
+                                        <img class="img-responsive img-thumbnail"
+                                             src="{{ img }}" alt="{{ product.name }}" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <div class="proposal-right">
+                                      <div class="col-md-12 col-center-block">
+                                        {% if isProposal %}
+                                          {{ form_start(proposalForm) }}
+                                          {{ form_end(proposalForm) }}
+                                          {% else %}
+                                            <label class="control-label">Offre actuelle :</label>
+                                            <div class="form-control">
+                                              {{  proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
+                                            </div>
+                                        {% endif %}
+
+                                        <p>Pour en savoir plus,
+                                          <u>
+                                            <a class="pointer" data-dismiss="modal" data-toggle="modal"
+                                               data-target="#message-modal">posez une question</a>
+                                          </u> au vendeur
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+
 
                       {% if app.user != product.user %}
                       <div class="actions-wrapper">

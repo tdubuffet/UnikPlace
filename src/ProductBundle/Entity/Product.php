@@ -147,12 +147,19 @@ class Product
      */
     private $orders;
 
+    /**
+     * @var ArrayCollection $proposals
+     * @ORM\OneToMany(targetEntity="OrderBundle\Entity\OrderProposal", mappedBy="product")
+     */
+    private $proposals;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
         $this->favorites = new ArrayCollection();
         $this->collections = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->proposals = new ArrayCollection();
     }
 
     /**
@@ -719,5 +726,24 @@ class Product
     public function getShippingFees()
     {
         return $this->shippingFees;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getProposals()
+    {
+        return $this->proposals;
+    }
+
+    /**
+     * @param ArrayCollection $proposals
+     * @return Product
+     */
+    public function setProposals($proposals)
+    {
+        $this->proposals = $proposals;
+
+        return $this;
     }
 }

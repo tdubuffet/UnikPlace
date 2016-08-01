@@ -147,6 +147,11 @@ class User extends BaseUser implements ParticipantInterface
     private $products;
 
     /**
+     * @ORM\OneToMany(targetEntity="OrderBundle\Entity\OrderProposal", mappedBy="user")
+     */
+    private $proposals;
+
+    /**
      * @ORM\OneToMany(targetEntity="LocationBundle\Entity\Address", mappedBy="user")
      */
     private $addresses;
@@ -873,4 +878,24 @@ class User extends BaseUser implements ParticipantInterface
     {
         return $this->phone;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProposals()
+    {
+        return $this->proposals;
+    }
+
+    /**
+     * @param ArrayCollection $proposals
+     * @return User
+     */
+    public function setProposals($proposals)
+    {
+        $this->proposals = $proposals;
+
+        return $this;
+    }
+
 }
