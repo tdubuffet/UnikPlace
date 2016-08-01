@@ -110,9 +110,9 @@ class Order
 
     /**
      * @ORM\ManyToOne(targetEntity="OrderBundle\Entity\Delivery")
-     * @ORM\JoinColumn(name="delivery_type_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="delivery_id", referencedColumnName="id")
      */
-    private $deliveryType;
+    private $delivery;
 
 
     /**
@@ -301,27 +301,27 @@ class Order
     }
 
     /**
-     * Set deliveryType
+     * Set delivery
      *
-     * @param \OrderBundle\Entity\Delivery $deliveryType
+     * @param \OrderBundle\Entity\Delivery $delivery
      *
      * @return Order
      */
-    public function setDeliveryType(\OrderBundle\Entity\Delivery $deliveryType = null)
+    public function setDelivery(\OrderBundle\Entity\Delivery $delivery = null)
     {
-        $this->deliveryType = $deliveryType;
+        $this->delivery = $delivery;
 
         return $this;
     }
 
     /**
-     * Get deliveryType
+     * Get delivery
      *
      * @return \OrderBundle\Entity\Delivery
      */
-    public function getDeliveryType()
+    public function getDelivery()
     {
-        return $this->deliveryType;
+        return $this->delivery;
     }
 
     /**

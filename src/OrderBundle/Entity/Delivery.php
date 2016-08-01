@@ -37,7 +37,7 @@ class Delivery
 
     /**
      * @ORM\ManyToOne(targetEntity="DeliveryMode")
-     * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="delivery_mode_id", referencedColumnName="id")
      **/
     private $deliveryMode;
 
