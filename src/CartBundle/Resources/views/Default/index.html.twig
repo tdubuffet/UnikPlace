@@ -50,8 +50,8 @@
                 <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
                 <td>
                   <select name="{{ product.getId() }}">
-                    {% for delivery in deliveries %}
-                      <option value="{{ delivery.code }}">{{ delivery.name }}</option>
+                    {% for delivery in product.deliveries %}
+                      <option value="{{ delivery.deliveryMode.code }}">{{ delivery.deliveryMode.name }}</option>
                     {% endfor %}
                   </select>
                 </td>
@@ -64,8 +64,8 @@
           <div class="text-right">
             <div>
               Total produit: <span class="product">{{ productsTotalPrice|currency_format('EUR') }}</span><br/>
-              Estimation des frais de livraison: <span class="delivery">{{ deliveryFee|currency_format('EUR') }}</span> <br/>
-              TOTAL: <span class="totalProduct">{{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</span>
+              Estimation des frais de livraison: <span class="delivery">{{ 0|currency_format('EUR') }}</span> <br/>
+              TOTAL: <span class="totalProduct">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span>
             </div>
 
             <input class="btn btn-primary" type="submit" value="Etape suivante">

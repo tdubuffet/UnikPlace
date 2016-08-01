@@ -41,7 +41,6 @@ class DefaultController extends Controller
         // Fetch products from cart
         $products = array();
         $productsTotalPrice = 0; // in EUR
-        $deliveryFee        = 0; // in EUR
 
         foreach ($cart as $productId) {
             /** @var Product $product */
@@ -61,13 +60,9 @@ class DefaultController extends Controller
             return $this->redirectToRoute('cart');
         }
 
-        $deliveries = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findAll();
-
         return [
             'products'              => $products,
             'productsTotalPrice'    => $productsTotalPrice,
-            'deliveryFee'           => $deliveryFee,
-            'deliveries'            => $deliveries
         ];
     }
 
@@ -83,10 +78,10 @@ class DefaultController extends Controller
         $cart = $session->get('cart', array());
         // Make sure delivery modes are associated with products in cart
 
-        $deliveriesType = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findAllCode();
+        $deliveryModes = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findAllCode();
 
         foreach ($data as $productId => $delivery) {
-            if (!in_array($productId, $cart) && in_array($delivery, $deliveriesType)) {
+            if (!in_array($productId, $cart) && in_array($delivery, $deliveryModes)) {
                 throw new \Exception('Product id '.$productId.' is not associated with product in cart.');
             }
         }
