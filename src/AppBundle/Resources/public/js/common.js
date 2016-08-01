@@ -39,17 +39,10 @@ var Common = {
     },
 
     notificationInit: function() {
-        var oneClick = false;
 
         $("#notificationLink").click(function() {
             $("#notificationContainer").fadeToggle(300);
             $("#notificationLink .count").hide(300);
-
-            if (oneClick == false) {
-                $.getJSON( "/notification-unread");
-
-                oneClick = true;
-            }
 
             return false;
         });
