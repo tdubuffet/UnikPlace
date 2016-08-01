@@ -5,6 +5,24 @@
 var Cart = {
     init: function () {
         Cart.cartAction();
+        Cart.calculateDeliveryFeeBindEvent();
+        Cart.calculateDeliveryFee();
+    },
+
+    calculateDeliveryFeeBindEvent: function () {
+        $('.cartDeliverySelection').change(function() {
+            Cart.calculateDeliveryFee();
+        });
+    },
+
+    calculateDeliveryFee: function(fee) {
+        var totalDeliveryFee = 0;
+        $('.cartDeliverySelection').each(function(index, elem) {
+            totalDeliveryFee += parseFloat($(elem).find(':selected').data('fee'));
+        });
+        $('.totalDelivery').text(totalDeliveryFee);
+        var totalProduct = parseFloat($('.totalProduct').data('total'));
+        $('.totalOrder').text(totalDeliveryFee+totalProduct);
     },
 
     cartAction: function () {

@@ -2,7 +2,7 @@
 
 {% block title %}Mon panier{% endblock %}
 {% block description %}Mon panier sur {{ siteName }}{% endblock %}
-    {% block javascript_include %}{{ jsinit(['cart']) }}{% endblock javascript_include %}
+{% block javascript_include %}{{ jsinit(['cart']) }}{% endblock javascript_include %}
 
 {% block body %}
 <div class="main-wrapper">
@@ -49,9 +49,9 @@
                 </td>
                 <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
                 <td>
-                  <select name="{{ product.getId() }}">
+                  <select name="{{ product.getId() }}" class="cartDeliverySelection">
                     {% for delivery in product.deliveries %}
-                      <option value="{{ delivery.deliveryMode.code }}">{{ delivery.deliveryMode.name }}</option>
+                      <option data-fee="{{ delivery.fee }}" value="{{ delivery.deliveryMode.code }}">{{ delivery.deliveryMode.name }} (+{{ delivery.fee|currency_format('EUR') }})</option>
                     {% endfor %}
                   </select>
                 </td>
@@ -63,9 +63,9 @@
 
           <div class="text-right">
             <div>
-              Total produit: <span class="product">{{ productsTotalPrice|currency_format('EUR') }}</span><br/>
-              Estimation des frais de livraison: <span class="delivery">{{ 0|currency_format('EUR') }}</span> <br/>
-              TOTAL: <span class="totalProduct">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span>
+              Total produit: <span class="totalProduct" data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span><br/>
+              Estimation des frais de livraison: <span class="totalDelivery"></span> <br/>
+              TOTAL: <span class="totalOrder">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span>
             </div>
 
             <input class="btn btn-primary" type="submit" value="Etape suivante">
