@@ -71,6 +71,11 @@ class DepositController extends Controller
      */
     public function photosAction()
     {
+        $session = $this->get('session');
+        $deposit = $session->get('deposit');
+        if (!$deposit || !isset($deposit['category_id'])) {
+            return $this->redirectToRoute('sell_category');
+        }
     }
 
     /**
@@ -113,6 +118,11 @@ class DepositController extends Controller
 
         if ($session->has('deposit')) {
             $deposit = $session->get('deposit');
+
+            // Make sure at least one image is set
+            if (!isset($deposit['images'])) {
+                return $this->redirectToRoute('sell_photos');
+            }
 
             if (isset($deposit['category_id'])) {
                 $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
@@ -218,6 +228,12 @@ class DepositController extends Controller
      */
     public function priceAction()
     {
+        $session = $this->get('session');
+        $deposit = $session->get('deposit');
+        if (!$deposit || !isset($deposit['name'])) {
+            return $this->redirectToRoute('sell_description');
+        }
+
         return [
             'fee_rate' =>   $this->getParameter('mangopay.fee_rate'),
             'fixed_fee' =>  $this->getParameter('mangopay.fixed_fee')
@@ -271,6 +287,12 @@ class DepositController extends Controller
      */
     public function shippingAction()
     {
+        $session = $this->get('session');
+        $deposit = $session->get('deposit');
+        if (!$deposit || !isset($deposit['price'])) {
+            return $this->redirectToRoute('sell_price');
+        }
+
         $address = new Address;
         $addAddressForm = $this->createForm(AddressType::class, $address);
 
@@ -361,7 +383,10 @@ class DepositController extends Controller
                     $session->getFlashBag()->add('error', $errors);
                     return $this->redirectToRoute('sell_shipping');
                 } else {
-                    if ($this->saveAction($deposit)) $session->remove('deposit');
+                    if ($this->saveAction($deposit)){
+                        $session->remove('deposit');
+                        $session->set('deposit_completed', true);
+                    }
 
                     return $this->redirectToRoute('sell_thanks');
                 }
@@ -453,10 +478,11 @@ class DepositController extends Controller
     public function thanksAction()
     {
         $session = $this->get('session');
-
-        if ($session->has('deposit')) {
-            $session->remove('deposit');
+        $depositCompleted = $session->get('deposit_completed', false);
+        if (!$depositCompleted) {
+            return $this->redirectToRoute('homepage');
         }
+        $session->remove('deposit_completed');
     }
 
     /**
