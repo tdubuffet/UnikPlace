@@ -152,6 +152,27 @@ class Product
      */
     private $proposalAccepted;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="width", type="decimal", precision=5, scale=2)
+     */
+    private $width;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="length", type="decimal", precision=5, scale=2)
+     */
+    private $length;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="height", type="decimal", precision=5, scale=2)
+     */
+    private $height;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
@@ -736,5 +757,53 @@ class Product
     public function setProposalAccepted($proposalAccepted)
     {
         $this->proposalAccepted = $proposalAccepted;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @param string $height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @param string $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLength()
+    {
+        return $this->length;
+    }
+
+    /**
+     * @param string $length
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
     }
 }

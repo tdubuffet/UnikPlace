@@ -316,7 +316,13 @@ class DepositController extends Controller
                     return $this->redirectToRoute('sell_shipping');
                 }
             } else {
-                $fields = ['weight' => "poids", 'address_id' => "adresse"];
+                $fields = [
+                    'weight' => "poids",
+                    'address_id' => "adresse",
+                    'length' => '',
+                    'width' => '',
+                    'height' => ''
+                ];
 
                 $errors = [];
                 foreach ($fields as $field => $label) {
@@ -373,6 +379,9 @@ class DepositController extends Controller
         $product->setPrice($deposit['price']);
         $product->setAllowOffer($deposit['allow_offer']);
         $product->setWeight($deposit['delivery']['weight']);
+        $product->setLength($deposit['delivery']['length']/100);
+        $product->setWidth($deposit['delivery']['width']/100);
+        $product->setHeight($deposit['delivery']['height']/100);
         if (isset($deposit['original_price'])) $product->setOriginalPrice($deposit['original_price']);
 
         $currency = $this->getDoctrine()->getRepository('ProductBundle:Currency')->findOneByCode('EUR');
@@ -402,7 +411,14 @@ class DepositController extends Controller
                 }
                 else {
                     $delivery->setFee($this->get('order.delivery_calculator')->getFeeFromProductAndDeliveryModeCode(
-                        $deliveryMode->getCode(), ['weight' => $product->getWeight()]));
+                        $deliveryMode->getCode(),
+                        [
+                            'weight' => $product->getWeight(),
+                            'length' => $product->getLength(),
+                            'width'  => $product->getWidth(),
+                            'height' => $product->getHeight()
+                        ]
+                    ));
                 }
                 $delivery->setDeliveryMode($deliveryMode);
                 $product->addDelivery($delivery);

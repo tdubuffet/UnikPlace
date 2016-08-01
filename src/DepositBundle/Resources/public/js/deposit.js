@@ -349,6 +349,19 @@ var Deposit = {
                     required: true,
                     number: true,
                 },
+
+                "length": {
+                    required: true,
+                    number: true,
+                },
+                "width": {
+                    required: true,
+                    number: true,
+                },
+                "height": {
+                    required: true,
+                    number: true,
+                },
                 "shipping_fees": {
                     number: true,
                 }
