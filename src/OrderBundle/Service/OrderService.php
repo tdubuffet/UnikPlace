@@ -118,6 +118,7 @@ class OrderService
 
             $order = new Order();
             $order->setAmount($amount);
+            $order->setDelivery($delivery);
             $order->setCurrency($this->em->getRepository('ProductBundle:Currency')->findOneByCode($currency));
             $order->setUser($user);
 
