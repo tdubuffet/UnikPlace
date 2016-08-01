@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use OrderBundle\Entity\OrderProposal;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use ProductBundle\Entity\Product;
 use MessageBundle\Entity\Message;
@@ -170,6 +171,39 @@ class MailerSender
         $template = 'UserBundle:email:kyc_failed.email.twig';
         $context = ['user' => $user, 'type' => $type];
         $this->sendMessage($template, $context, $this->parameters['from_email'], $user->getEmail());
+    }
+
+    public function sendOrderProposalToSeller(OrderProposal $proposal)
+    {
+        $template = 'OrderBundle:email:proposal_to_seller.email.twig';
+        $product = $proposal->getProduct();
+        $proposalUrl = $this->router->generate('offer_validation',
+            ['id' => $proposal->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $productUrl = $this->router->generate('product_details',
+            ['id' => $product->getId(), 'slug' => $product->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['product' => $product, 'proposal' => $proposal, 'productUrl' => $productUrl, 'proposalUrl' => $proposalUrl];
+        $email =$proposal->getProduct()->getUser()->getEmail();
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $email);
+    }
+
+    public function sendOrderProposalToBuyerAccepted(OrderProposal $proposal)
+    {
+        $template = 'OrderBundle:email:proposal_to_buyer_accepted.email.twig';
+        $product = $proposal->getProduct();
+        $productUrl = $this->router->generate('product_details',
+            ['id' => $product->getId(), 'slug' => $product->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['product' => $product, 'proposal' => $proposal, 'productUrl' => $productUrl];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $proposal->getUser()->getEmail());
+    }
+
+    public function sendOrderProposalToBuyerRefused(OrderProposal $proposal)
+    {
+        $template = 'OrderBundle:email:proposal_to_buyer_refused.email.twig';
+        $product = $proposal->getProduct();
+        $productUrl = $this->router->generate('product_details',
+            ['id' => $product->getId(), 'slug' => $product->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['product' => $product, 'proposal' => $proposal, 'productUrl' => $productUrl];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $proposal->getUser()->getEmail());
     }
 
     private function sendMessage($templateName, $context, $fromEmail, $toEmail)

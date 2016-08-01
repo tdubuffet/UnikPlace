@@ -1,0 +1,18 @@
+{% block subject %}Nouvelle offre{% endblock %}
+
+{% block body_text %}
+  {% autoescape false %}
+    Bonjour {{ product.user.firstname }}
+    Un utilisateur est intéressé par votre annonce "{{ product.name }}".
+    Il vous propose de vous l'acheter pour {{ proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
+    Pour accepter ou refuser cette offre, merci de bien vouloir vous rendre sur le lien suivant:
+    {{path('offer_validation', {'id': proposal.id}) }}
+
+    A bientôt,
+    L'équipe
+  {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+  {% include 'OrderBundle:email:proposal_to_seller.html.twig' %}
+{% endblock %}

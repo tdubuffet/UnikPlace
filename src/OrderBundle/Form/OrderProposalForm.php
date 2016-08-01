@@ -26,7 +26,7 @@ class OrderProposalForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('amount', IntegerType::class, ['label' => 'Prêt à acheter ? Faites une offre',
-            'attr' => ['max' => $options['max']]])
+            'attr' => ['max' => $options['max'], 'min' => 1]])
             ->add('submit', SubmitType::class, ['label' => 'Soumettre l\'offre']);
     }
 

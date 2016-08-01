@@ -67,6 +67,8 @@ class ProductDetailsController extends Controller
                 $this->getDoctrine()->getManager()->persist($proposal);
                 $this->getDoctrine()->getManager()->flush();
                 $this->addFlash('success', 'Votre offre a bien été prise en compte');
+                $this->get('mailer_sender')->sendOrderProposalToSeller($proposal);
+                $this->get('order_service')->newOrderProposal($proposal);
                 //Reset request
                 return $this->redirectToRoute('product_details', $routeparams);
             }

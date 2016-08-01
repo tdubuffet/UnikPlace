@@ -1,0 +1,16 @@
+{% block subject %}Nouvelle offre{% endblock %}
+
+{% block body_text %}
+  {% autoescape false %}
+    Bonjour {{ product.user.firstname }}
+    Le vendeur a refusé votre offre de  {{ proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
+    concernant l'annonce "{{ product.name }}".
+
+    A bientôt,
+    L'équipe
+  {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+  {% include 'OrderBundle:email:proposal_to_buyer_refused.html.twig' %}
+{% endblock %}

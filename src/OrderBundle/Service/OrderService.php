@@ -6,6 +6,8 @@ use AppBundle\Service\MangoPayService;
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\CurrencyBundle\Currency\Converter;
 use MangoPay\Libraries\Exception;
+use OrderBundle\Entity\OrderProposal;
+use OrderBundle\Event\OrderProposalEvent;
 use Symfony\Component\HttpFoundation\Session\Session;
 use OrderBundle\Entity\Order;
 use OrderBundle\Event\OrderEvents;
@@ -267,5 +269,15 @@ class OrderService
         $this->em->flush();
 
         $this->eventDispatcher->dispatch(OrderEvents::ORDER_DISPUTE_CLOSED, new OrderEvent($order));
+    }
+
+    public function newOrderProposal(OrderProposal $proposal)
+    {
+        $this->eventDispatcher->dispatch(OrderEvents::ORDER_PROPOSAL_NEW, new OrderProposalEvent($proposal));
+    }
+
+    public function changeOrderProposal(OrderProposal $proposal)
+    {
+        $this->eventDispatcher->dispatch(OrderEvents::ORDER_PROPOSAL_CHANGE, new OrderProposalEvent($proposal));
     }
 }

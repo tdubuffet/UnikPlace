@@ -66,4 +66,19 @@ parameters:
         route: 'user_account_wallet'
         params: ['product_title']
 
+      order_proposal_new:
+        message: "Une nouvelle offre concernant l'annonce #product_title# a soumise."
+        route: "offer_validation"
+        params: ['product_title', 'proposal_id']
+        routeParams:
+          id: 'proposal_id'
+
+      order_proposal_change:
+        message: "Votre offre concernant l'annonce #product_title# a été #change#"
+        route: 'product_details'
+        params: ['product_title', 'product_id', 'product_slug', 'change']
+        routeParams :
+          id : 'product_id'
+          slug: 'product_slug'
+
 

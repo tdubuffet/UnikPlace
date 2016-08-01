@@ -48,4 +48,18 @@ final class OrderEvents
      * @var string
      */
     const ORDER_DISPUTE_CLOSED = 'order.dispute_closed';
+
+    /**
+     * The ORDER_PROPOSAL_NEW event occurs after an order proposal has been submited
+     *
+     * @var string
+     */
+    const ORDER_PROPOSAL_NEW = 'order_proposal.new';
+
+    /**
+     * The ORDER_PROPOSAL_NEW event occurs after an order proposal has been updated to accepted or canceled
+     *
+     * @var string
+     */
+    const ORDER_PROPOSAL_CHANGE = 'order_proposal.change';
 }

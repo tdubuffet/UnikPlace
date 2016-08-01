@@ -1,3 +1,71 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title %}Accepted ou refuser l'offre pour le produit "{{ proposal.product.name }}"{% endblock %}
+{% block title %}Accepter ou refuser l'offre pour le produit "{{ product.name }}"{% endblock %}
+
+{% block description %}Tous les produits premium sont sur {{ siteName }}{% endblock %}
+
+
+{% block body %}
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="main">
+        <div class="row">
+          <div class="col-md-4">
+            <h2 class="h4 text-center">Annonce concernée</h2>
+            <p class="text-center">
+              {{ product.name }}
+              <br>
+              <span class="proposal-price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
+            </p>
+            <p class="text-center">
+              {% set images = product.getImages() %}
+              <img class="img-responsive img-rounded center-block" alt="{{ product.name }}"
+                   src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}"/>
+              <br/>
+              <a href="{{ path('product_details', {'id': product.id, 'slug': product.slug}) }}" target="_blank">
+                Cliquez ici pour voir l'annonce
+              </a>
+            </p>
+          </div>
+          <div class="col-md-8">
+            <h1 class="h4 text-center">Nouvelle offre pour l'annonce
+              <a href="{{ path('product_details', {id: product.id, slug: product.slug}) }}" target="_blank">
+                {{ product.name }}
+              </a>
+            </h1>
+            {% if proposal.status.name != 'pending' %}
+              <div class="alert alert-success alert-alt" role="alert">
+                <div>
+                  Votre demande a bien été prise en compte. L'utilisateur intéressé a été notifié.<br/>
+                  <a href="{{ path('user_account_preference') }}">Accéder à mon compte</a>
+                </div>
+              </div>
+            {% else %}
+              <div class="row">
+                <div class="box col-sm-4 col-center-block text-center wallet-amount">
+                  {{ proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
+                </div>
+              </div>
+              <div class="text-center">
+                <p>Vous pouvez accepter ou refuser l'offre en cliquant ici sur l'un des boutons ci-dessous :</p>
+                <form method="post">
+                  <div class="form-group">
+                    <button class="btn btn-important col-xs-3 col-center-block" name="accept">J'accepte l'offre</button>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-important-outline col-xs-3 col-center-block" name="refuse">
+                      Je refuse l'offre
+                    </button>
+                  </div>
+                </form>
+              </div>
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

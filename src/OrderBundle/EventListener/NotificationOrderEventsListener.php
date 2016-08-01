@@ -1,6 +1,7 @@
 <?php
 namespace OrderBundle\EventListener;
 
+use OrderBundle\Event\OrderProposalEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OrderBundle\Event\OrderEvents as Event;
 use OrderBundle\Event\OrderEvent;
@@ -24,7 +25,9 @@ class NotificationOrderEventsListener implements EventSubscriberInterface
             Event::ORDER_REFUSED          => 'onOrderRefused',
             Event::ORDER_DONE             => 'onOrderDone',
             Event::ORDER_DISPUTE_OPENED   => 'onOrderDisputeOpened',
-            Event::ORDER_DISPUTE_CLOSED   => 'onOrderDisputeClosed'
+            Event::ORDER_DISPUTE_CLOSED   => 'onOrderDisputeClosed',
+            Event::ORDER_PROPOSAL_NEW     => 'onOrderProposalNew',
+            Event::ORDER_PROPOSAL_CHANGE     => 'onOrderProposalChange',
         );
     }
 
@@ -134,5 +137,34 @@ class NotificationOrderEventsListener implements EventSubscriberInterface
                 'order_id' => $order->getId()
             ]
         );
+    }
+
+    public function onOrderProposalNew(OrderProposalEvent $event)
+    {
+        $proposal = $event->getProposal();
+        $this->notificationService->createNotification(
+            $proposal->getProduct()->getUser(),
+            'order_proposal_new',
+            [
+                'product_title' => $proposal->getProduct()->getName(),
+                'proposal_id' => $proposal->getId()
+            ]
+        );
+    }
+
+    public function onOrderProposalChange(OrderProposalEvent $event)
+    {
+        $proposal = $event->getProposal();
+        $this->notificationService->createNotification(
+            $proposal->getUser(),
+            'order_proposal_change',
+            [
+                'product_title' => $proposal->getProduct()->getName(),
+                'product_id' => $proposal->getProduct()->getId(),
+                'product_slug' => $proposal->getProduct()->getSlug(),
+                'change' => $proposal->getStatus()->getName() == "accepted" ? "acceptée" : "refusée"
+            ]
+        );
+
     }
 }

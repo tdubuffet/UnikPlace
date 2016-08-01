@@ -5,6 +5,7 @@ namespace OrderBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ProductBundle\Entity\Product;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use UserBundle\Entity\User;
 
 /**
  * OrderProposal
@@ -79,7 +80,7 @@ class OrderProposal
     /**
      * Get product
      *
-     * @return string
+     * @return Product
      */
     public function getProduct()
     {
@@ -127,7 +128,7 @@ class OrderProposal
     /**
      * Get user
      *
-     * @return string
+     * @return User
      */
     public function getUser()
     {
