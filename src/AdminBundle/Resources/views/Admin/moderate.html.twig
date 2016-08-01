@@ -55,13 +55,6 @@
           <div class="form-control">{{ product.originalPrice|currency_convert_format(product.currency.code) }}</div>
         </div>
       </div>
-      {# delivery type #}
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Type de livraison</label>
-        <div class="col-sm-10">
-          <div class="form-control">{{ product.deliveries.toArray|join(" | ") }}</div>
-        </div>
-      </div>
       {# weight #}
       <div class="form-group">
         <label class="col-sm-2 control-label">Poids</label>
@@ -69,11 +62,15 @@
           <div class="form-control">{{ product.weight }} g</div>
         </div>
       </div>
-      {# shipping_fees #}
+      {# deliveries #}
       <div class="form-group">
-        <label class="col-sm-2 control-label">Frais de port</label>
+        <label class="col-sm-2 control-label">Livraisons / Frais de port</label>
         <div class="col-sm-10">
-          <div class="form-control">{{ product.shippingFees|currency_convert_format(product.currency.code) }}</div>
+          <div class="form-control">
+            {% for delivery in product.deliveries %}
+            {{ delivery.deliveryMode.name }} {{ delivery.fee|currency_convert_format(product.currency.code) }} |
+            {% endfor %}
+          </div>
         </div>
       </div>
       {# attributes #}
