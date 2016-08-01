@@ -428,10 +428,6 @@ class DepositController extends Controller
 
         $product->setUser($this->getUser());
 
-
-        $em->persist($product);
-        $em->flush();
-
         // Associate product to every image
         if (isset($deposit['images']) && count($deposit['images']) > 0) {
             $images = $this->getDoctrine()->getRepository('ProductBundle:Image')->findById($deposit['images']);
@@ -439,6 +435,9 @@ class DepositController extends Controller
                 foreach ($images as $image) $image->setProduct($product);
             }
         }
+
+        $em->persist($product);
+        $em->flush();
 
         if (isset($deposit['attribute_values'])) {
             $this->saveProductAttributes($deposit['attribute_values'], $product);
