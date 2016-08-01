@@ -69,13 +69,6 @@ class Product
     private $weight;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="shipping_fees", type="decimal", precision=8, scale=2, nullable=true)
-     */
-    private $shippingFees = null;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
@@ -136,10 +129,10 @@ class Product
      */
     private $address;
 
+
     /**
-     * @ORM\ManyToMany(targetEntity="OrderBundle\Entity\Delivery", mappedBy="products")
-     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
-     */
+     * @ORM\OneToMany(targetEntity="OrderBundle\Entity\Delivery", mappedBy="product")
+     **/
     private $deliveries;
 
     /**
@@ -702,30 +695,6 @@ class Product
     public function getWeight()
     {
         return $this->weight;
-    }
-
-    /**
-     * Set shippingFees
-     *
-     * @param string $shippingFees
-     *
-     * @return Product
-     */
-    public function setShippingFees($shippingFees)
-    {
-        $this->shippingFees = $shippingFees;
-
-        return $this;
-    }
-
-    /**
-     * Get shippingFees
-     *
-     * @return string
-     */
-    public function getShippingFees()
-    {
-        return $this->shippingFees;
     }
 
     /**
