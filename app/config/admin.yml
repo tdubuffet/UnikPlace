@@ -33,7 +33,6 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
-                    - { property: 'deliveries' }
             new:
                 fields:
                     - { property: 'name' }
@@ -44,7 +43,6 @@ easy_admin:
                     - { property: 'status' }
                     - { property: 'user' }
                     - { property: 'images', type_options: { by_reference: false} }
-                    - { property: 'deliveries' }
             list:
                 fields:
                     ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'address']
@@ -108,8 +106,8 @@ easy_admin:
         City:
           class: LocationBundle\Entity\City
 
-        Delivery:
-          class: OrderBundle\Entity\Delivery
+        DeliveryMode:
+          class: OrderBundle\Entity\DeliveryMode
           edit:
               fields:
                   - { property: 'name' }
@@ -142,7 +140,6 @@ easy_admin:
             - Attribute
             - Status
             - Currency
-            - Delivery
             - { label: 'Collection' }
             - Collection
             - CollectionImage
