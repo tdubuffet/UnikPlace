@@ -35,6 +35,16 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/faq", name="faq")
+     * @Template("AppBundle:default:faq.html.twig")
+     */
+    public function faqAction(Request $request)
+    {
+
+        return [];
+    }
+
+    /**
      * @Template("AppBundle:default:categories.html.twig")
      */
     public function categoriesAction()
