@@ -189,9 +189,12 @@
                                 <div class="main-account">
                                   <ul class="links">
                                     {% if app.user %}
-                                      <li class="first" ><a class="my-account" href="{{ path('fos_user_profile_edit') }}" title="Mes Paramètres">Mes Paramètres</a></li>
+                                      <li><a href="{{ path("user_account_products") }}">Mes Produits</a></li>
+                                      <li><a href="{{ path('user_account_wallet') }}">Mon Argent</a></li>
+                                      <li><a href="{{ path('fos_user_profile_edit') }}">Mes Paramètres</a></li>
+                                      <li><a href="{{ path('user_account_purchases') }}">Mes Achats</a></li>
+                                      <li><a href="{{ path('user_account_sales') }}">Mes Ventes</a></li>
                                       <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma Wishlist</a></li>
-                                      <li><a class="checkout" href="{{ path('cart') }}" title="Mon Panier" class="top-link-checkout">Mon Panier</a></li>
                                       <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
                                     {% else %}
                                       <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
