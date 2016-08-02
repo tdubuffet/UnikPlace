@@ -155,7 +155,12 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="required">Téléphone <i class="fa fa-info-circle"></i></label>
+          <label class="required">
+            Téléphone
+            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
+               title="Votre numéro de téléphone sera transmis à l'acheteur si vous avez activé la remise en
+               main propre et qu'il choisit cette option."></i>
+          </label>
           <input type="text" name="phone" class="form-control" placeholder="Numéro de téléphone">
         </div>
         {{ form_row(addAddressForm.country) }}
