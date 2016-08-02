@@ -42,3 +42,32 @@ body{
         }
     }
 }
+
+.home-value {
+    background-repeat: no-repeat;
+    text-align: center;
+    padding: 140px 30px 30px;
+    background-position: center 30px;
+}
+
+.home-value.home-value-purchase { background-image: url('../bundles/app/images/homepage/home-value-purchase.png'); }
+.home-value.home-value-sell { background-image: url('../bundles/app/images/homepage/home-value-sell.png'); }
+.home-value.home-value-security { background-image: url('../bundles/app/images/homepage/home-value-security.png'); }
+
+.home-value-title {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: $brand-primary;
+}
+
+.home-value-link {
+    margin-top: 10px;
+    font-size: 1.1em;
+    text-decoration: underline;
+    display: block;
+}
+
+h3.category-product{
+    margin-top: 50px;
+    margin-bottom: 20px;
+}

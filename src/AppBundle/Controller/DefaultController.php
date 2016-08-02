@@ -20,7 +20,35 @@ class DefaultController extends Controller
     {
         $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findAllForNoCategories();
 
-        return ["collections" => $collections];
+        $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')->findByParentCache(null);
+
+        $productsByCategory = [];
+
+        foreach($categories as $category) {
+
+
+            $boolQuery = new \Elastica\Query\BoolQuery();
+            $fieldTerm = new \Elastica\Query\Term();
+            $fieldTerm->setTerm('category', $category->getPath());
+            $boolQuery->addMust($fieldTerm);
+
+            $fieldTerm = new \Elastica\Query\Terms();
+            $fieldTerm->setTerms('status', ['sold', 'published']);
+            $boolQuery->addMust($fieldTerm);
+
+            $query = new \Elastica\Query($boolQuery);
+            $results = $this->get('fos_elastica.finder.noname.product')->findPaginated($query);
+            $results->setMaxPerPage(3);
+            $results->setCurrentPage(1);
+
+            $productsByCategory[$category->getSlug()] = $results;
+        }
+
+        return [
+            "collections" => $collections,
+            "categories" => $categories,
+            'productsByCategory' => $productsByCategory
+        ];
     }
 
     /**
