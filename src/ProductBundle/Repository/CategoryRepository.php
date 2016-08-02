@@ -38,4 +38,23 @@ class CategoryRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findByParentHavingChildrenCache($parent)
+    {
+        $q = $this->createQueryBuilder('c');
+
+        if ($parent == null) {
+            $q->where('c.parent IS NULL');
+        } else {
+            $q->where('c.parent = :parent')->setParameter('parent', $parent);
+        }
+
+        $q->leftJoin("c.children", "categories")
+            ->groupBy("c.id")
+            ->having("COUNT(categories.id) > 0");
+
+        return $q->getQuery()
+            ->useResultCache(true, 3600, 'list_categories_having_children_by_parent')
+            ->getResult();
+    }
+
 }

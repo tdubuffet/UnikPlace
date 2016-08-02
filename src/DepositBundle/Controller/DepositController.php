@@ -2,6 +2,7 @@
 
 namespace DepositBundle\Controller;
 
+use ProductBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -33,11 +34,11 @@ class DepositController extends Controller
      */
     public function categoryAction()
     {
-        $categories = $this->getDoctrine()
-            ->getRepository('ProductBundle:Category')
-            ->findByParentCache(NULL);
+        $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')
+            ->findByParentHavingChildrenCache(NULL);
+
         return [
-            'categories' => $categories
+            'categories' => $categories,
         ];
     }
 
@@ -139,8 +140,8 @@ class DepositController extends Controller
                             'viewVars' => [
                                 'label'     => $attribute->getName(),
                                 'id'        => $attribute->getCode(),
-                                'mandatory' => $attribute->getMandatory()
-                            ]
+                                'mandatory' => $attribute->getMandatory(),
+                            ],
                         ];
                         $referential = $attribute->getReferential();
                         if (isset($referential)) {
@@ -236,7 +237,7 @@ class DepositController extends Controller
 
         return [
             'fee_rate' =>   $this->getParameter('mangopay.fee_rate'),
-            'fixed_fee' =>  $this->getParameter('mangopay.fixed_fee')
+            'fixed_fee' =>  $this->getParameter('mangopay.fixed_fee'),
         ];
     }
 
@@ -343,7 +344,7 @@ class DepositController extends Controller
                     'address_id' => "adresse",
                     'length' => 'longueur',
                     'width' => 'largeur',
-                    'height' => 'hauteur'
+                    'height' => 'hauteur',
                 ];
 
                 $errors = [];
@@ -444,7 +445,7 @@ class DepositController extends Controller
                             'weight' => $product->getWeight(),
                             'length' => $product->getLength(),
                             'width'  => $product->getWidth(),
-                            'height' => $product->getHeight()
+                            'height' => $product->getHeight(),
                         ]
                     ));
                 }
@@ -496,6 +497,7 @@ class DepositController extends Controller
     {
 
         $categoryId = $request->get('category_id');
+        $subcategs = '';
         if (isset($categoryId)) {
             $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($categoryId);
 
@@ -532,7 +534,7 @@ class DepositController extends Controller
         }
 
         $pic = array(
-            'id' => $img->getId()
+            'id' => $img->getId(),
         );
 
         return new JsonResponse(array('message' => "Image successfully uploaded.", 'pic' => $pic), 201);
