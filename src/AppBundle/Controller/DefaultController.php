@@ -24,7 +24,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/about", name="about")
+     * @Route("/a-propos", name="about")
      * @Template("AppBundle:default:about.html.twig")
      */
     public function aboutAction(Request $request)
