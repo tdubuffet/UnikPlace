@@ -14,6 +14,8 @@
           <div class="text-left date">{{ notification.createdAt|date('d/m/Y H:i') }}</div>
         </div>
       </div>
+    {% else %}
+    <div class="row-fluid notification clearfix text-center">Aucune notification</div>
     {% endfor %}
   </div>
   <div id="notificationFooter"><a href="{{ path('user_notification_list') }}" title="Voir toutes les notifications">Voir toutes les notifications</a></div>
