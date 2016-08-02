@@ -165,32 +165,39 @@
                             </div>
                           </div><!-- .actions -->
                           {% set isProposal = proposalForm is defined and proposalForm is not null %}
-                          {% if app.user.email != product.user.email %}
-                            <a class="actions" href="#"
-                                {% if offLimit == false %} data-toggle="modal" data-target="#orderProposalModal" {% endif %}>
+                          {% set offerPendingOrNoLimit = offLimit == false or proposal.status.name == "pending" %}
+                          {% if app.user.email != product.user.email and product.status.name == "published" %}
+                            <div class="actions"
+                                    {% if offerPendingOrNoLimit %}
+                                      data-toggle="modal" data-target="#orderProposalModal"
+                                    {% else %}
+                                      data-container="body" data-toggle="popover" data-placement="top"
+                                      data-content="Vous avez atteint la limite d'offres pour la journée. Cependant vous
+                                        pourrez refaire de nouvelles offres dès demain."
+                                    {% endif %}>
                               <div class="action-list contact-seller">
-                                <button type="button" data-toggle="tooltip" data-placement="top"
-                                        title="Faire une offre" class="btn-contact">
+                                <button type="button" title="Faire une offre" class="btn-contact">
                                   <span class="btn-contact-lbl">
                                     <span class="btn-contact-txt">
-                                      {% if offLimit %}
-                                        Nombre d'offre maximum atteint
+                                      {% if proposal.status.name == "pending" %}
+                                        Offre en cours
                                       {% elseif isProposal %}
                                         Faire une offre
-                                      {% elseif proposal.status.name == "pending" %}
-                                        Offre en cours
-                                        {% else %}
+                                      {% elseif offLimit %}
+                                        Nombre d'offre maximum atteint
+                                      {% else %}
                                         Offre acceptée
                                       {% endif %}
                                     </span>
                                   </span>
                                 </button>
                               </div>
-                            </a><!-- .actions -->
-                            {% endif %}
+                            </div><!-- .actions -->
+
+                          {% endif %}
                         </div>
                       </div><!-- .actions-wrapper -->
-                      {% if offLimit == false and app.user.email != product.user.email %}
+                      {% if offerPendingOrNoLimit and app.user.email != product.user.email and product.status.name == "published" %}
                         <div class="modal fade in" id="orderProposalModal" tabindex="-1" role="dialog">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">

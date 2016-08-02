@@ -1,6 +1,7 @@
 var Product = {
 
     init: function() {
+        $("[data-toggle=popover]").popover();
 
         Product.initFavoriteButton();
         Product.initCartButton();
