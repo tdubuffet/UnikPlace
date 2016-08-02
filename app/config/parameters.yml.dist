@@ -40,3 +40,13 @@ parameters:
     mailer_contact_email: contact@noname.dev
     site_name: "Unik Place"
 
+    website:
+        contact:
+            address: "11 rue de caumartin, 75009, Paris, France"
+            email: %mailer_contact_email%
+            phone: "02 37 26 58 11"
+        socialNetwork:
+            facebook: "http://facebook.com"
+            twitter: "http://facebook.com"
+            google: "http://facebook.com"
+

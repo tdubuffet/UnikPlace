@@ -67,6 +67,17 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Template("AppBundle:default:footerShop.html.twig")
+     */
+    public function footerShopAction()
+    {
+
+        $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')->findByParentCache(null);
+
+        return ['categories' => $categories];
+    }
+
+    /**
      * @Template("AppBundle:default:searchcategories.html.twig")
      */
     public function searchCategoriesAction()

@@ -352,77 +352,33 @@
                       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="about">
                           <div class="footer-block-title">
-                            <h2><span>About</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
+                            <h2><span>A propos de nous</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
                           </div>
                           <div class="custom-footer-content">
-                            <div class="about-text"><p>Qras at justto varius tempus nibh hen drerito gravida dui.A suscipit sapien pretium pullami nevelit fringilla id risus vel.</p></div>
+                            <div class="about-text"><p>
+                                Unik Place est un éditeur de petit annonce. A revoir
+                              </p></div>
                             <div class="social">
                               <div class="footer-block-title">
-                                <h2><span>FOLLOW</span></h2>
+                                <h2><span>Réseaux sociaux</span></h2>
                               </div>
                               <ul class="social-icons small light">
-                                <li class="facebook"><a target="_blank" href="http://www.facebook.com/" class="fa fa-facebook"><span>Facebook</span></a></li>
-                                <li class="twitter"><a target="_blank" href="http://www.twitter.com/" class="fa fa-twitter"><span>Twitter</span></a></li>
-                                <li class="behance"><a target="_blank" href="https://www.behance.net/" class="fa fa-behance"><span>Behance</span></a></li>
-                                <li class="gplus"><a target="_blank" href="https://plus.google.com/" class="fa fa-google-plus"><span>Google plus</span></a></li>
+                                <li class="facebook"><a target="_blank" href="{{ website.socialNetwork.facebook }}" class="fa fa-facebook"><span>Facebook</span></a></li>
+                                <li class="twitter"><a target="_blank" href="{{ website.socialNetwork.twitter }}" class="fa fa-twitter"><span>Twitter</span></a></li>
+                                <li class="gplus"><a target="_blank" href="{{ website.socialNetwork.google }}" class="fa fa-google-plus"><span>Google plus</span></a></li>
                               </ul>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="product_link">
                           <div class="footer-block-title">
                             <h2><span>La Boutique</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
                           </div>
                           <div class="custom-footer-content">
                             <ul class="links">
-                              <li><a href="#">Nouveautés</a></li>
-                              <li><a href="#">Femmes</a></li>
-                              <li><a href="#">Hommes</a></li>
-                              <li><a href="#">Chaussures</a></li>
-                              <li><a href="#">Accessoires</a></li>
-                              <li><a href="#">Grandes Marques</a></li>
-                              <li><a href="#">Promos</a></li>
-                              <li><a href="#">Lookbook</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <div class="product_link">
-                          <div class="footer-block-title">
-                            <h2><span>Information</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
-                          </div>
-                          <div class="custom-footer-content">
-                            <ul class="links">
-                              <li><a href="#">About Us </a></li>
-                              <li><a href="#">Customer Service</a></li>
-                              <li><a href="#">New Collection</a></li>
-                              <li><a href="#">Best Sellers</a></li>
-                              <li><a href="#">Manufacturers</a></li>
-                              <li><a href="#">Privacy policy</a></li>
-                              <li><a href="#">Terms &amp; condition</a></li>
-                              <li><a href="#">Blog</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <div class="product_link">
-                          <div class="footer-block-title">
-                            <h2><span>Customer Service</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
-                          </div>
-                          <div class="custom-footer-content">
-                            <ul class="links">
-                              <li><a href="#">Search Terms</a></li>
-                              <li><a href="#">Advanced Search</a></li>
-                              <li><a href="#">Orders and Returns</a></li>
-                              <li><a href="{{ path('contact') }}">Contact Us</a></li>
-                              <li><a href="#">RSS</a></li>
-                              <li><a href="#">Help &amp; FAQs</a></li>
-                              <li><a href="#">Consultant</a></li>
-                              <li><a href="#">Store Locations</a></li>
+                              {{ render(controller('AppBundle:Default:footerShop')) }}
                             </ul>
                           </div>
                         </div>
@@ -430,12 +386,27 @@
                       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="product_link">
                           <div class="footer-block-title">
-                            <h2><span>Contact Us</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
+                            <h2><span>Informations</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
                           </div>
                           <div class="custom-footer-content">
-                            <span class="item-info"><i class="fa fa-university"></i><span class="address">1234 - Bandit Tringi lAliquam<br>Vitae. New York</span> </span>
-                            <span class="item-info"><i class="fa fa-envelope-o"></i><span class="email">icothemes@gmail.com</span> </span>
-                            <span class="item-info"><i class="fa fa-phone"></i><span class="phone">(800) 0123 456 789</span> </span>
+                            <ul class="links">
+                              <li><a href="{{ path('about') }}">A propos de nous</a></li>
+                              <li><a href="{{ path('faq') }}">Foire aux questions</a></li>
+                              <li><a href="{{ path('legal_notice') }}">Mentions légales</a></li>
+                              <li><a href="{{ path('contact') }}">Nous contacter</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="product_link">
+                          <div class="footer-block-title">
+                            <h2><span>Nous contacter</span><span class="mobile-button visible-xs active">accordion-footer</span></h2>
+                          </div>
+                          <div class="custom-footer-content">
+                            <span class="item-info"><i class="fa fa-university"></i><span class="address">{{ website.contact.address }}</span> </span>
+                            <span class="item-info"><i class="fa fa-envelope-o"></i><span class="email">{{ website.contact.email }}</span> </span>
+                            <span class="item-info"><i class="fa fa-phone"></i><span class="phone">{{ website.contact.phone }}</span> </span>
                           </div>
                         </div>
                       </div>
@@ -458,7 +429,7 @@
       <div class="footer-copyright">
         <div class="container">
           <div class="row">
-            <div class="col-lg-12"><address>Copyright &copy; 2015 <a href="http://icotheme.com">Magento Themes</a> by IcoTheme. All rights reserved.</address></div>
+            <div class="col-lg-12"><address>{{ siteName }} {{ "now"|date('Y') }} - Tous droits réservés - Site d'achat, vente de biens d'occasions et neufs sécurisé.</address></div>
           </div>
         </div>
       </div>
