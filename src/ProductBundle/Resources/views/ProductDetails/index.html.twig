@@ -347,8 +347,14 @@
                   <div class="tab-pane" id="product_tabs_shipping">
                     <div class="product-tabs-content-inner clearfix">
                       <div class="widget-products-upsell">
-                        <div class="std">
-                          Frais de livraison
+                        <div class="std text-left">
+                          Modes de livraison :
+                          <br>
+                          {% for delivery in product.deliveries.toArray %}
+                            {{ delivery.deliveryMode.name }} :
+                            {{  delivery.fee|currency_convert_format(product.currency.code) }}
+                            <br>
+                          {% endfor %}
                         </div>
                       </div>
                     </div>
