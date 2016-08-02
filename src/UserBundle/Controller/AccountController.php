@@ -228,6 +228,7 @@ class AccountController extends Controller
                         'message' => 'Le pays de résidence n\'est pas valide.'
                     ])
                 ],
+                'preferred_choices' => array('FR'),
                 'label' => 'Pays de résidence'
             ])
             ->getForm();
