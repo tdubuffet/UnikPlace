@@ -51,12 +51,13 @@
             </td>
             <td id="price{{ product.id }}">{{ product.price|currency_convert_format(product.currency.code) }}</td>
             <td>
-              <button class="btn btn-danger" data-id="{{ product.id }}" data-name="{{ product.name }}"
-                      data-toggle="modal" data-target="#deleteProductModal">Supprimer
-              </button>
-              <button class="btn btn-info" data-id="{{ product.id }}" data-name="{{ product.name }}"
+              <button class="btn btn-primary btn-xs" data-id="{{ product.id }}" data-name="{{ product.name }}"
                       data-price="{{ product.price }}" data-toggle="modal" data-target="#updateProductModal">
                 Modifier le prix
+              </button>
+
+              <button class="btn btn-danger btn-xs" data-id="{{ product.id }}" data-name="{{ product.name }}"
+                      data-toggle="modal" data-target="#deleteProductModal"><i class="fa fa-trash"></i>
               </button>
             </td>
           </tr>

@@ -53,7 +53,7 @@
           {% endif %}
         </td>
         <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
-        <td><a class="btn btn-primary" href="{{ path('user_account_sale', { id: order.id}) }}">Voir</a></td>
+        <td><a class="btn btn-primary btn-xs" href="{{ path('user_account_sale', { id: order.id}) }}"><i class="fa fa-eye"></i> Voir</a></td>
       </tr>
     {% else %}
 
