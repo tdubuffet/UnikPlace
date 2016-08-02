@@ -7,4 +7,10 @@
 
 {% block account_content %}
   {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+
+
+  <h3>Autres actions</h3>
+
+  <a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a><br />
+  <a href="#" title="Supprimer mon compte"  data-toggle="modal" data-target="#removeAccount">Supprimer mon compte</a>
 {% endblock %}
