@@ -389,7 +389,7 @@ class MangoPayService
         // As seller
         $products = $user->getProducts();
         foreach ($products as $product) {
-            foreach ($product->getOrders() as $orders) {
+            foreach ($product->getOrders() as $order) {
                 $output += $order->getAmount();
             }
         }
