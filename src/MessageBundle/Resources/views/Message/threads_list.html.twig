@@ -5,6 +5,7 @@
             <th>{% trans from 'FOSMessageBundle' %}subject{% endtrans %}</th>
             <th>{% trans from 'FOSMessageBundle' %}messages{% endtrans %}</th>
             <th>{% trans from 'FOSMessageBundle' %}last_message{% endtrans %}</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -27,16 +28,12 @@
                 </td>
                 <td>
                     {% if thread.lastMessage %}
-                        <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}#message_{{ thread.lastMessage.id }}" title="{% trans from 'FOSMessageBundle' %}goto_last{% endtrans %}">
-                            →
-                        </a>
                         {% trans with {'%date%': thread.lastMessage.createdAt|date('d/m/Y H:i')} from 'FOSMessageBundle' %}on{% endtrans %}
-                        <br />
-                        {% trans with {'%sender%': thread.lastMessage.sender|e } from 'FOSMessageBundle' %}by{% endtrans %}
                     {% else %}
                         ----
                     {% endif %}
                 </td>
+                <td><a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Voir</a></td>
             </tr>
         {% endfor %}
     {% else %}
