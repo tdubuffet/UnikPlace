@@ -45,6 +45,16 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/mentions-legales", name="legal_notice")
+     * @Template("AppBundle:default:legalNotice.html.twig")
+     */
+    public function legalNoticeAction(Request $request)
+    {
+
+        return [];
+    }
+
+    /**
      * @Template("AppBundle:default:categories.html.twig")
      */
     public function categoriesAction()
