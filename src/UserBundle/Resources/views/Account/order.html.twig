@@ -238,7 +238,12 @@
         <div class="row">
           <div class="messenger_thread_message {% if message.sender == app.user %}col-md-9 col-md-offset-3 user{% else %}col-md-9{% endif %}">
             <div class="messenger_thread_message_info">
-              {% if message.sender == app.user %}De vous{% endif %}, le {{ message.createdAt|date('d/m/Y H:i') }}.
+              {% if app.user == message.sender %}
+                Vous,
+              {% else %}
+                Le vendeur,
+              {% endif %}
+              le {{ message.createdAt|date('d/m/Y H:i') }}
             </div>
 
             <div class="messenger_thread_message_body" id="message_{{ message.id }}">
