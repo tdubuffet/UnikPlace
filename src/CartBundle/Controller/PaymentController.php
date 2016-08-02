@@ -40,8 +40,8 @@ class PaymentController extends Controller
         $deliveryFee            = 0; // in EUR
 
         $cartDelivery = $session->get('cart_delivery');
-        var_dump($cartDelivery);
         $cartAddresses = $session->get('cart_addresses');
+        $cartDeliveryFinal = [];
 
         foreach ($cart as $productId) {
             $product = $this->getDoctrine()

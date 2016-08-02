@@ -230,18 +230,21 @@ button.button span {
   font-weight:600;
 }
 .popup-wrapper .content-wrapper .product-detail .actions .btn { margin: 5px 0; }
+
 .tooltip.left .tooltip-arrow {
   top:50%;
   right:0;
   margin-top:-5px;
-  border-left-color:#00a7d3;
+  border-left-color:#000;
   border-width:5px 0 5px 5px;
 }
 .tooltip-inner {
   color:#ffffff;
-  background:#00a7d3;
-  width:100px;
-  padding:3px 0;
+  background:#000;
+  max-width : 200px;
+  padding:3px 8px;
+  text-align: center;
+  border-radius: 4px;
 }
 .header-wrapper .header-right-wrapper {
   padding:30px 0;

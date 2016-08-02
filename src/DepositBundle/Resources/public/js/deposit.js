@@ -1,6 +1,9 @@
 var Deposit = {
 
     init: function() {
+        $("[data-toggle=popover]").popover();
+        $('[data-toggle="tooltip"]').tooltip();
+
         $('#subcategories-select').select2({
             "language": {
                 "noResults": function(){

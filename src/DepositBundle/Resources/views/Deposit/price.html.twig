@@ -45,14 +45,22 @@
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label>Prix du produit neuf</label>
+                  <label>
+                    Prix du produit neuf
+                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
+                       title="Indiquez le prix d'origine du produit si vous le connaissez"></i>
+                  </label>
                   <input type="number" name="original_price" class="form-control" min="1" placeholder="Indiquez le prix d'achat" value="{% if app.session.get('deposit').original_price is defined %}{{ app.session.get('deposit').original_price }}{% endif %}">
                 </div>
               </div>
             </div>
 
             <div class="text-center">
-              <label>Montant reversé une fois votre produit vendu <i class="fa fa-info-circle"></i></label>
+              <label>
+                Montant reversé une fois votre produit vendu
+                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
+                   title="{{ siteName }} prend une commission de {{ fee_rate }}% sur le prix de vente du produit"></i>
+              </label>
               <div class="valued-amount" data-fee="{{ fixed_fee }}" data-rate="{{ fee_rate }}">0,00 €</div>
 
               <div class="checkbox">
