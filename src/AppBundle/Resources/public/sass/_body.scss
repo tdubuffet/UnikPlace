@@ -31,4 +31,14 @@ body{
         margin-top: 30px;
         font-size: 1.6em;
     }
+
+    ul{
+        padding-left: 30px;
+        li{
+            margin: 4px 0;
+        }
+        li:before {
+            content: "→ "; /* caractère UTF-8 */
+        }
+    }
 }
