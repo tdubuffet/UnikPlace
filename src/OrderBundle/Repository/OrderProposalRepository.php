@@ -2,6 +2,7 @@
 
 namespace OrderBundle\Repository;
 
+use Doctrine\ORM\Query;
 use UserBundle\Entity\User;
 
 /**
@@ -26,8 +27,8 @@ class OrderProposalRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('q.createdAt LIKE :date')
             ->setParameters(['user' => $user, 'date' => $day."%"])
             ->getQuery()
-            ->getResult();
+            ->getResult(Query::HYDRATE_SINGLE_SCALAR);
 
-        return is_array($builder) ? $builder[0]['total'] : $builder;
+        return $builder;
     }
 }

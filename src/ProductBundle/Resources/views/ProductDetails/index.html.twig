@@ -165,8 +165,8 @@
                             </div>
                           </div><!-- .actions -->
                           {% set isProposal = proposalForm is defined and proposalForm is not null %}
-                          {% set isPublishedAndOfferAllowed = product.status.name == "published" and proposal.product.allowOffer == true %}
-                          {% set offerPendingOrNoLimit = offLimit == false or proposal.status.name == "pending" %}
+                          {% set isPublishedAndOfferAllowed = product.status.name == "published" and product.allowOffer == true %}
+                          {% set offerPendingOrNoLimit = offLimit == false or (proposal.status is not null and proposal.status.name == "pending" )%}
                           {% if app.user.email != product.user.email and isPublishedAndOfferAllowed %}
                             <div class="actions"
                                     {% if offerPendingOrNoLimit %}
@@ -180,7 +180,7 @@
                                 <button type="button" title="Faire une offre" class="btn-contact">
                                   <span class="btn-contact-lbl">
                                     <span class="btn-contact-txt">
-                                      {% if proposal.status.name == "pending" %}
+                                      {% if proposal.status is not null and proposal.status.name == "pending" %}
                                         Offre en cours
                                       {% elseif isProposal %}
                                         Faire une offre
