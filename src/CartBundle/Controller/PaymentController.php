@@ -40,6 +40,7 @@ class PaymentController extends Controller
         $deliveryFee            = 0; // in EUR
 
         $cartDelivery = $session->get('cart_delivery');
+        var_dump($cartDelivery);
         $cartAddresses = $session->get('cart_addresses');
 
         foreach ($cart as $productId) {
@@ -72,7 +73,8 @@ class PaymentController extends Controller
                 throw new \Exception('Not found delivery type');
             }
             $deliveryModeCode = $cartDelivery[$product->getId()];
-            $deliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode($deliveryModeCode);
+            $deliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneBy(['code' => $deliveryModeCode]);
+            $cartDeliveryFinal[$product->getId()] = $deliveryMode->getName();
             if (!isset($deliveryMode)) {
                 throw new \Exception('Delivery mode not found.');
             }
@@ -123,7 +125,7 @@ class PaymentController extends Controller
             'products' => $products,
             'productsTotalPrice' => $productsTotalPrice,
             'deliveryFee' => $deliveryFee,
-            'deliveryModes' => $cartDelivery,
+            'deliveryModes' => $cartDeliveryFinal,
             'addresses' => $addresses,
             'cardRegistration' => $cardRegistration
         ];
