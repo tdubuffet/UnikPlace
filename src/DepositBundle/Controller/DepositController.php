@@ -351,15 +351,18 @@ class DepositController extends Controller
                     if (!$request->get($field) || empty($request->get($field))) {
                         $errors[] = "Le champ ".$label." doit être renseigné.";
                     } else {
+
+                        $dim = $request->get('length', 0) + $request->get('width', 0) + $request->get('height');
                         if ($field == 'weight') {
-                            if ($request->get($field) < 1) {
-                                throw new \Exception('Weight cannot be lower than 1 kg');
+                            if ($request->get($field) < 0) {
+                                throw new \Exception('Weight cannot be lower than 0 kg');
                             }
-                            if ($request->get($field) < 30) {
+                            if ($request->get($field) < 30 && $dim <= 150 && $request->get('length', 0) <= 100 ) {
                                 $deposit['delivery']['codes'][] = 'colissimo_parcel'; // By default colissimo
-                            } elseif ($request->get($field) >= 30 && (!$request->get('shipping_fees') || empty($request->get('shipping_fees')))) {
+                            } elseif (($request->get($field) >= 30 || $dim > 150 || $request->get('length', 0) > 100 ) && (!$request->get('shipping_fees') || empty($request->get('shipping_fees')))) {
                                 $errors[] = "Le champ frais de port doit être renseigné.";
                             }
+
                             $deposit['delivery'][$field] = ($request->get($field) * 1000); // transform Kg to g
                         } elseif ($field == 'shipping_fees') {
                             if ($request->get($field) < 1) {

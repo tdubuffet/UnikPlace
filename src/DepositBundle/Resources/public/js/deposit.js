@@ -343,11 +343,15 @@ var Deposit = {
             }
         });
 
+        jQuery.validator.addMethod("weightNumber", function (value, element) {
+            return this.optional(element) || /^(\d+|\d+,\d{1,2})$/.test(value);
+        }, "Please specify the correct number format");
+
         $("#shipping-form").validate({
             rules: {
-                "weight": {
+                "weightNumber": {
                     required: true,
-                    number: true,
+                    weightNumber: true,
                 },
 
                 "length": {
@@ -364,7 +368,26 @@ var Deposit = {
                 },
                 "shipping_fees": {
                     number: true,
+
                 }
+            },
+            messages: {
+
+                "shipping_fees": {
+                    required: "Votre colis ne peut être pris en charge par Colissimo compte tenu de son poids et dimensions. Vous avez la possibilité de choisir votre propre transporteur et de renseigner son tarif de livraison."
+                }
+            }
+        });
+
+
+        $('#product-length, #product-width, #product-height, #product-weight').blur(function() {
+
+            var dim = $('#product-height').val() + $('#product-length').val() + $('#product-width').val();
+
+            if ($('#product-weight').val() >= 30 || dim >= 150) {
+                $('input[name="shipping_fees"]').rules("add", "required");
+            } else {
+                $('input[name="shipping_fees"]').rules("remove", "required");
             }
         });
 

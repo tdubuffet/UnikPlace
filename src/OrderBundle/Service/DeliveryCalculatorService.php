@@ -2,6 +2,8 @@
 
 namespace OrderBundle\Service;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
+
 class DeliveryCalculatorService
 {
 
@@ -32,11 +34,6 @@ class DeliveryCalculatorService
         ),
     );
 
-
-    public function __construct()
-    {
-    }
-
     public function getFeeFromProductAndDeliveryModeCode($deliveryCode, $productInfos)
     {
         if ($deliveryCode == 'by_hand') {
@@ -48,6 +45,25 @@ class DeliveryCalculatorService
         }
         if (!isset($productInfos['weight'])) {
             throw new \Exception('A weight in grams is required to calculate delivery fee.');
+        }
+
+        if (!isset($productInfos['length'])) {
+            throw new \Exception('A length in m is required to calculate delivery fee.');
+        }
+
+        if (!isset($productInfos['height'])) {
+            throw new \Exception('A height in m is required to calculate delivery fee.');
+        }
+
+        if (!isset($productInfos['width'])) {
+            throw new \Exception('A width in m is required to calculate delivery fee.');
+        }
+
+
+        $dim = ($productInfos['length'] + $productInfos['height'] + $productInfos['width']) * 100;
+
+        if ($dim > 150 || ($productInfos['length']*100) > 100 ) {
+            throw new \Exception('The dimensions are too large');
         }
 
         foreach ($this->deliveryModes[$deliveryCode]['prices'] as $rangeWeight => $price) {

@@ -42,45 +42,55 @@
           {% endfor %}
 
           <form method="post" action="{{ path('deposit_postshipping') }}" id="shipping-form">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label class="required">Poids en kg</label>
-                  <input type="number" name="weight" id="product-weight" class="form-control" min="1" placeholder="Poids du produit en kg">
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label>Frais de port en France métropolitaine <i class="fa fa-info-circle"></i></label>
 
-                  <input type="number" name="shipping_fees" class="form-control" placeholder="Montant en euros">
-
-                  <div><a href="#"><strong>Informations :</strong> Découvrez les tarifs colissimo de la poste</a></div>
-                </div>
-              </div>
-            </div>
-
-
-            <h3>Dimensions de l'objet</h3>
 
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
                   <label class="required">Largeur en cm</label>
-                  <input type="number" name="width" id="product-width" class="form-control" min="1" placeholder="Largeur du produit en cm">
+                  <input type="number" name="width" id="product-width" class="form-control" min="1" placeholder="Largeur du produit en cm" value="{{ app.request.get('width') }}">
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
                   <label class="required">Longeur en cm</label>
-                  <input type="number" name="length" id="product-length" class="form-control" min="1" placeholder="Longueur du produit en cm">
+                  <input type="number" name="length" id="product-length" class="form-control" min="1" placeholder="Longueur du produit en cm" value="{{ app.request.get('length') }}">
                 </div>
               </div>
 
               <div class="col-sm-6">
                 <div class="form-group">
                   <label class="required">Hauteur en cm</label>
-                  <input type="number" name="height" id="product-height" class="form-control" min="1" placeholder="Hauteur du produit en cm">
+                  <input type="number" name="height" id="product-height" class="form-control" min="1" placeholder="Hauteur du produit en cm" value="{{ app.request.get('height') }}">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="required">Poids en kg</label>
+                  <input type="number" name="weight" id="product-weight" class="form-control" min="1" placeholder="Poids du produit en kg" value="{{ app.request.get('weight') }}">
+                </div>
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+
+                  <p>
+                    <a href="#"><strong>Informations :</strong>Vous avez la possibilité de choisir votre propre transporteur et de renseigner un tarif de livraison. Nous vous suggérons les transporteurs suivants : UPS, FEDEX, DHL, Geodis, GLS</a>
+                  </p>
+
+                  <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+
+                      <label>Mes frais de port en France métropolitaine <i class="fa fa-info-circle"></i></label>
+                      <input  class="form-control" type="number" name="shipping_fees" placeholder="Montant en euros">
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
