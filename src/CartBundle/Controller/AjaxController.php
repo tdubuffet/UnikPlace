@@ -71,26 +71,17 @@ class AjaxController extends Controller
     {
         $cart = $this->get('session')->get('cart', []);
         $productsTotalPrice = 0; // in EUR
-        $deliveryFee = 0; // in EUR
 
         foreach ($cart as $productId) {
             $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneBy(['id' => $productId]);
+            $offer = $this->getDoctrine()->getRepository("OrderBundle:OrderProposal")
+                ->findOneBy(['product' => $product, 'status' => 2]);
+            $price = $offer ? $offer->getAmount() : $product->getPrice();
             $productsTotalPrice += $this->get('lexik_currency.converter')
-                ->convert($product->getPrice(), $currency, true, $product->getCurrency()->getCode());
+                ->convert($price, $currency, true, $product->getCurrency()->getCode());
         }
-        $total = $productsTotalPrice+ $deliveryFee;
+        $service = $this->get('lexik_currency.formatter');
 
-        if (!$formated) {
-            return ['total' => $total, 'product' => $productsTotalPrice, 'delivery' => $deliveryFee];
-        }else {
-            $service = $this->get('lexik_currency.formatter');
-
-            return [
-                'product' => $service->format($productsTotalPrice, $currency),
-                'delivery' => $service->format($deliveryFee, $currency),
-                'total' => $service->format($total, $currency),
-            ];
-        }
-
+        return ['product' => $formated ? $service->format($productsTotalPrice, $currency) : $productsTotalPrice];
     }
 }

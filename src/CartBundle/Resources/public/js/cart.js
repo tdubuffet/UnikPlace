@@ -39,8 +39,7 @@ var Cart = {
                     var total = $('span.numb.main-numb');
                     $('h1.title-h1').after("<div class='alert alert-success'>Le produit a bien été retiré du panier</div>");
                     $('span.product').html(result['prices']['product']);
-                    $('span.delivery').html(result['prices']['delivery']);
-                    $('span.totalProduct').html(result['prices']['total']);
+                    Cart.calculateDeliveryFee();
                     total.html(total.html() - 1);
 
                 },
