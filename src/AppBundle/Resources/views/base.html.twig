@@ -182,34 +182,27 @@
                       </div>
                       <div class="store-wrapper"></div>
                       <div class="header-setting">
-                        <div class="setting-switcher switcher-wrap">
-                          <div class="overwrite-setting">
+                        <div class="dropdown setting-switcher switcher-wrap">
+                          <a href="#" class="overwrite-setting" data-toggle="dropdown" class="dropdown-toggle">
                             <span>Mon Compte</span>
-                          </div>
-                          <div class="switcher-content">
-                            <div class="main-switcher">
-                              <div class="main-setting">
-                                <div class="main-account">
-                                  <ul class="links">
-                                    {% if app.user %}
-                                      <li class="first"><a href="{{ path("user_account_products") }}">Mes produits</a></li>
-                                      <li><a href="{{ path('user_account_wallet') }}">Mon argent</a></li>
-                                      <li><a href="{{ path('fos_user_profile_edit') }}">Mes paramètres</a></li>
-                                      <li><a href="{{ path('user_account_purchases') }}">Mes achats</a></li>
-                                      <li><a href="{{ path('user_account_sales') }}">Mes ventes</a></li>
-                                      <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
-                                      <li class="hidden-lg"><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
-                                      <li class="hidden-lg"><a href="{{ path('fos_message_inbox') }}">Mes messages</a></li>
-                                      <li class="last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
-                                    {% else %}
-                                      <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
-                                      <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
-                                    {% endif %}
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          </a>
+
+                          <ul class="dropdown-menu dropdown-user">
+                            {% if app.user %}
+                            <li class="first"><a href="{{ path("user_account_products") }}">Mes produits</a></li>
+                            <li><a href="{{ path('user_account_wallet') }}">Mon argent</a></li>
+                            <li><a href="{{ path('fos_user_profile_edit') }}">Mes paramètres</a></li>
+                            <li><a href="{{ path('user_account_purchases') }}">Mes achats</a></li>
+                            <li><a href="{{ path('user_account_sales') }}">Mes ventes</a></li>
+                            <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
+                            <li class="hidden-lg"><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
+                            <li class="hidden-lg"><a href="{{ path('fos_message_inbox') }}">Mes messages</a></li>
+                            <li class="last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
+                          {% else %}
+                            <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
+                            <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
+                            {% endif %}
+                          </ul>
                         </div>
                       </div>
                     </div>
