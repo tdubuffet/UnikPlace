@@ -3,6 +3,16 @@
 {% block body %}
   <h1>Mes Paramètres</h1>
 
+  {% for key, flashs in app.session.getFlashBag.all() %}
+
+    <div class="alert alert-{{ key }}">
+      {% for message in flashs %}
+        {{ message }}
+      {% endfor %}
+    </div>
+
+  {% endfor %}
+
   {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit', 'id': 'profile-form' } }) }}
     <div class="form-group">
       <label class="required">{{ 'form.email'|trans }}</label>
