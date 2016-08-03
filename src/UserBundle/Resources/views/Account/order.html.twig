@@ -240,8 +240,10 @@
             <div class="messenger_thread_message_info">
               {% if app.user == message.sender %}
                 Vous,
-              {% else %}
+              {% elseif message.sender == thread.product.user %}
                 Le vendeur,
+              {% else %}
+                L'acheteur,
               {% endif %}
               le {{ message.createdAt|date('d/m/Y H:i') }}
             </div>

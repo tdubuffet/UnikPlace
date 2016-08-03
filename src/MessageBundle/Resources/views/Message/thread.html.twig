@@ -4,14 +4,20 @@
 
 <h2>{{ thread.subject }}</h2>
 
+<p>
+    <a target="_blank" href="{{ path('product_details', { id: thread.product.id, slug: thread.product.slug }) }}">Voir l'annonce: {{ thread.product.name }}</a>
+</p>
+
 {% for message in thread.messages %}
     <div class="row">
         <div class="messenger_thread_message {% if message.sender == app.user %}col-md-9 col-md-offset-3 user{% else %}col-md-9{% endif %}">
             <div class="messenger_thread_message_info">
                 {% if app.user == message.sender %}
                     Vous,
-                {% else %}
+                {% elseif message.sender == thread.product.user %}
                     Le vendeur,
+                {% else %}
+                    L'acheteur,
                 {% endif %}
                 le {{ message.createdAt|date('d/m/Y H:i') }}
             </div>
