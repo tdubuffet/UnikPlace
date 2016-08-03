@@ -90,8 +90,8 @@
                     <!-- navigation EOF -->                            </div>
                 </div>
                 <div class="header-logo">
-                  <a href="{{ path('homepage') }}" title="Magento Commerce" class="logo">
-                    <img class="x1" src="http://elara.icotheme.com/media/wysiwyg/icotheme/elara/logo/logo_4.png" alt="Magento Commerce" />
+                  <a href="{{ path('homepage') }}" title="{{ siteName }}" class="logo">
+                    <img class="x1" src="{{ asset('bundles/app/images/unik.png') }}" alt="{{ siteName }}" />
                   </a>
                 </div>
                 <div class="header-top-right">
@@ -159,10 +159,8 @@
             <div class="header-content hidden-xs">
               <div class="row">
                 <div class="item col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                  <a href="{{ path('homepage') }}" title="Magento Commerce"
-                     class="logo">
-                    <img src="http://elara.icotheme.com/media/wysiwyg/icotheme/elara/logo/logo_4.png"
-                         alt="Magento Commerce"/>
+                  <a href="{{ path('homepage') }}" title="{{ siteName }}" class="logo">
+                    <img class="x1" src="{{ asset('bundles/app/images/unik.png') }}" alt="{{ siteName }}" />
                   </a>
                 </div>
                 <div class="item col-lg-10 col-md-10 col-sm-9 col-xs-12">
