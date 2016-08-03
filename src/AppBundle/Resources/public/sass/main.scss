@@ -7788,3 +7788,26 @@ body { background-color:rgba(0,0,0,0); }
 .owl-carousel {
    z-index : auto;
  }
+
+table.table-carts {
+  tbody {
+    td {
+      vertical-align: middle;
+    }
+  }
+
+  .label-table{
+    color: $brand-primary;
+  }
+
+  tfoot {
+    td{
+      padding-top: 15px;
+    }
+    tr.no-border{
+      td {
+        border: none;
+      }
+    }
+  }
+}

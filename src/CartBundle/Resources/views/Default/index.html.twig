@@ -21,15 +21,14 @@
         {% else %}
 
         <form action="{{ path(app.request.attributes.get('_route')) }}" method="post">
-          <table class="table">
+          <table class="table table-carts">
             <thead>
               <tr>
                 <th>Produit</th>
                 <th>Nom</th>
-                <th>Prix</th>
                 <th>Ville</th>
-                <th>Mode de livraison</th>
-                <th>Action</th>
+                <th colspan="2">Mode de livraison</th>
+                <th>Prix</th>
               </tr>
             </thead>
             <tbody>
@@ -41,12 +40,6 @@
                   </a>
                 </td>
                 <td><a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a></td>
-                <td>
-                  {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
-                  {% if product.getCurrency.getCode != 'EUR' %}
-                  ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
-                  {% endif %}
-                </td>
                 <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
                 <td>
                   <select name="{{ product.getId() }}" class="cartDeliverySelection">
@@ -55,20 +48,34 @@
                     {% endfor %}
                   </select>
                 </td>
-                <td><button type="button" class="btn btn-danger" data-id="{{ product.id }}">Supprimer</button></td>
+                <td style="max-width: 5%;"><button type="button" class="btn btn-link" data-id="{{ product.id }}"><i class="fa fa-trash"></i></button></td>
+                <td class="text-right">
+                  {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                  {% if product.getCurrency.getCode != 'EUR' %}
+                    ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                  {% endif %}
+                </td>
               </tr>
               {% endfor %}
             </tbody>
+            <tfoot class="text-right">
+              <tr>
+                <td colspan="5" class="text-right label-table">Total produit</td>
+                <td colspan="1"><span class="totalProduct" data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span></td>
+              </tr>
+              <tr class="no-border">
+                <td colspan="5" class="label-table">Estimation des frais de livraison</td>
+                <td colspan="1"><span class="totalDelivery"></span></td>
+              </tr>
+              <tr class="no-border">
+                <td colspan="5" class="label-table">Total TTC</td>
+                <td colspan="1"><span class="totalOrder">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span></td>
+              </tr>
+            </tfoot>
           </table>
 
           <div class="text-right">
-            <div>
-              Total produit: <span class="totalProduct" data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span><br/>
-              Estimation des frais de livraison: <span class="totalDelivery"></span> <br/>
-              TOTAL: <span class="totalOrder">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span>
-            </div>
-
-            <input class="btn btn-primary" type="submit" value="Etape suivante">
+            <input class="btn btn-primary" type="submit" value="Finaliser ma commande">
           </div>
         </form>
       {% endif %}
