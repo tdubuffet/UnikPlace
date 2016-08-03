@@ -2,6 +2,7 @@
 
 namespace ImageBundle\Controller;
 
+use Intervention\Image\Constraint;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Intervention\Image\ImageManager;
@@ -45,11 +46,15 @@ class DefaultController extends Controller
                 $quality = $qualityThumbnail;
             }
 
-            $methodArray = ["r" => "resize", "rc" => "resizeCanvas", "c" => "crop"];
+            $methodArray = ["r" => "resize", "rc" => "resizeCanvas", "c" => "crop", 'f' => 'fit',"r2" => "resize2"];
             $method = isset($methodArray[$method]) ? $methodArray[$method] : "resize";
 
             if ($method == "resizeCanvas") {
                 $image->resizeCanvas($width, $height, 'center', false, 'FFFFFF');
+            }elseif ($method == "resize2") {
+                $image->resize($width, $height, function (Constraint $constraint) {
+                    $constraint->aspectRatio();
+                });
             } else {
                 $image->$method($width, $height);
             }

@@ -57,9 +57,7 @@ class DefaultController extends Controller
      */
     public function aboutAction(Request $request)
     {
-        $viewVars['magicNumber'] = rand(1, 100);
 
-        return $viewVars;
     }
 
     /**
