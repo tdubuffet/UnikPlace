@@ -3,6 +3,7 @@
 namespace OrderBundle\Repository;
 
 use Doctrine\ORM\Query;
+use OrderBundle\Entity\OrderProposal;
 use UserBundle\Entity\User;
 
 /**
@@ -15,20 +16,49 @@ class OrderProposalRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
      * @param User $user
-     * @return array
+     * @return int
      */
     public function findUserLimit(User $user)
     {
         $day = (new \DateTime())->format("Y-m-d");
 
-        $builder = $this->createQueryBuilder('q')
-            ->select('COUNT(q) total')
+        return $this->createQueryBuilder('q')
+            ->select('COUNT(q)')
             ->where('q.user = :user')
             ->andWhere('q.createdAt LIKE :date')
             ->setParameters(['user' => $user, 'date' => $day."%"])
             ->getQuery()
             ->getResult(Query::HYDRATE_SINGLE_SCALAR);
+    }
 
-        return $builder;
+    /**
+     * @param OrderProposal $proposal
+     * @return int
+     */
+    public function countByProposalPending(OrderProposal $proposal)
+    {
+        return $this->createQueryBuilder('q')
+            ->select('COUNT(q)')
+            ->where('q.product = :product')
+            ->leftJoin('q.status','status')
+            ->andWhere('status.name = :name')
+            ->setParameters(['product' => $proposal->getProduct(), 'name' => 'pending'])
+            ->getQuery()
+            ->getResult(Query::HYDRATE_SINGLE_SCALAR);
+    }
+
+    /**
+     * @param OrderProposal $proposal
+     * @return array
+     */
+    public function findByProposalPending(OrderProposal $proposal)
+    {
+        return $this->createQueryBuilder('q')
+            ->where('q.product = :product')
+            ->leftJoin('q.status','status')
+            ->andWhere('status.name = :name')
+            ->setParameters(['product' => $proposal->getProduct(), 'name' => 'pending'])
+            ->getQuery()
+            ->getResult();
     }
 }

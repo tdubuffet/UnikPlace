@@ -47,6 +47,13 @@
                 </div>
               </div>
               <div class="text-center">
+                {% if total > 1 %}
+                  <p>
+                    <span class="text-danger">Attention !</span>
+                    si vous acceptez cette offre, toutes les autres offres seront refusées
+                  </p>
+                {% endif %}
+
                 <p>Vous pouvez accepter ou refuser l'offre en cliquant ici sur l'un des boutons ci-dessous :</p>
                 <form method="post">
                   <div class="form-group">

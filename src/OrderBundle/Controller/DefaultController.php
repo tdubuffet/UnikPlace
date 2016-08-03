@@ -37,10 +37,26 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->flush();
             $this->get('order_service')->changeOrderProposal($proposal);
 
+            $status = $this->getDoctrine()->getRepository("OrderBundle:Status")->findOneBy(['id' => '3']);
+            $proposals = $this->getDoctrine()->getRepository("OrderBundle:OrderProposal")
+                ->countByProposalPending($proposal);
+            /** @var OrderProposal $proposalP */
+            foreach ($proposals as $proposalP) {
+                if ($proposal != $proposalP) {
+                    $proposalP->setStatus($status);
+                    $this->get('mailer_sender')->sendOrderProposalToBuyerRefused($proposalP);
+                    $this->getDoctrine()->getManager()->persist($proposalP);
+                }
+            }
+
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('offer_validation', ['id' => $proposal->getId()]);
         }
 
-        return ['proposal' => $proposal, 'product' => $proposal->getProduct()];
+        $total = $this->getDoctrine()->getRepository("OrderBundle:OrderProposal")->countByProposalPending($proposal);
+
+        return ['proposal' => $proposal, 'product' => $proposal->getProduct(), 'total' => $total];
     }
 
 }
