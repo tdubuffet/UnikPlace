@@ -19,3 +19,7 @@ monolog:
             level: debug
         console:
             type:  console
+        login:
+            type: stream
+            path: "%kernel.logs_dir%/auth_%kernel.environment%.log"
+            channels: security
