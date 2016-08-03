@@ -108,6 +108,40 @@ class MangoPayService
         return $this->mangoPayApi->Users->Create($mangoUser);
     }
 
+    public function updateUser(UserEntity $user)
+    {
+
+        $mangoUser = $this->getMangoPayUser($user->getMangopayUserId());
+
+        if ($user->getPro()) {
+
+            $mangoUser->Name                                    = $user->getCompanyName();
+            $mangoUser->LegalRepresentativeFirstName            = $user->getFirstname();
+            $mangoUser->LegalRepresentativeLastName             = $user->getLastname();
+            $mangoUser->LegalRepresentativeBirthday             = $user->getBirthday()->getTimestamp()+3600; // Fix one day gap
+            $mangoUser->LegalRepresentativeNationality          = $user->getNationality();
+            $mangoUser->LegalRepresentativeCountryOfResidence   = $user->getResidentialCountry();
+            $mangoUser->Email                                   = $user->getEmail();
+
+            unset($mangoUser->HeadquartersAddress);
+            unset($mangoUser->LegalRepresentativeAddress);
+
+        } else {
+
+            $mangoUser->FirstName           = $user->getFirstname();
+            $mangoUser->LastName            = $user->getLastname();
+            $mangoUser->Birthday            = $user->getBirthday()->getTimestamp()+3600; // Fix one day gap
+            $mangoUser->Nationality         = $user->getNationality();
+            $mangoUser->CountryOfResidence  = $user->getResidentialCountry();
+            $mangoUser->Email               = $user->getEmail();
+
+            unset($mangoUser->Address);
+
+        }
+
+        return $this->mangoPayApi->Users->Update($mangoUser);
+    }
+
     public function createWallets($mangoPayUserId)
     {
         $blockedWallet = new \MangoPay\Wallet();
