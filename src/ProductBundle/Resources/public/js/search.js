@@ -75,7 +75,7 @@ var Search = {
                 });
                 select.html(options);
 
-                $('.search-county-submit').click(function() {
+                $('.search-county').change(function() {
                     Search.search();
                 });
 
