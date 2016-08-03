@@ -7787,7 +7787,7 @@ body { background-color:rgba(0,0,0,0); }
 
 .owl-carousel {
    z-index : auto;
- }
+}
 
 table.table-carts {
   tbody {
@@ -7810,4 +7810,31 @@ table.table-carts {
       }
     }
   }
+}
+
+.cards li.visa { background-position: 0 0; }
+.cards li.visa.off { background-position: 0 32px; }
+.cards li.visa_electron { background-position: 204px 0; }
+.cards li.visa_electron.off { background-position: 204px 32px; }
+.cards li.mastercard { background-position: 153px 0; }
+.cards li.mastercard.off { background-position: 153px 32px; }
+.cards li.maestro { background-position: 102px 0; }
+.cards li.maestro.off { background-position: 102px 32px; }
+
+.cards {
+  padding-top: 15px;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+  list-style: none outside none;
+}
+
+.cards li {
+  background   : url("../bundles/app/images/card_logos.png") 0 0;
+  float        : left;
+  height       : 32px;
+  margin-right : 8px;
+  text-indent  : -9999px;
+  transition   : all 0.2s ease 0s;
+  width        : 51px;
 }

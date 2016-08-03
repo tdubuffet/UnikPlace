@@ -51,6 +51,8 @@ gulp.task('scripts-dev', function() {
             './web/components/blueimp-file-upload/js/jquery.fileupload-process.js',
             './web/components/blueimp-file-upload/js/jquery.fileupload-image.js',
             './web/components/html.sortable/dist/html.sortable.js',
+            './web/components/jquery.maskedinput/src/jquery.maskedinput.js',
+            './web/components/jquery-creditcardvalidator/jquery.creditCardValidator.js',
 
             './web/bundles/**/js/*.js'
         ])
