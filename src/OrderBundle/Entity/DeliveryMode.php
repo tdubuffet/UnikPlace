@@ -43,6 +43,13 @@ class DeliveryMode
      */
     private $type;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
 
     /**
      * Get id
@@ -59,7 +66,7 @@ class DeliveryMode
      *
      * @param string $name
      *
-     * @return Delivery
+     * @return DeliveryMode
      */
     public function setName($name)
     {
@@ -83,7 +90,7 @@ class DeliveryMode
      *
      * @param string $code
      *
-     * @return Delivery
+     * @return DeliveryMode
      */
     public function setCode($code)
     {
@@ -136,4 +143,24 @@ class DeliveryMode
     {
         return $this->type;
     }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return DeliveryMode
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
 }

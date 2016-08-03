@@ -361,11 +361,19 @@
                     <div class="product-tabs-content-inner clearfix">
                       <div class="widget-products-upsell">
                         <div class="std text-left">
-                          Modes de livraison :
+                          Le vendeur propose les modes de livraison suivants :
                           <br>
                           {% for delivery in product.deliveries.toArray %}
-                            {{ delivery.deliveryMode.name }} :
-                            {{  delivery.fee|currency_convert_format(product.currency.code) }}
+                              {{ delivery.deliveryMode.name }} :
+                            {% if delivery.fee == 0 %}
+                              Gratuit
+                            {% else %}
+                              {{  delivery.fee|currency_convert_format(product.currency.code) }}
+                            {% endif %}
+                            {% if delivery.deliveryMode.description is not null %}
+                              <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
+                                 data-container="body" title="{{  delivery.deliveryMode.description }}"></i>
+                            {% endif %}
                             <br>
                           {% endfor %}
                         </div>
