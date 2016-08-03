@@ -27,7 +27,7 @@ var Cart = {
     },
 
     cartAction: function () {
-        $("td .btn-danger").click(function () {
+        $("td .btn-remove").click(function () {
             var row = $($(this).parents("tr")[0]);
 
             $.ajax({

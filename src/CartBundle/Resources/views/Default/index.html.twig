@@ -48,7 +48,9 @@
                     {% endfor %}
                   </select>
                 </td>
-                <td style="max-width: 5%;"><button type="button" class="btn btn-link" data-id="{{ product.id }}"><i class="fa fa-trash"></i></button></td>
+                <td style="max-width: 5%;">
+                  <button type="button" class="btn btn-link btn-remove" data-id="{{ product.id }}"><i class="fa fa-trash"></i></button>
+                </td>
                 <td class="text-right">
                   {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
                   {% if product.getCurrency.getCode != 'EUR' %}
@@ -56,6 +58,10 @@
                   {% endif %}
                 </td>
               </tr>
+                {% else %}
+                <tr>
+                  <td colspan="6" class="text-center">Aucun produit dans le panier</td>
+                </tr>
               {% endfor %}
             </tbody>
             <tfoot class="text-right">
