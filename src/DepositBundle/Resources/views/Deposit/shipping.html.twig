@@ -80,7 +80,11 @@
                 <div class="form-group">
 
                   <p>
-                    <a href="#"><strong>Informations :</strong>Vous avez la possibilité de choisir votre propre transporteur et de renseigner un tarif de livraison. Nous vous suggérons les transporteurs suivants : UPS, FEDEX, DHL, Geodis, GLS</a>
+                    <a href="#" data-toggle="modal" data-target="#shippingModal">
+                      <b>Informations :</b>Vous avez la possibilité de choisir votre propre transporteur
+                      et de renseigner un tarif de livraison. Nous vous suggérons les transporteurs suivants :
+                      UPS, FEDEX, DHL, Geodis, GLS
+                    </a>
                   </p>
 
                   <div class="row">
@@ -172,4 +176,30 @@
     </div>
   </div>
 </div>
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="shippingModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Informations sur la livraison</h4>
+        </div>
+        <div class="modal-body">
+          <p>Si vous renseignez vos frais de port, vous pourrez choisir le transporteur de votre choix pour la
+          livraison du produit.</p>
+          <p>Si vous ne renseignez pas de frais de port, nous appliquerons les tarifs en vigueur de colissimo
+            suivant le poid et les dimensions de votre produit.</p>
+          <p>Les frais de port seront à la charge de l'acheteur et vous seront intégralement remboursés
+            après la réception du produit par celui-ci.</p>
+          <p>Vous pouvez également proposer la remise en main propre. Dans ce cas, il n'y a pas de frais de
+          livraison.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

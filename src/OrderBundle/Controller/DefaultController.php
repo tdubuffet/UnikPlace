@@ -39,7 +39,7 @@ class DefaultController extends Controller
 
             $status = $this->getDoctrine()->getRepository("OrderBundle:Status")->findOneBy(['id' => '3']);
             $proposals = $this->getDoctrine()->getRepository("OrderBundle:OrderProposal")
-                ->countByProposalPending($proposal);
+                ->findByProposalPending($proposal);
             /** @var OrderProposal $proposalP */
             foreach ($proposals as $proposalP) {
                 if ($proposal != $proposalP) {

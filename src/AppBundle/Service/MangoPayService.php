@@ -388,7 +388,7 @@ class MangoPayService
 
         $Transfer->Fees = new \MangoPay\Money();
         $Transfer->Fees->Currency       = "EUR";
-        $Transfer->Fees->Amount         = ($Transfer->DebitedFunds->Amount * ($this->config['fee_rate']/100) + $this->config['fixed_fee']*100);
+        $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($this->config['fee_rate']/100) + $this->config['fixed_fee']*100);
 
         $Transfer->DebitedWalletID      = $order->getUser()->getMangopayBlockedWalletId();
         $Transfer->CreditedWalletId     = $order->getProduct()->getUser()->getMangopayFreeWalletId();

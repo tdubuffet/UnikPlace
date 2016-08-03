@@ -36,6 +36,20 @@ class Order
     private $amount;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="product_amount", type="decimal", precision=8, scale=2)
+     */
+    private $productAmount;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="delivery_amount", type="decimal", precision=8, scale=2)
+     */
+    private $deliveryAmount;
+
+    /**
      * @ORM\ManyToOne(targetEntity="ProductBundle\Entity\Currency")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
      */
@@ -408,5 +422,43 @@ class Order
     public function setMangopayRefundDate($mangopay_refund_date)
     {
         $this->mangopay_refund_date = $mangopay_refund_date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductAmount()
+    {
+        return $this->productAmount;
+    }
+
+    /**
+     * @param mixed $productAmount
+     * @return Order
+     */
+    public function setProductAmount($productAmount)
+    {
+        $this->productAmount = $productAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeliveryAmount()
+    {
+        return $this->deliveryAmount;
+    }
+
+    /**
+     * @param string $deliveryAmount
+     * @return Order
+     */
+    public function setDeliveryAmount($deliveryAmount)
+    {
+        $this->deliveryAmount = $deliveryAmount;
+
+        return $this;
     }
 }

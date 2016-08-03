@@ -92,7 +92,7 @@ class OrderService
                 $product->setProposalAccepted($orderProposal);
             }
 
-            $amount = $this->currencyConverter->convert(
+            $productAmount = $this->currencyConverter->convert(
                 (!is_null($product->getProposalAccepted())) ? $product->getProposalAccepted()->getAmount() : $product->getPrice(),
                 $currency,
                 true,
@@ -109,7 +109,7 @@ class OrderService
                 throw new \Exception('Delivery mode not found.');
             }
             $delivery = $this->em->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
-            $amount += $this->currencyConverter->convert(
+            $deliveryAmount = $this->currencyConverter->convert(
                 $delivery->getFee(),
                 'EUR',
                 true,
@@ -117,7 +117,9 @@ class OrderService
             );
 
             $order = new Order();
-            $order->setAmount($amount);
+            $order->setProductAmount($productAmount);
+            $order->setDeliveryAmount($deliveryAmount);
+            $order->setAmount($productAmount + $deliveryAmount);
             $order->setDelivery($delivery);
             $order->setCurrency($this->em->getRepository('ProductBundle:Currency')->findOneByCode($currency));
             $order->setUser($user);
