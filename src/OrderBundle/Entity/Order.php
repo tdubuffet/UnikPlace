@@ -118,6 +118,13 @@ class Order
     /**
      * @var string
      *
+     * @ORM\Column(name="mangopay_transfer_id", type="string", length=255, nullable=true)
+     */
+    private $mangopay_transfer_id;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="mangopay_refund_date", type="datetime", nullable=true)
      */
     private $mangopay_refund_date;
@@ -461,4 +468,25 @@ class Order
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMangopayTransferId()
+    {
+        return $this->mangopay_transfer_id;
+    }
+
+    /**
+     * @param mixed $mangopay_transfer_id
+     * @return Order
+     */
+    public function setMangopayTransferId($mangopay_transfer_id)
+    {
+        $this->mangopay_transfer_id = $mangopay_transfer_id;
+
+        return $this;
+    }
+
+
 }

@@ -240,10 +240,10 @@ class OrderService
     public function doneOrder(Order $order)
     {
         try {
-            $this->mangopayService->validateOrder($order);
+            $result = $this->mangopayService->validateOrder($order);
 
             $statusDone = $this->em->getRepository('OrderBundle:Status')->findOneBy(['name' => 'done']);
-            $order->setStatus($statusDone);
+            $order->setStatus($statusDone)->setMangopayTransferId($result->Id);
 
             $this->em->persist($order);
             $this->em->flush();
