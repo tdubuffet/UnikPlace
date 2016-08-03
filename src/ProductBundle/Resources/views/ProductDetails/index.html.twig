@@ -167,7 +167,7 @@
                           {% set isProposal = proposalForm is defined and proposalForm is not null %}
                           {% set isPublishedAndOfferAllowed = product.status.name == "published" and product.allowOffer == true %}
                           {% set offerPendingOrNoLimit = offLimit == false or (proposal.status is not null and proposal.status.name == "pending" )%}
-                          {% if app.user.email != product.user.email and isPublishedAndOfferAllowed %}
+                          {% if app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
                             <div class="actions"
                                     {% if offerPendingOrNoLimit %}
                                       data-toggle="modal" data-target="#orderProposalModal"
@@ -198,7 +198,7 @@
                           {% endif %}
                         </div>
                       </div><!-- .actions-wrapper -->
-                      {% if offerPendingOrNoLimit and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
+                      {% if offerPendingOrNoLimit and app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
                         <div class="modal fade in" id="orderProposalModal" tabindex="-1" role="dialog">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">

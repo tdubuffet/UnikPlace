@@ -52,8 +52,12 @@ class ProductDetailsController extends Controller
             }
         }
         $proposal = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')
-            ->findOneBy(['user' => $this->getUser(), 'product' => $product], ['id' => 'DESC']);
-        $limit = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')->findUserLimit($this->getUser());
+            ->findOneBy(['user' => $this->getUser(), 'product' =>
+                $product],
+                ['id' => 'DESC']
+            );
+
+        $limit = ($this->getUser()) ? $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')->findUserLimit($this->getUser()) : null;
         $offLimit = $limit >= 3;
 
         if (!$proposal || in_array($proposal->getStatus()->getName(), ['canceled']) && !$offLimit) {
