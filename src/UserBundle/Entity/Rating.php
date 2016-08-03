@@ -5,6 +5,7 @@ namespace UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity
@@ -13,6 +14,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Rating
 {
+
+    use ORMBehaviors\Timestampable\Timestampable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -51,6 +55,11 @@ class Rating
      * @Assert\Length(min=3, max=255)
      */
     private $message;
+
+    /**
+     * @ORM\Column(name="type", type="string", length=50, nullable=false)
+     */
+    private $type;
 
 
     /**
@@ -181,5 +190,21 @@ class Rating
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 }

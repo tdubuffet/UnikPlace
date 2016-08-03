@@ -327,6 +327,8 @@ class AccountController extends Controller
 
                     $rating->setRatedUser(($sale) ? $order->getUser(): $order->getProduct()->getUser());
                     $rating->setAuthorUser((!$sale) ? $order->getUser(): $order->getProduct()->getUser());
+
+                    $rating->setType(($sale) ? 'buyer': 'seller');
                     $rating->setOrder($order);
 
                     $this->getDoctrine()->getManager()->persist($rating);

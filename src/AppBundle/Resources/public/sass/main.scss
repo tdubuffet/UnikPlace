@@ -7740,3 +7740,47 @@ body { background-color:rgba(0,0,0,0); }
 .deposit .color-choice:hover, .deposit .color-choice.active {
   border: 3px solid #555;
 }
+
+/* ------------------------ USER RATINGS ------------------------ */
+
+.user-ratings-modal .rating{
+  padding: 15px 0;
+  border-bottom: 1px solid rgb(221,221,221);
+  font-size: 0.9em;
+}
+.user-ratings-modal .rating:first-child{
+  padding-top: 0px;
+}
+.user-ratings-modal .rating:last-child{
+  border: none;
+}
+.user-ratings-modal .rating .rate  {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.user-ratings-modal .rating .rate .badge {
+  height: 14px;
+  width: 14px;
+  border-radius: 7px;
+  margin-bottom: 2px;
+}
+.user-ratings-modal .green{background: #009039;}
+.user-ratings-modal .green-light{background: #58B20D;}
+.user-ratings-modal .yellow{background: #97D542;}
+.user-ratings-modal .orange{background: #F39C12;}
+.user-ratings-modal .red{background: #FF4500;}
+
+.user-ratings-modal .progress-rating .title{
+  font-size: 12px;
+}
+
+.user-ratings-modal .progress-rating .progress{
+  height: 8px;
+  margin: 2px 0;
+}
+
+ .user-ratings-modal .rating .date {
+  font-size: 0.9em;
+  margin-top: 2px;
+}

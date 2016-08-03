@@ -74,6 +74,11 @@ class ProductDetailsController extends Controller
             }
         }
 
+        $ratings = $this->getDoctrine()->getRepository('UserBundle:Rating')->findBy([
+            'ratedUser' => $product->getUser(),
+            'type' => 'seller'
+        ], ['createdAt' => 'DESC'], 10);
+
         return [
             'product' => $product,
             'productAttributes' => $attributes,
@@ -84,6 +89,7 @@ class ProductDetailsController extends Controller
             'proposalForm' => isset($proposalForm) ? $proposalForm->createView() : null,
             'proposal' => $proposal,
             'offLimit' => $offLimit,
+            'ratings'  => $ratings
         ];
     }
 }
