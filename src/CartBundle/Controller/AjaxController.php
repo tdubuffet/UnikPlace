@@ -55,7 +55,7 @@ class AjaxController extends Controller
         else if ($action == 'remove') {
             $cart = array_diff($cart, [$product->getId()]);
             $session->set('cart', $cart);
-            $prices = $this->getCartPrices(true);
+            $prices = $this->getCartPrices();
 
             return new JsonResponse(['message' => 'Product removed from cart.', 'prices' => $prices]);
         }
@@ -63,11 +63,10 @@ class AjaxController extends Controller
     }
 
     /**
-     * @param boolean $formated
      * @param string $currency
      * @return array
      */
-    private function getCartPrices($formated = false, $currency = 'EUR')
+    private function getCartPrices($currency = 'EUR')
     {
         $cart = $this->get('session')->get('cart', []);
         $productsTotalPrice = 0; // in EUR
@@ -82,6 +81,6 @@ class AjaxController extends Controller
         }
         $service = $this->get('lexik_currency.formatter');
 
-        return ['product' => $formated ? $service->format($productsTotalPrice, $currency) : $productsTotalPrice];
+        return ['formated' => $service->format($productsTotalPrice, $currency), 'price' => $productsTotalPrice];
     }
 }

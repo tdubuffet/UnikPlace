@@ -36,12 +36,18 @@ var Cart = {
                 data: {product_id: $(this).data('id'), action: "remove"},
                 success: function (result) {
                     row.remove();
-                    var total = $('span.numb.main-numb');
-                    $('h1.title-h1').after("<div class='alert alert-success'>Le produit a bien été retiré du panier</div>");
-                    $('span.product').html(result['prices']['product']);
-                    Cart.calculateDeliveryFee();
-                    total.html(total.html() - 1);
+                    var h1 = $('h1.title-h1');
+                    h1.after("<div class='alert alert-success'>Le produit a bien été retiré du panier</div>");
 
+                    if (result['prices']['price'] == 0) {
+                        h1.after("<p>Votre panier est vide</p>");
+                        $('#form-carts').remove();
+                    }else {
+                        var product = $('.totalProduct');
+                        product.html(result['prices']['formated']);
+                        product.data('total', result['prices']['price']);
+                        Cart.calculateDeliveryFee();
+                    }
                 },
                 error: function (result) {
                     if (result.status == 401) {
