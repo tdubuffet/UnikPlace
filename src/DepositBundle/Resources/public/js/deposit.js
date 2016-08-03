@@ -338,25 +338,14 @@ var Deposit = {
     },
 
     loadShippingValidation: function () {
-        $('#product-weight').blur(function() {
-            if ($(this).val() >= 30) {
-                $('input[name="shipping_fees"]').rules("add", "required");
-            } else {
-                $('input[name="shipping_fees"]').rules("remove", "required");
-            }
-        });
-
-        jQuery.validator.addMethod("weightNumber", function (value, element) {
-            return this.optional(element) || /^(\d+|\d+,\d{1,2})$/.test(value);
-        }, "Please specify the correct number format");
 
         $("#shipping-form").validate({
             rules: {
-                "weightNumber": {
+                "weight": {
                     required: true,
-                    weightNumber: true,
+                    number: true,
+                    min: 0.01
                 },
-
                 "length": {
                     required: true,
                     number: true,
