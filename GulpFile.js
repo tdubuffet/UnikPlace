@@ -42,6 +42,7 @@ gulp.task('scripts-dev', function() {
             './web/components/elevatezoom/jquery.elevatezoom.js',
             './web/components/bootbox.js/bootbox.js',
             './web/components/select2/dist/js/select2.js',
+            './web/components/select2/dist/js/i18n/fr.js',
 
             './web/components/blueimp-load-image/js/load-image.all.min.js',
             './web/components/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
