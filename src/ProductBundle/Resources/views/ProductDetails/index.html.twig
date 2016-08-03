@@ -68,7 +68,7 @@
                           <div id="more-slides" class="verticl-carousel product-image-thumbs">
                             {% for k, image in images %}
                               <a class="thumb-link" href="#" data-image-index="{{ k }}">
-                                <img class="img-responsive" src="{{ loadpic(image, 88, 88) }}" data-src="{{ loadpic(image, 700, 700) }}" alt="miniature {{ k }}" />
+                                <img class="img-responsive" src="{{ loadpic(image, 88, 88, 'f') }}" data-src="{{ loadpic(image, 700, 700, 'c') }}" alt="miniature {{ k }}" />
                               </a>
                             {% endfor %}
                           </div>
@@ -448,7 +448,7 @@
                         {% endif %}
                         <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
                           {% set images = product.getImages() %}
-                          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}" alt="{{ product.name }}" />
+                          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'f') }}{% endif %}" alt="{{ product.name }}" />
                         </a>
                       </div>
                       <div class="product-content">
