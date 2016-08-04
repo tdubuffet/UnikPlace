@@ -60,7 +60,7 @@ class Message
             $threadSender->send($message);
 
 
-            $this->container->get('session')->getFlashBag()->add('success', 'Message envoyé au vendeur.');
+            $this->container->get('session')->getFlashBag()->add('success', 'Message envoyé avec succès.');
 
             return true;
         }
