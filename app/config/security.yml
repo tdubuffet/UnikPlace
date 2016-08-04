@@ -21,6 +21,10 @@ security:
             security: false
 
         main:
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
             # anonymous: ~
             # activate different ways to authenticate
 
