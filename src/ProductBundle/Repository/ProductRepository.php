@@ -13,21 +13,28 @@ use UserBundle\Entity\User;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findSimilarProducts($product, $limit)
+    /**
+     * @param Product $product
+     * @param $limit
+     * @return array
+     */
+    public function findSimilarProducts(Product $product, $limit)
     {
         $total = $this->countSimilarProducts($product);
 
         $offset = rand(0, $total) - $limit;
-        if ($offset < 0) $offset = 0;
+        $offset = $offset < 0 ? 0 : $offset;
 
-        $qb = $this->createQueryBuilder('p');
+        $results = $this->createQueryBuilder('p')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->where('p.id != :id')
+            ->andWhere('p.category = :category_id')
+            ->andWhere('p.status = :status')
+            ->setParameters(['id' => $product->getId(), 'category_id' => $product->getCategory(), 'status' => 2])
+            ->getQuery()
+            ->getResult();
 
-        $qb->where('p.id != :id')->setParameter('id', $product->getId())
-           ->andWhere('p.category = :category_id')->setParameter('category_id', $product->getCategory()->getId())
-           ->setFirstResult($offset)
-           ->setMaxResults($limit);
-
-        $results = $qb->getQuery()->getResult();
         if (count($results) > 0) {
             shuffle($results);
         }
@@ -56,6 +63,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             throw new \Exception("status must be an array with 3 fields");
         }
         $params = ['user' => $user, 'status1' => $status[0], 'status2' => $status[1], 'status3' => $status[1]];
+
         return $this->createQueryBuilder("q")
             ->orWhere("q.status = :status1")
             ->orWhere("q.status = :status2")
