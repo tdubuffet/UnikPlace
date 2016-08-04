@@ -6,109 +6,119 @@
 {% block javascript_include %}{{ jsinit(['payment']) }}{% endblock javascript_include %}
 
 {% block body %}
-<div class="main-wrapper">
-  <div class="container">
-    <div class="main">
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="main">
 
-      <h1>Paiement de la commande</h1>
-      {% for flashMessage in app.session.flashbag.get('error') %}
-        <div class="alert alert-danger">{{ flashMessage }}</div>
-      {% endfor %}
+        <h1>Paiement de la commande</h1>
+        {% for flashMessage in app.session.flashbag.get('error') %}
+          <div class="alert alert-danger">{{ flashMessage }}</div>
+        {% endfor %}
 
-      <div>
+        <div>
 
-        <div class="row">
-          <div class="col-md-12" style="margin: 20px 0 30px 0;">
-            <p>Vous ne serez pas prélevé tant que le vendeur n'aura pas accepté la vente.
-              Une fois la vente acceptée, le vendeur ne recevra pas votre argent tant que vous n'aurez pas confirmé
-              la bonne réception de {{ products|length() > 1 ? "vos produits": "votre produit" }}.</p>
-            <p>Le paiement est sécurisé, vous allez être redirigé vers le site de votre banque pour confirmer le
-              paiement (3D Secure).</p>
+          <div class="row">
+            <div class="col-md-12" style="margin: 20px 0 30px 0;">
+              <p>Vous ne serez pas prélevé tant que le vendeur n'aura pas accepté la vente.
+                Une fois la vente acceptée, le vendeur ne recevra pas votre argent tant que vous n'aurez pas confirmé
+                la bonne réception de {{ products|length() > 1 ? "vos produits": "votre produit" }}.</p>
+              <p>Le paiement est sécurisé, vous allez être redirigé vers le site de votre banque pour confirmer le
+                paiement (3D Secure).</p>
 
-          </div>
-          <div class="col-md-4">
-            <h2 class="h3">Récapitulatif</h2>
-
-            <ul>
-              {% for product in products %}
-                <li>{{ product.name }} - {{ deliveryModes[product.getId()] }}</li>
-              {% endfor %}
-            </ul>
-
-            <div>
-              {% set deliveryAddress = addresses.delivery_address %}
-              Adresse de livraison : {{ deliveryAddress.getStreet() }} {{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}<br />
-              {% if addresses.billing_address is defined %}
-                {% set billingAddress = addresses.billing_address %}
-                Adresse de facturation : {{ billingAddress.getStreet() }} {{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}<br />
-              {% endif %}
             </div>
+            <div class="col-md-4">
+              <h2 class="h3">Récapitulatif</h2>
 
-            <b>TOTAL: {{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</b>
+              <ul>
+                {% for product in products %}
+                  <li>{{ product.name }} - {{ deliveryModes[product.getId()] }}</li>
+                {% endfor %}
+              </ul>
 
-            <h2 class="h3">Paiement</h2>
-
-            <i class="fa fa-lock"></i>&nbsp;Paiement Sécurisé SSL
-            <ul class="cards">
-              <li class="visa">Visa</li>
-              <li class="visa_electron">Visa Electron</li>
-              <li class="mastercard">MasterCard</li>
-              <li class="maestro">Maestro</li>
-            </ul>
-            <img src="{{ asset('bundles/app/images/mangopay.png') }}" alt="mangopay" height="26px">
-          </div>
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-8">
-                <form method="post" action="{{ cardRegistration.CardRegistrationURL }}" id="payment-form">
-                  <input type="hidden" name="data" value="{{ cardRegistration.PreregistrationData }}" />
-                  <input type="hidden" name="accessKeyRef" value="{{ cardRegistration.AccessKey }}" />
-                  <input type="hidden" name="returnURL" value="{{ url('cart_payment_validation') }}" />
-                  <div class="form-group">
-                    <div class="form-group">
-                      <label for="cardNumber">N° de carte</label>
-                      <input class="form-control" type="text" id="cc_number" placeholder="____ ____ ____ ____" autocomplete="off" required />
-                      <input type="hidden" name="cardNumber" id="cardNumber" />
-                    </div>
-                    <div class="form-group">
-                      <label for="cc_month">Date d'expiration</label>
-                      <div class="row">
-                        <div class="col-md-3">
-                          <input class="form-control" type="text" id="cc_month" placeholder="__" autocomplete="off" maxlength="2" required />
-                        </div>
-                        <div class="col-md-1" style="font-size: 1.8em">
-                          /
-                        </div>
-                        <div class="col-md-3">
-                          <input class="form-control" type="text" id="cc_year" placeholder="__" autocomplete="off" maxlength="2" required />
-                        </div>
-                      </div>
-                      <span class="help-block small">Renseignez le mois (2 chiffres) dans le premier champ et l'année (2 chiffres) dans le second champ</span>
-                      <input type="hidden" name="cardExpirationDate" id="cardExpirationDate" />
-                    </div>
-                    <div class="form-group">
-                      <label for="cardCvx">CCV</label>
-                      <input class="form-control" type="text" name="cardCvx" id="cardCvx" placeholder="___" autocomplete="off" maxlength="3" required />
-                      <span class="help-block small">Le CCV est le code de vérification à 3 chiffres situé au verso de la carte</span>
-                    </div>
-                    <div class="form-group">
-                      <p class="cgu small" style="margin: 10px 0 25px;">En cliquant sur valider le paiement vous acceptez les
-                        <a target="_blank" href="{{ path('legal_notice') }}">conditions générales d'utilisation de mangopay</a>
-                      </p>
-                      <input class="btn btn-primary" id="validateP" type="submit"
-                             value="Valider le paiement" data-loading-text="Validation en cours..." />
-                    </div>
-                  </div>
-                </form>
+              <div>
+                {% set deliveryAddress = addresses.delivery_address %}
+                Adresse de livraison
+                : {{ deliveryAddress.getStreet() }} {{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
+                <br/>
+                {% if addresses.billing_address is defined %}
+                  {% set billingAddress = addresses.billing_address %}
+                  Adresse de facturation : {{ billingAddress.getStreet() }} {{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}
+                  <br/>
+                {% endif %}
               </div>
+
+              <b>TOTAL: {{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</b>
+
+              <h2 class="h3">Paiement</h2>
+
+              <i class="fa fa-lock"></i>&nbsp;Paiement Sécurisé SSL
+              <ul class="cards">
+                <li class="visa">Visa</li>
+                <li class="visa_electron">Visa Electron</li>
+                <li class="mastercard">MasterCard</li>
+                <li class="maestro">Maestro</li>
+              </ul>
+              <img src="{{ asset('bundles/app/images/mangopay.png') }}" alt="mangopay" height="26">
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-8">
+                  <form method="post" action="{{ cardRegistration.CardRegistrationURL }}" id="payment-form">
+                    <input type="hidden" name="data" value="{{ cardRegistration.PreregistrationData }}"/>
+                    <input type="hidden" name="accessKeyRef" value="{{ cardRegistration.AccessKey }}"/>
+                    <input type="hidden" name="returnURL" value="{{ url('cart_payment_validation') }}"/>
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="cc_number">N° de carte</label>
+                        <input class="form-control" type="text" id="cc_number" placeholder="____ ____ ____ ____"
+                               autocomplete="off" required/>
+                        <input type="hidden" name="cardNumber" id="cardNumber"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="cc_month">Date d'expiration</label>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <input class="form-control" type="text" id="cc_month" placeholder="__" autocomplete="off"
+                                   maxlength="2" required/>
+                          </div>
+                          <div class="col-md-1" style="font-size: 1.8em">
+                            /
+                          </div>
+                          <div class="col-md-3">
+                            <input class="form-control" type="text" id="cc_year" placeholder="__" autocomplete="off"
+                                   maxlength="2" required/>
+                          </div>
+                        </div>
+                        <span class="help-block small">Renseignez le mois (2 chiffres) dans le premier champ et l'année
+                        (2 chiffres) dans le second champ</span>
+                        <input type="hidden" name="cardExpirationDate" id="cardExpirationDate"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="cardCvx">CCV</label>
+                        <input class="form-control" type="text" name="cardCvx" id="cardCvx" placeholder="___"
+                               autocomplete="off" maxlength="3" required/>
+                        <span class="help-block small">Le CCV est le code de vérification à 3 chiffres situé au verso de la carte</span>
+                      </div>
+                      <div class="form-group">
+                        <p class="cgu small" style="margin: 10px 0 25px;">En cliquant sur valider le paiement vous
+                          acceptez les
+                          <a target="_blank" href="{{ path('legal_notice') }}">conditions générales d'utilisation de
+                            mangopay</a>
+                        </p>
+                        <input class="btn btn-primary" id="validateP" type="submit"
+                               value="Valider le paiement" data-loading-text="Validation en cours..."/>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
             </div>
 
           </div>
 
-        </div>
-
-    </div><!-- .main -->
-  </div><!-- .container -->
-</div><!-- .main-wrapper -->
-
+        </div><!-- .main -->
+      </div><!-- .container -->
+    </div><!-- .main-wrapper -->
+  </div>
 {% endblock %}

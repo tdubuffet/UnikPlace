@@ -29,7 +29,7 @@
                 {% for category in categories %}
                   <div class="col-sm-4">
                     <label class="category-choice">
-                      <div>{{ category.name }}</div>
+                      <span>{{ category.name }}</span>
                       <input data-id="{{ category.id }}" name="main_categ" type="radio">
                     </label>
                   </div>
@@ -39,6 +39,7 @@
             </div>
 
             <div class="box-subcategories-select">
+              <label for="subcategories-select" class="sr-only"></label>
               <select id="subcategories-select" name="category_id"></select>
             </div>
 

@@ -8,136 +8,150 @@
 
 {% block body %}
 
-{% if category is defined %}
-  {% set breadcrumb = category.getBreadcrumb() %}
-  <div class="main-breadcrumbs">
-    <div class="container">
-      <div class="row show-grid">
-        <div class="col-lg-12">
-          <div class="breadcrumbs">
-            <ul>
-              <li>
-                <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ path('homepage') }}" itemprop="url">Accueil</a></span>
-                <span class="separator">/</span>
-              </li>
-              {% for element in breadcrumb %}
-              <li>
-                <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ path('category', {path: element.getPath()}) }}" itemprop="url"><span itemprop="title">{{ element.name }}</span></a></span>
-                <span class="separator">/</span>
-              </li>
-              {% endfor %}
-              <li><strong>{{ category.name }}</strong></li>
-            </ul>
+  {% if category is defined %}
+    {% set breadcrumb = category.getBreadcrumb() %}
+    <div class="main-breadcrumbs">
+      <div class="container">
+        <div class="row show-grid">
+          <div class="col-lg-12">
+            <div class="breadcrumbs">
+              <ul>
+                <li>
+                <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                  <a href="{{ path('homepage') }}" itemprop="url">Accueil</a>
+                </span>
+                  <span class="separator">/</span>
+                </li>
+                {% for element in breadcrumb %}
+                  <li>
+                  <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="{{ path('category', {path: element.getPath()}) }}" itemprop="url">
+                      <span itemprop="title">{{ element.name }}</span>
+                    </a>
+                  </span>
+                    <span class="separator">/</span>
+                  </li>
+                {% endfor %}
+                <li><strong>{{ category.name }}</strong></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-{% endif %}
+  {% endif %}
 
-<div class="main-wrapper">
-  <div class="container">
-    <div class="main">
-      <div class="row show-grid">
-        <div class="col-lg-12">
-          <div class="site-preface"></div>
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="main">
+        <div class="row show-grid">
+          <div class="col-lg-12">
+            <div class="site-preface"></div>
+          </div>
         </div>
-      </div>
 
-      <div class="row show-grid">
-        <div class="col-lg-12"></div>
-      </div>
+        <div class="row show-grid">
+          <div class="col-lg-12"></div>
+        </div>
 
-      <div class="row show-grid">
-        <input id="search-category" type="hidden" value="{% if category is defined %}{{ category.getId() }}{% elseif app.request.get('cat') is defined %}{{ app.request.get('cat') }}{% endif %}" />
-      </div>
+        <div class="row show-grid">
+          <input id="search-category" type="hidden"
+                 value="{% if category is defined %}{{ category.getId() }}{% elseif app.request.get('cat') is defined %}{{ app.request.get('cat') }}{% endif %}"/>
+        </div>
 
-      <div class="row show-grid">
-        <div class="col-lg-3 sidebar">
-          <div class="col-left">
+        <div class="row show-grid">
+          <div class="col-lg-3 sidebar">
+            <div class="col-left">
 
-            <div class="block block-layered-nav">
-              <div class="block-title">
-                <strong><span>Filtres</span></strong>
-                <span class="mobile-button visible-xs active"></span>
+              <div class="block block-layered-nav">
+                <div class="block-title">
+                  <strong><span>Filtres</span></strong>
+                  <span class="mobile-button visible-xs active"></span>
+                </div>
+                <div class="block-content">
+                  <!-- search filters go here -->
+                </div>
               </div>
-              <div class="block-content">
-                <!-- search filters go here -->
-              </div>
-            </div>
 
 
-          </div><!-- .col-left -->
-        </div><!-- .sidebar -->
+            </div><!-- .col-left -->
+          </div><!-- .sidebar -->
 
 
+          <div class="col-lg-9">
+            <div class="col-main">
+              {% if category is defined %}
+                <h1>{{ category.name }}</h1>
+              {% endif %}
 
-        <div class="col-lg-9">
-          <div class="col-main">
-            {% if category is defined %}
-              <h1>{{ category.name }}</h1>
-            {% endif %}
+              <div class="category-products">
+                <div class="toolbar">
+                  <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="row">
+                        <div class="col-lg-9">
+                          <div class="sorter_wrap">
+                            <div class="sort-by">
 
-            <div class="category-products">
-              <div class="toolbar">
-                <div class="row">
-                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <div class="row">
-                      <div class="col-lg-9">
-                        <div class="sorter_wrap">
-                          <div class="sort-by">
-
-                            <div class="select-new">
-                              <div class="select-inner">
-                                <span>Tri par : </span>
-                                <div class="overwrite-sortby" role="button" data-toggle="collapse" href="#sort_by" aria-expanded="false"></div>
-                                {% set sortModes = {new: 'Nouveauté', relevance: 'Pertinence', name: 'Nom', price: 'Prix'} %}
-                                <script>sortModeLabels = {{ sortModes|json_encode|raw }};</script>
-                                <ul id="sort_by" class="sort_by collapse">
-                                  {% for sortMode, sortModeLabel in sortModes %}
-                                  <li>
-                                    <button class="btn-link" type="button" data-sort="{{ sortMode }}">{{ sortModeLabel }}</button>
-                                  </li>
-                                  {% endfor %}
-                                </ul>
-                                <input type="hidden" value="{% if app.request.query.get('sort') is defined and app.request.query.get('sort') in sortModes|keys %}{{ app.request.query.get('sort') }}{% else %}new{% endif %}" class="sort_by_value" />
+                              <div class="select-new">
+                                <div class="select-inner">
+                                  <span>Tri par : </span>
+                                  <div class="overwrite-sortby" role="button" data-toggle="collapse"
+                                       aria-expanded="false"></div>
+                                  {% set sortModes = {new: 'Nouveauté', relevance: 'Pertinence', name: 'Nom', price: 'Prix'} %}
+                                  <script>sortModeLabels = {{ sortModes|json_encode|raw }};</script>
+                                  <ul id="sort_by" class="sort_by collapse">
+                                    {% for sortMode, sortModeLabel in sortModes %}
+                                      <li>
+                                        <button class="btn-link" type="button"
+                                                data-sort="{{ sortMode }}">{{ sortModeLabel }}</button>
+                                      </li>
+                                    {% endfor %}
+                                  </ul>
+                                  <input type="hidden"
+                                         value="{% if app.request.query.get('sort') is defined and app.request.query.get('sort') in sortModes|keys %}{{ app.request.query.get('sort') }}{% else %}new{% endif %}"
+                                         class="sort_by_value"/>
+                                </div>
                               </div>
-                            </div>
 
-                            <div class="direction-list">
-                              <button class="btn-link direction direction-up sort-direction" type="button">
-                                <i class="fa"></i>
-                              </button>
-                              <input type="hidden" value="{% if app.request.query.get('ord') is defined and app.request.query.get('ord') in ['asc', 'desc'] %}{{ app.request.query.get('ord') }}{% else %}desc{% endif %}" class="ord_value" />
-                            </div>
+                              <div class="direction-list">
+                                <button class="btn-link direction direction-up sort-direction" type="button">
+                                  <i class="fa"></i>
+                                </button>
+                                <input type="hidden"
+                                       value="{% if app.request.query.get('ord') is defined and app.request.query.get('ord') in ['asc', 'desc'] %}{{ app.request.query.get('ord') }}{% else %}desc{% endif %}"
+                                       class="ord_value"/>
+                              </div>
 
+                            </div>
                           </div>
+
                         </div>
 
                       </div>
-
                     </div>
+
                   </div>
 
                 </div>
 
-              </div>
+                <div class="category-products-loading text-center" style="display: none">
+                  <i aria-hidden="true" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                  <span class="sr-only">Chargement...</span>
+                </div>
+                <div class="category-products-container"><!-- category-products-container -->
+                  {% include 'ProductBundle:Search:product_grid.html.twig' %}
+                  <div><!-- .category-products-container -->
 
-              <div class="category-products-loading text-center" style="display: none">
-                <i aria-hidden="true" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-                <span class="sr-only">Chargement...</span>
-              </div>
-              <div class="category-products-container"><!-- category-products-container -->
-                {% include 'ProductBundle:Search:product_grid.html.twig' %}
-              <div><!-- .category-products-container -->
+                  </div><!-- .category-products -->
 
-            </div><!-- .category-products -->
+                </div><!-- .col-main -->
+              </div><!-- col -->
 
-          </div><!-- .col-main -->
-        </div><!-- col -->
-
-      </div><!-- .row -->
-    </div><!-- .main -->
-  </div><!-- .container -->
-</div><!-- .main-wrapper -->
+            </div><!-- .row -->
+          </div><!-- .main -->
+        </div><!-- .container -->
+      </div><!-- .main-wrapper -->
+    </div>
+  </div>
 {% endblock %}

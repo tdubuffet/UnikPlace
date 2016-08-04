@@ -6,176 +6,187 @@
 {% block javascript_include %}{{ jsinit(['deposit', 'addAddress']) }}{% endblock javascript_include %}
 
 {% block body %}
-<div class="main-wrapper">
-  <div class="container">
-    <div class="main deposit">
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="main deposit">
 
-      <div class="deposit-steps row">
-        <div class="col-sm-3">
-          <div class="deposit-step">Photos</div>
+        <div class="deposit-steps row">
+          <div class="col-sm-3">
+            <div class="deposit-step">Photos</div>
+          </div>
+          <div class="col-sm-3">
+            <div class="deposit-step">Description</div>
+          </div>
+          <div class="col-sm-3">
+            <div class="deposit-step">Prix</div>
+          </div>
+          <div class="col-sm-3">
+            <div class="deposit-step active">Livraison</div>
+          </div>
         </div>
-        <div class="col-sm-3">
-          <div class="deposit-step">Description</div>
-        </div>
-        <div class="col-sm-3">
-          <div class="deposit-step">Prix</div>
-        </div>
-        <div class="col-sm-3">
-          <div class="deposit-step active">Livraison</div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-8 col-center-block">
-          {% for notice in app.session.flashBag.get('notice') %}
-            <div class="alert alert-success">
-              {{ notice }}<br />
-            </div>
-          {% endfor %}
-
-          {% for flash_message in app.session.flashBag.get('error') %}
-            <div class="alert alert-danger">
-              {% for error in flash_message %}
-                {{ error }}<br />
-              {% endfor %}
-            </div>
-          {% endfor %}
-
-          <form method="post" action="{{ path('deposit_postshipping') }}" id="shipping-form">
-
-
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label class="required">Largeur en cm</label>
-                  <input type="number" name="width" id="product-width" class="form-control" min="1" placeholder="Largeur du produit en cm" value="{{ app.request.get('width') }}">
-                </div>
+        <div class="row">
+          <div class="col-sm-8 col-center-block">
+            {% for notice in app.session.flashBag.get('notice') %}
+              <div class="alert alert-success">
+                {{ notice }}<br/>
               </div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label class="required">Longeur en cm</label>
-                  <input type="number" name="length" id="product-length" class="form-control" min="1" placeholder="Longueur du produit en cm" value="{{ app.request.get('length') }}">
-                </div>
+            {% endfor %}
+
+            {% for flash_message in app.session.flashBag.get('error') %}
+              <div class="alert alert-danger">
+                {% for error in flash_message %}
+                  {{ error }}<br/>
+                {% endfor %}
               </div>
+            {% endfor %}
 
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label class="required">Hauteur en cm</label>
-                  <input type="number" name="height" id="product-height" class="form-control" min="1" placeholder="Hauteur du produit en cm" value="{{ app.request.get('height') }}">
-                </div>
-              </div>
+            <form method="post" action="{{ path('deposit_postshipping') }}" id="shipping-form">
 
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label class="required">Poids en kg</label>
-                  <input type="number" name="weight" id="product-weight" class="form-control" min="1" placeholder="Poids du produit en kg" value="{{ app.request.get('weight') }}">
-                </div>
-              </div>
-            </div>
 
-            <br />
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-
-                  <p>
-                    <a href="#" data-toggle="modal" data-target="#shippingModal">
-                      <b>Informations :</b>Vous avez la possibilité de choisir votre propre transporteur
-                      et de renseigner un tarif de livraison. Nous vous suggérons les transporteurs suivants :
-                      UPS, FEDEX, DHL, Geodis, GLS
-                    </a>
-                  </p>
-
-                  <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-
-                      <label>Mes frais de port en France métropolitaine <i class="fa fa-info-circle"></i></label>
-                      <input  class="form-control" type="number" name="shipping_fees" placeholder="Montant en euros">
-                    </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Largeur en cm</label>
+                    <input type="number" name="width" id="product-width" class="form-control" min="1"
+                           placeholder="Largeur du produit en cm" value="{{ app.request.get('width') }}">
                   </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Longeur en cm</label>
+                    <input type="number" name="length" id="product-length" class="form-control" min="1"
+                           placeholder="Longueur du produit en cm" value="{{ app.request.get('length') }}">
+                  </div>
+                </div>
 
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Hauteur en cm</label>
+                    <input type="number" name="height" id="product-height" class="form-control" min="1"
+                           placeholder="Hauteur du produit en cm" value="{{ app.request.get('height') }}">
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Poids en kg</label>
+                    <input type="number" name="weight" id="product-weight" class="form-control" min="1"
+                           placeholder="Poids du produit en kg" value="{{ app.request.get('weight') }}">
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="text-center">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="by_hand" value="1" {% if app.session.get('deposit').by_hand is not defined or (app.session.get('deposit').by_hand is defined and app.session.get('deposit').by_hand == '1') %}checked{% endif %}> J'accepte la remise en main propre
-                </label>
-              </div>
-            </div>
+              <br/>
 
-            <p>Merci de sélectionner une adresse de livraison parmis vos addresses enregistrées. Nous supportons actuellement uniquement la livraison en France métropolitaine.</p>
-            <p>
-              <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addAddressModal">
-                Ajouter une autre adresse à mon compte
-              </button>
-            </p>
-
-            {% if addresses|length > 0 %}
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <select type="text" name="address_id" class="form-control">
-                      {% for address in addresses %}
-                        <option value="{{ address.id }}">{{ address.name }} - {{ address.street }} {{ address.getCity.zipcode }} {{ address.getCity.name }}</option>
-                      {% endfor %}
-                    </select>
+
+                    <p>
+                      <a href="#" data-toggle="modal" data-target="#shippingModal">
+                        <b>Informations :</b>Vous avez la possibilité de choisir votre propre transporteur
+                        et de renseigner un tarif de livraison. Nous vous suggérons les transporteurs suivants :
+                        UPS, FEDEX, DHL, Geodis, GLS
+                      </a>
+                    </p>
+
+                    <div class="row">
+                      <div class="col-sm-6 col-sm-offset-3">
+
+                        <label>Mes frais de port en France métropolitaine <i class="fa fa-info-circle"></i></label>
+                        <input class="form-control" type="number" name="shipping_fees" placeholder="Montant en euros">
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
-            {% endif %}
 
-            <div class="text-center">
-              <input type="submit" class="btn btn-default" value="Etape suivante" />
-            </div>
+              <div class="text-center">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="by_hand" value="1"
+                           {% if app.session.get('deposit').by_hand is not defined or (app.session.get('deposit').by_hand is defined and app.session.get('deposit').by_hand == '1') %}checked{% endif %}>
+                    J'accepte la remise en main propre
+                  </label>
+                </div>
+              </div>
 
-          </form>
-        </div><!-- col -->
-      </div><!-- .row -->
+              <p>Merci de sélectionner une adresse de livraison parmis vos addresses enregistrées. Nous supportons
+                actuellement uniquement la livraison en France métropolitaine.</p>
+              <p>
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addAddressModal">
+                  Ajouter une autre adresse à mon compte
+                </button>
+              </p>
 
-    </div><!-- .main -->
-  </div><!-- .container -->
-</div><!-- .main-wrapper -->
+              {% if addresses|length > 0 %}
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="address_id" class="sr-only"></label>
+                      <select name="address_id" class="form-control" id="address_id">
+                        {% for address in addresses %}
+                          <option value="{{ address.id }}">{{ address.name }}
+                            - {{ address.street }} {{ address.getCity.zipcode }} {{ address.getCity.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
 
-<!-- Add address Modal -->
-<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalTitle">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="addAddressModalTitle">Ajouter une adresse à mon compte</h4>
-      </div>
-      {{ form_start(addAddressForm, {'action': path('deposit_postshipping'), 'attr': {'id': 'add-address-form'}}) }}
-      <div class="modal-body">
-        {{ form_row(addAddressForm.name) }}
-        {{ form_row(addAddressForm.street) }}
-        <div class="form-group">
-          <label class="control-label required" for="address_city">Ville</label>
-          <select id="address_city" name="address[city]" required="required" class="select-select2 autocomplete-city form-control">
-            <option value="">Sélectionnez une ville</option>
-          </select>
+              <div class="text-center">
+                <input type="submit" class="btn btn-default" value="Etape suivante"/>
+              </div>
+
+            </form>
+          </div><!-- col -->
+        </div><!-- .row -->
+
+      </div><!-- .main -->
+    </div><!-- .container -->
+  </div><!-- .main-wrapper -->
+
+  <!-- Add address Modal -->
+  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalTitle">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="addAddressModalTitle">Ajouter une adresse à mon compte</h4>
         </div>
-        <div class="form-group">
-          <label class="required">
-            Téléphone
-            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
-               title="Votre numéro de téléphone sera transmis à l'acheteur si vous avez activé la remise en
+        {{ form_start(addAddressForm, {'action': path('deposit_postshipping'), 'attr': {'id': 'add-address-form'}}) }}
+        <div class="modal-body">
+          {{ form_row(addAddressForm.name) }}
+          {{ form_row(addAddressForm.street) }}
+          <div class="form-group">
+            <label class="control-label required" for="address_city">Ville</label>
+            <select id="address_city" name="address[city]" required="required"
+                    class="select-select2 autocomplete-city form-control">
+              <option value="">Sélectionnez une ville</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="required">
+              Téléphone
+              <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
+                 title="Votre numéro de téléphone sera transmis à l'acheteur si vous avez activé la remise en
                main propre et qu'il choisit cette option."></i>
-          </label>
-          <input type="text" name="phone" class="form-control" placeholder="Numéro de téléphone">
+            </label>
+            <input type="text" name="phone" class="form-control" placeholder="Numéro de téléphone">
+          </div>
+          {{ form_row(addAddressForm.country) }}
         </div>
-        {{ form_row(addAddressForm.country) }}
+        <div class="modal-footer">
+          {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+        {{ form_end(addAddressForm) }}
       </div>
-      <div class="modal-footer">
-        {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
-      </div>
-      {{ form_end(addAddressForm) }}
     </div>
   </div>
-</div>
 
   <div class="modal fade" tabindex="-1" role="dialog" id="shippingModal">
     <div class="modal-dialog" role="document">
@@ -188,15 +199,16 @@
         </div>
         <div class="modal-body">
           <p>Si vous renseignez vos frais de port, vous pourrez choisir le transporteur de votre choix pour la
-          livraison du produit.</p>
+            livraison du produit.</p>
           <p>Si vous ne renseignez pas de frais de port, nous appliquerons
-            <a target="_blank" href="http://www.colissimo.fr/particuliers/envoyer_un_colis/decouvrir_loffre_colissimo/Tarifs_colissimo/att00002941/2016-05_Reseau_TarifsGP_PDF_FranceMetro.pdf">
+            <a target="_blank"
+               href="http://www.colissimo.fr/particuliers/envoyer_un_colis/decouvrir_loffre_colissimo/Tarifs_colissimo/att00002941/2016-05_Reseau_TarifsGP_PDF_FranceMetro.pdf">
               les tarifs en vigueur de colissimo</a>
             suivant le poid et les dimensions de votre produit.</p>
           <p>Les frais de port seront à la charge de l'acheteur et vous seront intégralement remboursés
             après la réception du produit par celui-ci.</p>
           <p>Vous pouvez également proposer la remise en main propre. Dans ce cas, il n'y a pas de frais de
-          livraison.</p>
+            livraison.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>

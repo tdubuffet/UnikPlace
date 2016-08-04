@@ -5,24 +5,24 @@
 {% block javascript_include %}{{ jsinit(['cart']) }}{% endblock javascript_include %}
 
 {% block body %}
-<div class="main-wrapper">
-  <div class="container">
-    <div class="main">
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="main">
 
-      <h1 class="title-h1">Mon Panier</h1>
+        <h1 class="title-h1">Mon Panier</h1>
 
-      {% for flashMessage in app.session.flashbag.get('notice') %}
-      <div class="alert alert-warning">{{ flashMessage }}</div>
-      {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+          <div class="alert alert-warning">{{ flashMessage }}</div>
+        {% endfor %}
 
 
-      {% if products is empty %}
-        <p>Votre panier est vide.</p>
+        {% if products is empty %}
+          <p>Votre panier est vide.</p>
         {% else %}
 
-        <form action="{{ path(app.request.attributes.get('_route')) }}" method="post" id="form-carts">
-          <table class="table table-carts">
-            <thead>
+          <form action="{{ path(app.request.attributes.get('_route')) }}" method="post" id="form-carts">
+            <table class="table table-carts">
+              <thead>
               <tr>
                 <th>Produit</th>
                 <th>Nom</th>
@@ -30,47 +30,55 @@
                 <th colspan="2">Mode de livraison</th>
                 <th>Prix</th>
               </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
               {% for product in products %}
-              <tr>
-                <td>
-                  <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
-                    {% if product.getImages()[0] is defined %}<img src="{{ loadpic(product.getImages()[0], 88, 88) }}" alt="product.name" }} />{% endif %}
-                  </a>
-                </td>
-                <td><a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a></td>
-                <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
-                <td>
-                  <select name="{{ product.getId() }}" class="cartDeliverySelection">
-                    {% for delivery in product.deliveries %}
-                      {% set fee = delivery.fee == 0 ? 'Gratuit' : "+"~ delivery.fee|currency_format('EUR')%}
-                      <option data-fee="{{ delivery.fee }}" value="{{ delivery.deliveryMode.code }}">
-                        {{ delivery.deliveryMode.name }} ({{ fee }})
-                      </option>
-                    {% endfor %}
-                  </select>
-                </td>
-                <td style="max-width: 5%;">
-                  <button type="button" class="btn btn-link btn-remove" data-id="{{ product.id }}"><i class="fa fa-trash"></i></button>
-                </td>
-                <td class="text-right">
-                  {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
-                  {% if product.getCurrency.getCode != 'EUR' %}
-                    ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
-                  {% endif %}
-                </td>
-              </tr>
-                {% else %}
+                <tr>
+                  <td>
+                    <a target="_blank"
+                       href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                      {% if product.getImages()[0] is defined %}<img src="{{ loadpic(product.getImages()[0], 88, 88) }}"
+                                                                     alt="{{ product.name }} " />{% endif %}
+                    </a>
+                  </td>
+                  <td><a target="_blank"
+                         href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a>
+                  </td>
+                  <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
+                  <td>
+                    <label for="cartDeliverySelection" class="sr-only"></label>
+                    <select name="{{ product.getId() }}" class="cartDeliverySelection" id="cartDeliverySelection">
+                      {% for delivery in product.deliveries %}
+                        {% set fee = delivery.fee == 0 ? 'Gratuit' : "+"~ delivery.fee|currency_format('EUR') %}
+                        <option data-fee="{{ delivery.fee }}" value="{{ delivery.deliveryMode.code }}">
+                          {{ delivery.deliveryMode.name }} ({{ fee }})
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                  <td style="max-width: 5%;">
+                    <button type="button" class="btn btn-link btn-remove" data-id="{{ product.id }}"><i
+                              class="fa fa-trash"></i></button>
+                  </td>
+                  <td class="text-right">
+                    {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                    {% if product.getCurrency.getCode != 'EUR' %}
+                      ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                    {% endif %}
+                  </td>
+                </tr>
+              {% else %}
                 <tr>
                   <td colspan="6" class="text-center">Aucun produit dans le panier</td>
                 </tr>
               {% endfor %}
-            </tbody>
-            <tfoot class="text-right">
+              </tbody>
+              <tfoot class="text-right">
               <tr>
                 <td colspan="5" class="text-right label-table">Total produit</td>
-                <td colspan="1"><span class="totalProduct" data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span></td>
+                <td colspan="1"><span class="totalProduct"
+                                      data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span>
+                </td>
               </tr>
               <tr class="no-border">
                 <td colspan="5" class="label-table">Estimation des frais de livraison</td>
@@ -80,17 +88,17 @@
                 <td colspan="5" class="label-table">Total TTC</td>
                 <td colspan="1"><span class="totalOrder">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span></td>
               </tr>
-            </tfoot>
-          </table>
+              </tfoot>
+            </table>
 
-          <div class="text-right">
-            <input class="btn btn-primary" type="submit" value="Finaliser ma commande">
-          </div>
-        </form>
-      {% endif %}
+            <div class="text-right">
+              <input class="btn btn-primary" type="submit" value="Finaliser ma commande">
+            </div>
+          </form>
+        {% endif %}
 
-    </div><!-- .main -->
-  </div><!-- .container -->
-</div><!-- .main-wrapper -->
+      </div><!-- .main -->
+    </div><!-- .container -->
+  </div><!-- .main-wrapper -->
 
 {% endblock %}
