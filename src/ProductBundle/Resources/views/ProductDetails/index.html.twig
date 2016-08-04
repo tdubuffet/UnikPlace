@@ -143,7 +143,7 @@
                       <div class="actions-wrapper">
                         <div class="add-to-cart">
                           <div class="actions">
-                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
+                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user)%}
                               <div class="action-list addtocart">
                                 <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}J'ajoute{% endif %}" class="btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
                                   <span class="btn-cart-lbl">
