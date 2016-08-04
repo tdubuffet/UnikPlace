@@ -190,7 +190,6 @@ button.button span {
   display: none;
 }
 .popup-wrapper .loading {
-  background:url("http://elara.icotheme.com/skin/frontend/elara/default/images/loading.gif") no-repeat scroll center center #ffffff;
   border-radius:3px;
   box-shadow:0 0 20px 0 rgba(0,0,0,0.15);
   display:none;
@@ -1381,14 +1380,6 @@ button.button span {
   float:right;
   width:48.5%;
 }
-.main-container .main-wrapper .account-login .new-users .content h2 {
-  outline:none;
-  background-image:url("http://elara.icotheme.com/skin/frontend/elara/default/images/i_page1.gif");
-}
-.main-container .main-wrapper .account-login .registered-users .content h2 {
-  outline:none;
-  background-image:url("http://elara.icotheme.com/skin/frontend/elara/default/images/i_page2.gif");
-}
 .main-container .main-wrapper .account-login .content {
   border-bottom:0;
   border:1px solid #dedede;
@@ -1517,7 +1508,6 @@ button.button span {
 }
 .main-container .main-wrapper .my-account .dashboard .box-account .col2-set .box .box-content address { float:left; }
 .main-container .main-wrapper .my-account .dashboard .box-account .col2-set .box .box-content p { line-height:25px; }
-.main-container .main-wrapper .my-account .dashboard .box-account.box-info .box-head h2 { background-image:url("http://elara.icotheme.com/skin/frontend/elara/default/images/i_ma-info.gif"); }
 .main-container .main-wrapper .my-account .buttons-set {
   clear:both;
   margin:10px 0 0;
@@ -2142,7 +2132,6 @@ button.button span {
   position:relative;
   display:inline-block;
   margin:0;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/icon.png) center 1px no-repeat;
   padding:0;
 }
 
@@ -2216,7 +2205,6 @@ button.button span {
 }
 
 .owl-nav {
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/icon.png) center 1px no-repeat;
 }
 
 .owl-nav .owl-nav-left, .owl-nav .owl-nav-right {
@@ -2328,7 +2316,6 @@ button.button span {
   margin:7px 0;
 }
 .main-container .product_verticle .category-products .products-grid .item .product-action .product-content .content-wrapper .ratings .rating-box {
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 25%;
   width:85px;
   height:12px;
   display:inline-block;
@@ -2338,7 +2325,6 @@ button.button span {
 }
 .main-container .product_verticle .category-products .products-grid .item .product-action .product-content .content-wrapper .ratings .rating-box .rating {
   position:absolute;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 0;
   height:12px;
   left:0;
 }
@@ -2511,7 +2497,6 @@ button.button span {
 .main-container .blog-homepage .owl-controls {
   position:relative;
   margin:0;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/icon.png) center 1px no-repeat;
   padding:0 0 20px;
 }
 .main-container .blog-homepage .owl-controls .owl-pagination { display:inline-block; }
@@ -2560,7 +2545,6 @@ button.button span {
   letter-spacing:0.075em;
 }
 .main-container .sidebar .block .block-title .mobile-button {
-  background:url("http://elara.icotheme.com/skin/frontend/elara/default/images/opener-active.png") no-repeat scroll center center #383838;
   cursor:pointer;
   display:block;
   float:right;
@@ -2573,7 +2557,6 @@ button.button span {
   top:-9px;
 }
 .main-container .sidebar .block .block-title .mobile-button:after { background-color:transparent; }
-.main-container .sidebar .block .block-title .mobile-button.active { background:url("http://elara.icotheme.com/skin/frontend/elara/default/images/opener.png") no-repeat scroll center center #383838; }
 .main-container .sidebar .block .block-title:after {
   height:2px;
   content:'';
@@ -3403,7 +3386,6 @@ button.button span {
   float:none;
 }
 .category-products .products-list .product-shop .ratings .rating-box {
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 25%;
   width:85px;
   height:12px;
   display:inline-block;
@@ -3415,7 +3397,6 @@ button.button span {
 }
 .category-products .products-list .product-shop .ratings .rating-box .rating {
   position:absolute;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 0;
   height:12px;
   left:0;
 }
@@ -3583,7 +3564,6 @@ button.button span {
 }
 .category-products .products-grid .item .product-action .product-image:after {
   content:'';
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif) no-repeat center;
   z-index:3;
 }
 .category-products .products-grid .item .product-action .product-image.loading:before { display:block; }
@@ -3709,7 +3689,6 @@ button.button span {
   padding-top:0px;
 }
 .category-products .products-grid .item .product-content .display-onhover .ratings .rating-box {
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 25%;
   width:85px;
   height:12px;
   display:inline-block;
@@ -3718,7 +3697,6 @@ button.button span {
 }
 .category-products .products-grid .item .product-content .display-onhover .ratings .rating-box .rating {
   position:absolute;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 0;
   height:12px;
   left:0;
 }
@@ -3792,7 +3770,6 @@ button.button span {
   display:inline-block;
 }
 .category-products .ratings .rating-box {
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 25%;
   width:85px;
   height:12px;
   display:inline-block;
@@ -3804,7 +3781,6 @@ button.button span {
 }
 .category-products .ratings .rating-box .rating {
   position:absolute;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 0;
   height:12px;
   left:0;
 }
@@ -3902,7 +3878,6 @@ button.button span {
   z-index:2;
 }
 .product-view .product-img-box .product-img-list .product-image .product-image-gallery:after {
-  background-image:url("http://elara.icotheme.com/skin/frontend/elara/default/images/loader.gif");
   background-repeat:no-repeat;
   background-position:center;
   z-index:3;
@@ -3954,7 +3929,6 @@ button.button span {
   display:block;
 }
 .product-view .product-shop .ratings .rating-box {
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 25%;
   width:85px;
   height:12px;
   display:inline-block;
@@ -3964,7 +3938,6 @@ button.button span {
 }
 .product-view .product-shop .ratings .rating-box .rating {
   position:absolute;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 0;
   height:12px;
   left:0;
 }
@@ -4088,7 +4061,6 @@ button.button span {
   right:0;
   top:0;
   bottom:0;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/bg_x.png) center no-repeat transparent;
   z-index:10;
 }
 .product-view .product-shop .product-options ul.configurable-swatch-list li.not-available .x {
@@ -4349,7 +4321,6 @@ button.button span {
   vertical-align:middle;
 }
 .product-view .product-collateral .tab-content .tab-pane dl dd .ratings-table td .rating-box {
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 25%;
   width:85px;
   height:12px;
   display:inline-block;
@@ -4359,7 +4330,6 @@ button.button span {
 }
 .product-view .product-collateral .tab-content .tab-pane dl dd .ratings-table td .rating-box .rating {
   position:absolute;
-  background:url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png) repeat-x 0 0;
   height:12px;
   left:0;
 }
@@ -4506,7 +4476,6 @@ button.button span {
   z-index:3;
 }
 .footer-wrapper .footer-bottom .footer-block-title .mobile-button {
-  background:url("http://elara.icotheme.com/skin/frontend/elara/default/images/opener-active.png") no-repeat scroll center center #383838;
   cursor:pointer;
   display:block;
   float:right;
@@ -4517,7 +4486,6 @@ button.button span {
   border:none;
 }
 .footer-wrapper .footer-bottom .footer-block-title .mobile-button:after { background-color:transparent; }
-.footer-wrapper .footer-bottom .footer-block-title .mobile-button.active { background:url("http://elara.icotheme.com/skin/frontend/elara/default/images/opener.png") no-repeat scroll center center #383838; }
 .footer-wrapper .footer-bottom .product_link .custom-footer-content ul li { position:relative; }
 .footer-wrapper .footer-bottom .product_link .custom-footer-content ul li a {
   padding:0px 0 0px 20px;
@@ -4700,7 +4668,6 @@ button.button span {
 .widget-new-products .products-list .product-image { width:85px; height:85px; }
 .widget-new-products .products-list .product-shop { margin-left:100px; }
 .sidebar .widget-new-products .block { font-size:11px; line-height:1.25; }
-.sidebar .widget-new-products .block-title strong { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_widget-new.gif) 0 1px no-repeat; padding-left:21px; color:#dc5033; }
 
 /* Widget: Recently Viewed Proructs */
 .widget-viewed { display:block; }
@@ -4709,7 +4676,6 @@ button.button span {
 .widget-viewed .products-list .product-image { width:85px; height:85px; }
 .widget-viewed .products-list .product-shop { margin-left:100px; }
 .sidebar .widget-viewed .block { font-size:11px; line-height:1.25; }
-.sidebar .widget-viewed .block-title strong { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_block-list.gif) 0 0 no-repeat; padding-left:21px; }
 
 /* Widget: Recently Compared Proructs */
 .widget-compared { display:block;}
@@ -4718,7 +4684,6 @@ button.button span {
 .widget-compared .products-list .product-image { width:85px; height:85px; }
 .widget-compared .products-list .product-shop { margin-left:100px; }
 .sidebar .widget-compared .block { font-size:11px; line-height:1.25; }
-.sidebar .widget-compared .block-title strong { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_block-list.gif) 0 0 no-repeat; padding-left:21px; }
 
 /* Widget: CMS Static Block */
 .widget-static-block {}
@@ -4733,28 +4698,22 @@ button.button span {
 .widget-product-link-inline { display:inline; }
 
 .col-main .widget-product-link { display:block; text-align:right; margin:7px 0; }
-.col-main .widget-product-link a { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; }
 
 .sidebar .widget-product-link { display:block; margin:0 0 15px; padding:0 10px; }
-.sidebar .widget-product-link a { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; }
 
 /* Widget: Catalog Category Link */
 .widget-category-link-inline { display:inline; }
 
 .col-main .widget-category-link { display:block; text-align:right; margin:7px 0; }
-.col-main .widget-category-link a { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; }
 
 .sidebar .widget-category-link { display:block; margin:0 0 15px; padding:0 10px; }
-.sidebar .widget-category-link a { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; }
 
 /* Widget: CMS Page Link */
 .widget-cms-link-inline { display:inline; }
 
 .col-main .widget-cms-link { display:block; text-align:right; margin:7px 0; }
-.col-main .widget-cms-link a { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; }
 
 .sidebar .widget-cms-link { display:block; margin:0 0 15px; padding:0 10px; }
-.sidebar .widget-cms-link a { background:url(http://elara.icotheme.com/skin/frontend/base/default/images/widgets/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; }
 /* ======================================================================================= */
 
 .postWrapper {
@@ -5843,10 +5802,10 @@ ul.nav-accordion li.level0 > a > span > .pin-bottom:before {
     border-width: 0px;
 }
 ul.nav-accordion li span.expand {
-    background-image: url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png);
+
 }
 ul.nav-accordion li span.collapse {
-    background-image: url(http://elara.icotheme.com/skin/frontend/elara/default/images/arrow.png);
+
 }
 /**END STYLE DRILLMENU**/
 @media (min-width: 1200px) {
@@ -6761,7 +6720,6 @@ ul.nav-accordion li span.collapse {
 .mCSB_scrollTools .mCSB_buttonDown,
 .mCSB_scrollTools .mCSB_buttonLeft,
 .mCSB_scrollTools .mCSB_buttonRight{
-    background-image:url(http://elara.icotheme.com/skin/frontend/elara/default/images/mCSB_buttons.png);
     background-repeat:no-repeat;
     opacity:0.4;
     filter:"alpha(opacity=40)"; -ms-filter:"alpha(opacity=40)"; /* old ie */
@@ -7181,7 +7139,6 @@ ul.nav-accordion li span.collapse {
    The following styles are ordered & tabbed
    in a way that represents the nesting of the generated HTML.
 -------------------------------------------------------------- */
-#cboxOverlay{background:url(http://elara.icotheme.com/skin/frontend/elara/default/css/icotheme/cloudzoom/images/overlay.png) repeat 0 0;}
 #colorbox{}
 #cboxContent{background:#fff; overflow:hidden; border:none;/*10px solid #333*/ padding:10px; }
 .cboxIframe{background:#fff;}
@@ -7192,7 +7149,6 @@ ul.nav-accordion li span.collapse {
 #cboxSlideshow{position:absolute; bottom:4px; right:30px; color:#0092ef;}
 
 #cboxPrevious,
-#cboxNext { position:absolute; background:url(http://elara.icotheme.com/skin/frontend/elara/default/css/icotheme/cloudzoom/images/slider-arrows.png) no-repeat #ddd; width:30px; height:30px; text-indent:-9999px; }
 #cboxPrevious:hover,
 #cboxNext:hover { background-color:#333; }
 #cboxPrevious{bottom:10px; left:10px; background-position:-10px -10px;}
@@ -7200,10 +7156,7 @@ ul.nav-accordion li span.collapse {
 #cboxNext{bottom:10px; left:40px; background-position:-60px -10px;}
 #cboxNext:hover{background-position:-60px -60px;}
 
-#cboxLoadingOverlay{background:url(http://elara.icotheme.com/skin/frontend/elara/default/css/icotheme/cloudzoom/images/loading_background.png) no-repeat center center;}
-#cboxLoadingGraphic{background:url(http://elara.icotheme.com/skin/frontend/elara/default/css/icotheme/cloudzoom/images/loading.gif) no-repeat center center;}
 
-#cboxClose{position:absolute; top:0px; right:0px; border: none; background:url(http://elara.icotheme.com/skin/frontend/elara/default/css/icotheme/cloudzoom/images/close-button.png) -10px -10px no-repeat #ddd; width:30px; height:30px; text-indent:-9999px;}
 #cboxClose:hover{background-position:-10px -60px; background-color:#333;}
 
 #cboxNext,
