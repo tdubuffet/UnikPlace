@@ -35,7 +35,7 @@
         <td>{{ order.amount }} {% if order.currency.code|lower == 'eur'  %}€{% endif %}</td>
         <td>
           {{ order.delivery.deliveryMode.name }}
-          {% if order.delivery.deliveryMode.code == 'by_hand' %} - {{ order.delivery.fee }} €{% endif %}
+          {% if order.delivery.deliveryMode.code != 'by_hand' %} <br/> Frais de port de <b>{{ order.delivery.fee }}</b>€{% endif %}
         </td>
         <td>
           {% if order.status == 'pending' %}

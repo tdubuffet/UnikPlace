@@ -87,16 +87,15 @@
           <li>Convenez rapidement d'un rendez-vous avec l'acheteur.</li>
           <li>Vous recevrez le paiement de votre vente une fois que l'acheteur aura validé la remise du produit.</li>
         </ol>
-      {% elseif order.delivery.deliveryMode.code == 'parcel' %}
+      {% elseif order.delivery.deliveryMode.code != 'by_hand' %}
         <ol class="order-instructions">
-          <li>Préparez votre colis avec le produit commandé à l'intérieur.</li>
-          <li>Au bureau de poste, demandez un envoi en colissimo à l'adresse suivante : <br />
+          <li>Préparez votre colis avec le produit commandé à l'intérieur et envoyez le à l'adresse suivante:</li>
             <address>
               {{ order.deliveryAddress.name }}<br />
               {{ order.deliveryAddress.street }}<br />
               {{ order.deliveryAddress.city.zipcode }} {{ order.deliveryAddress.city.name }} France
             </address>
-            <strong>Conservez le numéro de suivi Colissimo</strong>. Les frais de port sont remboursés.</li>
+            <strong>Conservez le numéro de suivi de votre colis</strong>. Les frais de port sont remboursés.</li>
           <li>Contactez l'acheteur via le formulaire ci-dessous pour l'informer de l'expédition.</li>
           <li>Une fois que l'acheteur confirmera la bonne reception du produit, votre paiement arrivera.</li>
         </ol>
@@ -151,6 +150,9 @@
           <ul>
             <li>
               <span>Type</span>{{ order.delivery.deliveryMode.name }}
+            </li>
+            <li>
+              <span>Frais de port</span>{{ order.delivery.fee }} €
             </li>
               {% if order.deliveryAddress is defined %}
               <li>
