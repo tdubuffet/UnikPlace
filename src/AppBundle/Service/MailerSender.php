@@ -45,7 +45,7 @@ class MailerSender
     {
         $template = "AppBundle:email:contact.email.twig";
 
-        $this->sendMessage($template, $context, $context['email'], $this->parameters['contact_email']);
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $this->parameters['contact_email'], $context['email']);
     }
 
     public function sendPrivateMessageNotificationEmailMessage(Message $message)
@@ -206,7 +206,7 @@ class MailerSender
         $this->sendMessage($template, $context, $this->parameters['from_email'], $proposal->getUser()->getEmail());
     }
 
-    private function sendMessage($templateName, $context, $fromEmail, $toEmail)
+    private function sendMessage($templateName, $context, $fromEmail, $toEmail, $replyToEmail = null)
     {
         // Add name if from_email is the same as in config
         if ($fromEmail === $this->parameters['from_email']) {
@@ -221,6 +221,9 @@ class MailerSender
             ->setSubject($subject)
             ->setFrom($fromEmail)
             ->setTo($toEmail);
+        if (!is_null($replyToEmail)) {
+            $message->setReplyTo($replyToEmail);
+        }
         if (!empty($htmlBody)) {
             $message->setBody($htmlBody, 'text/html')
                 ->addPart($textBody, 'text/plain');
