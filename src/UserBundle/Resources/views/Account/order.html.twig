@@ -163,14 +163,16 @@
             <li>
               <span>Type</span>{{ order.delivery.deliveryMode.name }}
             </li>
-            <li>
-              <span>Frais de port</span>{{ order.delivery.fee }} €
-            </li>
+            {% if order.delivery.deliveryMode.code != 'by_hand' %}
+              <li>
+                <span>Frais de port</span>{{ order.delivery.fee }} €
+              </li>
               {% if order.deliveryAddress is defined %}
               <li>
                 <span>Livraison</span>{{ order.deliveryAddress.name }} - {{ order.deliveryAddress.street }} {{ order.deliveryAddress.city }}
               </li>
               {% endif %}
+            {% endif %}
 
           </ul>
 
