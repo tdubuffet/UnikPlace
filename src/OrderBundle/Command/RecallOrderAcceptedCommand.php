@@ -42,10 +42,13 @@ class RecallOrderAcceptedCommand extends ContainerAwareCommand
         $manager = $this->getContainer()->get('doctrine')->getManager();
         $orders = $manager->getRepository("OrderBundle:Order")->findBy(['status' => 2]);
         $mailer = $this->getContainer()->get('mailer_sender');
+        $logger = $this->getContainer()->get('monolog.logger.cron');
 
         foreach ($orders as $order) {
             if ($order->getCreatedAt() < new \DateTime("-5days") && $order->getCreatedAt() > new \DateTime("-15days")) {
                 $mailer->sendAcceptedOrderToSellerEmailMessage($order);
+                $email = $order->getProduct()->getUser()->getEmail();
+                $logger->addNotice(sprintf("Sending recall_order_accepted email to %s from cron %s", $email, __CLASS__));
             }
         }
     }

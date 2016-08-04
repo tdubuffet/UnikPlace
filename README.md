@@ -139,7 +139,7 @@ Reload the webserver
 ### Cron task
 
     # m h  dom mon dow   command
-    0 1,13 * * * php bin/console recall:order_pending
-    0 2 * * * php bin/console check:order_pending
-    0 0 */2 * * php bin/console recall:order_accepted 
+    0 1,13 * * * php bin/console recall:order_pending --env=prod
+    0 2 * * * php bin/console check:order_pending --env=prod
+    0 0 */2 * * php bin/console recall:order_accepted --env=prod
 

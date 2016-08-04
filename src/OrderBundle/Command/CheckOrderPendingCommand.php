@@ -40,15 +40,19 @@ class CheckOrderPendingCommand extends ContainerAwareCommand
     {
         $manager = $this->getContainer()->get('doctrine')->getManager();
         $orders = $manager->getRepository("OrderBundle:Order")->findBy(['status' => 1]);
+        $logger = $this->getContainer()->get('monolog.logger.cron');
+
         foreach ($orders as $order) {
             if ($order->getCreatedAt() < new \DateTime("-2days")) {
                 $this->getContainer()->get('order_service')->cancelOrder($order);
+                $logger->addNotice(sprintf("Order %s canceled from cron %s", $order->getId(), __CLASS__));
             }
         }
         $orders = $manager->getRepository("OrderBundle:Order")->findBy(['status' => 2]);
         foreach ($orders as $order) {
             if ($order->getCreatedAt() < new \DateTime("-15days")) {
                 $this->getContainer()->get('order_service')->cancelOrder($order);
+                $logger->addNotice(sprintf("Order %s canceled from cron %s", $order->getId(), __CLASS__));
             }
         }
 

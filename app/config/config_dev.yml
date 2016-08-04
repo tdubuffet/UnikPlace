@@ -12,19 +12,24 @@ web_profiler:
     intercept_redirects: false
 
 monolog:
+    channels: ['cron']
     handlers:
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
-            channels: [!event, !security]
+            channels: [!event, !security, !cron]
         console:
             type:   console
-            channels: [!event, !doctrine]
+            channels: [!event, !doctrine, !cron]
         login:
             type: stream
             path: "%kernel.logs_dir%/auth_%kernel.environment%.log"
             channels: security
+        cron:
+            type: stream
+            path: "%kernel.logs_dir%/cron_%kernel.environment%.log"
+            channels: cron
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration
         #firephp:

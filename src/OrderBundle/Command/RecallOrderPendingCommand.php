@@ -8,6 +8,7 @@
 
 namespace OrderBundle\Command;
 
+use OrderBundle\Entity\Order;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,10 +43,14 @@ class RecallOrderPendingCommand extends ContainerAwareCommand
         $manager = $this->getContainer()->get('doctrine')->getManager();
         $orders = $manager->getRepository("OrderBundle:Order")->findBy(['status' => 1]);
         $mailer = $this->getContainer()->get('mailer_sender');
+        $logger = $this->getContainer()->get('monolog.logger.cron');
 
+        /** @var Order $order */
         foreach ($orders as $order) {
             if ($order->getCreatedAt() > new \DateTime("-2days")) {
+                $email = $order->getProduct()->getUser()->getEmail();
                 $mailer->sendPendingOrderToSellerEmailMessage($order);
+                $logger->addNotice(sprintf("Sending seller_pending email to %s from cron %s", $email, __CLASS__));
             }
         }
     }
