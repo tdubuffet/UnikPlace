@@ -8,8 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use ProductBundle\Entity\Product;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductDetailsController extends Controller
 {
@@ -20,10 +22,13 @@ class ProductDetailsController extends Controller
      * @Template("ProductBundle:ProductDetails:index.html.twig")
      * @param Request $request
      * @param Product $product
-     * @return array
+     * @return array|RedirectResponse
      */
     public function indexAction(Request $request, Product $product)
     {
+        if (!in_array($product->getStatus()->getName(), ['published', 'sold'])) {
+            throw new NotFoundHttpException("Product status is not valid");
+        }
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
         $attributes = $productAttributeService->getAttributesFromProduct($product);
         $routeparams = ['id' => $product->getId(), 'slug' => $product->getSlug()];
