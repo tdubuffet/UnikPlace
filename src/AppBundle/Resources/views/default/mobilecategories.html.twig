@@ -1,15 +1,16 @@
 {% if collections|length > 0 %}
   <li class="level0 level-top parent">
-      <span class="m_title_group_head">Les dernières inspirations</span>
+    <span class="m_title_group_head">Les dernières inspirations</span>
   </li>
-  <ul class="level1">
-    {% for collection in collections %}
-      <li class="level2">
-        <a href="{{ path("collection", {'slug': collection.slug}) }}">{{ collection.name }}</a>
-      </li>
-    {% endfor %}
-
-  </ul>
+  <li>
+    <ul class="level1 testing">
+      {% for collection in collections %}
+        <li class="level2">
+          <a href="{{ path("collection", {'slug': collection.slug}) }}">{{ collection.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </li>
 {% endif %}
 
 {% for idx, category in categories %}
@@ -27,11 +28,11 @@
             {% if childCategory.getChildren()|length > 0 %}
               <ul class="level1">
                 {% for subChildCategory in childCategory.getChildren() %}
-                <li class="level2">
-                  <a href="{{ path('category', {path: subChildCategory.getPath()}) }}">
-                    <span>{{ subChildCategory.getName }}</span>
-                  </a>
-                </li>
+                  <li class="level2">
+                    <a href="{{ path('category', {path: subChildCategory.getPath()}) }}">
+                      <span>{{ subChildCategory.getName }}</span>
+                    </a>
+                  </li>
                 {% endfor %}
               </ul>
             {% endif %}

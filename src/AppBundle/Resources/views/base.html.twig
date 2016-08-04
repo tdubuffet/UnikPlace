@@ -41,13 +41,13 @@
                         <div id="navbar-search" class="switcher-content skip-content">
                           <form id="search_mb_mini_form" action="{{ path('search') }}" method="get">
                             <div class="input-group form-search">
-                              <span class="input-group-btn category-filter">
+                              <div class="input-group-btn category-filter">
                                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                                   <span class="category-label">
                                     Tout </span>&nbsp;<i class="fa fa-angle-down"></i>
                                 </button>
                                 {{ render(controller('AppBundle:Default:searchcategories')) }}
-                              </span>
+                              </div>
                               <input type="hidden" name="cat" class="search-category" value="" />
                               <input id="mb_search"
                                      type="search"
@@ -75,7 +75,7 @@
                             <span class="icon-bar"></span>
                           </button>
                         </div>
-                        <nav id="navbar-toggle" class="bs-navbar-collapse skip-content" role="navigation">
+                        <nav id="navbar-toggle" class="bs-navbar-collapse skip-content">
                           <ul class="nav-accordion nav-mobile-accordion">
 
                             <li class="level0 home level-top">
@@ -183,7 +183,7 @@
                       <div class="store-wrapper"></div>
                       <div class="header-setting">
                         <div class="dropdown setting-switcher switcher-wrap">
-                          <a href="#" class="overwrite-setting" data-toggle="dropdown" class="dropdown-toggle">
+                          <a href="#" class="overwrite-setting dropdown-toggle" data-toggle="dropdown">
                             <span>Mon Compte</span>
                           </a>
 
@@ -213,13 +213,13 @@
                             <div class="main-form-search">
                               <form id="search_mini_form" action="{{ path('search') }}" method="get">
                                 <div class="input-group form-search">
-                                  <span class="input-group-btn category-filter">
+                                  <div class="input-group-btn category-filter">
                                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                                      <span class="category-label">
-                                        Tout </span>&nbsp;<i class="fa fa-angle-down"></i>
+                                      <span class="category-label">Tout </span>&nbsp;
+                                      <i class="fa fa-angle-down"></i>
                                     </button>
                                     {{ render(controller('AppBundle:Default:searchcategories')) }}
-                                  </span>
+                                  </div>
                                   <input type="hidden" name="cat" class="search-category" value="" />
                                   <input id="search"
                                          type="search"
@@ -228,7 +228,9 @@
                                          class="input-text required-entry"
                                          maxlength="128"
                                          placeholder="Rechercher sur le site..." />
-                                  <button type="submit" title="Search" class="button"><span><span><i class="fa fa-search"></i></span></span></button>
+                                  <button type="submit" title="Search" class="button">
+                                    <span><span><i class="fa fa-search"></i></span></span>
+                                  </button>
                                 </div>
                                 <div id="search_autocomplete" class="search-autocomplete" style="display: none"></div>
                               </form>
