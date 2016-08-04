@@ -4465,22 +4465,12 @@ button.button span {
   position:relative;
   z-index:4;
 }
-.footer-wrapper .footer-bottom .footer-block-title h2 span:after {
-  height:2px;
-  position:absolute;
-  content:'';
-  bottom:0;
-  width:30px;
-  left:0;
-  right:0;
-  z-index:3;
-}
 .footer-wrapper .footer-bottom .footer-block-title .mobile-button {
   cursor:pointer;
   display:block;
   float:right;
   height:30px;
-  text-indent:-999em;
+  font-size: 1.2em;
   width:30px;
   margin-bottom:10px;
   border:none;
@@ -6443,8 +6433,8 @@ ul.nav-accordion li span.collapse {
     }
 
     .footer-wrapper .footer-bottom .product_link .custom-footer-content,
-    .footer-wrapper .footer-bottom .custom-footer-content {
-        display: none;
+    .footer-wrapper .footer-bottom .footer-block-title {
+        padding-top: 8px;
     }
 
     .footer-wrapper .footer-top .footer-top-discount .item {
