@@ -72,18 +72,24 @@ class Order
     /**
      * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Address")
      * @ORM\JoinColumn(name="delivery_address_id", referencedColumnName="id")
+     *
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $delivery_address;
 
     /**
      * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Address")
      * @ORM\JoinColumn(name="billing_address_id", referencedColumnName="id")
+     *
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $billing_address;
 
     /**
      * @ORM\ManyToOne(targetEntity="Status")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     *
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $status;
 

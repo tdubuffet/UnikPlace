@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="delivery_mode")
  * @ORM\Entity(repositoryClass="OrderBundle\Repository\DeliveryModeRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class DeliveryMode
 {

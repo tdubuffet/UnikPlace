@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="order_status")
  * @ORM\Entity(repositoryClass="OrderBundle\Repository\StatusRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class Status
 {

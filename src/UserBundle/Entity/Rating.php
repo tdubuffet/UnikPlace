@@ -11,6 +11,8 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  * @ORM\Entity
  * @ORM\Table(name="user_rating")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\RatingRepository")
+ *
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class Rating
 {
