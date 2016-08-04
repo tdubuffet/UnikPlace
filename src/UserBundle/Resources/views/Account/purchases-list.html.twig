@@ -13,6 +13,7 @@
       <tr>
         <th colspan="2">Nom du produit</th>
         <th>Montant</th>
+        <th>Livraison</th>
         <th>Status</th>
         <th>Date</th>
         <th>Actions</th>
@@ -31,6 +32,10 @@
             {{ order.product.name }}
           </td>
           <td>{{ order.amount }} {% if order.currency.code|lower == 'eur'  %}€{% endif %}</td>
+          <td>
+            {{ order.delivery.deliveryMode.name }}
+            {% if order.delivery.deliveryMode.code == 'by_hand' %} - {{ order.delivery.fee }} €{% endif %}
+          </td>
           <td>
             {% if order.status == 'pending' %}
               <span class="label label-success">En attente de confirmation</span>
@@ -56,7 +61,7 @@
         </tr>
       {% else %}
 
-        <td colspan="5" class="text-center">Aucune commande</td>
+        <td colspan="6" class="text-center">Aucune commande</td>
 
       {% endfor %}
 
