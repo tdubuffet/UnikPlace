@@ -147,7 +147,8 @@
             <li>
                 <span>Produit</span><a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a>
             </li>
-            <li><span>Prix</span>{{ order.amount|number_format(2, '.', ' ') }} €</li>
+            <li><span>Prix de la commande</span>{{ order.amount|number_format(2, '.', ' ') }} €</li>
+            <li><span>Prix du produit</span>{{ order.productAmount|number_format(2, '.', ' ') }} €</li>
           </ul>
         </div>
       </div>
