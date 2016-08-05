@@ -1,12 +1,12 @@
 easy_admin:
-    site_name: %site_name%
+    site_name: '%site_name%'
     entities:
         User:
             class: UserBundle\Entity\User
             list:
-                fields: ['username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'enabled']
+                fields: ['username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'enabled', 'locked']
             edit:
-                fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin']
+                fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'locked']
             new:
                 fields: ['enabled', 'username', 'firstname', 'lastname', 'plainPassword', 'email', 'roles', 'lastLogin']
         Category:

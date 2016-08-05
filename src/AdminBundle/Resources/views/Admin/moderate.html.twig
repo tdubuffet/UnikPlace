@@ -13,11 +13,15 @@
 {% block main %}
   {% if product is not empty %}
     <div class="form-horizontal">
-      {# id #}
+      {# auteur #}
       <div class="form-group">
-        <label class="col-sm-2 control-label">ID</label>
+        <label class="col-sm-2 control-label">Auteur</label>
         <div class="col-sm-10">
-          <div class="form-control">{{ product.id }}</div>
+          <div class="form-control">
+            <a href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': product.user.id} ) }}">
+              {{ product.user.username }}
+            </a>
+          </div>
         </div>
       </div>
       {# name #}
@@ -68,7 +72,7 @@
         <div class="col-sm-10">
           <div class="form-control">
             {% for delivery in product.deliveries %}
-            {{ delivery.deliveryMode.name }} {{ delivery.fee|currency_convert_format(product.currency.code) }} |
+              {{ delivery.deliveryMode.name }} {{ delivery.fee|currency_convert_format(product.currency.code) }} |
             {% endfor %}
           </div>
         </div>
