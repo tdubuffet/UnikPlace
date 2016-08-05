@@ -1,0 +1,18 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+  <div class="row">
+    <div class="col-md-2">
+       <span class="fa-stack fa-lg fa-5x">
+          <i class="fa fa-circle fa-stack-2x text-success"></i>
+          <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+      </span>
+    </div>
+    <div class="col-md-8">
+      <p>Votre inscription a bien été prise en compte et nous vous en remercions.</p>
+      <p><b>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</b></p>
+    </div>
+  </div>
+{% endblock fos_user_content %}
