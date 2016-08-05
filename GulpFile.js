@@ -38,7 +38,6 @@ gulp.task('scripts-dev', function() {
             './web/components/bootstrap-sass/assets/javascripts/bootstrap.js',
             './web/components/jquery-validation/dist/jquery.validate.js',
             './web/components/owl.carousel/dist/owl.carousel.js',
-            './web/components/jquery-sticky/jquery.sticky.js',
             './web/components/elevatezoom/jquery.elevatezoom.js',
             './web/components/bootbox.js/bootbox.js',
             './web/components/select2/dist/js/select2.js',
@@ -66,6 +65,22 @@ gulp.task('scripts-prod', function() {
             './web/components/jquery/dist/jquery.js',
             './web/components/bootstrap-sass/assets/javascripts/bootstrap.js',
             './web/components/jquery-validation/dist/jquery.validate.js',
+            './web/components/owl.carousel/dist/owl.carousel.js',
+            './web/components/elevatezoom/jquery.elevatezoom.js',
+            './web/components/bootbox.js/bootbox.js',
+            './web/components/select2/dist/js/select2.js',
+            './web/components/select2/dist/js/i18n/fr.js',
+
+            './web/components/blueimp-load-image/js/load-image.all.min.js',
+            './web/components/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
+            './web/components/blueimp-file-upload/js/jquery.iframe-transport.js',
+            './web/components/blueimp-file-upload/js/jquery.fileupload.js',
+            './web/components/blueimp-file-upload/js/jquery.fileupload-process.js',
+            './web/components/blueimp-file-upload/js/jquery.fileupload-image.js',
+            './web/components/html.sortable/dist/html.sortable.js',
+            './web/components/jquery.maskedinput/src/jquery.maskedinput.js',
+            './web/components/jquery-creditcardvalidator/jquery.creditCardValidator.js',
+
             './web/bundles/**/js/*.js'
         ])
         .on('error', swallowError)
