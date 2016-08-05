@@ -29,10 +29,11 @@
           {% for message in thread.messages %}
 
             <tr>
-              <td>{{ message.sender.username }}</td>
+              <td><a href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': message.sender.id}) }}">{{ message.sender.username }}</a></td>
               <td style="width: 75%">
-                {{ message.body|raw }}<br /><br />
-                <p>Envoyé le {{ message.createdAt|date('d/m/Y H:i') }}</p>
+                {{ message.body|raw }}
+                <hr />
+                <p>Envoyé le <b>{{ message.createdAt|date('d/m/Y H:i') }}</b></p>
               </td>
 
             </tr>
