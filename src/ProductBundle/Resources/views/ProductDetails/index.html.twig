@@ -491,10 +491,11 @@
   <div class="content-wrapper">
     <div class="product-detail">
       {% set images = product.getImages() %}
-      <img src="{% if images[0] is defined %}{{ loadpic(images[0], 135, 135) }}{% endif %}" width="135" height="135" alt="" />
+      <img src="{% if images[0] is defined %}{{ loadpic(images[0], 135, 135) }}{% endif %}" width="135" height="135"
+           alt="{{ product.name }}" />
       <span class="product-name">Le produit "<span>{{ product.name }}</span>" a été ajouté au panier.</span>
       <div class="actions">
-        <a class="btn btn-primary" href="{{ path('cart') }}">Voir mon panier</a>
+        <a class="btn btn-primary" href="{{ path('cart') }}">Accéder au panier</a>
         <button class="btn btn-primary btn-continue" title="Continuer le shopping">Continuer</button>
       </div>
     </div>
