@@ -1,11 +1,11 @@
-{% extends 'AppBundle::base.html.twig' %}
+{% extends 'UserBundle::base.html.twig' %}
 
 {% block title %}Ma wishlist{% endblock %}
 {% block description %}Ma wishlist sur {{ siteName }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['wishlist']) }}{% endblock javascript_include %}
 
-{% block body %}
+{% block account_content %}
 <div class="main-wrapper">
   <div class="container">
     <div class="main">
