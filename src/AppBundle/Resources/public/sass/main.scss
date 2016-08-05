@@ -1417,6 +1417,14 @@ button.button span {
   background-color:#ececec;
   text-align:right;
 }
+.main-container .main-wrapper .account-login .col-login{
+  border-left: 1px solid #EEEEEE;
+}
+
+@media only screen and (min-width: 768px) {
+  border-left: none;
+}
+
 .main-container .main-wrapper .account-create { overflow:hidden; }
 .main-container .main-wrapper .account-create .fieldset {
   border:1px solid #dedede;

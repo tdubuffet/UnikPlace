@@ -15,6 +15,17 @@ var Login = {
                 }
             }
         });
+
+
+
+        $("#signup-form").validate({
+            "email_registration": {
+                required: true,
+                email: true,
+                minlength: 3,
+                maxlength: 100,
+            }
+        });
     }
 
 };
