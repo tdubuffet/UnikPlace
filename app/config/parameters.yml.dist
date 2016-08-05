@@ -50,3 +50,6 @@ parameters:
             twitter: "http://facebook.com"
             google: "http://facebook.com"
 
+
+    # Asset version
+    assets_version: v000

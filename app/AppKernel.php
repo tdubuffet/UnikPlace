@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new FOS\MessageBundle\FOSMessageBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
+            new Kachkaev\AssetsVersionBundle\KachkaevAssetsVersionBundle(),
 
             // Private bundles
             new AppBundle\AppBundle(),

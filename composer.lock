@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "933a216978f2f43d8b72d199505dbf66",
-    "content-hash": "5c24d9da834120714ddce100f5b820ab",
+    "hash": "4d87649a867e7afb6d6c0e643259c268",
+    "content-hash": "9c6ec8fabb81801c63847cd6e07ce051",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1023,7 +1023,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/42ad0730ee22406de20da75fa9a3f4d74c565a83",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/298f27ce696deaa6ecd72e6ba563f892a17e0512",
                 "reference": "298f27ce696deaa6ecd72e6ba563f892a17e0512",
                 "shasum": ""
             },
@@ -1577,6 +1577,71 @@
                 "yaml"
             ],
             "time": "2014-07-12 07:13:19"
+        },
+        {
+            "name": "kachkaev/assets-version-bundle",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kachkaev/KachkaevAssetsVersionBundle.git",
+                "reference": "2688ecad32d3a685ee3aee7a59644e6a3b933285"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kachkaev/KachkaevAssetsVersionBundle/zipball/2688ecad32d3a685ee3aee7a59644e6a3b933285",
+                "reference": "2688ecad32d3a685ee3aee7a59644e6a3b933285",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "~1.0",
+                "symfony/filesystem": "~2.3|~3.0",
+                "symfony/finder": "~2.3|~3.0"
+            },
+            "suggest": {
+                "symfony/assetic-bundle": "For combining and compressing assets"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kachkaev\\AssetsVersionBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Kachkaev",
+                    "email": "alexander@kachkaev.ru",
+                    "homepage": "http://en.kachkaev.ru/"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/kachkaev/KachkaevAssetsVersionBundle/contributors"
+                }
+            ],
+            "description": "Automates the process of updating assets version in Symfony2 & Symfony3 projects",
+            "homepage": "http://github.com/kachkaev/KachkaevAssetsVersionBundle",
+            "keywords": [
+                "assetic",
+                "assets",
+                "autoincrement",
+                "config",
+                "console",
+                "deploy",
+                "version"
+            ],
+            "time": "2016-06-13 09:33:51"
         },
         {
             "name": "knplabs/doctrine-behaviors",

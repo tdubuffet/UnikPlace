@@ -45,7 +45,8 @@
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "friendsofsymfony/message-bundle": "dev-symfony3",
         "mangopay/php-sdk-v2": "^2.3",
-        "white-october/pagerfanta-bundle": "^1.0"
+        "white-october/pagerfanta-bundle": "^1.0",
+        "kachkaev/assets-version-bundle": "^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
