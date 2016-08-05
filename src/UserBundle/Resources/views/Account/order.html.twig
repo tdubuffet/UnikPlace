@@ -80,6 +80,9 @@
         <h3 class="order-summary-title">Le vendeur a accepté la vente</h3>
         <ol class="order-instructions">
           <li>Une fois la remise effectuée, cliquer sur le bouton ci-dessous pour confirmer directement la vente.</li>
+          {% if order.product.user.phone is not null %}
+            <li>Vous pouvez contacter le vendeur au numéro suivant : {{ order.product.user.phone }}</li>
+          {% endif %}
 
         </ol>
       {% else %}

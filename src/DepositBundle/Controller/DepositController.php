@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -294,7 +295,7 @@ class DepositController extends Controller
             return $this->redirectToRoute('sell_price');
         }
 
-        $address = new Address;
+        $address = new Address();
         $addAddressForm = $this->createForm(AddressType::class, $address);
 
         $addresses = $this->getUser()->getAddresses();
@@ -302,9 +303,12 @@ class DepositController extends Controller
     }
 
     /**
-    * @Route("/deposit_postshipping", name="deposit_postshipping")
-    * @Method({"POST"})
-    */
+     * @Route("/deposit_postshipping", name="deposit_postshipping")
+     * @Method({"POST"})
+     * @param Request $request
+     * @throws \Exception
+     * @return RedirectResponse
+     */
     public function postShippingAction(Request $request)
     {
         $session = $this->get('session');
@@ -313,29 +317,27 @@ class DepositController extends Controller
             $deposit = $session->get('deposit');
 
             if($request->request->has('address')) {
-                $address = new Address;
+                $address = new Address();
                 $form = $this->createForm(AddressType::class, $address);
                 $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
                     $cityId = $request->request->get('address')['city'];
-                    // Get city from id
-                    $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneById($cityId);
-                    if (!isset($city)) {
+                    $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneBy(['id' => $cityId]);
+                    if (!$city) {
                         throw new \Exception('Cannot find city.');
                     }
-                    $address->setCity($city);
-                    $address->setUser($this->getUser());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($address);
-                    $em->flush();
+                    $address->setCity($city)->setUser($this->getUser());
+                    $this->getUser()->setPhone($request->request->get('phone'));
+                    $this->getDoctrine()->getManager()->persist($address);
+                    $this->getDoctrine()->getManager()->persist($this->getUser());
+                    $this->getDoctrine()->getManager()->flush();
 
                     // Store user phone in session
-                    if ($request->get('phone')) {
-                        $deposit['phone'] = $request->request->get('phone');
-                        $session->set('deposit', $deposit);
-                    }
+                    $deposit['phone'] = $request->request->get('phone');
+                    $session->set('deposit', $deposit);
 
                     $session->getFlashBag()->add('notice', 'Adresse ajoutée avec succès.');
+
                     return $this->redirectToRoute('sell_shipping');
                 }
             } else {
