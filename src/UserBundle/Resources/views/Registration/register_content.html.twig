@@ -17,11 +17,19 @@
           <div class="radio-inline">
             {{ form_widget(form.pro.1) }}
           </div>
+          <div class="showErrorPro"></div>
           {{ form_errors(form.pro) }}
         </div>
+
+        {% if app.request.get('email_registration') %}
+          {% set attrEmail = {'class': 'form-control', 'value': app.request.get('email_registration')} %}
+        {% else %}
+          {% set attrEmail = {'class': 'form-control'} %}
+        {% endif %}
+
         <div class="form-group">
           <label class="required">{{ 'form.email'|trans }}</label>
-          {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+          {{ form_widget(form.email, {'attr': attrEmail}) }}
           {{ form_errors(form.email) }}
         </div>
         <div class="form-group">

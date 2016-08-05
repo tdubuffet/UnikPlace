@@ -44,7 +44,14 @@ var Signup = {
                 },
                 "fos_user_registration_form[company_city]": {
                     required: true,
-                },
+                }
+            },
+            errorPlacement: function(error, element) {
+                if (element.attr("type") == "radio") {
+                    error.appendTo($('.showErrorPro'));
+                } else {
+                    error.insertAfter(element);
+                }
             }
         });
     },

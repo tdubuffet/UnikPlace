@@ -11,7 +11,24 @@
 <div class="account-login">
   <div class="row">
     <div class="col-sm-6 hidden-xs">
-      <img src="{{ asset('bundles/app/images/pinewood.jpg') }}" class="img-responsive" />
+      <h1>Créez votre compte</h1>
+
+      <p>Saisissez votre adresse e-mail pour créer votre compte.</p>
+
+
+      <form action="{{ path('fos_user_registration_register') }}" method="post">
+
+        <div class="form-group">
+          <label for="username" class="required">{{ 'Adresse e-mail'|trans }}</label>
+          <input type="email" name="email_registration" value="" class="form-control" required="required" />
+        </div>
+
+        <p>* Champs obligatoires</p>
+
+        <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="Créer votre compte" /></p>
+
+      </form>
+
     </div>
     <div class="col-sm-6">
       <h1>S'identifier</h1>
