@@ -1,0 +1,63 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block body_class %}easyadmin sidebar-mini show{% endblock %}
+
+{% block content_title %}
+  Messages
+{% endblock %}
+
+{% block main %}
+
+
+  <section id="main" class="content">
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>
+            Conversation
+          </th>
+          <th>
+            User
+          </th>
+          <th>
+            Message
+          </th>
+          <th>
+            Actions
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+          {% for message in messages %}
+
+            <tr>
+              <td>
+                {{ message.thread.subject }}<br />
+                Produit: {{ message.thread.product.name }} - ID = {{ message.thread.product.id }}
+              </td>
+              <td>{{ message.sender.username }}</td>
+              <td style="width: 50%">
+                {{ message.body|raw }}<br /><br />
+                <p>Envoyé le {{ message.createdAt|date('d/m/Y H:i') }}</p>
+              </td>
+              <td>
+                <a class="btn btn-primary" href="{{ path('admin_thread', {id: message.thread.id }) }}">Conversation</a>
+              </td>
+
+            </tr>
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </section>
+
+
+{% endblock %}

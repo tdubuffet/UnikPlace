@@ -1,5 +1,5 @@
 easy_admin:
-    site_name: 'NoName'
+    site_name: %site_name%%'
     entities:
         User:
             class: UserBundle\Entity\User
@@ -132,6 +132,7 @@ easy_admin:
             - AttributeValue
             - { label: 'Utilisateur' }
             - User
+            - { label: 'Messages', route: 'admin_messages' }
             - { label: 'Référentiel' }
             - Referential
             - ReferentialValue
