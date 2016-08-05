@@ -70,18 +70,20 @@ class AppExtension extends \Twig_Extension
 
     public function parseUrl($url)
     {
-        $parse = parse_url($url);
+        $url = urldecode($url);
 
+        $parse = parse_url($url);
 
         if (!isset($parse['path'])) {
             return false;
         }
 
-        $redirectUri = $parse['path'];
+        $redirectUri = str_replace('/app_dev.php', '', $parse['path']);
 
         if (isset($parse['query'])) {
-            $redirectUri .= $parse['query'];
+            $redirectUri .=  '?' . $parse['query'];
         }
+
         return $redirectUri;
     }
 

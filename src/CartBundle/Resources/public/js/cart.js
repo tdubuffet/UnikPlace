@@ -51,7 +51,8 @@ var Cart = {
                 },
                 error: function (result) {
                     if (result.status == 401) {
-                        window.location.href = Routing.generate('fos_user_security_login') + '?redirect_to=' + window.location.href ;
+                        var redirectTo =  encodeURIComponent(window.location.href);
+                        window.location.href = Routing.generate('fos_user_security_login') + '?redirect_to=' + redirectTo ;
                     }
                 }
             });
