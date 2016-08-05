@@ -7,6 +7,7 @@ var Search = {
         Search.loadFilters();
         Search.initSortBy();
         Search.initSortDirection();
+        Search.initLimiter();
         Search.initPagination();
         Search.setCategory();
         Search.initialized = true;
@@ -125,6 +126,16 @@ var Search = {
             $('.overwrite-sortby').text($(this).text());
             $('.sort_by_value').val($(this).data('sort'));
             $('#sort_by').collapse('hide');
+            Search.search();
+        });
+    },
+
+    initLimiter: function() {
+        $('.overwrite-limiter-value').text($('.limiter_limit_value').val());
+        $('#limiter button').click(function() {
+            $('.overwrite-limiter-value').text($(this).text());
+            $('.limiter_limit_value').val($(this).data('limit'));
+            $('#limiter').collapse('hide');
             Search.search();
         });
     },
@@ -269,6 +280,8 @@ var Search = {
 
         Search.params.sort = $('.sort_by_value').val();
         Search.params.ord = $('.ord_value').val();
+
+        Search.params.limit = $('.limiter_limit_value').val();
 
         $.each(Search.params, function (key, value) {
             if ((value.length < 1 && key != "price") || (value.length == 1 && key == "price")) {

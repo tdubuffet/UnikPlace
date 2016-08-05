@@ -89,14 +89,14 @@
                   <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                       <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-12">
                           <div class="sorter_wrap">
                             <div class="sort-by">
 
                               <div class="select-new">
                                 <div class="select-inner">
                                   <span>Tri par : </span>
-                                  <div class="overwrite-sortby" role="button" data-toggle="collapse"
+                                  <div class="overwrite-sortby" role="button" data-toggle="collapse" data-target="#sort_by"
                                        aria-expanded="false"></div>
                                   {% set sortModes = {new: 'Nouveauté', relevance: 'Pertinence', name: 'Nom', price: 'Prix'} %}
                                   <script>sortModeLabels = {{ sortModes|json_encode|raw }};</script>
@@ -121,6 +121,28 @@
                                 <input type="hidden"
                                        value="{% if app.request.query.get('ord') is defined and app.request.query.get('ord') in ['asc', 'desc'] %}{{ app.request.query.get('ord') }}{% else %}desc{% endif %}"
                                        class="ord_value"/>
+                              </div>
+
+                              <div class="limiter_wrap">
+                                <div class="limiter">
+                                  <div class="select-new">
+                                    <div class="select-inner">
+                                      <div class="overwrite-limiter" data-toggle="collapse" data-target="#limiter" aria-expanded="false"><span class="overwrite-limiter-value"></span>&nbsp;produits/page</div>
+                                      {% set availableLimits = [12, 24, 36] %}
+                                      <script>availableLimits = {{ availableLimits|json_encode|raw }};</script>
+                                      <ul id="limiter" class="limiter collapse">
+                                        {% for availableLimit in availableLimits %}
+                                        <li>
+                                          <button class="btn-link" type="button" data-limit="{{ availableLimit }}">{{ availableLimit }}</button>
+                                        </li>
+                                        {% endfor %}
+                                      </ul>
+                                      <input type="hidden"
+                                             value="{% if app.request.query.get('limit') is defined and app.request.query.get('limit') in availableLimits %}{{ app.request.query.get('limit') }}{% else %}12{% endif %}"
+                                             class="limiter_limit_value">
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
 
                             </div>

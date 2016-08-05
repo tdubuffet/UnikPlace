@@ -3102,6 +3102,12 @@ button.button span {
 }
 .toolbar .view-mode span:hover a { color:#ffffff; }
 .toolbar .view-mode span a { color:#2f383d; }
+.toolbar .limiter_wrap {
+  cursor: pointer;
+}
+.toolbar .sorter_wrap .select-new .select-inner span, .toolbar .limiter_wrap .select-new .select-inner span.overwrite-limiter-value {
+  padding-left: 0px;
+}
 .toolbar .sorter_wrap .select-new, .toolbar .limiter_wrap .select-new { float:left; }
 .toolbar .sorter_wrap .select-new .select-inner, .toolbar .limiter_wrap .select-new .select-inner {
   position:relative;
@@ -3166,7 +3172,7 @@ button.button span {
 }
 .toolbar .sorter_wrap .sort-by .direction-list {
   float:left;
-  line-height:50px;
+  line-height:46px;
   border-right:#e6e6e6 solid 1px;
   color:#181818;
 }

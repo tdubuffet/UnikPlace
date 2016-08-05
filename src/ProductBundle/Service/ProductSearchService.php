@@ -43,7 +43,7 @@ class ProductSearchService
      */
     public function search($params)
     {
-        $maxPerPage = 9; // Products per page
+        $maxPerPage = isset($params['limit']) && in_array($params['limit'], [12, 24, 36]) ? $params['limit'] : 12; // Products per page
         $currentPage = isset($params['p']) ? $params['p'] : 1;
 
         // Build search query
