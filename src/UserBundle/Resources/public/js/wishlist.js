@@ -1,6 +1,7 @@
 var Wishlist = {
 
     init: function() {
+        Wishlist.enableButtons();
         Wishlist.initFavoriteButtons();
     },
 
@@ -32,6 +33,12 @@ var Wishlist = {
 
     getTotalVisibleItems: function() {
         return $('.products-grid .item:visible').length;
+    },
+
+    enableButtons: function () {
+        $('.link-wishlist').each(function (key, item) {
+            $(item).prop('disabled', false);
+        });
     }
 
 };

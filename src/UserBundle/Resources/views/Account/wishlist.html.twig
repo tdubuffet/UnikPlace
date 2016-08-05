@@ -6,74 +6,75 @@
 {% block javascript_include %}{{ jsinit(['wishlist']) }}{% endblock javascript_include %}
 
 {% block account_content %}
-<div class="main-wrapper">
-  <div class="container">
-    <div class="main">
 
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="category-products">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="category-products">
 
-            <h1>Ma wishlist</h1>
+        <h2>Ma wishlist</h2>
 
-            {% if favorites is empty %}
-              <p>Vous n'avez aucun produit dans votre wishlist.</p>
-            {% else %}
-              <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-4col show-grid">
-                {% for favorite in favorites %}
-                  {% set product = favorite.getProduct() %}
-                  <li class="item first hover-effect">
-                    <div class="item-inner">
-                      <div class="product-action">
-                        {% if date(product.getCreatedAt()) > date('-2weeks') %}
-                          <div class="product-new-label">Nouveau</div>
-                        {% endif %}
-                        {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
-                          <div class="product-sale-label">Vendu</div>
-                        {% endif %}
-                        <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
-                          {% set images = product.getImages() %}
-                          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}" alt="{{ product.name }}" />
-                        </a>
-                      </div>
-                      <div class="product-content">
-                        <h3 class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></h3>
-                        <div class="display-onhover">
-                          <div class="ratings">
-                            <div class="rating-box">
-                              <div class="rating" style="width:73%"></div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="price-box">
-                          <p class="old-price">
-                            <span class="price-label">Ancien prix :</span>
-                            <span class="price">48,00€</span>
-                          </p>
-
-                          <p class="special-price">
-                            <span class="price-label">Nouveau prix :</span>
-                            <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
-                          </p>
-                        </div>
-
-                        <div class="actions-box">
-                          <button class="btn btn-primary btn-sm link-wishlist" data-product-id="{{ product.getId() }}">Retirer de ma wishlist</button>
+        {% if favorites is empty %}
+          <p>Vous n'avez aucun produit dans votre wishlist.</p>
+        {% else %}
+          <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-4col show-grid">
+            {% for favorite in favorites %}
+              {% set product = favorite.getProduct() %}
+              <li class="item first hover-effect">
+                <div class="item-inner">
+                  <div class="product-action">
+                    {% if date(product.getCreatedAt()) > date('-2weeks') %}
+                      <div class="product-new-label">Nouveau</div>
+                    {% endif %}
+                    {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
+                      <div class="product-sale-label">Vendu</div>
+                    {% endif %}
+                    <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}"
+                       title="{{ product.name }}" class="product-image">
+                      {% set images = product.getImages() %}
+                      <img class="img-responsive"
+                           src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}"
+                           alt="{{ product.name }}"/>
+                    </a>
+                  </div>
+                  <div class="product-content">
+                    <h3 class="product-name"><a
+                              href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}"
+                              title="{{ product.name }}">{{ product.getName }}</a></h3>
+                    <div class="display-onhover">
+                      <div class="ratings">
+                        <div class="rating-box">
+                          <div class="rating" style="width:73%"></div>
                         </div>
                       </div>
-
                     </div>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endif %}
 
-          </div><!-- .category-products -->
-        </div><!-- col -->
-      </div><!-- .row -->
+                    <div class="price-box">
+                      <p class="old-price">
+                        <span class="price-label">Ancien prix :</span>
+                        <span class="price">48,00€</span>
+                      </p>
 
-    </div><!-- .main -->
-  </div><!-- .container -->
-</div><!-- .main-wrapper -->
+                      <p class="special-price">
+                        <span class="price-label">Nouveau prix :</span>
+                        <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
+                      </p>
+                    </div>
+
+                    <div class="actions-box">
+                      <button class="btn btn-primary btn-sm link-wishlist" data-product-id="{{ product.getId() }}">
+                        Retirer de ma wishlist
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+      </div><!-- .category-products -->
+    </div><!-- col -->
+  </div><!-- .row -->
+
 {% endblock %}
