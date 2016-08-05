@@ -23,8 +23,27 @@ var Common = {
             min: $.validator.format("Veuillez fournir une valeur supérieur ou égal à {0}."),
         });
 
-        $('#top-nav-wrapper').sticky({ topSpacing: 0 });
-        $('#mobile-sticky').sticky({ topSpacing: 0 });
+        // Sticky header
+        $('#top-nav-wrapper').affix({
+            offset: {
+                top: function () {
+                    return (this.top = $('#top-nav-wrapper').offset().top)
+                },
+                bottom: function () {
+                    return 0;
+                }
+            }
+        });
+        $('#mobile-sticky').affix({
+            offset: {
+                top: function () {
+                    return (this.top = $('#mobile-sticky').offset().top)
+                },
+                bottom: function () {
+                    return 0;
+                }
+            }
+        });
 
         $('.search-cat-filters > li').click(function(){
             var searchCatFilter = $(this).find('a').text();

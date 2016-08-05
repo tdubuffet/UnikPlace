@@ -462,6 +462,9 @@ button.button span {
   display:inline-block;
   float:left;
   background-color:#ffffff;
+  &.affix {
+    z-index: 30;
+  }
 }
 .header-wrapper .header-container .header-content.mobile-wrapper .header-top-left {
   width:12%;
@@ -706,6 +709,11 @@ button.button span {
 .header-wrapper .header-container .main-header .top-nav-wrapper {
   width:100%;
   z-index:999;
+  &.affix {
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
 .header-wrapper .header-container .is-sticky .main-header {
   height:75px;
