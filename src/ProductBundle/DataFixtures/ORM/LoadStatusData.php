@@ -12,7 +12,7 @@ class LoadStatusData implements FixtureInterface
     {
         $availableStatus = [
             ['name' => 'awaiting',    'label' => 'En modération'],
-            ['name' => 'published',   'label' => 'Publié'],
+            ['name' => 'published',   'label' => 'Disponible à la vente'],
             ['name' => 'deleted',     'label' => 'Supprimé'],
             ['name' => 'expired',     'label' => 'Expiré'],
             ['name' => 'sold',        'label' => 'Vendu'],
