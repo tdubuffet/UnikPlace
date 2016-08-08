@@ -109,11 +109,15 @@
 
                         <div class="review-product-details product-type-data">
                           <p class="availability in-stock">
-                            Disponibilité :
-                            {% if product.getStatus() is not empty %}
-                              <span>{{ product.getStatus().getLabel() }}</span>
-                            {% else %}
-                              <span>Indisponible</span>
+                            {% set product_status = product.getStatus() %}
+                            {% if product_status == 'published' %}
+                              <span class="label label-success">{{ product_status.getLabel() }}</span>
+                            {% endif %}
+                            {% if product_status == 'sold' %}
+                              <span class="label label-primary">{{ product_status.getLabel() }}</span>
+                            {% endif %}
+                            {% if product_status == 'unavailable' %}
+                              <span class="label label-danger">{{ product_status.getLabel() }}</span>
                             {% endif %}
                           </p>
                           <div class="price-box">
