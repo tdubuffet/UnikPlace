@@ -281,7 +281,7 @@
 
         <div class="form-group">
           <label class="required">Message</label>
-          {{ form_widget(formMessage.body, {'attr': {'class': 'form-control'}}) }}
+          {{ form_widget(formMessage.body, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
           {{ form_errors(formMessage.body) }}
         </div>
 
@@ -295,7 +295,7 @@
     {{ form_start(formMessage) }}
 
         <div class="form-group">
-          {{ form_widget(formMessage.body, {'attr': {'class': 'form-control'}}) }}
+          {{ form_widget(formMessage.body, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
           {{ form_errors(formMessage.body) }}
         </div>
 
