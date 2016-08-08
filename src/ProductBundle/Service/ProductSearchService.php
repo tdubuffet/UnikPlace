@@ -139,18 +139,13 @@ class ProductSearchService
      */
     private function applyQuery($boolQuery, $params)
     {
-        if (isset($params['q']) && $params['q'] != '') {
-            $fieldQuery = new \Elastica\Query\Match();
-            $fieldQuery->setFieldQuery('name', $params['q']);
-            $boolQuery->addMust($fieldQuery);
-
-            $fieldQuery = new \Elastica\Query\Fuzzy();
-            $fieldQuery->setField('name', $params['q']);
-            $boolQuery->addMust($fieldQuery);
-
-            $fieldQuery = new \Elastica\Query\Match();
-            $fieldQuery->setFieldQuery('description', $params['q']);
-            $boolQuery->addMust($fieldQuery);
+        if (isset($params['q']) && trim($params['q']) != '') {
+            $q = trim($params['q']);
+            $queryString = new \Elastica\Query\QueryString();
+            $queryString->setFields(['name', 'description']);
+            $queryString->setDefaultOperator('AND');
+            $queryString->setQuery($q);
+            $boolQuery->addMust($queryString);
         }
     }
 
