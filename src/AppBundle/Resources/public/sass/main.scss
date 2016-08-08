@@ -4560,7 +4560,6 @@ button.button span {
 }
 .footer-wrapper .footer-bottom .custom-footer-content .item-info {
   display:block;
-  float:left;
   padding-bottom:10px;
   padding-top:7px;
 }
@@ -4584,6 +4583,13 @@ button.button span {
   overflow:hidden;
   border-top:#262626 solid 1px;
 }
+
+@media (max-width: 767px) {
+  .footer-wrapper .footer-bottom .custom-footer-content .item-info i {
+    float: none;
+  }
+}
+
 .footer-wrapper .footer-copyright address {
   line-height:89px;
   text-transform:uppercase;
