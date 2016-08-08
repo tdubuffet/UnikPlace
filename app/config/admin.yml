@@ -7,6 +7,8 @@ easy_admin:
                 fields: ['username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'enabled', 'locked']
             edit:
                 fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'locked']
+            show:
+                fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'locked']
             new:
                 fields: ['enabled', 'username', 'firstname', 'lastname', 'plainPassword', 'email', 'roles', 'lastLogin']
         Category:
@@ -21,6 +23,10 @@ easy_admin:
             class: ProductBundle\Entity\Currency
         Status:
             class: ProductBundle\Entity\Status
+        Address:
+            class: LocationBundle\Entity\Address
+        Delivery:
+            class: OrderBundle\Entity\Delivery
         Product:
             class: ProductBundle\Entity\Product
             edit:
@@ -32,7 +38,29 @@ easy_admin:
                     - { property: 'currency' }
                     - { property: 'status' }
                     - { property: 'user' }
+                    - { property: 'address', type: 'easyadmin_autocomplete' }
                     - { property: 'images', type_options: { by_reference: false} }
+                    - { property: 'allow_offer', type: 'checkbox' }
+                    - { property: 'weight' }
+                    - { property: 'width' }
+                    - { property: 'length' }
+                    - { property: 'height' }
+            show:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'category' }
+                    - { property: 'price' }
+                    - { property: 'currency' }
+                    - { property: 'status' }
+                    - { property: 'user' }
+                    - { property: 'address' }
+                    - { property: 'images' }
+                    - { property: 'allow_offer' }
+                    - { property: 'weight' }
+                    - { property: 'width' }
+                    - { property: 'length' }
+                    - { property: 'height' }
             new:
                 fields:
                     - { property: 'name' }
@@ -42,7 +70,13 @@ easy_admin:
                     - { property: 'currency' }
                     - { property: 'status' }
                     - { property: 'user' }
+                    - { property: 'address', type: 'easyadmin_autocomplete' }
                     - { property: 'images', type_options: { by_reference: false} }
+                    - { property: 'allow_offer', type: 'checkbox' }
+                    - { property: 'weight' }
+                    - { property: 'width' }
+                    - { property: 'length' }
+                    - { property: 'height' }
             list:
                 fields:
                     ['id', 'name', 'user', 'createdAt', 'category', 'price', 'currency', 'status', 'address']
@@ -105,7 +139,6 @@ easy_admin:
                     - 'collection'
         City:
           class: LocationBundle\Entity\City
-
         DeliveryMode:
           class: OrderBundle\Entity\DeliveryMode
           edit:
@@ -120,6 +153,42 @@ easy_admin:
               fields:
                   - { property: 'name' }
                   - { property: 'code' }
+        Order:
+            class: OrderBundle\Entity\Order
+            list:
+                title: "Commandes"
+                actions: ['-new', '-delete', '-edit', 'show']
+                fields:
+                    - { property: 'id' }
+                    - { property: 'product', label: "Produit" }
+                    - { property: 'amount', label: "Montant total" }
+                    - { property: 'productAmount', label: "Prix du produit" }
+                    - { property: 'deliveryAmount', label: "Frais de port" }
+                    - { property: 'delivery.deliveryMode.name', label: "Livraison" }
+                    - { property: 'status', label: "Statut" }
+                    - { property: 'createdAt', label: "Date de création" }
+            show:
+                actions: ['-delete', '-edit']
+                fields:
+                    - { property: 'id' }
+                    - { property: 'product', label: "Produit" }
+                    - { property: 'amount', label: "Montant total" }
+                    - { property: 'productAmount', label: "Prix du produit" }
+                    - { property: 'deliveryAmount', label: "Frais de port" }
+                    - { property: 'delivery.deliveryMode.name', label: "Livraison" }
+                    - { property: 'status', label: "Statut" }
+                    - { property: 'user', label: "Acheteur" }
+                    - { property: 'product.user', label: "Vendeur" }
+                    - { property: 'DeliveryAddress', label: "Adresse de livraison" }
+                    - { property: 'BillingAddress', label: "Adresse de facturation" }
+                    - { property: 'createdAt', label: "Date de création" }
+                    - { property: 'updatedAt', label: "Date de mise à jour" }
+                    - { property: 'mangopayPreauthorizationId' }
+                    - { property: 'mangopayPayinId' }
+                    - { property: 'mangopayPayinDate' }
+                    - { property: 'mangopayRefundId' }
+                    - { property: 'mangopayTransferId' }
+                    - { property: 'mangopayRefundDate' }
 
 
     design:
@@ -127,6 +196,7 @@ easy_admin:
             - { label: 'Site web', route: 'homepage' }
             - { label: 'Ecommerce' }
             - { label: 'Modération', route: 'admin_moderate' }
+            - Order
             - Product
             - Image
             - AttributeValue
