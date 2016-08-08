@@ -38,22 +38,22 @@ class User extends BaseUser implements ParticipantInterface
     protected $email;
 
     /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
-    protected $facebook_id;
+    protected $facebookId;
 
     /** @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true) */
-    protected $facebook_access_token;
+    protected $facebookAccessToken;
 
     /** @ORM\Column(name="google_id", type="string", length=255, nullable=true) */
-    protected $google_id;
+    protected $googleId;
 
     /** @ORM\Column(name="google_access_token", type="string", length=255, nullable=true) */
-    protected $google_access_token;
+    protected $googleAccessToken;
 
     /** @ORM\Column(name="twitter_id", type="string", length=255, nullable=true) */
-    protected $twitter_id;
+    protected $twitterId;
 
     /** @ORM\Column(name="twitter_access_token", type="string", length=255, nullable=true) */
-    protected $twitter_access_token;
+    protected $twitterAccessToken;
 
     /**
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
@@ -86,7 +86,7 @@ class User extends BaseUser implements ParticipantInterface
      * @ORM\Column(name="residential_country", type="string", length=2)
      * @Assert\Country()
      */
-    protected $residential_country;
+    protected $residentialCountry;
 
     /**
      * @ORM\Column(name="phone", type="string", nullable=true, length=20)
@@ -103,27 +103,27 @@ class User extends BaseUser implements ParticipantInterface
     /**
      * @ORM\Column(name="company_code", type="string", length=255, nullable=true)
      */
-    protected $company_code;
+    protected $companyCode;
 
     /**
      * @ORM\Column(name="company_name", type="string", length=255, nullable=true)
      */
-    protected $company_name;
+    protected $companyName;
 
     /**
      * @ORM\Column(name="company_address", type="string", length=255, nullable=true)
      */
-    protected $company_address;
+    protected $companyAddress;
 
     /**
      * @ORM\Column(name="company_zipcode", type="string", length=255, nullable=true)
      */
-    protected $company_zipcode;
+    protected $companyZipcode;
 
     /**
      * @ORM\Column(name="company_city", type="string", length=255, nullable=true)
      */
-    protected $company_city;
+    protected $companyCity;
 
 
     /**
@@ -157,13 +157,13 @@ class User extends BaseUser implements ParticipantInterface
     private $addresses;
 
     /** @ORM\Column(name="mangopay_user_id", type="string", length=255, nullable=true) */
-    protected $mangopay_user_id;
+    protected $mangopayUserId;
 
     /** @ORM\Column(name="mangopay_blocked_wallet_id", type="string", length=255, nullable=true) */
-    protected $mangopay_blocked_wallet_id;
+    protected $mangopayBlockedWalletId;
 
     /** @ORM\Column(name="mangopay_free_wallet_id", type="string", length=255, nullable=true) */
-    protected $mangopay_free_wallet_id;
+    protected $mangopayFreeWalletId;
 
     /**
      * @ORM\OneToMany(targetEntity="OrderBundle\Entity\Order", mappedBy="user")
@@ -178,150 +178,6 @@ class User extends BaseUser implements ParticipantInterface
         $this->setUsername($email);
 
         return $this;
-    }
-
-    /**
-     * Set facebookId
-     *
-     * @param string $facebookId
-     *
-     * @return User
-     */
-    public function setFacebookId($facebookId)
-    {
-        $this->facebook_id = $facebookId;
-
-        return $this;
-    }
-
-    /**
-     * Get facebookId
-     *
-     * @return string
-     */
-    public function getFacebookId()
-    {
-        return $this->facebook_id;
-    }
-
-    /**
-     * Set facebookAccessToken
-     *
-     * @param string $facebookAccessToken
-     *
-     * @return User
-     */
-    public function setFacebookAccessToken($facebookAccessToken)
-    {
-        $this->facebook_access_token = $facebookAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get facebookAccessToken
-     *
-     * @return string
-     */
-    public function getFacebookAccessToken()
-    {
-        return $this->facebook_access_token;
-    }
-
-    /**
-     * Set googleId
-     *
-     * @param string $googleId
-     *
-     * @return User
-     */
-    public function setGoogleId($googleId)
-    {
-        $this->google_id = $googleId;
-
-        return $this;
-    }
-
-    /**
-     * Get googleId
-     *
-     * @return string
-     */
-    public function getGoogleId()
-    {
-        return $this->google_id;
-    }
-
-    /**
-     * Set googleAccessToken
-     *
-     * @param string $googleAccessToken
-     *
-     * @return User
-     */
-    public function setGoogleAccessToken($googleAccessToken)
-    {
-        $this->google_access_token = $googleAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get googleAccessToken
-     *
-     * @return string
-     */
-    public function getGoogleAccessToken()
-    {
-        return $this->google_access_token;
-    }
-
-    /**
-     * Set twitterId
-     *
-     * @param string $twitterId
-     *
-     * @return User
-     */
-    public function setTwitterId($twitterId)
-    {
-        $this->twitter_id = $twitterId;
-
-        return $this;
-    }
-
-    /**
-     * Get twitterId
-     *
-     * @return string
-     */
-    public function getTwitterId()
-    {
-        return $this->twitter_id;
-    }
-
-    /**
-     * Set twitterAccessToken
-     *
-     * @param string $twitterAccessToken
-     *
-     * @return User
-     */
-    public function setTwitterAccessToken($twitterAccessToken)
-    {
-        $this->twitter_access_token = $twitterAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get twitterAccessToken
-     *
-     * @return string
-     */
-    public function getTwitterAccessToken()
-    {
-        return $this->twitter_access_token;
     }
 
     /**
@@ -500,30 +356,6 @@ class User extends BaseUser implements ParticipantInterface
     }
 
     /**
-     * Set residentialCountry
-     *
-     * @param string $residentialCountry
-     *
-     * @return User
-     */
-    public function setResidentialCountry($residentialCountry)
-    {
-        $this->residential_country = $residentialCountry;
-
-        return $this;
-    }
-
-    /**
-     * Get residentialCountry
-     *
-     * @return string
-     */
-    public function getResidentialCountry()
-    {
-        return $this->residential_country;
-    }
-
-    /**
      * Set pro
      *
      * @param boolean $pro
@@ -545,126 +377,6 @@ class User extends BaseUser implements ParticipantInterface
     public function getPro()
     {
         return $this->pro;
-    }
-
-    /**
-     * Set companyCode
-     *
-     * @param string $companyCode
-     *
-     * @return User
-     */
-    public function setCompanyCode($companyCode)
-    {
-        $this->company_code = $companyCode;
-
-        return $this;
-    }
-
-    /**
-     * Get companyCode
-     *
-     * @return string
-     */
-    public function getCompanyCode()
-    {
-        return $this->company_code;
-    }
-
-    /**
-     * Set companyName
-     *
-     * @param string $companyName
-     *
-     * @return User
-     */
-    public function setCompanyName($companyName)
-    {
-        $this->company_name = $companyName;
-
-        return $this;
-    }
-
-    /**
-     * Get companyName
-     *
-     * @return string
-     */
-    public function getCompanyName()
-    {
-        return $this->company_name;
-    }
-
-    /**
-     * Set companyAddress
-     *
-     * @param string $companyAddress
-     *
-     * @return User
-     */
-    public function setCompanyAddress($companyAddress)
-    {
-        $this->company_address = $companyAddress;
-
-        return $this;
-    }
-
-    /**
-     * Get companyAddress
-     *
-     * @return string
-     */
-    public function getCompanyAddress()
-    {
-        return $this->company_address;
-    }
-
-    /**
-     * Set companyZipcode
-     *
-     * @param string $companyZipcode
-     *
-     * @return User
-     */
-    public function setCompanyZipcode($companyZipcode)
-    {
-        $this->company_zipcode = $companyZipcode;
-
-        return $this;
-    }
-
-    /**
-     * Get companyZipcode
-     *
-     * @return string
-     */
-    public function getCompanyZipcode()
-    {
-        return $this->company_zipcode;
-    }
-
-    /**
-     * Set companyCity
-     *
-     * @param string $companyCity
-     *
-     * @return User
-     */
-    public function setCompanyCity($companyCity)
-    {
-        $this->company_city = $companyCity;
-
-        return $this;
-    }
-
-    /**
-     * Get companyCity
-     *
-     * @return string
-     */
-    public function getCompanyCity()
-    {
-        return $this->company_city;
     }
 
     /**
@@ -699,30 +411,6 @@ class User extends BaseUser implements ParticipantInterface
     public function getAddresses()
     {
         return $this->addresses;
-    }
-
-    /**
-     * Set mangopayUserId
-     *
-     * @param string $mangopayUserId
-     *
-     * @return User
-     */
-    public function setMangopayUserId($mangopayUserId)
-    {
-        $this->mangopay_user_id = $mangopayUserId;
-
-        return $this;
-    }
-
-    /**
-     * Get mangopayUserId
-     *
-     * @return string
-     */
-    public function getMangopayUserId()
-    {
-        return $this->mangopay_user_id;
     }
 
     /**
@@ -808,54 +496,6 @@ class User extends BaseUser implements ParticipantInterface
     }
 
     /**
-     * Set mangopayBlockedWalletId
-     *
-     * @param string $mangopayBlockedWalletId
-     *
-     * @return User
-     */
-    public function setMangopayBlockedWalletId($mangopayBlockedWalletId)
-    {
-        $this->mangopay_blocked_wallet_id = $mangopayBlockedWalletId;
-
-        return $this;
-    }
-
-    /**
-     * Get mangopayBlockedWalletId
-     *
-     * @return string
-     */
-    public function getMangopayBlockedWalletId()
-    {
-        return $this->mangopay_blocked_wallet_id;
-    }
-
-    /**
-     * Set mangopayFreeWalletId
-     *
-     * @param string $mangopayFreeWalletId
-     *
-     * @return User
-     */
-    public function setMangopayFreeWalletId($mangopayFreeWalletId)
-    {
-        $this->mangopay_free_wallet_id = $mangopayFreeWalletId;
-
-        return $this;
-    }
-
-    /**
-     * Get mangopayFreeWalletId
-     *
-     * @return string
-     */
-    public function getMangopayFreeWalletId()
-    {
-        return $this->mangopay_free_wallet_id;
-    }
-
-    /**
      * Set phone
      *
      * @param string $phone
@@ -898,4 +538,388 @@ class User extends BaseUser implements ParticipantInterface
         return $this;
     }
 
+
+    /**
+     * Set facebookId
+     *
+     * @param string $facebookId
+     *
+     * @return User
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookId
+     *
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * Set facebookAccessToken
+     *
+     * @param string $facebookAccessToken
+     *
+     * @return User
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookAccessToken
+     *
+     * @return string
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
+     * Set googleId
+     *
+     * @param string $googleId
+     *
+     * @return User
+     */
+    public function setGoogleId($googleId)
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    /**
+     * Get googleId
+     *
+     * @return string
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * Set googleAccessToken
+     *
+     * @param string $googleAccessToken
+     *
+     * @return User
+     */
+    public function setGoogleAccessToken($googleAccessToken)
+    {
+        $this->googleAccessToken = $googleAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get googleAccessToken
+     *
+     * @return string
+     */
+    public function getGoogleAccessToken()
+    {
+        return $this->googleAccessToken;
+    }
+
+    /**
+     * Set twitterId
+     *
+     * @param string $twitterId
+     *
+     * @return User
+     */
+    public function setTwitterId($twitterId)
+    {
+        $this->twitterId = $twitterId;
+
+        return $this;
+    }
+
+    /**
+     * Get twitterId
+     *
+     * @return string
+     */
+    public function getTwitterId()
+    {
+        return $this->twitterId;
+    }
+
+    /**
+     * Set twitterAccessToken
+     *
+     * @param string $twitterAccessToken
+     *
+     * @return User
+     */
+    public function setTwitterAccessToken($twitterAccessToken)
+    {
+        $this->twitterAccessToken = $twitterAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get twitterAccessToken
+     *
+     * @return string
+     */
+    public function getTwitterAccessToken()
+    {
+        return $this->twitterAccessToken;
+    }
+
+    /**
+     * Set residentialCountry
+     *
+     * @param string $residentialCountry
+     *
+     * @return User
+     */
+    public function setResidentialCountry($residentialCountry)
+    {
+        $this->residentialCountry = $residentialCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get residentialCountry
+     *
+     * @return string
+     */
+    public function getResidentialCountry()
+    {
+        return $this->residentialCountry;
+    }
+
+    /**
+     * Set companyCode
+     *
+     * @param string $companyCode
+     *
+     * @return User
+     */
+    public function setCompanyCode($companyCode)
+    {
+        $this->companyCode = $companyCode;
+
+        return $this;
+    }
+
+    /**
+     * Get companyCode
+     *
+     * @return string
+     */
+    public function getCompanyCode()
+    {
+        return $this->companyCode;
+    }
+
+    /**
+     * Set companyName
+     *
+     * @param string $companyName
+     *
+     * @return User
+     */
+    public function setCompanyName($companyName)
+    {
+        $this->companyName = $companyName;
+
+        return $this;
+    }
+
+    /**
+     * Get companyName
+     *
+     * @return string
+     */
+    public function getCompanyName()
+    {
+        return $this->companyName;
+    }
+
+    /**
+     * Set companyAddress
+     *
+     * @param string $companyAddress
+     *
+     * @return User
+     */
+    public function setCompanyAddress($companyAddress)
+    {
+        $this->companyAddress = $companyAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get companyAddress
+     *
+     * @return string
+     */
+    public function getCompanyAddress()
+    {
+        return $this->companyAddress;
+    }
+
+    /**
+     * Set companyZipcode
+     *
+     * @param string $companyZipcode
+     *
+     * @return User
+     */
+    public function setCompanyZipcode($companyZipcode)
+    {
+        $this->companyZipcode = $companyZipcode;
+
+        return $this;
+    }
+
+    /**
+     * Get companyZipcode
+     *
+     * @return string
+     */
+    public function getCompanyZipcode()
+    {
+        return $this->companyZipcode;
+    }
+
+    /**
+     * Set companyCity
+     *
+     * @param string $companyCity
+     *
+     * @return User
+     */
+    public function setCompanyCity($companyCity)
+    {
+        $this->companyCity = $companyCity;
+
+        return $this;
+    }
+
+    /**
+     * Get companyCity
+     *
+     * @return string
+     */
+    public function getCompanyCity()
+    {
+        return $this->companyCity;
+    }
+
+    /**
+     * Set mangopayUserId
+     *
+     * @param string $mangopayUserId
+     *
+     * @return User
+     */
+    public function setMangopayUserId($mangopayUserId)
+    {
+        $this->mangopayUserId = $mangopayUserId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayUserId
+     *
+     * @return string
+     */
+    public function getMangopayUserId()
+    {
+        return $this->mangopayUserId;
+    }
+
+    /**
+     * Set mangopayBlockedWalletId
+     *
+     * @param string $mangopayBlockedWalletId
+     *
+     * @return User
+     */
+    public function setMangopayBlockedWalletId($mangopayBlockedWalletId)
+    {
+        $this->mangopayBlockedWalletId = $mangopayBlockedWalletId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayBlockedWalletId
+     *
+     * @return string
+     */
+    public function getMangopayBlockedWalletId()
+    {
+        return $this->mangopayBlockedWalletId;
+    }
+
+    /**
+     * Set mangopayFreeWalletId
+     *
+     * @param string $mangopayFreeWalletId
+     *
+     * @return User
+     */
+    public function setMangopayFreeWalletId($mangopayFreeWalletId)
+    {
+        $this->mangopayFreeWalletId = $mangopayFreeWalletId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayFreeWalletId
+     *
+     * @return string
+     */
+    public function getMangopayFreeWalletId()
+    {
+        return $this->mangopayFreeWalletId;
+    }
+
+    /**
+     * Add proposal
+     *
+     * @param \OrderBundle\Entity\OrderProposal $proposal
+     *
+     * @return User
+     */
+    public function addProposal(\OrderBundle\Entity\OrderProposal $proposal)
+    {
+        $this->proposals[] = $proposal;
+
+        return $this;
+    }
+
+    /**
+     * Remove proposal
+     *
+     * @param \OrderBundle\Entity\OrderProposal $proposal
+     */
+    public function removeProposal(\OrderBundle\Entity\OrderProposal $proposal)
+    {
+        $this->proposals->removeElement($proposal);
+    }
 }

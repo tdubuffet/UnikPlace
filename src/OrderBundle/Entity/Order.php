@@ -75,7 +75,7 @@ class Order
      *
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
-    private $delivery_address;
+    private $deliveryAddress;
 
     /**
      * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\Address")
@@ -83,7 +83,7 @@ class Order
      *
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
-    private $billing_address;
+    private $billingAddress;
 
     /**
      * @ORM\ManyToOne(targetEntity="Status")
@@ -98,42 +98,42 @@ class Order
      *
      * @ORM\Column(name="mangopay_preauthorization_id", type="string", length=255)
      */
-    private $mangopay_preauthorization_id;
+    private $mangopayPreauthorizationId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangopay_payin_id", type="string", length=255, nullable=true)
      */
-    private $mangopay_payin_id;
+    private $mangopayPayinId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangopay_payin_date", type="datetime", nullable=true)
      */
-    private $mangopay_payin_date;
+    private $mangopayPayinDate;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangopay_refund_id", type="string", length=255, nullable=true)
      */
-    private $mangopay_refund_id;
+    private $mangopayRefundId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangopay_transfer_id", type="string", length=255, nullable=true)
      */
-    private $mangopay_transfer_id;
+    private $mangopayTransferId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangopay_refund_date", type="datetime", nullable=true)
      */
-    private $mangopay_refund_date;
+    private $mangopayRefundDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="OrderBundle\Entity\Delivery")
@@ -184,30 +184,6 @@ class Order
     }
 
     /**
-     * Set mangopayPreauthorizationId
-     *
-     * @param string $mangopayPreauthorizationId
-     *
-     * @return Order
-     */
-    public function setMangopayPreauthorizationId($mangopayPreauthorizationId)
-    {
-        $this->mangopay_preauthorization_id = $mangopayPreauthorizationId;
-
-        return $this;
-    }
-
-    /**
-     * Get mangopayPreauthorizationId
-     *
-     * @return string
-     */
-    public function getMangopayPreauthorizationId()
-    {
-        return $this->mangopay_preauthorization_id;
-    }
-
-    /**
      * Set currency
      *
      * @param \ProductBundle\Entity\Currency $currency
@@ -253,54 +229,6 @@ class Order
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set deliveryAddress
-     *
-     * @param \LocationBundle\Entity\Address $deliveryAddress
-     *
-     * @return Order
-     */
-    public function setDeliveryAddress(\LocationBundle\Entity\Address $deliveryAddress = null)
-    {
-        $this->delivery_address = $deliveryAddress;
-
-        return $this;
-    }
-
-    /**
-     * Get deliveryAddress
-     *
-     * @return \LocationBundle\Entity\Address
-     */
-    public function getDeliveryAddress()
-    {
-        return $this->delivery_address;
-    }
-
-    /**
-     * Set billingAddress
-     *
-     * @param \LocationBundle\Entity\Address $billingAddress
-     *
-     * @return Order
-     */
-    public function setBillingAddress(\LocationBundle\Entity\Address $billingAddress = null)
-    {
-        $this->billing_address = $billingAddress;
-
-        return $this;
-    }
-
-    /**
-     * Get billingAddress
-     *
-     * @return \LocationBundle\Entity\Address
-     */
-    public function getBillingAddress()
-    {
-        return $this->billing_address;
     }
 
     /**
@@ -370,76 +298,6 @@ class Order
     /**
      * @return mixed
      */
-    public function getMangopayPayinId()
-    {
-        return $this->mangopay_payin_id;
-    }
-
-    /**
-     * @param mixed $mangopay_payin_id
-     * @return Order
-     */
-    public function setMangopayPayinId($mangopay_payin_id)
-    {
-        $this->mangopay_payin_id = $mangopay_payin_id;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMangopayPayinDate()
-    {
-        return $this->mangopay_payin_date;
-    }
-
-    /**
-     * @param mixed $mangopay_payin_date
-     */
-    public function setMangopayPayinDate($mangopay_payin_date)
-    {
-        $this->mangopay_payin_date = $mangopay_payin_date;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMangopayRefundId()
-    {
-        return $this->mangopay_refund_id;
-    }
-
-    /**
-     * @param mixed $mangopay_refund_id
-     * @return Order
-     */
-    public function setMangopayRefundId($mangopay_refund_id)
-    {
-        $this->mangopay_refund_id = $mangopay_refund_id;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMangopayRefundDate()
-    {
-        return $this->mangopay_refund_date;
-    }
-
-    /**
-     * @param string $mangopay_refund_date
-     */
-    public function setMangopayRefundDate($mangopay_refund_date)
-    {
-        $this->mangopay_refund_date = $mangopay_refund_date;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getProductAmount()
     {
         return $this->productAmount;
@@ -475,24 +333,196 @@ class Order
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMangopayTransferId()
-    {
-        return $this->mangopay_transfer_id;
-    }
 
     /**
-     * @param mixed $mangopay_transfer_id
+     * Set mangopayPreauthorizationId
+     *
+     * @param string $mangopayPreauthorizationId
+     *
      * @return Order
      */
-    public function setMangopayTransferId($mangopay_transfer_id)
+    public function setMangopayPreauthorizationId($mangopayPreauthorizationId)
     {
-        $this->mangopay_transfer_id = $mangopay_transfer_id;
+        $this->mangopayPreauthorizationId = $mangopayPreauthorizationId;
 
         return $this;
     }
 
+    /**
+     * Get mangopayPreauthorizationId
+     *
+     * @return string
+     */
+    public function getMangopayPreauthorizationId()
+    {
+        return $this->mangopayPreauthorizationId;
+    }
 
+    /**
+     * Set mangopayPayinId
+     *
+     * @param string $mangopayPayinId
+     *
+     * @return Order
+     */
+    public function setMangopayPayinId($mangopayPayinId)
+    {
+        $this->mangopayPayinId = $mangopayPayinId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayPayinId
+     *
+     * @return string
+     */
+    public function getMangopayPayinId()
+    {
+        return $this->mangopayPayinId;
+    }
+
+    /**
+     * Set mangopayPayinDate
+     *
+     * @param \DateTime $mangopayPayinDate
+     *
+     * @return Order
+     */
+    public function setMangopayPayinDate($mangopayPayinDate)
+    {
+        $this->mangopayPayinDate = $mangopayPayinDate;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayPayinDate
+     *
+     * @return \DateTime
+     */
+    public function getMangopayPayinDate()
+    {
+        return $this->mangopayPayinDate;
+    }
+
+    /**
+     * Set mangopayRefundId
+     *
+     * @param string $mangopayRefundId
+     *
+     * @return Order
+     */
+    public function setMangopayRefundId($mangopayRefundId)
+    {
+        $this->mangopayRefundId = $mangopayRefundId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayRefundId
+     *
+     * @return string
+     */
+    public function getMangopayRefundId()
+    {
+        return $this->mangopayRefundId;
+    }
+
+    /**
+     * Set mangopayTransferId
+     *
+     * @param string $mangopayTransferId
+     *
+     * @return Order
+     */
+    public function setMangopayTransferId($mangopayTransferId)
+    {
+        $this->mangopayTransferId = $mangopayTransferId;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayTransferId
+     *
+     * @return string
+     */
+    public function getMangopayTransferId()
+    {
+        return $this->mangopayTransferId;
+    }
+
+    /**
+     * Set mangopayRefundDate
+     *
+     * @param \DateTime $mangopayRefundDate
+     *
+     * @return Order
+     */
+    public function setMangopayRefundDate($mangopayRefundDate)
+    {
+        $this->mangopayRefundDate = $mangopayRefundDate;
+
+        return $this;
+    }
+
+    /**
+     * Get mangopayRefundDate
+     *
+     * @return \DateTime
+     */
+    public function getMangopayRefundDate()
+    {
+        return $this->mangopayRefundDate;
+    }
+
+    /**
+     * Set deliveryAddress
+     *
+     * @param \LocationBundle\Entity\Address $deliveryAddress
+     *
+     * @return Order
+     */
+    public function setDeliveryAddress(\LocationBundle\Entity\Address $deliveryAddress = null)
+    {
+        $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryAddress
+     *
+     * @return \LocationBundle\Entity\Address
+     */
+    public function getDeliveryAddress()
+    {
+        return $this->deliveryAddress;
+    }
+
+    /**
+     * Set billingAddress
+     *
+     * @param \LocationBundle\Entity\Address $billingAddress
+     *
+     * @return Order
+     */
+    public function setBillingAddress(\LocationBundle\Entity\Address $billingAddress = null)
+    {
+        $this->billingAddress = $billingAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get billingAddress
+     *
+     * @return \LocationBundle\Entity\Address
+     */
+    public function getBillingAddress()
+    {
+        return $this->billingAddress;
+    }
 }
