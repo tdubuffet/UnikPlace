@@ -2,14 +2,18 @@
 
 namespace ProductBundle\EventListener;
 
-use Symfony\Component\HttpKernel\HttpKernel;
 use Vich\UploaderBundle\Event\Event;
 use Intervention\Image\ImageManager;
-use Symfony\Component\HttpFoundation\File\File as File;
 use Symfony\Component\HttpFoundation\File\UploadedFile as UploadedFile;
 
 class UploadedFileListener
 {
+    private $env;
+
+    public function __construct($env)
+    {
+        $this->env = $env;
+    }
 
     public function onPreUpload(Event $event)
     {
@@ -29,7 +33,12 @@ class UploadedFileListener
             rename($newPath, $realPath);
 
             // Create the uploaded file
-            $imageFile = new UploadedFile($realPath, uniqid().'.jpg');
+            if ($this->env == "dev") {
+                $imageFile = new UploadedFile($realPath, uniqid().'.jpg', null, null, null, true);
+            }else {
+                $imageFile = new UploadedFile($realPath, uniqid().'.jpg');
+            }
+
             $uploadedFile->setImageFile($imageFile);
         }
     }

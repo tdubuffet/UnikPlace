@@ -29,6 +29,7 @@ services:
 
     product_bundle.listener.uploaded_file_listener:
         class: ProductBundle\EventListener\UploadedFileListener
+        arguments: ['%kernel.environment%']
         tags:
             - { name: kernel.event_listener, event: vich_uploader.pre_upload, method: onPreUpload }
 

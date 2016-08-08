@@ -82,6 +82,8 @@ class Image
     public function setImage($image)
     {
         $this->image = $image;
+
+        return $this;
     }
 
     public function getImage()

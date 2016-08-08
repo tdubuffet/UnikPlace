@@ -769,10 +769,13 @@ class Product
 
     /**
      * @param string $height
+     * @return Product
      */
     public function setHeight($height)
     {
         $this->height = $height;
+
+        return $this;
     }
 
     /**
@@ -785,10 +788,13 @@ class Product
 
     /**
      * @param string $width
+     * @return Product
      */
     public function setWidth($width)
     {
         $this->width = $width;
+
+        return $this;
     }
 
     /**
@@ -801,9 +807,12 @@ class Product
 
     /**
      * @param string $length
+     * @return Product
      */
     public function setLength($length)
     {
         $this->length = $length;
+
+        return $this;
     }
 }
