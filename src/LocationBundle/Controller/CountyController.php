@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CountyController extends Controller
 {
     /**
-     * @Route("/ajax/search/county", name="ajax_search_county")
+     * @Route("/ajax/search/county", name="ajax_search_county", options={"expose"=true})
      * @Method({"GET"})
      */
     public function countyListAction()
