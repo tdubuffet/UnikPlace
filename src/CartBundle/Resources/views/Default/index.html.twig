@@ -47,7 +47,7 @@
                   <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
                   <td>
                     <label for="cartDeliverySelection" class="sr-only"></label>
-                    <select name="{{ product.getId() }}" class="cartDeliverySelection" id="cartDeliverySelection">
+                    <select name="{{ product.getId() }}" class="cartDeliverySelection form-control input-sm" id="cartDeliverySelection">
                       {% for delivery in product.deliveries %}
                         {% set fee = delivery.fee == 0 ? 'Gratuit' : "+"~ delivery.fee|currency_format('EUR') %}
                         <option data-fee="{{ delivery.fee }}" value="{{ delivery.deliveryMode.code }}">
