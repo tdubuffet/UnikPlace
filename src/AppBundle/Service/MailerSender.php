@@ -64,6 +64,12 @@ class MailerSender
         }
     }
 
+    public function sendOrderSummary($orders, User $buyer) {
+        $template = 'OrderBundle:email:summary.email.twig';
+        $context = ['orders' => $orders, 'user' => $buyer];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
+    }
+
     public function sendPendingOrderToSellerEmailMessage(Order $order)
     {
         $template = 'OrderBundle:email:seller_pending.email.twig';

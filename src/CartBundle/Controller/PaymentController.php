@@ -207,6 +207,9 @@ class PaymentController extends Controller
                 );
                 $orderService->removeCartSession();
 
+                // Send order summary
+                $this->get('mailer_sender')->sendOrderSummary($orders, $this->getUser());
+
                 return $this->redirectToRoute('cart_confirmation');
             }
         }
