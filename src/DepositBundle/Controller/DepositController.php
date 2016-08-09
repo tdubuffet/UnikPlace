@@ -298,7 +298,9 @@ class DepositController extends Controller
         $address = new Address();
         $addAddressForm = $this->createForm(AddressType::class, $address);
 
-        $addresses = $this->getUser()->getAddresses();
+        $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
+            ->findBy(['user' => $this->getUser()]);
+
         return array('addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView());
     }
 

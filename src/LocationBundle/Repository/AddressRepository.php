@@ -10,4 +10,12 @@ namespace LocationBundle\Repository;
  */
 class AddressRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        if (!isset($criteria['deletedAt'])) {
+            $criteria = array_merge($criteria, ['deletedAt' => null]);
+    }
+
+        return parent::findBy($criteria, $orderBy, $limit, $offset);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace UserBundle\Controller;
 
+use LocationBundle\Entity\Address;
+use LocationBundle\Form\AddressType;
 use OrderBundle\Entity\Order;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -514,6 +516,71 @@ class AccountController extends Controller
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('fos_user_security_logout');
+    }
+
+    /**
+     * @Route("/mes-adresses", name="user_addresses")
+     * @param Request $request
+     * @Template("UserBundle:Account:addresses.html.twig")
+     * @throws \Exception
+     * @return array|RedirectResponse
+     */
+    public function addressesAction(Request $request)
+    {
+        $address = new Address();
+        $addAddressForm = $this->createForm(AddressType::class, $address);
+        $addAddressForm->handleRequest($request);
+        $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
+            ->findBy(['user' => $this->getUser()]);
+
+        if ($addAddressForm->isValid() && $addAddressForm->isSubmitted()) {
+            $city = $request->request->get('address')['city'];
+            $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneBy(['id' => $city]);
+            if (!$city) {
+                throw new \Exception('Cannot find city.');
+            }
+            $address->setCity($city)->setUser($this->getUser());
+            $this->getUser()->setPhone($request->request->get('phone'));
+            $this->getDoctrine()->getManager()->persist($address);
+            $this->getDoctrine()->getManager()->persist($this->getUser());
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'L\'adresse a bien été ajoutée');
+
+            return $this->redirectToRoute("user_addresses");
+        }
+
+        return ['addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView()];
+    }
+
+    /**
+     * @Route("/addresses", name="ajax_user_addresses")
+     * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function addressAction(Request $request)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new JsonResponse(['message' => 'You must be authentificated to update the address.'], 401);
+        }
+        $actions = ['remove'];
+        if (!$request->request->has('action') || !in_array($action = $request->request->get('action'), $actions)) {
+            return new JsonResponse(['message' => 'An action must be defined'], 409);
+        }
+        if (!$request->request->has('address_id')) {
+            return new JsonResponse(['message' => 'An address_id must be defined'], 409);
+        }
+        $id = $request->request->get('address_id');
+        $address = $this->getDoctrine()->getRepository("LocationBundle:Address")
+            ->findOneBy(['id' => $id, 'user' => $this->getUser()]);
+        if (!$address) {
+            return new JsonResponse(['message' => 'Address not found'], 404);
+        }
+        $this->getDoctrine()->getManager()->remove($address);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse(['message' => sprintf('Address %s has been deleted', $id)]);
     }
 
 }

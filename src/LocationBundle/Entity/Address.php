@@ -3,6 +3,7 @@
 namespace LocationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * Address
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Address
 {
+    use ORMBehaviors\SoftDeletable\SoftDeletable;
+
     /**
      * @var int
      *
