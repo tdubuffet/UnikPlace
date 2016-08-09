@@ -13,7 +13,7 @@ class FavoriteController extends Controller
 {
 
     /**
-     * @Route("/favorite", name="product_favorite")
+     * @Route("/favorite", name="product_favorite", options={"expose"=true})
      * @Method({"POST"})
      */
     public function addAction(Request $request)

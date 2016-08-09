@@ -36,7 +36,7 @@ class CountyController extends Controller
     }
 
     /**
-     * @Route("/ajax/search/city", name="ajax_search_city")
+     * @Route("/ajax/search/city", name="ajax_search_city", options={"expose"=true})
      * @Method({"POST"})
      * @param Request $request
      * @return JsonResponse

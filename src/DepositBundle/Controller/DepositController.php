@@ -494,7 +494,7 @@ class DepositController extends Controller
     }
 
     /**
-     * @Route("/deposit_subcategories", name="deposit_subcategories")
+     * @Route("/deposit_subcategories", name="deposit_subcategories", options={"expose"=true})
      * @Method({"POST"})
      */
     public function getSubCategoriesAction(Request $request)
@@ -520,7 +520,7 @@ class DepositController extends Controller
     }
 
     /**
-     * @Route("/upload_picture", name="upload_picture")
+     * @Route("/upload_picture", name="upload_picture", options={"expose"=true})
      * @Method({"POST"})
      */
     public function uploadPictureAction(Request $request)

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends Controller
 {
     /**
-     * @Route("/recherche", name="search")
+     * @Route("/recherche", name="search", options={"expose"=true})
      * @Template("ProductBundle:Search:index.html.twig")
      */
     public function searchAction(Request $request)
@@ -32,7 +32,7 @@ class SearchController extends Controller
 
 
     /**
-     * @Route("/ajax/recherche", name="ajax_search")
+     * @Route("/ajax/recherche", name="ajax_search", options={"expose"=true})
      * @Template("ProductBundle:Search:product_grid.html.twig")
      * @Method({"POST"})
      */
@@ -46,7 +46,7 @@ class SearchController extends Controller
     }
 
     /**
-     * @Route("/ajax/recherche/filtres", name="ajax_search_attribute_filters")
+     * @Route("/ajax/recherche/filtres", name="ajax_search_attribute_filters", options={"expose"=true})
      * @Method({"POST"})
      */
     public function searchFilters(Request $request)

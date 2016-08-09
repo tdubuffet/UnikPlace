@@ -14,7 +14,7 @@ class AjaxController extends Controller
 {
 
     /**
-     * @Route("/product_cart", name="product_cart")
+     * @Route("/product_cart", name="product_cart", options={"expose"=true})
      * @Method({"POST"})
      * @param Request $request
      * @return JsonResponse
