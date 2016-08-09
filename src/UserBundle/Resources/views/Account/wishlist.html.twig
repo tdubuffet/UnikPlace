@@ -49,10 +49,12 @@
                     </div>
 
                     <div class="price-box">
-                      <p class="old-price">
-                        <span class="price-label">Ancien prix :</span>
-                        <span class="price">48,00€</span>
-                      </p>
+                      {% if product.originalPrice is not null %}
+                        <p class="old-price">
+                          <span class="price-label">Ancien prix :</span>
+                          <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
+                        </p>
+                      {% endif %}
 
                       <p class="special-price">
                         <span class="price-label">Nouveau prix :</span>
