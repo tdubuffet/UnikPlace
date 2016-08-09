@@ -41,10 +41,10 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('o')
             ->select('SUM(o.amount)')
             ->join('o.status', 's', 'WITH', 's.name = :status')
-            ->where('o.mangopay_preauthorization_id = :preAuthId')
+            ->where('o.mangopayPreauthorizationId = :preAuthId')
             ->setParameter('preAuthId', $preAuthId)
             ->setParameter('status', 'pending')
-            ->groupBy('o.mangopay_preauthorization_id')
+            ->groupBy('o.mangopayPreauthorizationId')
             ->getQuery()
             ->getSingleResult()
         ;
