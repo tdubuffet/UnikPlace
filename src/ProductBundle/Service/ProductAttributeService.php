@@ -3,6 +3,8 @@
 namespace ProductBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use ProductBundle\Entity\Attribute;
+use ProductBundle\Entity\AttributeValue;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use ProductBundle\Entity\ReferentialValue;
 
@@ -20,7 +22,7 @@ class ProductAttributeService
     }
 
 
-    /*
+    /**
      * Get product attributes directly
      *
      * @param \ProductBundle\Entity\Product $product
@@ -30,10 +32,14 @@ class ProductAttributeService
     public function getAttributesFromProduct($product)
     {
         $attributes = array();
+        /** @var AttributeValue $value */
         foreach ($product->getAttributeValues() as $value) {
             $attribute = $value->getAttribute();
-            $attributes[$attribute->getCode()] = ['name'  => $attribute->getName(),
-                                                  'value' => $this->getAttributebyCodeFromProduct($attribute->getCode(), $product)];
+            $attributes[$attribute->getCode()] = [
+                'name' => $attribute->getName(),
+                'value' => $this->getAttributebyCodeFromProduct($attribute->getCode(), $product),
+                'deposit' => $attribute->getAttributeDepositTemplate()->getName(),
+            ];
         }
         return $attributes;
     }

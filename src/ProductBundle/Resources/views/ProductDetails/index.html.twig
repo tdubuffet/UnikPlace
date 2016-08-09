@@ -342,8 +342,8 @@
                         <p>Aucune caractéristique renseignée pour ce produit.</p>
                         {% else %}
                         <ul>
-                          {% for attribute in productAttributes %}
-                          <li>{{ attribute.name }}: {{ attribute.value }}</li>
+                          {% for code, attribute in productAttributes if attribute.deposit != "color" %}
+                            <li>{{ attribute.name }}: {{ attribute.value }}</li>
                           {% endfor %}
                         </ul>
                         {% endif %}
