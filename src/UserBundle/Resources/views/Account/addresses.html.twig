@@ -7,7 +7,7 @@
 {% block javascript_include %}{{ jsinit(['addAddress', 'addresses']) }}{% endblock javascript_include %}
 
 {% block account_content %}
-  <h2 class="page-title title-h2">Mes Adresses</h2>
+  <h2 class="page-title title-h2">Mes adresses</h2>
   {# flashbag #}
   {% for type, messages in app.session.flashbag.all() %}
     {% for message in messages %}
@@ -74,15 +74,6 @@
                     class="select-select2 autocomplete-city form-control">
               <option value="">Sélectionnez un code postal</option>
             </select>
-          </div>
-          <div class="form-group">
-            <label class="required">
-              Téléphone
-              <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
-                 title="Votre numéro de téléphone sera transmis à l'acheteur si vous avez activé la remise en
-               main propre et qu'il choisit cette option."></i>
-            </label>
-            <input type="text" name="phone" class="form-control" placeholder="Numéro de téléphone">
           </div>
           {{ form_row(addAddressForm.country) }}
         </div>

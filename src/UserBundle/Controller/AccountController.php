@@ -382,7 +382,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/product", name="ajax_product_action")
+     * @Route("/product", name="ajax_product_action", options={"expose"=true})
      * @Method({"POST"})
      * @param Request $request
      * @return JsonResponse
@@ -540,9 +540,7 @@ class AccountController extends Controller
                 throw new \Exception('Cannot find city.');
             }
             $address->setCity($city)->setUser($this->getUser());
-            $this->getUser()->setPhone($request->request->get('phone'));
             $this->getDoctrine()->getManager()->persist($address);
-            $this->getDoctrine()->getManager()->persist($this->getUser());
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'L\'adresse a bien été ajoutée');
@@ -554,7 +552,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/addresses", name="ajax_user_addresses")
+     * @Route("/addresses", name="ajax_user_addresses", options={"expose"=true})
      * @Method({"POST"})
      * @param Request $request
      * @return JsonResponse
