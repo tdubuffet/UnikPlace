@@ -366,7 +366,8 @@
                           Le vendeur propose les modes de livraison suivants :
                           <br>
                           {% for delivery in product.deliveries.toArray %}
-                              {{ delivery.deliveryMode.name }} :
+                              {{ delivery.deliveryMode.name }}
+                            {% if delivery.deliveryMode.type == 'by_hand' %}<i>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</i>{% endif %} :
                             {% if delivery.fee == 0 %}
                               Gratuit
                             {% else %}
