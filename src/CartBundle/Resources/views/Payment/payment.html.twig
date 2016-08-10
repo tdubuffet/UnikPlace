@@ -36,9 +36,11 @@
               </ul>
 
               <div>
+                {% if addresses.delivery_address is defined %}
                 {% set deliveryAddress = addresses.delivery_address %}
                 Adresse de livraison
                 : {{ deliveryAddress.getName() }} {{ deliveryAddress.getStreet() }}{% if deliveryAddress.getAdditional() %} {{ deliveryAddress.getAdditional() }}{% endif %} {{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
+                {% endif %}
                 <br/>
                 {% if addresses.billing_address is defined %}
                   {% set billingAddress = addresses.billing_address %}

@@ -10,11 +10,17 @@
   <div class="container">
     <div class="main">
 
-      <h1>Mon adresse de livraison</h1>
+      <h1>Livraison et facturation</h1>
 
       {% for flashMessage in app.session.flashbag.get('notice') %}
       <div class="alert alert-success">{{ flashMessage }}</div>
       {% endfor %}
+
+      {% if by_hand_only %}
+      <p>Une adresse de facturation est nécessaire dans le cas d'une remise en main propre.</p>
+      {% else %}
+      <p>Merci de sélectionner une adresse de livraison parmis vos addresses enregistrées. Nous supportons actuellement uniquement la livraison en France métropolitaine.</p>
+      {% endif %}
 
       {% if addresses is empty %}
       <p>Vous n'avez actuellement aucune adresse associée à votre compte. Vous pouvez en ajouter une en cliquant sur le bouton suivant :</p>
@@ -22,16 +28,18 @@
         Ajouter une adresse à mon compte
       </button>
       {% else %}
-      <p>Merci de sélectionner une adresse de livraison parmis vos addresses enregistrées. Nous supportons actuellement uniquement la livraison en France métropolitaine.</p>
-      <p>Même dans le cas d'une remise en main propre, une adresse de livraison et de facturation sont nécessaires.</p>
-      <p>Vous pouvez également indiquer une addresse de facturation.
         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addAddressModal">
           Ajouter une autre adresse à mon compte
         </button>
       </p>
+
       {{ form_start(selectAddressForm) }}
+      {% if by_hand_only %}
+      {% do selectAddressForm.delivery_address.setRendered %}
+      {% endif %}
       {{ form_widget(selectAddressForm) }}
       {{ form_end(selectAddressForm) }}
+
       {% endif %}
 
     </div><!-- .main -->

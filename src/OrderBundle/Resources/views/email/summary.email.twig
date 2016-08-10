@@ -20,6 +20,9 @@ Frais de port : {{ order.deliveryAmount|currency_format(order.getCurrency.getCod
 
 Total de la commande : {{ order.amount|currency_format(order.getCurrency.getCode) }}
 
+{% if order.delivery.deliveryMode.type == 'shipping' %}
+
+
 Cette commande sera expédiée à l'adresse suivante :
 
 {% set address = order.getDeliveryAddress() %}
@@ -27,6 +30,11 @@ Cette commande sera expédiée à l'adresse suivante :
 {{ address.name }}
 {{ address.street }} {% if address.additional %}{{ address.additional }}{% endif %}
 {{ address.getCity().getZipcode() }} {{ address.getCity().getName() }}
+
+{% elseif order.delivery.deliveryMode.type == 'by_hand' %}
+Remise en main propre
+
+{% endif %}
 
 {% endfor %}
 

@@ -47,6 +47,8 @@
                                 <table border="0" cellapdding="0" cellspacing="0" style="margin-top: 15px; margin-bottom: 15px;" width="100%">
                                     <tr>
                                         <td colspan="2">
+                                            {% if order.delivery.deliveryMode.type == 'shipping' %}
+
                                             Cette commande sera expédiée à l'adresse suivante :<br /><br />
 
                                             {% set address = order.getDeliveryAddress() %}
@@ -54,6 +56,12 @@
                                             {{ address.name }}<br />
                                             {{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %}<br />
                                             {{ address.getCity().getZipcode() }} {{ address.getCity().getName() }}
+
+                                            {% elseif order.delivery.deliveryMode.type == 'by_hand' %}
+
+                                            Remise en main propre
+
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     <tr><td colspan="2" style="border-bottom: 2px solid #EAEAEA;">&nbsp;</td></tr>

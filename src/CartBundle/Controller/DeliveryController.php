@@ -43,9 +43,18 @@ class DeliveryController extends Controller
             ->findBy(['user' => $this->getUser()]);
         $selectAddressForm = $this->createForm(selectCartAddressType::class, null, ['addresses' => $addresses]);
 
+        $cartDelivery = $session->get('cart_delivery', array());
+        $byHandOnly = true;
+        foreach ($cartDelivery as $deliveryCode) {
+            if ($deliveryCode != 'by_hand') {
+                $byHandOnly = false;
+            }
+        }
+
         return ['addAddressForm' => $addAddressForm->createView(),
                 'selectAddressForm' => $selectAddressForm->createView(),
-                'addresses' => $addresses];
+                'addresses' => $addresses,
+                'by_hand_only' => $byHandOnly];
     }
 
     /**
@@ -87,12 +96,14 @@ class DeliveryController extends Controller
             }
             // Make sure addresses are owned by current user
             foreach ($addresses as $address) {
-                $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
-                if (!isset($address)) {
-                    throw new \Exception('Address with id '.$address.' cannot be found.');
-                }
-                else if ($address->getUser() != $this->getUser()) {
-                    throw new \Exception('Current user does not own address with id '.$address.'.');
+                if (!is_null($address)) {
+                    $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
+                    if (!isset($address)) {
+                        throw new \Exception('Address with id '.$address.' cannot be found.');
+                    }
+                    else if ($address->getUser() != $this->getUser()) {
+                        throw new \Exception('Current user does not own address with id '.$address.'.');
+                    }
                 }
             }
             $session = new Session();

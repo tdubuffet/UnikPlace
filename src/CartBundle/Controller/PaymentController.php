@@ -95,15 +95,17 @@ class PaymentController extends Controller
 
         $addresses = [];
         foreach ($cartAddresses as $addressType => $address) {
-            $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
-            if (!isset($address)) {
-                throw new \Exception('Address with id '.$address.' cannot be found.');
-            } else {
-                if ($address->getUser() != $this->getUser()) {
-                    throw new \Exception('Current user does not own address with id '.$address.'.');
+            if (!is_null($address)) {
+                $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
+                if (!isset($address)) {
+                    throw new \Exception('Address with id '.$address.' cannot be found.');
+                } else {
+                    if ($address->getUser() != $this->getUser()) {
+                        throw new \Exception('Current user does not own address with id '.$address.'.');
+                    }
                 }
+                $addresses[$addressType] = $address;
             }
-            $addresses[$addressType] = $address;
         }
 
         // Check buyer kyc
