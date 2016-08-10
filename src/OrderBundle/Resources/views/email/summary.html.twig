@@ -52,7 +52,7 @@
                                             {% set address = order.getDeliveryAddress() %}
 
                                             {{ address.name }}<br />
-                                            {{ address.street }}<br />
+                                            {{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %}<br />
                                             {{ address.getCity().getZipcode() }} {{ address.getCity().getName() }}
                                         </td>
                                     </tr>

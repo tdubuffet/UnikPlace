@@ -25,7 +25,7 @@ Cette commande sera expédiée à l'adresse suivante :
 {% set address = order.getDeliveryAddress() %}
 
 {{ address.name }}
-{{ address.street }}
+{{ address.street }} {% if address.additional %}{{ address.additional }}{% endif %}
 {{ address.getCity().getZipcode() }} {{ address.getCity().getName() }}
 
 {% endfor %}

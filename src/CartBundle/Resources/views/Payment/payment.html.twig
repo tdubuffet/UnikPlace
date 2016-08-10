@@ -38,11 +38,11 @@
               <div>
                 {% set deliveryAddress = addresses.delivery_address %}
                 Adresse de livraison
-                : {{ deliveryAddress.getName() }} {{ deliveryAddress.getStreet() }} {{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
+                : {{ deliveryAddress.getName() }} {{ deliveryAddress.getStreet() }}{% if deliveryAddress.getAdditional() %} {{ deliveryAddress.getAdditional() }}{% endif %} {{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
                 <br/>
                 {% if addresses.billing_address is defined %}
                   {% set billingAddress = addresses.billing_address %}
-                  Adresse de facturation : {{ billingAddress.getName() }} {{ billingAddress.getStreet() }} {{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}
+                  Adresse de facturation : {{ billingAddress.getName() }} {{ billingAddress.getStreet() }}{% if billingAddress.getAdditional() %} {{ billingAddress.getAdditional() }}{% endif %} {{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}
                   <br/>
                 {% endif %}
               </div>
