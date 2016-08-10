@@ -37,7 +37,7 @@
       {% for address in addresses %}
         <tr>
           <td>{{ address.name }}</td>
-          <td>{{ address.street }}</td>
+          <td>{{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %}</td>
           <td>{{ address.city.name }}</td>
           <td>{{ address.city.zipcode }}</td>
           <td>
@@ -68,6 +68,7 @@
         <div class="modal-body">
           {{ form_row(addAddressForm.name) }}
           {{ form_row(addAddressForm.street) }}
+          {{ form_row(addAddressForm.additional) }}
           <div class="form-group">
             <label class="control-label required" for="address_city">Ville</label>
             <select id="address_city" name="address[city]" required="required"

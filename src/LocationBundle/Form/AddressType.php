@@ -16,6 +16,7 @@ class AddressType extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Nom du destinataire', 'required' => true])
             ->add('street', TextType::class, ['label' => 'Adresse', 'required' => true])
+            ->add('additional', TextType::class, ['label' => 'Complément d\'adresse', 'required' => false])
             ->add('country', TextType::class, ['mapped' => false, 'label' => 'Pays', 'disabled' => true, 'data' => 'FRANCE'])
             ->add('save', SubmitType::class, ['label' => 'Ajouter cette adresse'])
             ;

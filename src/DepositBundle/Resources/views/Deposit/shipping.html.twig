@@ -129,7 +129,7 @@
                       <select name="address_id" class="form-control" id="address_id">
                         {% for address in addresses %}
                           <option value="{{ address.id }}">{{ address.name }}
-                            - {{ address.street }} {{ address.getCity.zipcode }} {{ address.getCity.name }}</option>
+                            - {{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %} {{ address.getCity.zipcode }} {{ address.getCity.name }}</option>
                         {% endfor %}
                       </select>
                     </div>
@@ -162,6 +162,7 @@
         <div class="modal-body">
           {{ form_row(addAddressForm.name) }}
           {{ form_row(addAddressForm.street) }}
+          {{ form_row(addAddressForm.additional) }}
           <div class="form-group">
             <label class="control-label required" for="address_city">Ville</label>
             <select id="address_city" name="address[city]" required="required"

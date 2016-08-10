@@ -39,6 +39,13 @@ class Address
     private $street;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="additional", type="string", length=255, nullable=true)
+     */
+    private $additional;
+
+    /**
      * @ORM\ManyToOne(targetEntity="City")
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
      */
@@ -158,6 +165,30 @@ class Address
     }
 
     public function __toString() {
-        return $this->name.' - '.$this->street.' ('.$this->getCity()->getZipcode().' '.$this->getCity()->getName().')';
+        return $this->name.' - '.$this->street.(!is_null($this->additional) ? '- '.$this->additional : '').' ('.$this->getCity()->getZipcode().' '.$this->getCity()->getName().')';
+    }
+
+    /**
+     * Set additional
+     *
+     * @param string $additional
+     *
+     * @return Address
+     */
+    public function setAdditional($additional)
+    {
+        $this->additional = $additional;
+
+        return $this;
+    }
+
+    /**
+     * Get additional
+     *
+     * @return string
+     */
+    public function getAdditional()
+    {
+        return $this->additional;
     }
 }
