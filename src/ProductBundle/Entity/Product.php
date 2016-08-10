@@ -97,6 +97,7 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity="Image", mappedBy="product")
+     * @ORM\OrderBy({"sort" = "ASC"})
      */
     private $images;
 
@@ -814,5 +815,29 @@ class Product
         $this->length = $length;
 
         return $this;
+    }
+
+    /**
+     * Add proposal
+     *
+     * @param \OrderBundle\Entity\OrderProposal $proposal
+     *
+     * @return Product
+     */
+    public function addProposal(\OrderBundle\Entity\OrderProposal $proposal)
+    {
+        $this->proposals[] = $proposal;
+
+        return $this;
+    }
+
+    /**
+     * Remove proposal
+     *
+     * @param \OrderBundle\Entity\OrderProposal $proposal
+     */
+    public function removeProposal(\OrderBundle\Entity\OrderProposal $proposal)
+    {
+        $this->proposals->removeElement($proposal);
     }
 }

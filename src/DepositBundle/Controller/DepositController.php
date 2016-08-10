@@ -465,7 +465,14 @@ class DepositController extends Controller
         if (isset($deposit['images']) && count($deposit['images']) > 0) {
             $images = $this->getDoctrine()->getRepository('ProductBundle:Image')->findById($deposit['images']);
             if (isset($images)) {
-                foreach ($images as $image) $image->setProduct($product);
+                $i = 0;
+                foreach ($images as $image) {
+                    $image->setProduct($product);
+
+                    $image->setSort($i);
+                    $em->persist($image);
+                    $i++;
+                }
             }
         }
 

@@ -51,6 +51,13 @@ class Image
     private $imageFile;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="sort", type="integer", options={"default": 0})
+     */
+    private $sort = 0;
+
+    /**
      * Get id
      *
      * @return int
@@ -124,5 +131,29 @@ class Image
 
     public function __toString() {
         return (string) $this->id;
+    }
+
+    /**
+     * Set sort
+     *
+     * @param integer $sort
+     *
+     * @return Image
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Get sort
+     *
+     * @return integer
+     */
+    public function getSort()
+    {
+        return $this->sort;
     }
 }
