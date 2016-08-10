@@ -52,12 +52,17 @@
           <div class="ulmenu-block ulmenu-block-bottom grid12-12 std">
             <div class="row">
               {% set nb = 0 %}
-              {% for collection in category.getCollections() if nb <= 4 %}
+              {% for collection in category.getCollections() if nb < 4 %}
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                   <a href="{{ path('collection', {'slug' : collection.slug}) }}">
-                    <img class="img-responsive" alt="{{ collection.name }}"
+                    {% if collection.image is not null %}
+                      <img class="img-responsive" alt="{{ collection.name }}"
                          src="{{ loadpic(collection.image, 600, 200, "c", "collections") }}"/>
+                    {% else %}
+                      {{ collection.name }}
+                    {% endif %}
                   </a>
+
                 </div>
                 {% set nb = nb+1 %}
               {% endfor %}

@@ -34,9 +34,11 @@
                         <span class="text">{{ collection.description }}</span>
                     </div>
                     <div class="col-md-6">
-                        <img class="img-responsive pull-right hidden-sm hidden-xs img-rounded"
-                             src="{{ loadpic(collection.image, 400, 300, "r", "collections") }}"
-                             alt="miniature{{ collection.image.id }}"/>
+                        {% if collection.image is not null %}
+                            <img class="img-responsive pull-right hidden-sm hidden-xs img-rounded"
+                                 src="{{ loadpic(collection.image, 400, 300, "r", "collections") }}"
+                                 alt="miniature{{ collection.image.id }}"/>
+                        {% endif %}
                     </div>
                 </div>
 

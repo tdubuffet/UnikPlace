@@ -105,8 +105,12 @@
                                   <a href="{{ path('collection', {'slug' : collection.slug}) }}">{{ collection.name }}</a>
                                 </span>
                             </div>
-                            <img class="img-responsive" alt="{{ collection.name }}"
-                                 src="{{ loadpic(collection.image, 370, 270, "r", "collections") }}"/>
+                            {% if collection.image is not null %}
+                              <img class="img-responsive" alt="{{ collection.name }}"
+                                   src="{{ loadpic(collection.image, 370, 270, "r", "collections") }}"/>
+                            {% else %}
+                              <img class="img-responsive" alt="{{ collection.name }}" src="#"/>
+                            {% endif %}
                             <div class="content">
                               <div class="content-inner">
                                 <h3>{{ collection.description }}</h3>
