@@ -286,7 +286,10 @@ class AccountController extends Controller
          */
         $thread = $this->getDoctrine()
             ->getRepository('MessageBundle:Thread')
-            ->findThreadByProductAndUser($order->getProduct(), $this->getUser());
+            ->findThreadByProductAndUsers($order->getProduct(), [
+                $order->getUser()->getId(),
+                $order->getProduct()->getUser()->getId()
+            ]);
 
         if ($thread) {
             $form = $this->get('fos_message.reply_form.factory')->create($thread);
