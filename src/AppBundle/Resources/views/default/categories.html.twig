@@ -57,7 +57,7 @@
                   <a href="{{ path('collection', {'slug' : collection.slug}) }}">
                     {% if collection.image is not null %}
                       <img class="img-responsive" alt="{{ collection.name }}"
-                         src="{{ loadpic(collection.image, 600, 200, "c", "collections") }}"/>
+                         src="{{ loadpic(collection.image, 600, 200, "r3", "collections") }}"/>
                     {% else %}
                       {{ collection.name }}
                     {% endif %}

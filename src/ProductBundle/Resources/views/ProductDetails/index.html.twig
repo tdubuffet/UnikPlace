@@ -65,10 +65,11 @@
                         </a>
                         <div class="media-list">
                           {% set images = product.getImages() %}
+                          {% set imgType = "r3" %}
                           <div id="more-slides" class="verticl-carousel product-image-thumbs">
                             {% for k, image in images %}
                               <a class="thumb-link" href="#" data-image-index="{{ k }}">
-                                <img class="img-responsive" src="{{ loadpic(image, 88, 88, 'f') }}" data-src="{{ loadpic(image, 700, 700, 'c') }}" alt="miniature {{ k }}" />
+                                <img class="img-responsive" src="{{ loadpic(image, 88, 88, imgType) }}" data-src="{{ loadpic(image, 700, 700, imgType) }}" alt="miniature {{ k }}" />
                               </a>
                             {% endfor %}
                           </div>
@@ -80,7 +81,6 @@
 
                       <div class="product-image product-image-zoom">
                         <div class="product-image-gallery">
-                          {% set imgType = "c" %}
                           <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
                         </div>
                       </div>

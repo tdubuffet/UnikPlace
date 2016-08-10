@@ -46,16 +46,26 @@ class DefaultController extends Controller
                 $quality = $qualityThumbnail;
             }
 
-            $methodArray = ["r" => "resize", "rc" => "resizeCanvas", "c" => "crop", 'f' => 'fit',"r2" => "resize2"];
+            $methodArray = [
+                "r" => "resize",
+                "rc" => "resizeCanvas",
+                "c" => "crop",
+                'f' => 'fit',
+                "r2" => "resize2",
+                "r3" => "resize3",
+            ];
             $method = isset($methodArray[$method]) ? $methodArray[$method] : "resize";
 
             if ($method == "resizeCanvas") {
-                $image->resizeCanvas($width, $height, 'center', false, 'FFFFFF');
             }elseif ($method == "resize2") {
                 $image->resize($width, $height, function (Constraint $constraint) {
                     $constraint->aspectRatio();
                 });
-            } else {
+            } elseif ($method == "resize3"){
+                $image->resize($width, $height, function (Constraint $constraint) {
+                    $constraint->aspectRatio();
+                })->resizeCanvas($width, $height, 'center', false, 'FFFFFF');
+            }else {
                 $image->$method($width, $height);
             }
         }
