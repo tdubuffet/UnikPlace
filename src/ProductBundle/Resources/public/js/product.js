@@ -151,7 +151,6 @@ var Product = {
                     error: function(result) {
                         if (result.status == 401) {
                             var redirectTo =  encodeURIComponent(window.location.href);
-                            alert(redirectTo);
                             window.location.href = Routing.generate('fos_user_security_login') + '?redirect_to=' + redirectTo;
                         }
                     }
