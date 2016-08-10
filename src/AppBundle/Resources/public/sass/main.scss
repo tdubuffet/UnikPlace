@@ -3545,7 +3545,6 @@ button.button span {
   padding:5px 12px;
   text-transform:uppercase;
   font-size:10px;
-  z-index:9;
   font-weight:400;
 }
 .category-products .products-grid .item .product-action .product-new-label {
@@ -3556,11 +3555,9 @@ button.button span {
   font-weight:400;
   text-transform:uppercase;
   font-size:10px;
-  z-index:9;
 }
 .category-products .products-grid .item .product-action .product-image {
   display:block;
-  position:relative;
   min-height:100px;
 }
 .category-products .products-grid .item .product-action .product-image:before {
