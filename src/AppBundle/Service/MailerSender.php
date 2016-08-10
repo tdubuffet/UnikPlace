@@ -95,8 +95,11 @@ class MailerSender
         $template = 'OrderBundle:email:accepted.email.twig';
         $product = $order->getProduct();
         $buyer = $order->getUser();
-        $orderUrl = $this->router->generate('user_account_purchase', ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $context = ['order' => $order, 'product' => $product, 'user' => $buyer, 'orderUrl' => $orderUrl];
+        $orderUrl = $this->router->generate('user_account_purchase',
+            ['id' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $productUrl = $this->router->generate('product_details',
+            ['id' => $product->getId(), 'slug' => $product->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $context = ['order' => $order, 'product' => $product, 'user' => $buyer, 'orderUrl' => $orderUrl, 'productUrl' => $productUrl];
         $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
     }
 
