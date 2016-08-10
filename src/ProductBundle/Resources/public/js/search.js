@@ -68,15 +68,16 @@ var Search = {
             success: function(result) {
                 var select = $(".search-county");
                 result = result['counties'];
-                var options = "<option value=''>Toute la france</option>";
+                var options = "<option value=''>Toute la France</option>";
                 var county = Search.getUrlParameter('county');
                 $.each(result, function (key, value) {
                     var selected = county == value['id'] ? "selected" : "";
                     options+= "<option "+selected+" value='"+value['id']+"'>"+value['name']+"</option>";
                 });
                 select.html(options);
+                select = select.select2();
 
-                $('.search-county').change(function() {
+                select.change(function() {
                     Search.search();
                 });
 
