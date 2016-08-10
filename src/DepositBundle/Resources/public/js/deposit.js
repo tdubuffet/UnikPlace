@@ -10,7 +10,7 @@ var Deposit = {
                     return "Aucun résultat trouvé.";
                 }
             },
-            "placeholder": "Sélectionnez d'abord une catégorie ci-dessus.",
+            "placeholder": "Puis sélectionnez une sous-catégorie.",
             "width": "100%"
         });
 
@@ -51,7 +51,7 @@ var Deposit = {
                         // Add options to select
                         if (result.subcategories != '') {
                             $('#subcategories-select').find('optgroup, option').remove();
-                            var optionsHtml = '';
+                            var optionsHtml = '<option value=""></option>';
                             $.each(result.subcategories, function(k, subcateg) {
                                 if (typeof subcateg.children !== 'undefined') {
                                     optionsHtml += '<optgroup label="'+subcateg.name+'">';
@@ -65,10 +65,6 @@ var Deposit = {
                             });
                             $('#subcategories-select').append(optionsHtml);
                             $("#subcategories-select").prop("disabled", false);
-
-                            // Focus on first option
-                            var firstOption = $('#subcategories-select option:first');
-                            $('#subcategories-select').val(firstOption.val()).trigger("change");
                         }
                     },
                     error: function(result) {
