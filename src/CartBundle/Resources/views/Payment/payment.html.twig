@@ -10,7 +10,18 @@
     <div class="container">
       <div class="main">
 
-        <h1>Paiement de la commande</h1>
+        <div class="page-steps row">
+          <div class="col-sm-4">
+            <div class="page-step">Mon Panier</div>
+          </div>
+          <div class="col-sm-4">
+            <div class="page-step">Livraison et Facturation</div>
+          </div>
+          <div class="col-sm-4">
+            <div class="page-step active">Paiement</div>
+          </div>
+        </div>
+
         {% for flashMessage in app.session.flashbag.get('error') %}
           <div class="alert alert-danger">{{ flashMessage }}</div>
         {% endfor %}

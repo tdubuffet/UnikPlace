@@ -7546,11 +7546,11 @@ body { background-color:rgba(0,0,0,0); }
   display: none;
 }
 
-.deposit-steps {
+.page-steps {
   margin-bottom: 40px;
 }
 
-.deposit-steps .deposit-step {
+.page-steps .page-step {
   border-bottom: 1px solid #DCDCDC;
   color: #333;
   padding-bottom: 10px;
@@ -7559,12 +7559,12 @@ body { background-color:rgba(0,0,0,0); }
   letter-spacing: 2px;
 }
 
-.deposit-steps .deposit-step.active {
+.page-steps .page-step.active {
   border-bottom: 5px solid #CCC;
 }
 
 @media (max-width: 767px) {
-  .deposit-steps .deposit-step:not(.active) {
+  .page-steps .page-step:not(.active) {
     display: none;
   }
 }
