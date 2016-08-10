@@ -28,6 +28,10 @@ class UploadedFileListener
             // Convert uploaded temporary file
             $manager = new ImageManager();
             $image = $manager->make($realPath);
+
+            // Use base image to fill transparency with white background See https://github.com/Intervention/image/issues/36
+            $image = $manager->canvas($image->getWidth(), $image->getHeight(), '#fff')->insert($image);
+
             $newPath = $realPath.'.jpg';
             $image->save($newPath);
             rename($newPath, $realPath);
