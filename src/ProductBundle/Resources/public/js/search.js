@@ -39,7 +39,7 @@ var Search = {
                 $('select.attribute-search-filter').change(function() {
                     Search.search();
                 });
-                $('#attribute-search-filter-color div').click(function() {
+                $('.attribute-search-filter-color div').click(function() {
                     if ($(this).hasClass('active')) {
                         $(this).removeClass('active');
                     }
@@ -245,10 +245,10 @@ var Search = {
             }
         });
         // color
-        if ($('#attribute-search-filter-color').data('key')) {
-            delete Search.params[$('#attribute-search-filter-color').data('key')];
+        if ($('.attribute-search-filter-color').data('key')) {
+            delete Search.params[$('.attribute-search-filter-color').data('key')];
         }
-        $('#attribute-search-filter-color div.active').each(function( index ) {
+        $('.attribute-search-filter-color div.active').each(function( index ) {
             if (!Search.params[$(this).parent().data('key')]) {
                 Search.params[$(this).parent().data('key')] = $(this).data('color');
             }
