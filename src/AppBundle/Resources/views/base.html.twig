@@ -48,7 +48,7 @@
                                 </button>
                                 {{ render(controller('AppBundle:Default:searchcategories')) }}
                               </div>
-                              <input type="hidden" name="cat" class="search-category" value="" />
+                              <input type="hidden" name="cat" class="search-category" value="{{ app.request.query.get('cat') }}" />
                               <input id="mb_search"
                                      type="search"
                                      name="q"
@@ -222,7 +222,7 @@
                                     </button>
                                     {{ render(controller('AppBundle:Default:searchcategories')) }}
                                   </div>
-                                  <input type="hidden" name="cat" class="search-category" value="" />
+                                  <input type="hidden" name="cat" class="search-category" value="{{ app.request.query.get('cat') }}" />
                                   <input id="search"
                                          type="search"
                                          name="q"
