@@ -240,6 +240,8 @@ var Search = {
         $('select.attribute-search-filter').each(function( index ) {
             if ($(this).val() != '') {
                 Search.params[$(this).data('key')] = $(this).val();
+            }else {
+                delete Search.params[$(this).data('key')];
             }
         });
         // color
