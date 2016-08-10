@@ -106,7 +106,7 @@
           <li>Préparez votre colis avec le produit commandé à l'intérieur et envoyez le à l'adresse suivante:</li>
             <address>
               {{ order.deliveryAddress.name }}<br />
-              {{ order.deliveryAddress.street }}<br />
+              {{ order.deliveryAddress.street }}{% if order.deliveryAddress.additional %} - {{ order.deliveryAddress.additional }}{% endif %}<br />
               {{ order.deliveryAddress.city.zipcode }} {{ order.deliveryAddress.city.name }} France
             </address>
             <strong>Conservez le numéro de suivi de votre colis</strong>. Les frais de port sont remboursés.</li>
@@ -172,7 +172,7 @@
               </li>
               {% if order.deliveryAddress is defined %}
               <li>
-                <span>Livraison</span>{{ order.deliveryAddress.name }} - {{ order.deliveryAddress.street }} {{ order.deliveryAddress.city }}
+                <span>Livraison</span>{{ order.deliveryAddress.name }} - {{ order.deliveryAddress.street }}{% if order.deliveryAddress.additional %} - {{ order.deliveryAddress.additional }}{% endif %} {{ order.deliveryAddress.city }}
               </li>
               {% endif %}
             {% endif %}
