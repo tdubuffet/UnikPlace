@@ -115,12 +115,11 @@ easy_admin:
         Collection:
             class: ProductBundle\Entity\Collection
             new:
-                fields:
-                    - { property: 'name' }
-                    - { property: 'description' }
-                    - { property: 'categories' }
-                    - { property: 'products' }
-                    - { property: 'image', type_options: { by_reference: false} }
+                fields: ['name', 'description', 'categories', 'products']
+            edit:
+                fields: ['name', 'description', 'categories', 'products']
+            list:
+                fields: ['id', 'name', 'createdAt', 'categories', 'products']
         CollectionImage:
             class: ProductBundle\Entity\CollectionImage
             list:
