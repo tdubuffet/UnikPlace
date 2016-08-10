@@ -123,6 +123,7 @@
                                     <li><a href="{{ path('user_account_sales') }}">Mes ventes</a></li>
                                     <li><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
                                     <li><a href="{{ path('fos_message_inbox') }}">Mes messages</a></li>
+                                    <li><a href="{{ path('user_addresses') }}">Mes adresses</a></li>
                                     <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
                                     <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
                                   {% else %}
@@ -132,7 +133,7 @@
                                 </ul>
                               </div>
                             </div>
-                            <div class="language-currency ">
+                            <div class="language-currency hidden">
                               <div class="language-switcher">
                                 <div class="title-selector"><span>Langues</span></div>
                                 <ul class="select-language clearfix">
