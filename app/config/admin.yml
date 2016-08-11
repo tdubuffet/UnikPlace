@@ -86,6 +86,7 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'imagePath', type: 'image', base_path: /images/products }
+                    - { property: 'sort' }
             show:
                 fields:
                     - { property: 'imagePath', type: 'image', base_path: /images/products }
@@ -96,6 +97,7 @@ easy_admin:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
                     - 'product'
+                    - { property: 'sort' }
         Referential:
             class: ProductBundle\Entity\Referential
         ReferentialValue:
