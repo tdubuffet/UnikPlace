@@ -32,6 +32,7 @@ var Search = {
                 // Update filter div
                 $('.sidebar .block-layered-nav .block-content').html(result);
                 Search.initPrice();
+                Search.initRange();
                 Search.initCounty();
                 // Reinject values
                 Search.reinjectValuesInFilters();
@@ -206,7 +207,7 @@ var Search = {
         var price = Search.getUrlParameter('price');
         if (price) {
             // Reinject price values (from and to)
-            priceElems = price.split('-');
+            var priceElems = price.split('-');
             if (priceElems.length == 2) {
                 var from = parseInt(priceElems[0]);
                 if (!isNaN(from)) {
@@ -219,6 +220,31 @@ var Search = {
             }
         }
         $('.search-price-submit').click(function() {
+            Search.search();
+        });
+    },
+
+    initRange: function () {
+        $(".attribute-search-filter-range-from").each(function () {
+            var key = $(this).data('key');
+            var range = Search.getUrlParameter(key);
+            if (range) {
+                var rangeElems = range.split('-');
+                if (rangeElems.length == 2) {
+                    var from = parseInt(rangeElems[0]);
+                    if (!isNaN(from)) {
+                        $('#attribute-search-filter-from-'+key).val(from);
+                    }
+                    var to = parseInt(rangeElems[1]);
+                    if (!isNaN(to)) {
+                        $('#attribute-search-filter-to-'+key).val(to);
+                    }
+                }
+            }
+        });
+
+
+        $('.search-range-submit').click(function() {
             Search.search();
         });
     },
@@ -237,6 +263,12 @@ var Search = {
         Search.params.county = $(".search-county").val();
 
         // Product attributes filters
+        //range
+        $(".attribute-search-filter-range-from").each(function () {
+            var to = $('#attribute-search-filter-to-'+$(this).data('key'));
+            Search.params[$(this).data('key')] = $(this).val()+ "-" + to.val();
+        });
+
         // select
         $('select.attribute-search-filter').each(function( index ) {
             if ($(this).val() != '') {
@@ -287,7 +319,7 @@ var Search = {
         Search.params.limit = $('.limiter_limit_value').val();
 
         $.each(Search.params, function (key, value) {
-            if ((value.length < 1 && key != "price") || (value.length == 1 && key == "price")) {
+            if ((value.length < 1) || (value.length == 1 && value == "-")) {
                 delete Search.params[key];
             }
         });

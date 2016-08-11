@@ -101,7 +101,7 @@ class ProductSearchService
         /** @var Category $category */
         $filters = [
             'price' => ['template' => 'price'],
-            'county' => ['template' => 'county']
+            'county' => ['template' => 'county'],
         ]; // Price filter is always displayed
         if ($category) {
             $attributes = $category->getAttributes();
@@ -112,8 +112,8 @@ class ProductSearchService
                     'template' => $template->getName(),
                     'viewVars' => [
                         'label' => $attribute->getName(),
-                        'id' => $attribute->getCode()
-                    ]
+                        'id' => $attribute->getCode(),
+                    ],
                 ];
                 $referential = $attribute->getReferential();
                 if (isset($referential)) {
@@ -202,17 +202,33 @@ class ProductSearchService
         }
     }
 
+    /**
+     * @param BoolQuery $boolQuery
+     * @param $params
+     */
     private function applyAttributes($boolQuery, $params)
     {
         // We need to fetch all product attributes
         $attributes = $this->em->getRepository('ProductBundle:Attribute')->findAll();
         $attributeParams = [];
+        $attributeParamsRange = [];
+        /** @var Attribute $attribute */
         foreach ($attributes as $attribute) {
             if (isset($params[$attribute->getCode()])) {
                 $value = $params[$attribute->getCode()];
-                $values = array_filter(explode(',', $value)); // Support multi selection on the same attribute
-                if (!empty($values)) {
-                    $attributeParams[$attribute->getCode()] = $values;
+                if ($attribute->getAttributeSearchTemplate()->getName() == "range") {
+                    $range = explode("-", $value);
+                    if (isset($range[0])) {
+                        $attributeParamsRange[$attribute->getCode()]['from'] = $range[0];
+                    }
+                    if (isset($range[1])) {
+                        $attributeParamsRange[$attribute->getCode()]['to'] = $range[1];
+                    }
+                }else {
+                    $values = array_filter(explode(',', $value)); // Support multi selection on the same attribute
+                    if (!empty($values)) {
+                        $attributeParams[$attribute->getCode()] = $values;
+                    }
                 }
             }
         }
@@ -222,6 +238,13 @@ class ProductSearchService
             $queryString->setQuery(implode(' OR ', $values));
             $boolQuery->addMust($queryString);
         }
+
+        foreach ($attributeParamsRange as $key => $objects) {
+            $rangeFilter = new \Elastica\Query\Range();
+            $rangeFilter->addField($key, $objects);
+            $boolQuery->addMust($rangeFilter);
+        }
+
     }
 
     private function applySortAndOrder($bool, $params)
