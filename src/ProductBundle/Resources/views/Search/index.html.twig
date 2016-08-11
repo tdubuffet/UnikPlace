@@ -98,7 +98,7 @@
                                   <span>Tri par : </span>
                                   <div class="overwrite-sortby" role="button" data-toggle="collapse" data-target="#sort_by"
                                        aria-expanded="false"></div>
-                                  {% set sortModes = {new: 'Nouveauté', relevance: 'Pertinence', name: 'Nom', price: 'Prix'} %}
+                                  {% set sortModes = {new: 'Nouveauté', price: 'Prix'} %}
                                   <script>sortModeLabels = {{ sortModes|json_encode|raw }};</script>
                                   <ul id="sort_by" class="sort_by collapse">
                                     {% for sortMode, sortModeLabel in sortModes %}
