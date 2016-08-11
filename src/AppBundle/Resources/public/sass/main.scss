@@ -2434,7 +2434,7 @@ button.button span {
   float:left;
   text-align:center;
 }
-.main-container .blog-homepage h3.title-widget {
+.main-container .blog-homepage h3.title-widget, .category-product.title-widget {
   font-size:20px;
   font-weight:700;
   line-height:30px;
@@ -2444,14 +2444,14 @@ button.button span {
   margin:0 15px 0;
   text-align:center;
 }
-.main-container .blog-homepage h3.title-widget span {
+.main-container .blog-homepage h3.title-widget span, .category-product.title-widget span {
   display:inline-block;
   position:relative;
   z-index:4;
   padding:0 30px 0;
   background-color:#ffffff;
 }
-.main-container .blog-homepage h3.title-widget:after {
+.main-container .blog-homepage h3.title-widget:after, .category-product.title-widget:after {
   height:2px;
   position:absolute;
   content:'';
@@ -2461,6 +2461,12 @@ button.button span {
   right:0;
   z-index:3;
 }
+
+.category-product.title-widget {
+  margin : 20px 0 30px 0;
+  color: #181818;
+}
+
 .main-container .blog-homepage .owl-controls {
   position:relative;
   display:inline-block;
@@ -7238,7 +7244,7 @@ table td a.btn-remove:hover, table th a.btn-remove:hover, a.btn-remove:hover spa
 .old-price .price, .category-products .item .price-box .price, .category-products #products-list .price-box .special-price .price, .category-products #products-list .price-box .regular-price .price, .product-view .product-shop .price-box .regular-price .price, .product-view .product-shop .price-box .special-price { color:#181818; }
 .main-container .widget-products-new h3.title-widget span, .main-container .widget-products-related h3.title-widget span, .main-container .product_verticle h3.title-widget span, .main-container .blog-homepage h3.title-widget span { color:#181818; }
 .main-container .widget-products-new h3.title-widget:after, .main-container .widget-products-related h3.title-widget:after, .main-container .product_verticle h3.title-widget:after, .main-container .blog-homepage h3.title-widget:after { background-color:#e4e4e4; }
-.main-container .sidebar .block .block-title:after { background-color:#e4e4e4; }
+.main-container .sidebar .block .block-title:after, .category-product.title-widget:after { background-color:#e4e4e4; }
 body { background-color:rgba(0,0,0,0); }
 .main-container .main { background-color:#ffffff; }
 .main-container { background-color:#ffffff; }
