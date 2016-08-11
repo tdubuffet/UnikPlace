@@ -1923,25 +1923,29 @@ button.button span {
   backface-visibility:hidden;
 }
 .main-container .block-container .overlay .button {
-  padding:0px 22px;
-  text-transform:uppercase;
-  color:#000000;
-  display:inline-block;
-  font-size:12px;
-  line-height:40px;
-  background-color:transparent;
-  letter-spacing:0.05em;
-  font-weight:700;
-  border:#000000 solid 2px;
-  position:absolute;
-  z-index:9;
-  top:40%;
-  left:25%;
-  opacity:0;
-  -webkit-transition:opacity 0.35s, -webkit-transform 0.35s;
-  transition:opacity 0.35s, transform 0.35s;
-  -webkit-transform:scale(1.1);
-  transform:scale(1.1);
+  padding: 15px 15px;
+  text-transform: uppercase;
+  color: #000;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 25px;
+  background-color: transparent;
+  letter-spacing: .05em;
+  font-weight: 700;
+  border: 2px solid #000;
+  position: absolute;
+  z-index: 9;
+  top: 35%;
+  left: 0;
+  opacity: 0;
+  right: 0;
+  -webkit-transition: opacity .35s,-webkit-transform .35s;
+  transition: opacity .35s,transform .35s;
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  margin-left: 30px;
+  text-align: center;
+  margin-right: 30px;
 }
 .main-container .block-container .overlay:before {
   position:absolute;
