@@ -7813,3 +7813,25 @@ table.table-carts {
   transition   : all 0.2s ease 0s;
   width        : 51px;
 }
+
+/* ------------------------ SELECT2 ------------------------ */
+
+.select2-container .select2-selection--single {
+  height: 35px;
+}
+
+.select2-container--default .select2-selection--single {
+  border-radius: 2px;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 0 5px 0 #eaeaea inset;
+  padding: 3px 4px;
+  font-size: 14px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #555;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  margin-top: 0px;
+}
