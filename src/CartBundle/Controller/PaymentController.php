@@ -108,6 +108,17 @@ class PaymentController extends Controller
             }
         }
 
+        // Make sure delivery address is set for a delivery which is not "by hand"
+        $byHandOnly = true;
+        foreach ($cartDelivery as $deliveryCode) {
+            if ($deliveryCode != 'by_hand') {
+                $byHandOnly = false;
+            }
+        }
+        if (!isset($cartAddresses['delivery_address']) && !$byHandOnly) {
+            return $this->redirectToRoute('cart_delivery');
+        }
+
         // Check buyer kyc
         if (!$this->get('mangopay_service')->isKYCValidUser($this->getUser(), $productsTotalPrice, 0)) {
             $this->get('session')->getFlashBag()->add('kyc_errors',
