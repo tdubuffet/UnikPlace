@@ -184,12 +184,11 @@
                       <div class="store-wrapper"></div>
                       <div class="header-setting">
                         <div class="dropdown setting-switcher switcher-wrap">
+                          {% if app.user %}
                           <a href="#" class="overwrite-setting dropdown-toggle" data-toggle="dropdown">
                             <span>Mon Compte</span>
                           </a>
-
                           <ul class="dropdown-menu dropdown-user">
-                            {% if app.user %}
                             <li class="first"><a href="{{ path("user_account_products") }}">Mes produits</a></li>
                             <li><a href="{{ path('user_account_wallet') }}">Mon argent</a></li>
                             <li><a href="{{ path('fos_user_profile_edit') }}">Mes paramètres</a></li>
@@ -200,11 +199,13 @@
                             <li class="hidden-lg"><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
                             <li class="hidden-lg"><a href="{{ path('fos_message_inbox') }}">Mes messages</a></li>
                             <li class="last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
-                          {% else %}
-                            <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
-                            <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
-                            {% endif %}
                           </ul>
+                          {% else %}
+                            <a href="{{ path('fos_user_security_login') }}">
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                              <span>Connexion / Inscription</span>
+                            </a>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
