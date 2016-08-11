@@ -76,6 +76,10 @@ var Deposit = {
 
             }
         });
+
+        $('#subcategories-select').on('change', function() {
+            $("#sub-categ-error").hide();
+        });
     },
 
     fileUpload: function () {
@@ -188,6 +192,11 @@ var Deposit = {
             if($(".category-choice input:checked").length <= 0) {
                 result = false;
                 $("#main-categ-error").show();
+            }
+
+            if($("#subcategories-select").val() === '') {
+                result = false;
+                $("#sub-categ-error").show();
             }
 
             return result;
