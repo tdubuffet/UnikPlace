@@ -134,6 +134,14 @@
                               {% endif %}
                             </p>
                           </div>
+                          {% if product.originalPrice is not empty %}
+                            <div class="price-box">
+                              <p class="old-price">
+                                <span class="price-label">Ancien prix :</span>
+                                <span class="price">{{ product.originalPrice|currency_format(product.getCurrency.getCode) }}</span>
+                              </p>
+                            </div>
+                          {% endif %}
                         </div>
 
                         <div class="short-description-detail">
