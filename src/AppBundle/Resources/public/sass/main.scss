@@ -94,6 +94,11 @@ select.form-control.birthday {
   margin-right: 10px;
 }
 
+.form-range.form-control {
+  display: inline;
+  width: 58px;
+}
+
 .form-group label.required:after {
   content: "*";
   font-style: italic;
