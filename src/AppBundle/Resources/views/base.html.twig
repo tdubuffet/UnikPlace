@@ -23,14 +23,13 @@
   </head>
   <body {% block bodyclass %}{% endblock %}>
 
-
     <!-- // HEADER // -->
     <header class="header-wrapper">
       <div class="header-container">
         <div class="main-header">
           <div class="container">
             <div class="header-content mobile-wrapper visible-xs">
-              <div id="mobile-sticky" class="mobile-content-inner">
+              <div id="mobile-sticky" class="mobile-content-inner {% if 'DepositBundle' in app.request.attributes.get('_controller') or 'CartBundle' in app.request.attributes.get('_controller') %}non-sticky{% else %}sticky{% endif %}">
                 <div class="header-top-left">
                   <div class="top-left-inner">
                     <div class="header-search">
@@ -276,7 +275,7 @@
               </div>
             </div>
           </div>
-          <div id="top-nav-wrapper" class="top-nav-wrapper hidden-xs">
+          <div id="top-nav-wrapper" class="top-nav-wrapper {% if 'DepositBundle' in app.request.attributes.get('_controller') or 'CartBundle' in app.request.attributes.get('_controller') %}non-sticky{% else %}sticky{% endif %} hidden-xs">
             <div class="container">
               <div class="navigation-wrapper hidden-xs">
                 <div class="main-navigation">

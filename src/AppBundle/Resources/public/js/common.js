@@ -24,7 +24,7 @@ var Common = {
         });
 
         // Sticky header
-        $('#top-nav-wrapper').affix({
+        $('#top-nav-wrapper.sticky').affix({
             offset: {
                 top: function () {
                     return (this.top = $('#top-nav-wrapper').offset().top)
@@ -34,7 +34,7 @@ var Common = {
                 }
             }
         });
-        $('#mobile-sticky').affix({
+        $('#mobile-sticky.sticky').affix({
             offset: {
                 top: function () {
                     return (this.top = $('#mobile-sticky').offset().top)
