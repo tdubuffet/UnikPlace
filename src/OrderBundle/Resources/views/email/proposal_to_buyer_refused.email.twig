@@ -2,7 +2,7 @@
 
 {% block body_text %}
   {% autoescape false %}
-    Bonjour {{ product.user.firstname }}
+    Bonjour {{ proposal.user.firstname }}
     Le vendeur a refusé votre offre de  {{ proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
     concernant l'annonce "{{ product.name }}".
 
