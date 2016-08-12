@@ -4,24 +4,49 @@
 
 {% block body %}
 
-  <div class="row">
-    <div class="col-md-6 col-xs-12 col-center-block">
-      <h1 class="h2">Contacter l'équipe {{ siteName }}</h1>
-      {# flashbag #}
-      {% for type, messages in app.session.flashbag.all() %}
-        {% for message in messages %}
-          <div class="alert alert-{{ type }}">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endfor %}
+  <div class="container">
 
-      {{ form_start(form) }}
-      {{ form_row(form.subject) }}
-      {{ form_row(form.name, {'value' : app.user ? "#{app.user.firstname} #{app.user.lastname}" : ""}) }}
-      {{ form_row(form.email, {'value' : app.user ? app.user.email : ""}) }}
-      {{ form_end(form) }}
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+
+        <h1 class="h2">Contacter l'équipe {{ siteName }}</h1>
+        {# flashbag #}
+        {% for type, messages in app.session.flashbag.all() %}
+          {% for message in messages %}
+            <div class="alert alert-{{ type }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endfor %}
+
+        <p>Une question, une remarque au sujet <a href="{{ path('sell_category') }}">de la vente</a> ou de l'achat sur {{ siteName }} ?
+          Que vous soyez professionnel ou particulier, n’hésitez pas à <strong>prendre contact</strong> avec nous via le <strong>formulaire</strong> ci-dessous.
+          Nous nous engageons à vous fournir une réponse au plus vite.</p>
+        <p>Pensez également à consulter <a href="{{ path('faq') }}">notre FAQ</a> : les réponses aux questions les plus fréquemment posées y figurent et sont regroupées par thème pour plus de facilité.</p>
+
+        {{ form_start(form) }}
+        {{ form_row(form.subject) }}
+        {{ form_row(form.name, {'value' : app.user ? "#{app.user.firstname} #{app.user.lastname}" : ""}) }}
+        {{ form_row(form.email, {'value' : app.user ? app.user.email : ""}) }}
+
+        {{ form_row(form.message) }}
+
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+
+
+            {{ form_widget(form.save, {'attr' : { class: 'btn btn-primary btn-block' }}) }}
+
+          </div>
+        </div>
+
+        {{ form_end(form) }}
+
+
+      </div>
     </div>
+
   </div>
 {% endblock %}
 
