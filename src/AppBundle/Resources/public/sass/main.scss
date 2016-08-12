@@ -4598,7 +4598,13 @@ button.button span {
   font-size: 1em;
   padding-top: 30px;
   padding-bottom: 30px;
-  min-height: 140px;
+  min-height: 150px;
+}
+
+@media (max-width: 991px) {
+  .footer-wrapper .block-advantage .advantage {
+    min-height: 185px;
+  }
 }
 
 .footer-wrapper .block-advantage .advantage:last-child{
