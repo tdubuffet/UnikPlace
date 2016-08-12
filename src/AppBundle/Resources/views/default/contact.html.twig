@@ -4,7 +4,7 @@
 
 {% block body %}
 
-  <div class="container">
+  <div class="container contact">
 
 
     <div class="row">
@@ -20,11 +20,15 @@
           {% endfor %}
         {% endfor %}
 
-        <p>Une question, une remarque au sujet <a href="{{ path('sell_category') }}">de la vente</a> ou de l'achat sur {{ siteName }} ?
-          Que vous soyez professionnel ou particulier, n’hésitez pas à <strong>prendre contact</strong> avec nous via le <strong>formulaire</strong> ci-dessous.
-          Nous nous engageons à vous fournir une réponse au plus vite.</p>
-        <p>Pensez également à consulter <a href="{{ path('faq') }}">notre FAQ</a> : les réponses aux questions les plus fréquemment posées y figurent et sont regroupées par thème pour plus de facilité.</p>
-
+        <div class="text-center">
+          <p>Une question, une remarque au sujet <a href="{{ path('sell_category') }}">de la vente</a> ou de l'achat
+            sur {{ siteName }} ?
+            Que vous soyez professionnel ou particulier, n’hésitez pas à <strong>prendre contact</strong> avec nous via
+            le <strong>formulaire</strong> ci-dessous.
+            Nous nous engageons à vous fournir une réponse au plus vite.</p>
+          <p>Pensez également à consulter <a href="{{ path('faq') }}">notre FAQ</a> : les réponses aux questions les
+            plus fréquemment posées y figurent et sont regroupées par thème pour plus de facilité.</p>
+        </div>
         {{ form_start(form) }}
         {{ form_row(form.subject) }}
         {{ form_row(form.name, {'value' : app.user ? "#{app.user.firstname} #{app.user.lastname}" : ""}) }}
