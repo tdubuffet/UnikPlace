@@ -25,7 +25,15 @@ body{
     h2{
         color: $brand-primary;
         margin-top: 60px;
+
+        font-style: normal;
+        color: #181818;
+        opacity: 1;
+        visibility: visible;
+        font-size: 16px;
+        text-transform: uppercase;
     }
+
 
     h3{
         margin-top: 30px;
@@ -39,6 +47,68 @@ body{
         }
         li:before {
             content: "→ "; /* caractère UTF-8 */
+        }
+    }
+
+    .need-help{
+
+        margin-top: 130px;
+
+        padding: 27px 30px 30px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        text-align: center;
+
+        h4{
+            font-style: normal;
+            color: #181818;
+            opacity: 1;
+            visibility: visible;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+    }
+
+    .items-info{
+        margin-top: 50px;
+
+        .address{
+            color: #181818;
+        }
+        .item-info-li i{
+            border-color: rgb(235,213,112);
+            color: rgb(235,213,112);
+        }
+    }
+
+    .img-faq-premium{
+        margin-top: 50px;
+        width: 100%;
+    }
+
+    .panel-default > .panel-heading{
+
+        cursor: pointer;
+        position: relative;
+        padding: 8px 0 7px 8px;
+        border-radius: 0px;
+        background: transparent;
+        -webkit-transition: all 180ms ease-in;
+        -o-transition: all 180ms ease-in;
+        transition: all 180ms ease-in;
+
+        .panel-title{
+            font-family: Montserrat;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #555;
+            font-weight: normal;
+
+            a{
+                display:block;
+                width: 100%;
+            }
+
         }
     }
 }

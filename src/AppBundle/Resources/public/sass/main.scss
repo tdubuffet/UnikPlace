@@ -4570,11 +4570,16 @@ button.button span {
   color:#181818;
   border:2px solid #ffffff;
 }
+
+.item-info-li,
 .footer-wrapper .footer-bottom .custom-footer-content .item-info {
   display:block;
   padding-bottom:10px;
   padding-top:7px;
 }
+
+
+.item-info-li i,
 .footer-wrapper .footer-bottom .custom-footer-content .item-info i {
   float:left;
   font-size:16px;
@@ -4586,6 +4591,10 @@ button.button span {
   margin-right:10px;
   padding:0 0 0 2px;
 }
+
+.item-info-li .email,
+
+.item-info-li .phone,
 .footer-wrapper .footer-bottom .custom-footer-content .item-info .email, .footer-wrapper .footer-bottom .custom-footer-content .item-info .phone { line-height:36px; }
 .footer-wrapper .footer-bottom .custom-footer-content .item-info:hover { color:#ffffff; }
 .footer-wrapper .footer-copyright {
