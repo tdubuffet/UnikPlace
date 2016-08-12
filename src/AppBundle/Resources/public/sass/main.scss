@@ -4592,6 +4592,25 @@ button.button span {
   padding:0 0 0 2px;
 }
 
+.footer-wrapper .block-advantage .advantage{
+  text-align: center;
+  border-right: 1px solid #ddd;
+  font-size: 1em;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  min-height: 140px;
+}
+
+.footer-wrapper .block-advantage .advantage:last-child{
+  border-right: none;
+}
+
+.footer-wrapper .block-advantage .advantage .advantage-title{
+  color: rgb(24,24,24);
+  font-size: 1.3em;
+  margin-bottom: 10px;
+}
+
 .item-info-li .email,
 
 .item-info-li .phone,
