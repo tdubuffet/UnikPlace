@@ -3712,8 +3712,8 @@ button.button span {
   min-height:65px;
   text-align:center;
 }
-.category-products .products-grid .item .product-content h3.product-name { margin:0; }
-.category-products .products-grid .item .product-content h3.product-name a {
+.category-products .products-grid .item .product-content .product-name { margin:0; }
+.category-products .products-grid .item .product-content .product-name a {
   font-size:12px;
   font-weight:400;
   display:block;
@@ -3949,7 +3949,7 @@ button.button span {
   color:#333333;
   padding:0 25px;
 }
-.product-view .product-shop .product-name h2 {
+.product-view .product-shop .product-name h2, .product-view .product-shop .product-name .h2 {
   font-size:12px;
   font-weight:400;
   margin:0;
@@ -4485,7 +4485,7 @@ button.button span {
   height:40px;
   width:45px;
 }
-.footer-wrapper .footer-bottom .footer-block-title h2 {
+.footer-wrapper .footer-bottom .footer-block-title {
   margin:0;
   font-size:14px;
   font-weight:700;
@@ -4495,7 +4495,7 @@ button.button span {
   position:relative;
   letter-spacing:0.075em;
 }
-.footer-wrapper .footer-bottom .footer-block-title h2 span {
+.footer-wrapper .footer-bottom .footer-block-title span {
   display:inline-block;
   padding-bottom:10px;
   position:relative;
@@ -6522,11 +6522,8 @@ ul.nav-accordion li span.collapse {
     }
 
     .footer-wrapper .footer-bottom .footer-block-title {
-        padding-bottom: 5px;
-    }
-
-    .footer-wrapper .footer-bottom .footer-block-title h2 {
         font-size: 100%;
+      padding-bottom: 5px;
     }
 
 }
@@ -7448,8 +7445,8 @@ body { background-color:rgba(0,0,0,0); }
   background-color:rgba(0,0,0,0);
   color:#ffffff;
 }
-.footer-wrapper .footer-container .footer-block-title h2 span { color:#ffffff; }
-.footer-wrapper .footer-container .footer-block-title h2 span:after { background-color:#ffffff; }
+.footer-wrapper .footer-container .footer-block-title span { color:#ffffff; }
+.footer-wrapper .footer-container .footer-block-title span:after { background-color:#ffffff; }
 .footer-wrapper .footer-top { background-color:#f7f6f6; }
 .footer-wrapper .footer-copyright {
   background-color:#181818;
