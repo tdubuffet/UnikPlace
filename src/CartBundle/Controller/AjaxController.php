@@ -21,9 +21,6 @@ class AjaxController extends Controller
      */
     public function addAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse(array('message' => 'You must be authentificated to add product in cart.'), 401);
-        }
         $user = $this->getUser();
         $action = $request->get('action');
         if (!isset($action) && in_array($action, ['add', 'remove'])) {
