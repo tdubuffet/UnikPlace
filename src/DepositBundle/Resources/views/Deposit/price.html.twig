@@ -56,12 +56,21 @@
             </div>
 
             <div class="text-center">
-              <label>
-                Montant reversé une fois votre produit vendu
-                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
-                   title="{{ siteName }} prend une commission de {{ fee_rate }}% sur le prix de vente du produit"></i>
-              </label>
-              <div class="valued-amount" data-fee="{{ fixed_fee }}" data-rate="{{ fee_rate }}">0,00 €</div>
+              <p>Pour une vente classique, Unik Place prend une commission de:</p>
+              <ul>
+                {% for fee_rate in fee_rates %}
+                {% if loop.first %}
+                <li>{{ fee_rate.rate }}% si montant du produit en vente &lt;{{ fee_rates[loop.index].min }}€</li>
+                {% elseif loop.last %}
+                <li>{{ fee_rate.rate }}% si montant du produit supérieur à {{ fee_rate.min }}€</li>
+                {% else %}
+                <li>{{ fee_rate.rate }}% entre {{ fee_rate.min }} et {{ fee_rates[loop.index].min }}€</li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+              <br />
+              Montant reversé une fois votre produit vendu
+              <div class="valued-amount" data-fee="{{ fixed_fee }}" data-rates="{{ fee_rates|json_encode() }}">0,00 €</div>
 
               <div class="checkbox">
                 <label>

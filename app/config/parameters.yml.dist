@@ -29,8 +29,16 @@ parameters:
     mangopay.client_id: xxxxx
     mangopay.client_password: xxxxx
     mangopay.base_url: https://api.sandbox.mangopay.com
-    mangopay.fee_rate: 10
-    mangopay.fixed_fee: 0.50
+    mangopay.fee_rates:
+        - rate: 15
+          min: 0
+        - rate: 12
+          min: 500
+        - rate: 10
+          min: 1000
+        - rate: 8
+          min: 2000
+    mangopay.fixed_fee: 0
     mangopay.max_output: 600
     mangopay.max_input: 1200
 

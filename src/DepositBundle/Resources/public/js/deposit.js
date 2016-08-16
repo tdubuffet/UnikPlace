@@ -335,9 +335,25 @@ var Deposit = {
         });
     },
 
+    getFeeRate: function() {
+        var rates =  $('.valued-amount').data('rates');
+        var price = parseFloat($('#product-price').val());
+        var rate = 0;
+        $(rates).each(function(idx, elem) {
+            if (rates[idx+1] && price < rates[idx+1].min && rate == 0) {
+                rate = elem.rate;
+            }
+            else if (!rates[idx+1] && rate == 0) {
+                rate = elem.rate;
+            }
+        });
+        return rate;
+    },
+
     updateFinalAmount: function() {
         var amount = $('.valued-amount');
-        var valueAmount = Math.round(($('#product-price').val() * (100 - amount.data('rate')) / 100) - amount.data('fee'));
+        var rate = Deposit.getFeeRate();
+        var valueAmount = Math.round(($('#product-price').val() * (100 - rate) / 100) - amount.data('fee'));
         if (valueAmount <= 0) valueAmount = 0;
         valueAmount = valueAmount.toFixed(2);
         amount.text(valueAmount + ' €');

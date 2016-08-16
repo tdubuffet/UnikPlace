@@ -237,7 +237,7 @@ class DepositController extends Controller
         }
 
         return [
-            'fee_rate' =>   $this->getParameter('mangopay.fee_rate'),
+            'fee_rates' =>  $this->getParameter('mangopay.fee_rates'),
             'fixed_fee' =>  $this->getParameter('mangopay.fixed_fee'),
         ];
     }

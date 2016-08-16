@@ -388,7 +388,8 @@ class MangoPayService
 
         $Transfer->Fees = new \MangoPay\Money();
         $Transfer->Fees->Currency       = "EUR";
-        $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($this->config['fee_rate']/100) + $this->config['fixed_fee']*100);
+        $feeRate = $this->getFeeRateFromProductPrice($order->getProductAmount());
+        $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($feeRate/100) + $this->config['fixed_fee']*100);
 
         $Transfer->DebitedWalletID      = $order->getUser()->getMangopayBlockedWalletId();
         $Transfer->CreditedWalletId     = $order->getProduct()->getUser()->getMangopayFreeWalletId();
@@ -542,5 +543,23 @@ class MangoPayService
     public function getListDocumentsByUserId($userId)
     {
         return $this->mangoPayApi->Users->GetKycDocuments($userId);
+    }
+
+    private function getFeeRateFromProductPrice($price)
+    {
+        $result = null;
+        $feeRates = $this->config['fee_rates'];
+        foreach ($feeRates as $idx => $feeRate) {
+            if (isset($feeRates[$idx +1]) && $price < $feeRates[$idx +1]['min'] && $result == null) {
+                $result = $feeRate['rate'];
+            }
+            else if (!isset($feeRates[$idx +1]) && $result == null) {
+                $result = $feeRate['rate'];
+            }
+        }
+        if (is_null($result)) {
+            throw new \Exception('Cannot find fee rate for this price.');
+        }
+        return $result;
     }
 }
