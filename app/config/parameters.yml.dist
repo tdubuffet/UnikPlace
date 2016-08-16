@@ -50,9 +50,9 @@ parameters:
 
     website:
         contact:
-            address: "11 rue de caumartin, 75009, Paris, France"
+            address: "11 rue de Caumartin, 75009, Paris, France"
             email: %mailer_contact_email%
-            phone: "02 37 26 58 11"
+            phone: "01 84 17 76 11"
         socialNetwork:
             facebook: "http://facebook.com"
             twitter: "http://facebook.com"
