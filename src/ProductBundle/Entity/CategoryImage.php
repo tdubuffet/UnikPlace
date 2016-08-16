@@ -14,12 +14,12 @@ use Vich\UploaderBundle\Mapping\PropertyMapping;
 /**
  * Image
  *
- * @ORM\Table(name="collection_image")
- * @ORM\Entity(repositoryClass="ProductBundle\Repository\CollectionImageRepository")
+ * @ORM\Table(name="category_images")
+ * @ORM\Entity(repositoryClass="ProductBundle\Repository\CategoryImageRepository")
  * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  * @Vich\Uploadable
  */
-class CollectionImage
+class CategoryImage
 {
     use ORMBehaviors\Timestampable\Timestampable;
 
@@ -40,17 +40,17 @@ class CollectionImage
     private $image;
 
     /**
-     * @Vich\UploadableField(mapping="collection_images", fileNameProperty="image")
+     * @Vich\UploadableField(mapping="category_images", fileNameProperty="image")
      * @Assert\Image(maxSize="2M", mimeTypes={"image/jpeg", "image/jpg", "image/png", "image/gif"})
      * @var File
      */
     private $imageFile;
 
     /**
-     * @ORM\OneToOne(targetEntity="ProductBundle\Entity\Collection", inversedBy="image")
-     * @ORM\JoinColumn(name="collection", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="ProductBundle\Entity\Category", inversedBy="image")
+     * @ORM\JoinColumn(name="category", referencedColumnName="id")
      */
-    private $collection;
+    private $category;
 
     /**
      * Get id
@@ -92,28 +92,24 @@ class CollectionImage
     }
 
     /**
-     * Set product
-     *
-     * @param Collection $collection
-     *
-     * @return CollectionImage
+     * @return mixed
      */
-    public function setCollection(Collection $collection = null)
+    public function getCategory()
     {
-        $this->collection = $collection;
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     * @return CategoryImage
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
 
         return $this;
     }
 
-    /**
-     * Get product
-     *
-     * @return Collection
-     */
-    public function getCollection()
-    {
-        return $this->collection;
-    }
 
     public function getImagePath()
     {

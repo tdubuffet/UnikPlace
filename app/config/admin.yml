@@ -138,6 +138,22 @@ easy_admin:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
                     - 'collection'
+        CategoryImage:
+            class: ProductBundle\Entity\CategoryImage
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'imagePath', type: 'image', base_path: /images/categories }
+            show:
+                fields:
+                    - { property: 'imagePath', type: 'image', base_path: /images/categories }
+            new:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+            edit:
+                fields:
+                    - { property: 'imageFile', type: 'vich_image' }
+                    - 'category'
         City:
           class: LocationBundle\Entity\City
         DeliveryMode:
@@ -209,6 +225,7 @@ easy_admin:
             - ReferentialValue
             - { label: 'Configuration' }
             - Category
+            - CategoryImage
             - Attribute
             - Status
             - Currency

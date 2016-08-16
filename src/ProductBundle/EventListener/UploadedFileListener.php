@@ -19,7 +19,8 @@ class UploadedFileListener
     {
         $mapping  = $event->getMapping();
         // Convert images to jpg only for product images
-        if ($mapping->getMappingName() == 'product_images' || $mapping->getMappingName() == 'collection_images') {
+
+        if (in_array($mapping->getMappingName(), ['category_images', 'product_images','collection_images'])) {
             // Get uploaded file
             $uploadedFile = $event->getObject();
             $imageFile = $uploadedFile->getImageFile();

@@ -1,0 +1,131 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Catégorie{% endblock %}
+
+{% block description %}Tous les produits premium sont sur {{ siteName }}{% endblock %}
+
+{% block body %}
+  <div class="main-breadcrumbs">
+    <div class="container">
+      <div class="row show-grid">
+        <div class="col-md-12">
+          <div class="breadcrumbs">
+            <ul>
+              <li>
+                <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                  <a href="{{ path('homepage') }}" itemprop="url">Accueil</a>
+                </span>
+                <span class="separator">/</span>
+              </li>
+              <li><strong>Tendances</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-wrapper">
+    <div class="main">
+      <div class="container">
+        <div class="row show-grid">
+          <div class="col-main">
+            <div class="block-container" style="padding-top: 0;">
+              <div class="col-xs-12">
+                <h3 class="category-product title-widget"><span>Nos tendances par catégorie</span></h3>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    {% if categories[0] is defined %}
+                      <div class="banner_top">
+                        <div class="overlay">
+                          <span class="button">
+                            <a href="{{ path('collection_categ', {'slug' : categories[0].slug}) }}">
+                              {{ categories[0].name }}
+                            </a>
+                          </span>
+                        </div>
+                        <img class="img-responsive" alt="{{ categories[0].name }}"
+                             src="{{ loadpic(categories[0].image, 500, 500, "f", "categories") }}"/>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    {% if categories[1] is defined %}
+                      <div class="banner_top">
+                        <div class="overlay">
+                          <span class="button">
+                            <a href="{{ path('collection_categ', {'slug' : categories[1].slug}) }}">
+                              {{ categories[1].name }}
+                            </a>
+                          </span>
+                        </div>
+                        <img class="img-responsive" alt="{{ categories[1].name }}"
+                             src="{{ loadpic(categories[1].image, 500, 235, "f", "categories") }}"/>
+                      </div>
+                    {% endif %}
+                    {% if categories[2] is defined %}
+                      <div class="banner_top">
+                        <div class="overlay">
+                          <span class="button">
+                            <a href="{{ path('collection_categ', {'slug' : categories[2].slug}) }}">
+                              {{ categories[2].name }}
+                            </a>
+                          </span>
+                        </div>
+                        <img class="img-responsive" alt="{{ categories[2].name }}"
+                             src="{{ loadpic(categories[2].image, 500, 235, "f", "categories") }}"/>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    {% if categories[3] is defined %}
+                      <div class="banner_top">
+                        <div class="overlay">
+                          <span class="button">
+                            <a href="{{ path('collection_categ', {'slug' : categories[3].slug}) }}">
+                              {{ categories[3].name }}
+                            </a>
+                          </span>
+                        </div>
+                        <img class="img-responsive" alt="{{ categories[3].name }}"
+                             src="{{ loadpic(categories[3].image, 500, 500, "f", "categories") }}"/>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div><!-- .row -->
+              </div><!-- .col -->
+              <div class="col-xs-12" style="margin-top: 60px;">
+                <h3 class="category-product title-widget"><span>Les dernières tendances</span></h3>
+                <div class="row">
+                  {% for collection in collections %}
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                      <div class="banner_top">
+                        <div class="overlay" style="padding-bottom: 0;">
+                          <span class="button">
+                            <a href="{{ path('collection', {'slug' : collection.slug}) }}">{{ collection.name }}</a>
+                          </span>
+                        </div>
+                        <img class="img-responsive" alt="{{ collection.name }}"
+                             src="{{ loadpic(collection.image, 500, 500, "f", "collections") }}"/>
+                      </div>
+                      {% for key, product in collection.products if key < 3 %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="banner_top">
+                            <a href="{{ path('product_details', {'id': product.id, 'slug' : product.slug}) }}">
+                              <img class="img-responsive" alt="{{ product.name }}"
+                                   src="{{ loadpic(product.images[0], 70, 70, "f", "products") }}"/>
+                            </a>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

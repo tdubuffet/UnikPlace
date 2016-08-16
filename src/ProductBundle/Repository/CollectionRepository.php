@@ -2,6 +2,8 @@
 
 namespace ProductBundle\Repository;
 
+use ProductBundle\Entity\Category;
+
 /**
  * CollectionRepository
  *
@@ -13,14 +15,14 @@ class CollectionRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @return array
      */
-    public function findAllForNoCategories()
+    public function findAllForMultiCategories()
     {
         return $this->createQueryBuilder("q")
             ->leftJoin("q.categories", "categories")
-            ->having("COUNT(categories.id) = 0")
+            ->having("COUNT(categories.id) > 1")
             ->groupBy("q.id")
             ->getQuery()
-            ->useResultCache(true, 3600, 'list_collections_no_categories')
+            ->useResultCache(true, 3600, 'list_collections_multi_categories')
             ->getResult();
     }
 
@@ -35,6 +37,42 @@ class CollectionRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->useResultCache(true, 3600, 'list_collections_top_10')
+            ->getResult();
+    }
+
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function findByLast($limit = 6)
+    {
+        return $this->createQueryBuilder('q')
+            ->leftJoin('q.products', 'products')
+            ->groupBy('q.id')
+            ->having('COUNT(products.id) > 2')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Category $category
+     * @param int $limit
+     * @return array
+     */
+    public function findByCategory(Category $category, $limit = 6)
+    {
+        return $this->createQueryBuilder('q')
+            ->leftJoin('q.products', 'products')
+            ->leftJoin('q.categories', 'categories')
+            ->leftJoin('q.image', 'image')
+            ->groupBy('q.id')
+            ->where('categories.id = :category')
+            ->andWhere("image.image IS NOT NULL")
+            ->setParameter('category', $category)
+            ->having('COUNT(products.id) > 2')
+            ->setMaxResults($limit)
+            ->getQuery()
             ->getResult();
     }
 }

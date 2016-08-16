@@ -18,7 +18,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findAllForNoCategories();
+        $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findAllForMultiCategories();
 
         $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')->findByParentCache(null);
 

@@ -59,6 +59,13 @@ class Category
      */
     private $collections;
 
+    /**
+     * @ORM\OneToOne(targetEntity="CategoryImage", mappedBy="category")
+     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
+     */
+    private $image;
+
+
 
     public function __construct() {
         $this->children = new ArrayCollection();
@@ -271,6 +278,24 @@ class Category
         return $this;
     }
 
+    /**
+     * @return CategoryImage
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param CategoryImage $image
+     * @return Category
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
 
 
 }

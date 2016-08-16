@@ -12,7 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryRepository extends EntityRepository
 {
-
+    /**
+     * @param $parent
+     * @return array
+     */
     public function findByParentCache($parent)
     {
         $q = $this->createQueryBuilder('c');
@@ -28,6 +31,10 @@ class CategoryRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $slug
+     * @return array
+     */
     public function findBySlugCache($slug)
     {
         return $this->createQueryBuilder('c')
@@ -38,6 +45,10 @@ class CategoryRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $parent
+     * @return array
+     */
     public function findByParentHavingChildrenCache($parent)
     {
         $q = $this->createQueryBuilder('c');
@@ -57,4 +68,20 @@ class CategoryRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function findByWithImageAndCollections($limit = 4)
+    {
+        return $this->createQueryBuilder("q")
+            ->leftJoin('q.image', 'image')
+            ->leftJoin('q.collections', 'collections')
+            ->where("image.image IS NOT NULL")
+            ->groupBy("q.id")
+            ->having("COUNT(collections.id) > 0")
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }
