@@ -380,7 +380,7 @@ var Deposit = {
 
         $('#product-length, #product-width, #product-height, #product-weight').blur(function() {
 
-            var dim = $('#product-height').val() + $('#product-length').val() + $('#product-width').val();
+            var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
 
             if ($('#product-weight').val() >= 30 || dim >= 150) {
                 $('input[name="shipping_fees"]').rules("add", "required");
