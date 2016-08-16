@@ -43,7 +43,10 @@ class CollectionController extends Controller
      */
     public function collectionAction(Collection $collection)
     {
-        return ['collection' => $collection, 'products' => $collection->getProducts()];
+        $products = $this->getDoctrine()->getRepository("ProductBundle:Product")
+            ->findByValidStatusAndCollection($collection);
+
+        return ['collection' => $collection, 'products' => $products];
     }
 
     /**

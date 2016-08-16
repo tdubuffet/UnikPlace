@@ -2,6 +2,7 @@
 
 namespace ProductBundle\Repository;
 
+use ProductBundle\Entity\Collection;
 use ProductBundle\Entity\Product;
 use UserBundle\Entity\User;
 
@@ -69,6 +70,31 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->orWhere("q.status = :status2")
             ->orWhere("q.status = :status3")
             ->andWhere("q.user = :user")
+            ->setParameters($params)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Collection $collection
+     * @return array
+     */
+    public function findByValidStatusAndCollection(Collection $collection)
+    {
+        $params = [
+            'collection' => $collection,
+            'status1' => "published",
+            'status2' => "sold",
+            'status3' => "unavailable"
+        ];
+
+        return $this->createQueryBuilder("q")
+            ->leftJoin('q.collections', 'collections')
+            ->leftJoin('q.status', 'status')
+            ->where('status.name = :status1')
+            ->orWhere('status.name = :status2')
+            ->orWhere('status.name = :status3')
+            ->andWhere('collections.id = :collection')
             ->setParameters($params)
             ->getQuery()
             ->getResult();
