@@ -353,7 +353,7 @@ var Deposit = {
     updateFinalAmount: function() {
         var amount = $('.valued-amount');
         var rate = Deposit.getFeeRate();
-        var valueAmount = Math.round(($('#product-price').val() * (100 - rate) / 100) - amount.data('fee'));
+        var valueAmount = ($('#product-price').val() * (100 - rate) / 100) - amount.data('fee');
         if (valueAmount <= 0) valueAmount = 0;
         valueAmount = valueAmount.toFixed(2);
         amount.text(valueAmount + ' €');
