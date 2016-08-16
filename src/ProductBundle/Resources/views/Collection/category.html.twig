@@ -54,17 +54,17 @@
                              src="{{ loadpic(collection.image, 500, 500, "f", "collections") }}"/>
                       </div>
                       {% set status = ['published', 'sold', 'unavailable'] %}
-                      {% set nb = 0 %}
-                      {% for product in collection.products if nb < 3 and product.status.name in status %}
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                          <div class="banner_top">
-                            <a href="{{ path('product_details', {'id': product.id, 'slug' : product.slug}) }}">
-                              <img class="img-responsive" alt="{{ product.name }}"
-                                   src="{{ loadpic(product.images[0], 70, 70, "f", "products") }}"/>
-                            </a>
+                      {% for product in collection.products if product.status.name in status %}
+                        {% if loop.index0 < 3 %}
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="banner_top">
+                              <a href="{{ path('product_details', {'id': product.id, 'slug' : product.slug}) }}">
+                                <img class="img-responsive" alt="{{ product.name }}"
+                                     src="{{ loadpic(product.images[0], 70, 70, "f", "products") }}"/>
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                        {% set nb = nb + 1 %}
+                        {% endif %}
                       {% endfor %}
                     </div>
                   {% endfor %}
