@@ -60,7 +60,8 @@ class Category
     private $collections;
 
     /**
-     * @ORM\OneToOne(targetEntity="CategoryImage", mappedBy="category")
+     * @ORM\OneToOne(targetEntity="CategoryImage")
+     * @ORM\JoinColumn(name="category_image_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $image;

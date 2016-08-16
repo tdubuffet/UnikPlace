@@ -18,7 +18,7 @@ easy_admin:
             new:
                 fields: ['name', 'parent']
             edit:
-                fields: ['name', 'parent']
+                fields: ['name', 'parent', 'image']
         Currency:
             class: ProductBundle\Entity\Currency
         Status:
@@ -153,7 +153,6 @@ easy_admin:
             edit:
                 fields:
                     - { property: 'imageFile', type: 'vich_image' }
-                    - 'category'
         City:
           class: LocationBundle\Entity\City
         DeliveryMode:

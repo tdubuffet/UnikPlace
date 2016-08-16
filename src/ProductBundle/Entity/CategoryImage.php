@@ -47,12 +47,6 @@ class CategoryImage
     private $imageFile;
 
     /**
-     * @ORM\OneToOne(targetEntity="ProductBundle\Entity\Category", inversedBy="image")
-     * @ORM\JoinColumn(name="category", referencedColumnName="id")
-     */
-    private $category;
-
-    /**
      * Get id
      *
      * @return int
@@ -89,25 +83,6 @@ class CategoryImage
     public function getImage()
     {
         return $this->image;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param mixed $category
-     * @return CategoryImage
-     */
-    public function setCategory($category)
-    {
-        $this->category = $category;
-
-        return $this;
     }
 
 
