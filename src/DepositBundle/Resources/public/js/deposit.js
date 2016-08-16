@@ -240,7 +240,8 @@ var Deposit = {
         });
 
         $('.color-choice input').click(function() {
-            $(this).parent('.color-choice').toggleClass('active');
+            $('.color-choice').removeClass('active');
+            $(this).parent('.color-choice').addClass('active');
         });
 
         var descriptionRules = {
