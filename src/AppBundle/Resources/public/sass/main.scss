@@ -5588,6 +5588,22 @@ div.main-navigation ul.top-navigation .menu-static-blocks {
     margin-bottom: 10px;
 }
 
+.top-navigation li.level0 ul li.groups .title_group_head_no_link {
+    background: none;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 100%;
+    border-bottom: 1px solid #dcdcdc;
+    letter-spacing: 0.1em;
+    padding: 0;
+    color: #333333 !important;
+    margin-bottom: 10px;
+    line-height: 2;
+    padding-bottom: 5px;
+    cursor: default;
+}
+
 .top-navigation .m-dropdown .menu-wrap-sub ul li .title_group_head {
   cursor: default;
   line-height: 30px;

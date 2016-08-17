@@ -24,32 +24,44 @@
     </a>
     {% if category.getChildren()|length > 0 %}
       <div class="level0 menu-wrap-sub">
-        <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-4col">
+        <div class="ulmenu-block ulmenu-block-center menu-items grid12-3 itemgrid itemgrid-4col">
           <ul class="level0">
-            {% for childCategory in category.getChildren() %}
-              <li class="level1 groups item">
-                <a href="{{ path('category', {path: childCategory.getPath()}) }}">
-                  <span class="title_group">{{ childCategory.getName }}</span>
-                </a>
-                {% if childCategory.getChildren()|length > 0 %}
+              <li class="level1 groups">
+                <span class="title_group_head_no_link">Catégorie</span>
                   <div class="menu-wrapper">
                     <ul class="level1">
-                      {% for subChildCategory in childCategory.getChildren() %}
+                      {% for childCategory in category.getChildren() %}
                         <li class="level2">
-                          <a href="{{ path('category', {path: subChildCategory.getPath()}) }}">
-                            <span>{{ subChildCategory.getName }}</span>
+                          <a href="{{ path('category', {path: childCategory.getPath()}) }}">
+                            <span>{{ childCategory.getName }}</span>
                           </a>
                         </li>
                       {% endfor %}
                     </ul>
                   </div>
-                {% endif %}
               </li>
-            {% endfor %}
           </ul>
         </div>
+
+        <div class="ulmenu-block ulmenu-block-center menu-items grid12-3 itemgrid itemgrid-4col">
+          <ul class="level0">
+              <li class="level1 groups">
+                  <span class="title_group_head_no_link">Prix</span>
+                  <div class="menu-wrapper">
+                    <ul class="level1">
+                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-max="100"><span>Inférieur à 100 €</span></a></li>
+                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="100" data-max="500"><span>Entre 100 et 500 €</span></a></li>
+                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="500" data-max="1000"><span>Entre 500 et 1 000 €</span></a></li>
+                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="1000" data-max="2000"><span>Entre 1 000 et 2 000 €</span></a></li>
+                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="2000"><span>Supérieur à 2 000 €</span></a></li>
+                    </ul>
+                  </div>
+              </li>
+          </ul>
+        </div>
+
         {% if category.getCollections()|length > 0 %}
-          <div class="ulmenu-block ulmenu-block-bottom grid12-12 std">
+          <div class="ulmenu-block ulmenu-block-bottom grid12-4 std">
             <div class="row">
               {% set nb = 0 %}
               {% for collection in category.getCollections() if nb < 4 %}

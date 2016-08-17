@@ -45,6 +45,13 @@ var Common = {
             }
         });
 
+        // Price range links in menu
+        $('.menu-price-range-link').click(function(){
+            var min = $(this).data('min') ? $(this).data('min') : '';
+            var max = $(this).data('max') ? $(this).data('max') : '';
+            window.location = Routing.generate('search')+'?cat='+$(this).data('cat')+'&price='+min+'-'+max;
+        });
+
         $('.search-cat-filters > li').click(function(){
             var searchCatFilter = $(this).find('a').text();
             var searchCatId = $(this).find('a').data('id');
