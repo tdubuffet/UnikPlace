@@ -63,22 +63,21 @@
         {% if category.getCollections()|length > 0 %}
           <div class="ulmenu-block ulmenu-block-center grid12-6 std itemgrid itemgrid-4col menu-items">
             <div class="groups">
-            <span class="title_group_head_no_link">Tendances</span>
+            <span class="title_group_head_no_link tendance">Tendances</span>
             <div class="row">
-              {% set nb = 0 %}
-              {% for collection in category.getCollections() if nb < 4 %}
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                  <a href="{{ path('collection', {'slug' : collection.slug}) }}">
-                    {% if collection.image is not null %}
-                      <img class="img-responsive" alt="{{ collection.name }}"
-                         src="{{ loadpic(collection.image, 600, 200, "r3", "collections") }}"/>
-                    {% else %}
-                      {{ collection.name }}
-                    {% endif %}
-                  </a>
-
-                </div>
-                {% set nb = nb+1 %}
+              {% for collection in category.getCollections() %}
+                {% if loop.index0 < 4 %}
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 tendance-link">
+                    <a href="{{ path('collection', {'slug' : collection.slug}) }}" class="">
+                      {% if collection.image is not null %}
+                        <img class="img-responsive" alt="{{ collection.name }}"
+                             src="{{ loadpic(collection.image, 200, 100, "f", "collections") }}"/>
+                      {% else %}
+                        {{ collection.name }}
+                      {% endif %}
+                    </a>
+                  </div>
+                {% endif %}
               {% endfor %}
             </div>
             </div>

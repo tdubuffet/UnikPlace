@@ -5618,6 +5618,14 @@ div.main-navigation ul.top-navigation .menu-static-blocks {
     cursor: default;
 }
 
+.top-navigation .groups .title_group_head_no_link.tendance {
+  padding: 5px 0 5px 0;
+}
+
+.tendance-link a {
+  padding: 0 0 15px;
+}
+
 .top-navigation .m-dropdown .menu-wrap-sub ul li .title_group_head {
   cursor: default;
   line-height: 30px;
