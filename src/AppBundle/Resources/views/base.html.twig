@@ -289,8 +289,11 @@
                          class="level-top"><span>Accueil</span></a>
                     </li>
                     {{ render(controller('AppBundle:Default:categories')) }}
-                    <li class="level0 nav-end level-top">
+                    <li class="level0 nav-end nav-right nav-sell level-top">
                       <a href="{{ path('sell_category') }}" class="level-top">Vendez</a>
+                    </li>
+                    <li class="level0 nav-end nav-right level-top">
+                      <a href="{{ path('about') }}" class="level-top">Découvrez-nous</a>
                     </li>
                   </ul>
                 </div>
