@@ -40,6 +40,11 @@ var Search = {
                 $('select.attribute-search-filter').change(function() {
                     Search.search();
                 });
+
+                $('.attribute-search-filter-multiselect2').change(function() {
+                    Search.search();
+                });
+
                 $('.attribute-search-filter-color div').click(function() {
                     if ($(this).hasClass('active')) {
                         $(this).removeClass('active');
@@ -311,6 +316,29 @@ var Search = {
                 }
             });
         });
+
+
+        // multiselect2
+        var multiselects2 = [];
+        $('.attribute-search-filter-multiselect2').each(function(index) {
+            multiselects2.push($(this).data('key'));
+        });
+
+        console.log(multiselects2);
+        $(multiselects2).each(function(index, key) {
+            delete Search.params[key];
+            var vals = $("#attribute-search-filter-multiselect2-"+key).select2("val");
+
+
+            $(vals).each(function( index, value) {
+                if (!Search.params[key]) {
+                    Search.params[key] = value;
+                } else {
+                    Search.params[key] += ','+ value;
+                }
+            });
+        });
+
         // End of product attributes filters
 
         Search.params.sort = $('.sort_by_value').val();

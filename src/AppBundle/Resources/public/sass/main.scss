@@ -7900,16 +7900,24 @@ table.table-carts {
 
 /* ------------------------ SELECT2 ------------------------ */
 
+.select2-container .select2-selection--multiple{
+  min-height: 35px;
+}
 .select2-container .select2-selection--single {
   height: 35px;
 }
 
+.select2-container .select2-selection--multiple,
 .select2-container--default .select2-selection--single {
   border-radius: 2px;
   border: 1px solid #e5e5e5;
   box-shadow: 0 0 5px 0 #eaeaea inset;
   padding: 3px 4px;
   font-size: 14px;
+}
+
+.select2-container .select2-selection--multiple{
+  font-size: 11px;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -7919,6 +7927,7 @@ table.table-carts {
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
   margin-top: 0px;
 }
+
 
 /* ------------------------ ABOUT ------------------------ */
 
