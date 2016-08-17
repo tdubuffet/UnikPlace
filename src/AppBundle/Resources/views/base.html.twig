@@ -480,7 +480,13 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              <address>{{ siteName }} {{ "now"|date('Y') }} - Tous droits réservés - Site d'achat, vente de biens d'occasions et neufs sécurisé.</address>
+              <address>
+                {{ siteName }} {{ "now"|date('Y') }} - Tous droits réservés - Site d'achat, vente de biens d'occasions et neufs sécurisé.
+                <p class="text-center">
+                  <img class="mangopay-credits text-center" src="{{ asset('bundles/app/images/mangopay.png') }}"
+                       alt="mangopay" height="26px">
+                </p>
+              </address>
             </div>
           </div>
         </div>
