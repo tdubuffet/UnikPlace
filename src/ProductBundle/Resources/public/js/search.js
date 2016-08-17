@@ -319,7 +319,7 @@ var Search = {
         Search.params.limit = $('.limiter_limit_value').val();
 
         $.each(Search.params, function (key, value) {
-            if ((value.length < 1) || (value.length == 1 && value == "-")) {
+            if ((value && value.length < 1) || (value && value.length == 1 && value == "-")) {
                 delete Search.params[key];
             }
         });
