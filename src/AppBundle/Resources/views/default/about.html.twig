@@ -1,12 +1,167 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="main">
 
-  <div class="container">
-    <h1>A propos</h1>
+        <h1>A propos de nous</h1>
 
-    <p>Mettre le à propos ici</p>
+        <h2 class="title-widget"><span>Le projet Unik Place</span></h2>
 
-  </div>
+        <div class="row">
+          <div class="col-md-6">
+            <h3 class="about-concept-title">Place de marché de meubles et objets déco d'occasion premium</h3>
+            <p class="about-concept-subtitle">
+              Mobilier de marque &laquo;&nbsp;premium&nbsp;&raquo; à haut de gamme<br />
+              Vente d'objets premium pour particuliers ou professionnels<br />
+              Un modèle de place de marché hybride
+            </p>
+
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-project-product premium-products">
+                  <div class="title-project-product">Produits &laquo;&nbsp;Premium&nbsp;&raquo;</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="box-project-product original-products">
+                  <div class="title-project-product">Produits originaux</div>
+                </div>
+              </div>
+            </div><!-- .row -->
+          </div>
+          <div class="col-md-6">
+            <div class="box-project-product turnkey-service">
+              <div class="title-project-product">Service de vente clef en main</div>
+              <div class="subtitle-project-product">Le vendeur nous confie la vente de son objet. Nous prenons en charge le dépôt du produit, les retouches photos, les échanges avec les acheteurs et la transaction.</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="box-project-product community-affinity">
+              <div class="title-project-product">Communauté affinitaire</div>
+              <div class="subtitle-project-product">Sélection de produits, rédaction d'articles / idées déco,<br />conseils des stylistes / home stagers</div>
+            </div>
+          </div>
+        </div><!-- .row -->
+
+        <h1 class="title-widget"><span>Nos valeurs</span></h1>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="text-center">
+              <img src="{{ asset('bundles/app/images/about/quality.png') }}" class="img-circle" alt="qualité">
+              <h5 class="one-value-title">Qualité du contenu</h5>
+            </div>
+            <div class="text">
+              Description des produits et retouche
+              des photos pour une meilleure mise
+              en avant des produits de dépôt
+              d'annonce très détaillée.
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="text-center">
+              <img src="{{ asset('bundles/app/images/about/security.png') }}" class="img-circle" alt="sécurité">
+              <h5 class="one-value-title">100% sécurisé</h5>
+            </div>
+            <div class="text">
+              Achetez ou vendez des produits d'occasion en toute sécurité !
+              Vous êtes assuré de recevoir l'argent des ventes ou de recevoir votre achat.
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="text-center">
+              <img src="{{ asset('bundles/app/images/about/user.png') }}" class="img-circle" alt="certifié">
+              <h5 class="one-value-title">Profils certifiés</h5>
+            </div>
+            <div class="text">
+              Sur Unik Place, chaque utilisateur, particuliers comme professionnels ont leurs
+              informations personnelles contrôlées et vérifiées.
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="text-center">
+              <img src="{{ asset('bundles/app/images/about/confidential.png') }}" class="img-circle" alt="confidentialité">
+              <h5 class="one-value-title">Confidentialité</h5>
+            </div>
+            <div class="text">
+              Par sécurité, les données des utilisateurs sont confidentielles. L'évaluation des
+              profils favorise une démarche d'achat ou de vente.
+            </div>
+          </div>
+        </div><!-- .row -->
+
+        <h1 class="title-widget"><span>Vendre sur Unik Place</span></h1>
+
+        <div class="box-make-deal">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="make-deal-text">
+                <div class="make-deal-title">Vous aussi ...</div>
+                <p class="make-deal-point">... Rejoignez notre communauté de vendeurs professionnels et particuliers</p>
+                <p class="make-deal-point">... Soyer payé facilement, rapidement et de manière sécurisée</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="make-deal-sell"></div>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="title-widget"><span>Acheter sur Unik Place</span></h1>
+
+        <div class="box-make-deal">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="make-deal-purchase"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="make-deal-text">
+                <div class="make-deal-title">Unik Place vous assure ...</div>
+                <p class="make-deal-point">... Un paiement et une livraison sécurisés</p>
+                <p class="make-deal-point">... Des produits d'occasion de qualité</p>
+                <p class="make-deal-point">... La confidentialité de vos données personnelles (adresse, nom, téléphone, email, etc...)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="title-widget"><span>En savoir plus sur nous</span></h1>
+
+        <div class="row">
+          <div class="col-md-3 more-about-us"></div>
+          <div class="col-md-8 col-md-offset-1">
+            <p>L'idée est née assez simplement. Banale histoire d'un aménagement. Le choix des meubles : un ameublement « standardisé » ou un ameublement « spécialisé » ? L'envie de nouveauté et d'originalité après 6 mois de travaux intenses s'impose comme une évidence. Mais après quelques magasins spécialisés, je comprends que mon PEL ne suffira même pas à payer l'accoudoir de mon canapé. Il est temps d'innover. Partons surfer et dénicher le produit d'occasion moins cher.<br />
+            Mais après quelques heures, surfer dans la vase ne s'avère pas être mon exercice préféré : photos floues, descriptif incomplet, vendeurs inconnus, destinations exotiques,… Un bon story telling enchainerait sur « Et c'est à ce moment là que j'ai eu l'idée de créer Unik Place ». En fait, non. Mon frère me dit un soir : « Si tu n'as pas trouvé, c'est que ça n'existe pas, alors lance toi ». Une évidence. Ainsi est né Unik-place.com.</p>
+
+            <p>Sur Unik Place vous pourrez vendre vos meubles et objets de décoration de qualité. Les objets sont sélectionnés par nos spécialistes afin qu'ils aient un caractère unique, original ou premium. Vous ne retrouverez pas des articles de grande distribution mais uniquement du mobilier de marques et designers indépendants ou de marque de qualité. Vous découvrirez également de nombreux contenus vous permettant de savourer nos inspirations et découvrir nos sélections de produits.</p>
+
+            <p>Ce n'est que le début ! Nous allons créer de nouvelles tendances et de nouvelles lignes de produits afin de proposer les produits originaux introuvables ailleurs. Nous construisons également pour vous un nouveau service inédit pour la vente de votre mobilier haut de gamme… Mais chut, ce n'est que le début.</p>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="box-need-help">
+                  <div class="title-need-help">Besoin d'aide ?</div>
+                  <p>Vous avez besoin d'aide, vous pouvez contacter notre équipe de support.</p>
+                  <a href="{{ path('contact') }}" class="btn btn-primary">Nous contacter</a>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="about-contact">
+                  <span class="item-info"><i class="fa fa-university"></i><span class="address">{{ website.contact.address }}</span> </span>
+                  <span class="item-info"><i class="fa fa-envelope-o"></i><a href="mailto:{{ website.contact.email }}" class="email">{{ website.contact.email }}</a> </span>
+                  <span class="item-info"><i class="fa fa-phone"></i><a href="tel:{{ website.contact.phone|replace({' ' : ''}) }}" class="phone">{{ website.contact.phone }}</a> </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .main -->
+    </div><!-- .container -->
+  </div><!-- .main-wrapper -->
 
 {% endblock %}
