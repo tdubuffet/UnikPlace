@@ -922,4 +922,9 @@ class User extends BaseUser implements ParticipantInterface
     {
         $this->proposals->removeElement($proposal);
     }
+
+    public function isModerator()
+    {
+        return $this->hasRole('ROLE_ADMIN');
+    }
 }

@@ -15,5 +15,15 @@
      color: $brand-primary;
      margin-bottom: 5px;
    }
+
+
+
+   &.moderator{
+     border: 1px solid rgb(235,213,112);
+     background: lighten(#c9c9c9, 30%);
+     .messenger_thread_message_body{
+
+     }
+   }
  }
 }

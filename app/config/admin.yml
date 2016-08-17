@@ -213,6 +213,7 @@ easy_admin:
             - { label: 'Ecommerce' }
             - { label: 'Modération', route: 'admin_moderate' }
             - Order
+            - { label: 'Litiges', route: 'admin_disputes' }
             - Product
             - Image
             - AttributeValue

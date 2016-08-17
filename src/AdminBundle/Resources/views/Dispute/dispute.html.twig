@@ -1,0 +1,123 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block body_class %}easyadmin sidebar-mini show{% endblock %}
+
+{% block content_title %}
+  Litige sur la commande #{{ order.id }}
+{% endblock %}
+
+{% block main %}
+
+
+  <section id="main" class="content">
+
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Produit</td>
+            <td>
+              {{ order.product.name }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Prix</td>
+            <td>
+              Commande: {{ order.amount }} €<br />
+              Produit: {{ order.productAmount }} €<br />
+              Livraison: {{ order.deliveryAmount }} €<br />
+            </td>
+          </tr>
+
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Type de livraison</td>
+            <td>
+
+              {{ order.delivery.deliveryMode }} - Frais de livraison: {{ order.delivery.fee }} €
+
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Adresse de livraison</td>
+            <td>
+
+              {{ order.deliveryAddress.name }}<br />
+              {{ order.deliveryAddress.street }}
+              {{ order.deliveryAddress.additional }}<br />
+              {{ order.deliveryAddress.city.zipcode }}
+              {{ order.deliveryAddress.city.name }}
+
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Acheteur</td>
+            <td>
+              {{ order.user }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Vendeur</td>
+            <td>
+              {{ order.product.user }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Date de commande</td>
+            <td>
+              {{ order.createdAt|date('d/m/Y H:i')}}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-bold" style="width: 20%">Date de mise à jour</td>
+            <td>
+              {{ order.updatedAt|date('d/m/Y H:i')}}
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+      <h3>Messages</h3>
+
+      {% if thread %}
+        {% for message in thread.messages %}
+          <div class="messenger_thread_message">
+            <div class="messenger_thread_message_info text-bold">
+              {% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date('d/m/Y H:i')} from 'FOSMessageBundle' %}message_info{% endtrans %}
+            </div>
+
+            <div class="messenger_thread_message_body" id="message_{{ message.id }}">
+              {{ message.body|raw }}
+            </div>
+            <hr />
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <h4>{% trans from 'FOSMessageBundle' %}reply{% endtrans %}</h4>
+
+      <form action="" method="post">
+        {{ form_widget(form) }}
+
+        <input class="btn btn-success" name="message" type="submit" value="Envoyer le message"/>
+        <input class="btn btn-primary" name="close" type="submit" value="Fermer le litige"/>
+        <input class="btn btn-danger" name="refund" type="submit" value="Rembourser la commande"/>
+      </form>
+
+
+    </div>
+
+
+  </section>
+
+
+{% endblock %}
