@@ -253,7 +253,7 @@ button.button span {
   border-radius: 4px;
 }
 .header-wrapper .header-right-wrapper {
-  padding:30px 0;
+  padding: 3px 0 30px;
   width:100%;
   float:left;
 }
@@ -740,13 +740,13 @@ button.button span {
 }
 
 .header-wrapper .header-container .header-account-action {
-  width: 3.9%;
+  width: 4.4%;
   float:left;
   padding:10px 0px 0;
 }
 
 .header-wrapper .header-container #notificationLi {
-  width: 3.9%;
+  width: 4.3%;
   float:left;
   margin:0px 15px 0 0px;
 }
@@ -1008,7 +1008,7 @@ button.button span {
   float:left;
   margin:0;
   position:relative;
-  width:70.15%;
+  width: 68.9%;
   padding:10px 15px 0;
 }
 .header-wrapper .header-container .header-search .search-container .icon-search {
@@ -5927,17 +5927,17 @@ ul.nav-accordion li span.collapse {
 */
 
 /* 940px <= width < 1170px */
-@media (min-width: 940px) and (max-width: 1170px) {
+@media (min-width: 940px) and (max-width: 1199px) {
     .header-wrapper .header-container .header-search,
     .header-wrapper .header-container .header-maincart,
     .header-wrapper .header-container .header-setting {
         /*width: 45px;*/
     }
     .header-wrapper .header-container .header-search {
-        width: 73.5%;
+        width: 78%;
     }
     .header-wrapper .header-container .header-maincart {
-        width: 26.5%;
+        width: 22%;
     }
 }
 
