@@ -22,36 +22,37 @@
   </button>
 
   {% if addresses|length() > 0 %}
-
-    <table class="table table-addresses">
-      <thead>
-      <tr>
-        <th>Nom Prénom</th>
-        <th>Rue</th>
-        <th>Ville</th>
-        <th>Code postal</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for address in addresses %}
+    <div class="table-responsive">
+      <table class="table table-addresses">
+        <thead>
         <tr>
-          <td>{{ address.name }}</td>
-          <td>{{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %}</td>
-          <td>{{ address.city.name }}</td>
-          <td>{{ address.city.zipcode }}</td>
-          <td>
-            {% set formated = "#{address.name} - #{address.street} #{address.city.zipcode} #{address.city.name}" %}
-            <button class="btn btn-danger btn-xs" data-id="{{ address.id }}" data-name="{{ formated }}"
-                    title="Supprimer mon adresse">
-              <i class="fa fa-trash"></i>
-            </button>
-          </td>
+          <th>Nom Prénom</th>
+          <th>Rue</th>
+          <th>Ville</th>
+          <th>Code postal</th>
+          <th>Actions</th>
         </tr>
-      {% endfor %}
-      </tbody>
+        </thead>
+        <tbody>
+        {% for address in addresses %}
+          <tr>
+            <td>{{ address.name }}</td>
+            <td>{{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %}</td>
+            <td>{{ address.city.name }}</td>
+            <td>{{ address.city.zipcode }}</td>
+            <td>
+              {% set formated = "#{address.name} - #{address.street} #{address.city.zipcode} #{address.city.name}" %}
+              <button class="btn btn-danger btn-xs" data-id="{{ address.id }}" data-name="{{ formated }}"
+                      title="Supprimer mon adresse">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
 
-    </table>
+      </table>
+    </div>
 
   {% else %}
     <p>Vous n'avez aucune adresse d'associée à votre compte pour le moment</p>

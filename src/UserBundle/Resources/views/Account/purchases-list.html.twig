@@ -6,10 +6,10 @@
 {% block account_content %}
 
   <h2>Mes achats</h2>
+  <div class="table-responsive">
+    <table class="table table-products">
 
-  <table class="table table-products">
-
-    <thead>
+      <thead>
       <tr>
         <th colspan="2">Nom du produit</th>
         <th>Montant</th>
@@ -18,23 +18,25 @@
         <th>Date</th>
         <th>Actions</th>
       </tr>
-    </thead>
+      </thead>
 
-    <tbody>
+      <tbody>
 
       {% for order in orders %}
         <tr>
           <td>
             {% set images = order.product.getImages() %}
-            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 50, 50) }}{% endif %}" alt="{{ order.product.name }}" />
+            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 50, 50) }}{% endif %}"
+                 alt="{{ order.product.name }}"/>
           </td>
           <td class="title">
             {{ order.product.name }}
           </td>
-          <td>{{ order.amount }} {% if order.currency.code|lower == 'eur'  %}€{% endif %}</td>
+          <td>{{ order.amount }} {% if order.currency.code|lower == 'eur' %}€{% endif %}</td>
           <td>
             {{ order.delivery.deliveryMode.name }}
-            {% if order.delivery.deliveryMode.code != 'by_hand' %} <br/> Frais de port de <b>{{ order.delivery.fee }}</b>€{% endif %}
+            {% if order.delivery.deliveryMode.code != 'by_hand' %} <br/> Frais de port de
+              <b>{{ order.delivery.fee }}</b>€{% endif %}
           </td>
           <td>
             {% if order.status == 'pending' %}
@@ -57,7 +59,8 @@
             {% endif %}
           </td>
           <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
-          <td><a class="btn btn-primary btn-xs" href="{{ path('user_account_purchase', { id: order.id}) }}"><i class="fa fa-eye"></i> Voir</a></td>
+          <td><a class="btn btn-primary btn-xs" href="{{ path('user_account_purchase', { id: order.id}) }}"><i
+                      class="fa fa-eye"></i> Voir</a></td>
         </tr>
       {% else %}
 
@@ -65,10 +68,10 @@
 
       {% endfor %}
 
-    </tbody>
+      </tbody>
 
-  </table>
-
+    </table>²
+  </div>
   {% if orders.getNbPages() > 1 %}
     {{ pagerfanta(orders, "twitter_bootstrap3_translated", pagerfanta_opts) }}
   {% endif %}
