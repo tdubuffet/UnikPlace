@@ -19,82 +19,88 @@
         {% if products is empty %}
           <p>Votre panier est vide.</p>
         {% else %}
-
           <form action="{{ path(app.request.attributes.get('_route')) }}" method="post" id="form-carts">
-            <table class="table table-carts">
-              <thead>
-              <tr>
-                <th>Produit</th>
-                <th>Nom</th>
-                <th>Ville</th>
-                <th colspan="2">Mode de livraison</th>
-                <th>Prix</th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for product in products %}
+            <div class="table-responsive">
+              <table class="table table-carts">
+                <thead>
                 <tr>
-                  <td>
-                    <a target="_blank"
-                       href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
-                      {% if product.getImages()[0] is defined %}<img src="{{ loadpic(product.getImages()[0], 88, 88) }}"
-                                                                     alt="{{ product.name }} " />{% endif %}
-                    </a>
-                  </td>
-                  <td><a target="_blank"
-                         href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a>
-                  </td>
-                  <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
-                  <td>
-                    <label for="cartDeliverySelection" class="sr-only"></label>
-                    <select name="{{ product.getId() }}" class="cartDeliverySelection form-control input-sm" id="cartDeliverySelection">
-                      {% for delivery in product.deliveries %}
-                        {% set fee = delivery.fee == 0 ? 'Gratuit' : "+"~ delivery.fee|currency_format('EUR') %}
-                        <option data-fee="{{ delivery.fee }}" value="{{ delivery.deliveryMode.code }}">
-                          {{ delivery.deliveryMode.name }} ({{ fee }})
-                        </option>
-                      {% endfor %}
-                    </select>
-                  </td>
-                  <td style="max-width: 5%;">
-                    <button title="Retirer de mon panier" type="button" class="btn btn-link btn-remove" data-id="{{ product.id }}"><i
-                              class="fa fa-trash"></i></button>
-                  </td>
-                  <td class="text-right">
-                    {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
-                    {% if product.getCurrency.getCode != 'EUR' %}
-                      ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
-                    {% endif %}
+                  <th>Produit</th>
+                  <th>Nom</th>
+                  <th>Ville</th>
+                  <th colspan="2">Mode de livraison</th>
+                  <th>Prix</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                  <tr>
+                    <td>
+                      <a target="_blank"
+                         href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                        {% if product.getImages()[0] is defined %}<img
+                          src="{{ loadpic(product.getImages()[0], 88, 88) }}"
+                          alt="{{ product.name }} " />{% endif %}
+                      </a>
+                    </td>
+                    <td><a target="_blank"
+                           href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a>
+                    </td>
+                    <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
+                    <td>
+                      <label for="cartDeliverySelection" class="sr-only"></label>
+                      <select name="{{ product.getId() }}" class="cartDeliverySelection form-control input-sm"
+                              id="cartDeliverySelection">
+                        {% for delivery in product.deliveries %}
+                          {% set fee = delivery.fee == 0 ? 'Gratuit' : "+"~ delivery.fee|currency_format('EUR') %}
+                          <option data-fee="{{ delivery.fee }}" value="{{ delivery.deliveryMode.code }}">
+                            {{ delivery.deliveryMode.name }} ({{ fee }})
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </td>
+                    <td style="max-width: 5%;">
+                      <button title="Retirer de mon panier" type="button" class="btn btn-link btn-remove"
+                              data-id="{{ product.id }}"><i
+                                class="fa fa-trash"></i></button>
+                    </td>
+                    <td class="text-right">
+                      {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                      {% if product.getCurrency.getCode != 'EUR' %}
+                        ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% else %}
+                  <tr>
+                    <td colspan="6" class="text-center">Aucun produit dans le panier</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot class="text-right">
+                <tr>
+                  <td colspan="5" class="text-right label-table">Total produit</td>
+                  <td colspan="1"><span class="totalProduct"
+                                        data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span>
                   </td>
                 </tr>
-              {% else %}
-                <tr>
-                  <td colspan="6" class="text-center">Aucun produit dans le panier</td>
+                <tr class="no-border">
+                  <td colspan="5" class="label-table">Estimation des frais de livraison</td>
+                  <td colspan="1"><span class="totalDelivery"></span></td>
                 </tr>
-              {% endfor %}
-              </tbody>
-              <tfoot class="text-right">
-              <tr>
-                <td colspan="5" class="text-right label-table">Total produit</td>
-                <td colspan="1"><span class="totalProduct"
-                                      data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span>
-                </td>
-              </tr>
-              <tr class="no-border">
-                <td colspan="5" class="label-table">Estimation des frais de livraison</td>
-                <td colspan="1"><span class="totalDelivery"></span></td>
-              </tr>
-              <tr class="no-border">
-                <td colspan="5" class="label-table">Total TTC</td>
-                <td colspan="1"><span class="totalOrder">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span></td>
-              </tr>
-              </tfoot>
-            </table>
+                <tr class="no-border">
+                  <td colspan="5" class="label-table">Total TTC</td>
+                  <td colspan="1"><span class="totalOrder">{{ (productsTotalPrice+0)|currency_format('EUR') }}</span>
+                  </td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
 
             <div class="text-right">
               <input class="btn btn-primary" type="submit" value="Finaliser ma commande">
             </div>
           </form>
+
         {% endif %}
 
       </div><!-- .main -->
