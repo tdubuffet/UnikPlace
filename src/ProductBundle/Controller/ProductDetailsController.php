@@ -49,7 +49,7 @@ class ProductDetailsController extends Controller
         }
 
         if (isset($existThread) && !$existThread) {
-            $process = $this->get('app.message')->processSentProductMessage($request, $product);
+            $process = $this->get('app.message')->processSentProductMessage($request, $product, $product->getUser());
 
             if ($process === true) {
                 //Reset request

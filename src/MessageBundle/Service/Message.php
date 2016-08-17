@@ -33,7 +33,7 @@ class Message
      * @return bool|\Symfony\Component\Form\FormInterface
      * @throws \Exception
      */
-    public function processSentProductMessage(Request $request, Product $product)
+    public function processSentProductMessage(Request $request, Product $product, $recipient)
     {
         $formMessage = $this->container
             ->get('form.factory')
@@ -48,8 +48,9 @@ class Message
             $threadSender   = $this->container->get('fos_message.sender');
             $threadBuilder  = $this->container->get('fos_message.composer_product')->newThread();
 
+
             $message = $threadBuilder
-                ->addRecipient($product->getUser())
+                ->addRecipient($recipient)
                 ->setSender($sender)
                 //->setSubject($data['subject'])
                 ->setBody($data['body'])

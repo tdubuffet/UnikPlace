@@ -301,7 +301,14 @@ class AccountController extends Controller
                 return $this->redirect($request->headers->get('referer'));
             }
         } else {
-            $form = $this->get('app.message')->processSentProductMessage($request, $order->getProduct());
+
+            $recipient = $order->getProduct()->getUser();
+
+            if ($this->getUser() == $recipient) {
+                $recipient = $order->getUser();
+            }
+
+            $form = $this->get('app.message')->processSentProductMessage($request, $order->getProduct(), $recipient);
 
             if ($form === true) {
                 return $this->redirect($request->headers->get('referer'));
@@ -353,6 +360,7 @@ class AccountController extends Controller
             'sale'          => $sale,
             'thread'        => $thread,
             'formMessage'   => (isset($form)) ? $form->createView() : null,
+            'disputeMessage'   => (isset($form)) ? $form->createView() : null,
             'formRating'    => (isset($formRating)) ? $formRating->createView() : null
         ];
 

@@ -313,20 +313,29 @@
     <div class="modal fade" id="dispute" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          {{ form_start(formMessage) }}
+          {{ form_start(disputeMessage) }}
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">{% if order.status =="accepted" %}Ouvrir un litige{% else %}Fermer le litige{% endif %}</h4>
             </div>
             <div class="modal-body">
 
+
             {% if order.status =="accepted" %}
-              Après l'ouverture de votre litige, l'équipe de modération {{ siteName }} vous contactera pour trouver rapidement une solution.
+              <div class="form-group">
+                {{ form_row(disputeMessage.body, {'attr': {'class': 'form-control', 'rows': '4'}, 'label': 'Raison de l\'ouverture du litige:'}) }}
+              </div>
+
+              {{ form_rest(disputeMessage) }}
 
               <input type="hidden" name="action" value="disputeOrder" />
             {% else %}
 
-              Êtes-vous sûr de fermer le litige ?
+              <div class="form-group">
+                {{ form_row(disputeMessage.body, {'attr': {'class': 'form-control', 'rows': '4'}, 'label': 'Raison de la fermeture du litige:'}) }}
+              </div>
+
+              {{ form_rest(disputeMessage) }}
 
               <input type="hidden" name="action" value="closeDisputeOrder" />
             {% endif %}
