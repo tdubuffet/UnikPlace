@@ -1,0 +1,21 @@
+<dl>
+  <dt>{{ label }}</dt>
+  <dd>
+    <ol>
+      <li>
+        <select class="attribute-search-filter form-control select-select2 attribute-field" data-key="{{ id }}"
+                id="attribute-search-filter-{{ id }}"  multiple="multiple">
+          {% for value in referentialValues %}
+          <option value="{{ value.getId() }}">{{ value.getValue() }}</option>
+          {% endfor %}
+        </select>
+      </li>
+    </ol>
+  </dd>
+</dl>
+
+<script>
+  $(document).ready(function() {
+    $("#attribute-search-filter-{{ id }}").select2();
+  });
+</script>

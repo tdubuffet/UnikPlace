@@ -11,7 +11,7 @@ class LoadAttributeSearchTemplatesData extends AbstractFixture implements Ordere
 {
     public function load(ObjectManager $manager)
     {
-        $templates = ['text', 'number', 'range', 'select', 'color', 'multiselect', 'select2'];
+        $templates = ['text', 'number', 'range', 'select', 'color', 'multiselect', 'select2', 'multiselect2'];
         foreach ($templates as $templateName) {
             $template = new AttributeSearchTemplate();
             $template->setName($templateName);
