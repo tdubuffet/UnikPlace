@@ -309,7 +309,9 @@ var Deposit = {
 
         // hide select error if it's still displayed
         $("select").on("select2:close", function (e) {
-            $(this).valid();
+            if ($(this).data("required") == true) {
+                $(this).valid();
+            }
         });
     },
 
