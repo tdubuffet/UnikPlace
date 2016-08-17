@@ -2,6 +2,7 @@
 
 namespace DepositBundle\Controller;
 
+use ProductBundle\Entity\Attribute;
 use ProductBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -554,7 +555,11 @@ class DepositController extends Controller
     private function setAttributesInSession($attributes, $listAttributes) {
         // Reset possible attribute values
         $attribute_values = [];
+        /** @var Attribute $attribute */
         foreach ($attributes as $attribute) {
+            if (!isset($listAttributes[$attribute->getCode()]) && !$attribute->getMandatory()) {
+                continue;
+            }
             $postValue = $listAttributes[$attribute->getCode()];
             $referential = $attribute->getReferential();
             $referentialValues = [];
