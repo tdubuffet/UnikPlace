@@ -80,6 +80,7 @@ class CategoryRepository extends EntityRepository
             ->where("image.image IS NOT NULL")
             ->groupBy("q.id")
             ->having("COUNT(collections.id) > 0")
+            ->orderBy("q.updatedAt", "ASC")
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
