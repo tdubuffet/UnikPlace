@@ -12,8 +12,6 @@
   <section class="main-container col1-layout">
     <div class="main-wrapper">
       <div class="main">
-
-
         <div class="site-preface">
           <div class="" id="block-slide-home">
             <div class="slide-home owl-carousel">
@@ -48,38 +46,45 @@
           </div>
         </div>
 
-        <div class="container">
-          <div class="row show-grid">
-            <div class="block-container">
-              <div class="col-xs-12">
-                <h3 class="category-product title-widget"><span>Tendances</span></h3>
-                <div class="row">
-                  {% for collection in collections if collections is not null %}
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                      <div class="banner_top">
-                        <div class="overlay">
+        {% if collections is not null %}
+          <div class="container">
+            <div class="row show-grid">
+              <div class="block-container">
+                <div class="col-xs-12">
+                  <h3 class="category-product title-widget"><span>Tendances</span></h3>
+                  <div class="row">
+                    {% for collection in collections %}
+                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="banner_top">
+                          <div class="overlay">
                                 <span class="button">
-                                  <a href="{{ path('collection', {'slug' : collection.slug}) }}">{{ collection.name }}</a>
+                                  <a href="{{ path('collection', {'slug' : collection.slug}) }}">
+                                    {{ collection.name }}
+                                  </a>
                                 </span>
+                          </div>
+                          {% if collection.image is not null %}
+                            <img class="img-responsive" alt="{{ collection.name }}"
+                                 src="{{ loadpic(collection.image, 370, 270, "r3", "collections") }}"/>
+                          {% else %}
+                            <img class="img-responsive" alt="{{ collection.name }}" src="#"/>
+                          {% endif %}
                         </div>
-                        {% if collection.image is not null %}
-                          <img class="img-responsive" alt="{{ collection.name }}"
-                               src="{{ loadpic(collection.image, 370, 270, "r3", "collections") }}"/>
-                        {% else %}
-                          <img class="img-responsive" alt="{{ collection.name }}" src="#"/>
-                        {% endif %}
                       </div>
-                    </div>
-                  {% endfor %}
-                </div><!-- .row -->
-              </div><!-- .col -->
+                    {% endfor %}
+                  </div><!-- .row -->
+                </div><!-- .col -->
+              </div>
             </div>
           </div>
-        </div>
+        {% endif %}
 
         <div class="container">
           <div class="row">
             <div class="block-container">
+              <div class="col-sm-12">
+                <h3 class="category-product title-widget"><span>Nos valeurs</span></h3>
+              </div>
               <div class="col-sm-3">
                 <div class="text-center">
                   <img src="{{ asset('bundles/app/images/about/quality.png') }}" class="img-circle" alt="qualité">
@@ -128,20 +133,19 @@
         </div><!-- .container -->
 
         <div class="container container-category-product category-products">
-
-          {% for category in categories %}
-
-            {% if productsByCategory[category.slug] is defined and productsByCategory[category.slug]|length > 0 %}
-              <h3 class="category-product title-widget"><span>{{ category.name }}</span></h3>
-              <div class="category-products-container clearfix">
-                {% include 'ProductBundle:Search:product_grid.html.twig' with { 'products': productsByCategory[category.slug] } only %}
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-
-        <div class="container">
-          <div class="row show-grid">
+          <div class="row">
+            <div class="block-container">
+              {% for category in categories %}
+                {% if productsByCategory[category.slug] is defined and productsByCategory[category.slug]|length > 0 %}
+                  <div class="col-sm-12">
+                    <h3 class="category-product title-widget"><span>{{ category.name }}</span></h3>
+                    <div class="category-products-container clearfix">
+                      {% include 'ProductBundle:Search:product_grid.html.twig' with { 'products': productsByCategory[category.slug] } only %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
