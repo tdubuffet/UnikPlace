@@ -190,7 +190,7 @@ class DepositController extends Controller
                 }
             }
             foreach ($request->request->all() as $field => $value) {
-                if (strpos($field, 'attribute-') === 0) {
+                if (strpos($field, 'attribute-') === 0 && !empty($value)) {
                     list(, $fieldName) = explode('-', $field, 2);
                     $listAttributes[$fieldName] = $value;
                 }
