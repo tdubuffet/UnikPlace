@@ -12,6 +12,7 @@ namespace MessageBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\MessageBundle\Entity\Message as BaseMessage;
+use MessageBundle\Service\FilterMessage;
 
 
 /**
@@ -50,4 +51,13 @@ class Message extends BaseMessage
      * @var MessageMetadata[]|\Doctrine\Common\Collections\Collection
      */
     protected $metadata;
+
+
+    public function setBody($body)
+    {
+
+        $body = FilterMessage::clear($body);
+
+        parent::setBody($body);
+    }
 }

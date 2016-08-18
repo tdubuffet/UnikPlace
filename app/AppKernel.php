@@ -42,6 +42,7 @@ class AppKernel extends Kernel
             new CartBundle\CartBundle(),
             new OrderBundle\OrderBundle(),
             new DepositBundle\DepositBundle(),
+            new CommentBundle\CommentBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

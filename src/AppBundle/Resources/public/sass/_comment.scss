@@ -1,0 +1,33 @@
+.comment{
+
+  .comment-message{
+    border-top: 1px solid rgb(239,242,244);
+    margin-top: 3px;
+    padding: 8px;
+
+    &.reply{
+      background: rgb(247,247,247);
+      padding-left: 25px;
+    }
+
+    .header{
+      font-size: 0.85em;
+      color: #181818;
+      b{
+        color: rgb(138,42,227);
+      }
+    }
+
+    .btn-reply{
+      color: #181818;
+      border: 1px solid #181818;
+      margin: 2px
+    }
+  }
+
+  h4, h5, h6{
+    color: #181818;
+    text-transform: uppercase;
+  }
+
+}

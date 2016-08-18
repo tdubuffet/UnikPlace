@@ -233,7 +233,7 @@
                                         {{  product.price|currency_convert_format(product.getCurrency.getCode) }}
                                       </div>
                                       <div>
-                                        {% set img = images[0] is defined ? loadpic(images[0], 275, 275) : "#" %}
+                                        {% set img = images[0] is defined ? loadpic(images[0], 275, 275, imgType) : "#" %}
                                         <img class="img-responsive img-thumbnail"
                                              src="{{ img }}" alt="{{ product.name }}" />
                                       </div>
@@ -269,56 +269,6 @@
                       {% endif %}
 
 
-                      {% if app.user != product.user %}
-                      <div class="actions-wrapper">
-                        <div class="add-to-cart">
-                          <a class="actions" {% if thread %}href="{{ path('fos_message_thread_view', { threadId: thread[0].getId() }) }}"{% elseif app.user is null %} href="{{ path('fos_user_security_login', {'redirect_to' : (app.request.schemeAndHttpHost ~ app.request.requestUri)|url_encode }) }}" {% else %}href="#" onclick="return false;" data-toggle="modal" data-target="#message-modal"{% endif %}>
-                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' %}
-                              <div class="action-list contact-seller">
-                                <button type="button" data-toggle="tooltip" data-placement="top" title="Contacter le vendeur" class="btn-contact">
-                                  <span class="btn-contact-lbl">
-                                    <i class="fa fa-envelope"></i>
-                                    <span class="btn-contact-txt">Contacter le vendeur</span>
-                                  </span>
-                                </button>
-                              </div>
-                            {% endif %}
-
-                          </a><!-- .actions -->
-                        </div>
-                      </div><!-- .actions-wrapper -->
-
-                      {% if formMessage %}
-                      <div class="modal fade" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="message-modal-label">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              <h4 class="modal-title" id="message-modal-label">Contacter le vendeur</h4>
-                            </div>
-                            {{ form_start(formMessage) }}
-                            <div class="modal-body">
-
-                                <div class="form-group">
-                                  <label class="required">Message</label>
-                                  {{ form_widget(formMessage.body, {'attr': {'class': 'form-control', 'rows': 4}}) }}
-                                  {{ form_errors(formMessage.body) }}
-                                </div>
-
-                                {{ form_rest(formMessage) }}
-
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                              <button type="submit" class="btn btn-primary">Envoyer</button>
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-                      {% endif %}
-
-                      {% endif %}
 
                     </div><!-- .product-shop-wrapper -->
                   </div><!-- .product-shop -->
@@ -330,30 +280,41 @@
               <div class="product-collateral">
                 <ul id="product-tab" class="nav nav-tabs" role="tablist">
                   <li class=" active first">
+                    <a href="#product_tabs_comments" role="tab" data-toggle="tab">Commentaires</a>
+                  </li>
+                  <li>
                     <a href="#product_tabs_customfields" role="tab" data-toggle="tab">Caractéristiques</a>
                   </li>
                   <li>
                     <a href="#product_tabs_shipping" role="tab" data-toggle="tab">Frais de livraison</a>
                   </li>
                   {% if ratings %}
-                  <li>
-                    <a href="#product_tabs_ratings" role="tab" data-toggle="tab">Avis concernant le vendeur</a>
-                  </li>
+                    <li>
+                      <a href="#product_tabs_ratings" role="tab" data-toggle="tab">Avis concernant le vendeur</a>
+                    </li>
                   {% endif %}
                 </ul>
 
                 <div class="tab-content">
-                  <div class="tab-pane in active first" id="product_tabs_customfields">
+                  <div class="tab-pane in active first" id="product_tabs_comments">
+                    <div class="product-tabs-content-inner clearfix">
+                      <div class="std">
+                       {{ render(controller('CommentBundle:Default:thread', { request: app.request, id: product.id })) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="product_tabs_customfields">
                     <div class="product-tabs-content-inner clearfix">
                       <div class="std">
                         {% if productAttributes is empty %}
-                        <p>Aucune caractéristique renseignée pour ce produit.</p>
+                          <p>Aucune caractéristique renseignée pour ce produit.</p>
                         {% else %}
-                        <ul>
-                          {% for code, attribute in productAttributes if attribute.deposit != "color" %}
-                            <li>{{ attribute.name }} : {{ attribute.value }}</li>
-                          {% endfor %}
-                        </ul>
+                          <ul>
+                            {% for code, attribute in productAttributes if attribute.deposit != "color" %}
+                              <li>{{ attribute.name }} : {{ attribute.value }}</li>
+                            {% endfor %}
+                          </ul>
                         {% endif %}
                       </div>
                     </div>

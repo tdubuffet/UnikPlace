@@ -1,3 +1,8 @@
+comment:
+    resource: "@CommentBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 order:
     resource: "@OrderBundle/Controller/"
     type:     annotation
