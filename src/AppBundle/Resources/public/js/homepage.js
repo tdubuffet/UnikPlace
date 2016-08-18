@@ -7,6 +7,7 @@ var Homepage = {
             "autoplay":true,
             "autoplayTimeout":8000,
             "autoplayHoverPause":false,
+            "autoplaySpeed":1000,
             "loop":true,
             "items":1,
             "singleItem":true,
