@@ -111,7 +111,7 @@
                       {% set status = ['published', 'sold', 'unavailable'] %}
                       {% for product in collection.products if product.status.name in status %}
                         {% if loop.index0 < 3 %}
-                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="col-xs-4">
                             <div class="banner_top">
                               <a href="{{ path('product_details', {'id': product.id, 'slug' : product.slug}) }}">
                                 <img class="img-responsive" alt="{{ product.name }}" title="{{ product.name }}"
