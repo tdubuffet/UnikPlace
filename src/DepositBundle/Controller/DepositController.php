@@ -190,12 +190,11 @@ class DepositController extends Controller
                 }
             }
             foreach ($request->request->all() as $field => $value) {
-                if (strpos($field, 'attribute-') === 0 && !empty($value)) {
+                if (strpos($field, 'attribute-') === 0 && $value !== '') {
                     list(, $fieldName) = explode('-', $field, 2);
                     $listAttributes[$fieldName] = $value;
                 }
             }
-
             $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
             $category = $repository->findOneById($deposit['category_id']);
             if ($category) {
