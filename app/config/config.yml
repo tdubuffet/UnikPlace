@@ -70,6 +70,7 @@ twig:
             dots_message:     ‘ … ‘
         siteName: "%site_name%"
         website: %website%
+        crispWebsiteId: "%crisp.website_id%"
 
 
 # Doctrine Configuration

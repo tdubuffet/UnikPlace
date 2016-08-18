@@ -499,6 +499,7 @@
 
     {% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
       <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+      <script type="text/javascript">CRISP_WEBSITE_ID = "{{ crispWebsiteId }}";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 
     {% if app.environment == 'dev' %}
        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
