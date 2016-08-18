@@ -702,7 +702,8 @@
                                 <td valign="top" id="templateFooter" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #FAFAFA;border-top: 0;border-bottom: 0;padding-top: 9px;padding-bottom: 9px;"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
 
                                     {% block extra_footer_content %}{% endblock %}
-
+                                    {#Informations#}
+{#
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnCodeBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
     <tbody class="mcnTextBlockOuter">
         <tr>
@@ -731,13 +732,17 @@ L'évaluation des internautes vous aide dans votre démarche d'achat et de vente
 </td>
 
 </tr>
-</tbody></table>
+</tbody>
+                </table>
             </td>
         </tr>
     </tbody>
 
 
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnCodeBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+</table>
+#}
+                                    {#Links#}
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnCodeBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
@@ -746,17 +751,17 @@ L'évaluation des internautes vous aide dans votre démarche d'achat et de vente
 <td style="padding-left: 50px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;width: 50%;font-family: arial;text-align: left;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
 <span style="font-size: 1.0em;
     margin-bottom: 10px;">Découvrez notre site</span><br><br>
-<span style="font-size: 0.85em; font-family: arial;"><a href="{{ url('homepage') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Découvrez-nous</a><br>
+<span style="font-size: 0.85em; font-family: arial;"><a href="{{ url('about') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Découvrez-nous</a><br>
 <a href="{{ url('sell_category') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Vendre un produit</a><br>
-<a href="{{ url('faq') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">FAQ</a><br>
-<a href="{{ url('contact') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Nous contacter</a><br></span>
+</span>
 </td>
 
 <td style="padding-left: 50px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;width: 50%;font-family: arial;text-align: left;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
 <span style="font-size: 1.0em;
-    margin-bottom: 10px;">Nos valeurs</span><br><br>
-<span style="font-size: 0.85em; font-family: arial;"><a href="{{ url('homepage') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Réseau social de petites annonces</a><br>
-<a href="{{ url('homepage') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Les petites annonces gratuites</a></span>
+    margin-bottom: 10px;">Contact</span><br><br>
+  <a href="{{ url('contact') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;
+-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Nous contacter</a><br>
+  <a href="{{ url('faq') }}" target="_blank" style="text-decoration: none;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">FAQ</a><br>
 </td>
 
 
@@ -766,7 +771,10 @@ L'évaluation des internautes vous aide dans votre démarche d'achat et de vente
             </td>
         </tr>
     </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnFollowBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+</table>
+                                    {#Social network#}
+{#
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnFollowBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
     <tbody class="mcnFollowBlockOuter">
         <tr>
             <td align="center" valign="top" style="padding: 9px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" class="mcnFollowBlockInner">
@@ -892,13 +900,17 @@ L'évaluation des internautes vous aide dans votre démarche d'achat et de vente
             </tbody></table>
         </td>
     </tr>
-</tbody></table>
+</tbody>
+                </table>
 
             </td>
         </tr>
     </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-    <tbody class="mcnTextBlockOuter">
+</table>
+#}
+                                    {#Copyright - footer#}
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                      <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top: 9px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                   <!--[if mso]>
@@ -944,7 +956,8 @@ L'évaluation des internautes vous aide dans votre démarche d'achat et de vente
             </td>
         </tr>
     </tbody>
-</table></td>
+                                    </table>
+                                    </td>
                             </tr>
                         </table>
                         <!--[if gte mso 9]>
