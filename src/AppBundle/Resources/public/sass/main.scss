@@ -5444,7 +5444,7 @@ div.vertical-navigation-main ul.vertical-navigation-container li .menu-wrap-sub 
     margin: 0;
     outline: medium none;
     outline: none;
-    padding: 0 17px;
+    padding: 0 15px;
     text-decoration: none;
     text-transform: uppercase;
     transition: color 450ms ease-in-out 0s, background-color 450ms ease-in-out 0s;
@@ -7386,6 +7386,11 @@ body { background-color:rgba(0,0,0,0); }
 }
 .header-wrapper .header-container .main-header .main-navigation .top-navigation li.level0.nav-sell {
   background: #8A2AE3;
+}
+@media (max-width: 991px) {
+  .header-wrapper .header-container .main-header .main-navigation .top-navigation li.level0.nav-discover {
+    display: none;
+  }
 }
 .category-products .products-grid .item .product-action .actions .btn-cart,
 .category-products .products-grid .item .product-action .actions .btn-contact { background-color:#ffffff; }
