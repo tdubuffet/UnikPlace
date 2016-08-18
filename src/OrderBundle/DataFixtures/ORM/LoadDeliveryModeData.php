@@ -16,8 +16,9 @@ class LoadDeliveryModeData implements FixtureInterface
                 'name' => 'Retrait au domicile du vendeur',
                 'code' => 'by_hand',
                 'type' => 'by_hand',
-                'description' => "Vous vous déplacez chez le vendeur ou convenez d'un rendez-vous dans un lieu public
-                avec lui pour la remise du produit.",
+                'description' => "Vous vous déplacez chez le vendeur ou convenez d''un rendez-vous dans un lieu 
+                public avec lui pour la remise du produit. En plus de la messagerie privée, pour convenir d'un 
+                rendez-vous, nous vous communiquerons son numéro de téléphone une fois la commande validée.",
             ],
             [
                 'name' => 'Transport géré par le vendeur',
