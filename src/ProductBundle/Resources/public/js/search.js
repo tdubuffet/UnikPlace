@@ -104,24 +104,31 @@ var Search = {
                 // Inputs and select
                 if ($(this).prop('tagName').toLowerCase() == 'input' || 
                     $(this).prop('tagName').toLowerCase() == 'select') {
-                    $(this).val(value);
+                    if ($(this).hasClass('attribute-search-filter-multiselect2')) {
+                        var values = value.split(',');
+                        var element = $(this);
+                        $(values).each(function(index, value) {
+                            element.find('option[value="' + value + '"]').prop('selected', true);
+                            element.trigger('change.select2');
+                        });
+                    } else {
+                        $(this).val(value);
+                    }
                 }
                 // Multiselect and colors
                 else if ($(this).prop('tagName').toLowerCase() == 'div') {
-                    if ($(this).hasClass('attribute-search-filter-multiselect')) {
-                        var values = value.split(',');
-                        var element = $(this);
-                        $(values).each(function(index, value) {
-                            element.find('input[value="'+value+'"]').prop('checked', true);
-                        });
-                    }
-                    else if ($(this).hasClass('attribute-search-filter-color')) {
-                        var values = value.split(',');
-                        var element = $(this);
-                        $(values).each(function(index, value) {
+
+                    var values = value.split(',');
+                    var element = $(this);
+
+                    $(values).each(function(index, value) {
+                        if ($(this).hasClass('attribute-search-filter-multiselect')) {
+                            element.find('input[value="' + value + '"]').prop('checked', true);
+                        }
+                        else if ($(this).hasClass('attribute-search-filter-color')) {
                             element.find(".attribute-search-filter-color-block[data-color='"+value+"']").addClass('active');
-                        });
-                    }
+                        }
+                    });
                 }
             }
         });
@@ -324,7 +331,6 @@ var Search = {
             multiselects2.push($(this).data('key'));
         });
 
-        console.log(multiselects2);
         $(multiselects2).each(function(index, key) {
             delete Search.params[key];
             var vals = $("#attribute-search-filter-multiselect2-"+key).select2("val");
