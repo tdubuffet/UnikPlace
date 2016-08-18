@@ -4,7 +4,10 @@ var Homepage = {
         $('#block-slide-home .owl-carousel').owlCarousel({
             "enable":true,
             "pagination":true,
-            "autoPlay":false,
+            "autoplay":true,
+            "autoplayTimeout":8000,
+            "autoplayHoverPause":false,
+            "loop":true,
             "items":1,
             "singleItem":true,
             "lazyLoad":true,
