@@ -281,19 +281,25 @@
       {% endfor %}
 
 
+
       <h3>{% trans from 'FOSMessageBundle' %}reply{% endtrans %}</h3>
+      {% if sale and order.status == 'pending' %}
 
-      <form method="post">
+        <div class="text-center">Vous devez valider la commande pour envoyer un message à l'acheteur.</div>
 
-        <div class="form-group">
-          <label class="required">Message</label>
-          {{ form_widget(formMessage.body, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
-          {{ form_errors(formMessage.body) }}
-        </div>
+      {% else %}
+        <form method="post">
 
-        {{ form_rest(formMessage) }}
-        <p><input class="btn btn-primary" value="Répondre" type="submit"></p>
-      </form>
+          <div class="form-group">
+            <label class="required">Message</label>
+            {{ form_widget(formMessage.body, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
+            {{ form_errors(formMessage.body) }}
+          </div>
+
+          {{ form_rest(formMessage) }}
+          <p><input class="btn btn-primary" value="Répondre" type="submit"></p>
+        </form>
+      {% endif %}
     </div>
 
   {% else %}
