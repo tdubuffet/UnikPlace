@@ -7592,6 +7592,9 @@ body { background-color:rgba(0,0,0,0); }
 .attribute-search-filter-color-block.active {
   border: 3px solid black;
 }
+.attribute-search-filter-color-block:not(.active) {
+  border: 1px solid #e5e5e5;
+}
 
 .deposit .category-choices {
   margin-bottom: 15px;
@@ -7798,6 +7801,10 @@ body { background-color:rgba(0,0,0,0); }
 
 .deposit .color-choice:hover, .deposit .color-choice.active {
   border: 3px solid #555;
+}
+
+.deposit .color-choice:not(.active) {
+  border: 1px solid #e5e5e5;
 }
 
 .dropdown-user{
