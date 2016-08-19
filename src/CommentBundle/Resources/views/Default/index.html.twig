@@ -71,6 +71,15 @@
         {{ form_rest(formNewComment) }}
 
       {{ form_end(formNewComment) }}
+    {% elseif app.user is null %}
+
+      <h4>Laisser un commentaire au vendeur</h4>
+
+      <p class="text-center">
+        Pour laisser un commentaire au vendeur, vous devez être connecté.<br />
+        <a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a> ou <a href="{{ path('fos_user_registration_register') }}" title="S'enregistrer">S'enregistrer</a>
+      </p>
+
     {% endif %}
   </div>
 </div>
