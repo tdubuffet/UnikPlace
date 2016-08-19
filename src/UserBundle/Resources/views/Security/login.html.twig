@@ -59,7 +59,10 @@
 
         {% if app.request.get('redirect_to') and redirectToRelative(app.request.get('redirect_to')) %}
           <input type="hidden" name="redirect_to" value="{{ redirectToRelative(app.request.get('redirect_to'))  }}" />
+        {% elseif app.request.get('_route') != app.request.headers.get('referer') %}
+          <input type="hidden" name="redirect_to" value="{{ app.request.headers.get('referer') }}" />
         {% endif %}
+
         <p>* Champs obligatoires</p>
 
         <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="{{ 'security.login.submit'|trans }}" /><a href="{{ path('fos_user_resetting_request') }}" style="margin-left: 15px;">Mot de passe oublié ?</a></p>
