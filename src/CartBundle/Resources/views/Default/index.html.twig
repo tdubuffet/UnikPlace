@@ -38,7 +38,7 @@
                       <a target="_blank"
                          href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
                         {% if product.getImages()[0] is defined %}<img
-                          src="{{ loadpic(product.getImages()[0], 88, 88) }}"
+                          src="{{ loadpic(product.getImages()[0], 88, 88, "r3") }}"
                           alt="{{ product.name }} " />{% endif %}
                       </a>
                     </td>
