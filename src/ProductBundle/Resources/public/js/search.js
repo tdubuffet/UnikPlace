@@ -4,6 +4,7 @@ var Search = {
     initialized: false,
 
     init: function() {
+        Search.filterCollapsing();
         Search.loadFilters();
         Search.initSortBy();
         Search.initSortDirection();
@@ -400,6 +401,16 @@ var Search = {
                 return sParameterName[1] === undefined ? true : sParameterName[1];
             }
         }
+    },
+
+    filterCollapsing: function () {
+        var collapse = $('#filtersCollapse');
+        collapse.on('shown.bs.collapse', function () {
+            $('.collapseTitle').html("Cacher les filtres");
+        });
+        collapse.on('hide.bs.collapse', function () {
+            $('.collapseTitle').html("Afficher les filtres");
+        });
     }
 
 };
