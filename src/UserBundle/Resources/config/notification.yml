@@ -81,4 +81,21 @@ parameters:
           id : 'product_id'
           slug: 'product_slug'
 
+      comment_new:
+        message: "Vous avez reçu un nouveau commentaire sur l'annonce #product_title#"
+        route: 'product_details'
+        params: ['product_title', 'product_id', 'product_slug']
+        routeParams :
+          id : 'product_id'
+          slug: 'product_slug'
+
+      comment_reply:
+        message: "Vous avez reçu une réponse à votre commentaire sur l'annonce #product_title#"
+        route: 'product_details'
+        params: ['product_title', 'product_id', 'product_slug']
+        routeParams :
+          id : 'product_id'
+          slug: 'product_slug'
+
+
 

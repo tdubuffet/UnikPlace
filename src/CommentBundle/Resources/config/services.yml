@@ -2,3 +2,9 @@ services:
   comment.manager:
       class: CommentBundle\Service\Comment
       arguments: ["@doctrine.orm.default_entity_manager", "@router", "@form.factory"]
+
+  order.notification_comment_events_listener:
+      class: CommentBundle\EventListener\NotificationEventsListener
+      arguments: ['@user.notification']
+      tags:
+          - { name: kernel.event_subscriber }

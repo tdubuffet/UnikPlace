@@ -3,6 +3,8 @@
 namespace CommentBundle\Controller;
 
 use CommentBundle\Entity\Comment;
+use CommentBundle\Event\CommentEvent;
+use CommentBundle\Event\CommentEvents;
 use CommentBundle\Form\CommentType;
 use ProductBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -42,6 +44,18 @@ class AdminController extends Controller
                     if ($val = 0) {
                         $comment->setIsValidated(false);
                         $comment->setIsDeleted(true);
+                    }
+
+                    if ($comment->getParent()) {
+                        $this->get('event_dispatcher')->dispatch(
+                            CommentEvents::PRODUCT_COMMENT_REPLY,
+                            new CommentEvent($comment)
+                        );
+                    } else {
+                        $this->get('event_dispatcher')->dispatch(
+                            CommentEvents::PRODUCT_COMMENT,
+                            new CommentEvent($comment)
+                        );
                     }
 
                     $this->getDoctrine()->getManager()->persist($comment);

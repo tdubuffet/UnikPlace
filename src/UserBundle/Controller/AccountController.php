@@ -457,6 +457,7 @@ class AccountController extends Controller
      * @Template("UserBundle:Account:wallet_kyc.html.twig")
      * @param Request $request
      * @return array
+     * @throws \Exception
      */
     public function walletKYCAction(Request $request)
     {
@@ -502,6 +503,7 @@ class AccountController extends Controller
     /**
      * @Route("/supprimer-mon-compte", name="user_account_remove")
      * @param Request $request
+     * @return RedirectResponse
      */
     public function removeAction(Request $request)
     {
@@ -541,25 +543,45 @@ class AccountController extends Controller
         $address = new Address();
         $addAddressForm = $this->createForm(AddressType::class, $address);
         $addAddressForm->handleRequest($request);
-        $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
+
+        $addresses = $this->getDoctrine()
+            ->getRepository("LocationBundle:Address")
             ->findBy(['user' => $this->getUser()]);
 
         if ($addAddressForm->isValid() && $addAddressForm->isSubmitted()) {
-            $city = $request->request->get('address')['city'];
-            $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneBy(['id' => $city]);
+
+            $city = $request->request
+                ->get('address')['city'];
+
+            $city = $this->getDoctrine()
+                ->getRepository('LocationBundle:City')
+                ->findOneBy(['id' => $city]);
+
             if (!$city) {
                 throw new \Exception('Cannot find city.');
             }
-            $address->setCity($city)->setUser($this->getUser());
-            $this->getDoctrine()->getManager()->persist($address);
-            $this->getDoctrine()->getManager()->flush();
+
+            $address->setCity($city)
+                    ->setUser($this->getUser());
+
+            $this->getDoctrine()
+                ->getManager()
+                ->persist($address);
+
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
 
             $this->addFlash('success', 'L\'adresse a bien été ajoutée');
 
             return $this->redirectToRoute("user_addresses");
         }
 
-        return ['addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView()];
+
+        return [
+            'addresses' => $addresses,
+            'addAddressForm' => $addAddressForm->createView()
+        ];
     }
 
     /**
@@ -573,23 +595,38 @@ class AccountController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return new JsonResponse(['message' => 'You must be authentificated to update the address.'], 401);
         }
+
         $actions = ['remove'];
+
         if (!$request->request->has('action') || !in_array($action = $request->request->get('action'), $actions)) {
             return new JsonResponse(['message' => 'An action must be defined'], 409);
         }
+
         if (!$request->request->has('address_id')) {
             return new JsonResponse(['message' => 'An address_id must be defined'], 409);
         }
+
         $id = $request->request->get('address_id');
-        $address = $this->getDoctrine()->getRepository("LocationBundle:Address")
-            ->findOneBy(['id' => $id, 'user' => $this->getUser()]);
+
+        $address = $this->getDoctrine()
+            ->getRepository("LocationBundle:Address")
+            ->findOneBy([
+                'id' => $id,
+                'user' => $this->getUser()
+            ]);
+
         if (!$address) {
             return new JsonResponse(['message' => 'Address not found'], 404);
         }
+
         $this->getDoctrine()->getManager()->remove($address);
         $this->getDoctrine()->getManager()->flush();
 
-        return new JsonResponse(['message' => sprintf('Address %s has been deleted', $id)]);
+        return new JsonResponse(
+            [
+                'message' => sprintf('Address %s has been deleted', $id)
+            ]
+        );
     }
 
 }
