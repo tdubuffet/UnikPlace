@@ -64,11 +64,23 @@
             <div class="col-left">
 
               <div class="block block-layered-nav">
-                <div class="block-title">
+                <div class="block-title hidden-xs">
                   <strong><span>Filtres</span></strong>
                   <span class="mobile-button visible-xs active"></span>
                 </div>
-                <div class="block-content">
+                <div class="block-title visible-xs">
+                  <strong>
+                    <span data-toggle="collapse" data-target="#filtersCollapse" aria-expanded="false"
+                          aria-controls="collapseExample" class="collapseTitle">
+                      Afficher les filtres
+                    </span>
+                  </strong>
+                  <span class="mobile-button visible-xs active"></span>
+                </div>
+                <div class="block-content hidden-xs">
+                  <!-- search filters go here -->
+                </div>
+                <div class="block-content collapse hidden-sm hidden-md" id="filtersCollapse">
                   <!-- search filters go here -->
                 </div>
               </div>
