@@ -125,7 +125,6 @@
                                     <li><a href="{{ path('user_account_purchases') }}">Mes achats</a></li>
                                     <li><a href="{{ path('user_account_sales') }}">Mes ventes</a></li>
                                     <li><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
-                                    <li><a href="{{ path('fos_message_inbox') }}">Mes messages</a></li>
                                     <li><a href="{{ path('user_addresses') }}">Mes adresses</a></li>
                                     <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
                                     <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
@@ -200,7 +199,6 @@
                             <li><a href="{{ path('user_addresses') }}">Mes adresses</a></li>
                             <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
                             <li class="hidden-lg"><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
-                            <li class="hidden-lg"><a href="{{ path('fos_message_inbox') }}">Mes messages</a></li>
                             <li class="last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
                           </ul>
                           {% else %}
@@ -255,14 +253,6 @@
                           </div>
                         </div>
 
-
-                        <div class="header-account-action hidden-md hidden-xs hidden-sm">
-                          <div class="account-container">
-                            <a href="{{ path('fos_message_inbox') }}" title="Ma messagerie" class="icon-header skip-link">
-                              <span class="total"><strong class="fa fa fa-envelope" aria-hidden="true"></strong>{% if app.user and fos_message_nb_unread() > 0 %}<span class="count-numb">{{ fos_message_nb_unread() }}</span>{% endif %}</span>
-                            </a>
-                          </div>
-                        </div>
 
 
                         <div class="header-maincart">
