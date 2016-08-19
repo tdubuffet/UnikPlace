@@ -77,7 +77,10 @@
 
       <p class="text-center">
         Pour laisser un commentaire au vendeur, vous devez être connecté.<br />
-        <a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a> ou <a href="{{ path('fos_user_registration_register') }}" title="S'enregistrer">S'enregistrer</a>
+        <a href="{{ path('fos_user_security_login', { "redirect_to": path(app.request.attributes.get('_route'),
+          app.request.attributes.get('_route_params'))} ) }}" title="Se connecter">Se connecter</a>
+        ou
+        <a href="{{ path('fos_user_registration_register') }}" title="S'enregistrer">S'enregistrer</a>
       </p>
 
     {% endif %}
