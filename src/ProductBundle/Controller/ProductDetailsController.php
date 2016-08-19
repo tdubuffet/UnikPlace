@@ -88,6 +88,19 @@ class ProductDetailsController extends Controller
             'type' => 'seller'
         ], ['createdAt' => 'DESC'], 10);
 
+        $comment = $this->get('comment.manager')->handler(
+            $request,
+            $product,
+            $this->getUser()
+        );
+
+        if ($comment instanceof RedirectResponse) {
+            $this->get('session')->getFlashBag()->add('success',
+                'Commentaire envoyé, il sera visible après validation par l\'équipe de modération.'
+            );
+            return $comment;
+        }
+
         return [
             'product' => $product,
             'productAttributes' => $attributes,
@@ -96,9 +109,10 @@ class ProductDetailsController extends Controller
             'thread' => (isset($existThread)) ? $existThread : false,
             'formMessage' => (isset($process) && $process !== true) ? $process->createView() : false,
             'proposalForm' => isset($proposalForm) ? $proposalForm->createView() : null,
-            'proposal' => $proposal,
-            'offLimit' => $offLimit,
-            'ratings'  => $ratings
+            'proposal'  => $proposal,
+            'offLimit'  => $offLimit,
+            'ratings'   => $ratings,
+            'comment'   => $comment
         ];
     }
 }

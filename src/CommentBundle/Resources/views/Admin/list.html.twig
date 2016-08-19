@@ -1,0 +1,77 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block body_class %}easyadmin sidebar-mini list{% endblock %}
+
+{% block content_title %}
+  Commentaires
+{% endblock %}
+
+
+{% block main %}
+
+
+  <section id="main" class="content">
+
+    <form method="post">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>
+              Commentaires
+            </th>
+            <th>
+              Infos
+            </th>
+            <th>
+              Valider
+            </th>
+            <th>
+              Supprimer
+            </th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+            {% for comment in comments %}
+
+              <tr>
+                <td>
+                  {{ comment.message|raw }}
+                </td>
+                <td>
+                  <b>Utilisateur:</b> <a target="_blank" href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': comment.user.id}) }}">{{ comment.user }}</a><br />
+                  <b>Produit:</b> {{ comment.thread.product.name }}
+                </td>
+                <td>
+                  <input type="radio" name="comment_{{ comment.id }}" value="1" checked />
+                </td>
+
+
+                <td>
+                  <input type="radio" name="comment_{{ comment.id }}" value="0" />
+                </td>
+
+              </tr>
+            {% else %}
+
+              <tr>
+                <td colspan="4" class="text-center">Aucun commentaire</td>
+              </tr>
+
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+
+      <button class="btn btn-primary pull-right" type="submit" name="save-comment" value="1">Modérer les commentaires</button>
+
+    </form>
+
+
+  </section>
+
+
+{% endblock %}

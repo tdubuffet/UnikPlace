@@ -2,19 +2,28 @@
 
   .comment-message{
     border-top: 1px solid rgb(239,242,244);
-    margin-top: 3px;
+    margin: 5px 0px;
     padding: 8px;
 
+    color: lighten(#181818, 28%);
+
+
+    &:first-child{
+      border-top: none;
+    }
+
     &.reply{
-      background: rgb(247,247,247);
-      padding-left: 25px;
+      background: lighten(rgb(220,220,220), 12%);
+      padding-left: 50px;
+      border-top: none;
+      border-left: 1px solid lighten(rgb(220,220,220), 1%);
     }
 
     .header{
       font-size: 0.85em;
-      color: #181818;
+      color: #98a5ae;
       b{
-        color: rgb(138,42,227);
+        color: #d99f25;
       }
     }
 

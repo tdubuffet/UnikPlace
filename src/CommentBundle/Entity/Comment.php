@@ -2,6 +2,7 @@
 
 namespace CommentBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 /**
@@ -154,6 +155,23 @@ class Comment
     }
 
     /**
+     * @return mixed
+     */
+    public function getChildrenValidated()
+    {
+        $childs = new ArrayCollection();
+
+        foreach($this->children as $child) {
+            if ($child->getIsValidated() == true && $child->getIsDeleted() == false) {
+                $childs->add($child);
+            }
+        }
+
+        return $childs;
+
+    }
+
+    /**
      * @param mixed $children
      */
     public function setChildren($children)
@@ -164,7 +182,7 @@ class Comment
     /**
      * @return boolean
      */
-    public function isIsValidated()
+    public function getIsValidated()
     {
         return $this->isValidated;
     }
@@ -180,7 +198,7 @@ class Comment
     /**
      * @return boolean
      */
-    public function isIsDeleted()
+    public function getIsDeleted()
     {
         return $this->isDeleted;
     }

@@ -1,8 +1,6 @@
 <div class="comment row">
 
-  <div class="col-md-8">
-
-    <h4>Laisser un commentaire au vendeur</h4>
+  <div class="col-md-8 col-md-offset-2">
 
     {% if thread and comments %}
 
@@ -12,17 +10,17 @@
           <div class="header clearfix">
             <b>{{ comment.user.firstname }}</b>, le {{ comment.createdAt|date('d/m/Y') }}
           </div>
-          {{ comment.message }}
+          {{ comment.message|raw }}
         </div>
 
-        {% if comment.getChildren().count() != 0 %}
+        {% if comment.getChildrenValidated().count() != 0 %}
 
-          {% for reply in comment.getChildren() %}
+          {% for reply in comment.getChildrenValidated() %}
             <div class="comment-message reply" id="comment-{{ thread.id }}{{ reply.id }}">
               <div class="header clearfix">
                 <b>Le vendeur</b>, le {{ reply.createdAt|date('d/m/Y') }}
               </div>
-              {{ reply.message }}
+              {{ reply.message|raw }}
             </div>
           {% endfor %}
 
@@ -56,6 +54,9 @@
     {% if formNewComment is defined %}
 
       <hr />
+
+
+      <h4>Laisser un commentaire au vendeur</h4>
 
       {{ form_start(formNewComment) }}
 

@@ -10,19 +10,29 @@ namespace CommentBundle\Service;
 
 
 use CommentBundle\Entity\ThreadComment;
+use CommentBundle\Form\CommentType;
 use Doctrine\ORM\EntityManager;
+use Elastica\Request;
+use FOS\UserBundle\Model\User;
 use MessageBundle\Entity\Thread;
 use ProductBundle\Entity\Product;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Router;
 
 class Comment
 {
 
     private $entityManager;
+    private $router;
+    private $formFactory;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, Router $router, FormFactory $formFactory)
     {
 
-        $this->entityManager = $em;
+        $this->entityManager    = $em;
+        $this->formFactory      = $formFactory;
+        $this->router           = $router;
 
     }
 
@@ -63,6 +73,77 @@ class Comment
 
         return $thread;
 
+    }
+
+    public function handler(\Symfony\Component\HttpFoundation\Request $request, Product $product, User $user)
+    {
+        $views = [];
+
+        $thread = $this->entityManager->getRepository('CommentBundle:ThreadComment')->findOneByProduct($product);
+
+        if ($thread) {
+            $views['comments'] = $this->entityManager->getRepository('CommentBundle:Comment')->findBy([
+                'thread'        => $thread,
+                'parent'        => null,
+                'isValidated'   => true,
+                'isDeleted'     => false
+            ]);
+        }
+
+        // New comment
+        if ($user && $user != $product->getUser()) {
+
+            $form = $this->formFactory->create(CommentType::class); // A faire
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $comment = $this->newComment(
+                    $thread,
+                    $product,
+                    $form->getData(),
+                    $user
+                );
+
+                return new RedirectResponse(
+                    $this->router->generate('product_details', [
+                        'id' => $product->getId(),
+                        'slug' => $product->getSlug()
+                    ]) . '#comment-' . $thread->getId() . $comment->getId()
+                );
+            }
+            $views['formNewComment'] = $form->createView();
+        }
+
+        //Reply
+        if ($user && $user == $product->getUser() && $request->get('comment_id')) {
+
+            $parent = $this->entityManager->getRepository('CommentBundle:Comment')->find($request->get('comment_id'));
+            if ($parent && $request->get('message')){
+
+                $comment = new \CommentBundle\Entity\Comment();
+                $comment->setMessage($request->get('message'));
+                $comment->setParent($parent);
+
+                $comment = $this->newComment(
+                    $thread,
+                    $product,
+                    $comment,
+                    $user
+                );
+
+                return new RedirectResponse(
+                    $this->router->generate('product_details', [
+                        'id' => $product->getId(),
+                        'slug' => $product->getSlug()
+                    ]) . '#comment-' . $thread->getId() . $comment->getId()
+                );
+            }
+        }
+
+
+        return array_merge($views, [
+            'thread' => $thread,
+            'product' => $product
+        ]);
     }
 
 }

@@ -214,6 +214,7 @@ easy_admin:
             - { label: 'Modération', route: 'admin_moderate' }
             - Order
             - { label: 'Litiges', route: 'admin_disputes' }
+            - { label: 'Commentaires', route: 'admin_comments' }
             - Product
             - Image
             - AttributeValue

@@ -299,7 +299,7 @@
                   <div class="tab-pane in active first" id="product_tabs_comments">
                     <div class="product-tabs-content-inner clearfix">
                       <div class="std">
-                       {{ render(controller('CommentBundle:Default:thread', { request: app.request, id: product.id })) }}
+                        {% include 'CommentBundle:Default:index.html.twig' with comment %}
                       </div>
                     </div>
                   </div>
