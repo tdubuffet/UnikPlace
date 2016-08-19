@@ -75,7 +75,7 @@ class Comment
 
     }
 
-    public function handler(\Symfony\Component\HttpFoundation\Request $request, Product $product, User $user)
+    public function handler(\Symfony\Component\HttpFoundation\Request $request, Product $product, $user)
     {
         $views = [];
 
