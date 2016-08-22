@@ -98,27 +98,41 @@ class ProductSearchService
      */
     public function getHtmlFilters($category = null)
     {
-        /** @var Category $category */
+        /**
+         * Price filter is always displayed
+         * @var Category $category
+         * */
         $filters = [
-            'price' => ['template' => 'price'],
-            'county' => ['template' => 'county'],
-        ]; // Price filter is always displayed
+            'price' => [
+                'template' => 'price'
+            ],
+            'county' => [
+                'template' => 'county'
+            ],
+
+        ];
+
         if ($category) {
-            $attributes = $category->getAttributes();
+
             /** @var Attribute $attribute */
-            foreach ($attributes as $attribute) {
+            foreach ($category->getAttributes() as $attribute) {
+
                 $template = $attribute->getAttributeSearchTemplate();
+
                 $filters[$attribute->getCode()] = [
+
                     'template' => $template->getName(),
                     'viewVars' => [
                         'label' => $attribute->getName(),
                         'id' => $attribute->getCode(),
                     ],
                 ];
+
                 $referential = $attribute->getReferential();
                 if (isset($referential)) {
-                    $filters[$attribute->getCode(
-                    )]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+
+                    $filters[$attribute->getCode()]['viewVars']['referentialValues'] =
+                        $referential->getReferentialValues();
                 }
             }
         }

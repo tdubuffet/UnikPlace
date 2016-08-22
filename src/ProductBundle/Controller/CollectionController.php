@@ -28,10 +28,18 @@ class CollectionController extends Controller
      */
     public function collectionsAction()
     {
-        $categories = $this->getDoctrine()->getRepository("ProductBundle:Category")->findByWithImageAndCollections();
-        $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findByLast();
+        $categories = $this->getDoctrine()
+            ->getRepository("ProductBundle:Category")
+            ->findByWithImageAndCollections();
 
-        return ["categories" => $categories, 'collections' => $collections];
+        $collections = $this->getDoctrine()
+            ->getRepository("ProductBundle:Collection")
+            ->findByLast();
+
+        return [
+            "categories" => $categories,
+            'collections' => $collections
+        ];
     }
 
     /**

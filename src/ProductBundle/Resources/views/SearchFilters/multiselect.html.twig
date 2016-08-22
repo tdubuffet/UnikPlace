@@ -4,7 +4,7 @@
     <ol>
       <li>
         <div class="attribute-search-filter attribute-search-filter-multiselect" data-key="{{ id }}" id="attribute-search-filter-{{ id }}">
-          {% for value in referentialValues %}
+          {% for value in orderAttributes(id, referentialValues) %}
           <label><input type="checkbox" value="{{ value.getId() }}"> {{ value.getValue() }}</label><br />
           {% endfor %}
         </div>

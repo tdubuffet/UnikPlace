@@ -10,10 +10,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class AppExtension extends \Twig_Extension
 {
     private $generator;
+    private $finder;
 
-    public function __construct(UrlGeneratorInterface $generator)
+    public function __construct(UrlGeneratorInterface $generator, $finder)
     {
-        $this->generator = $generator;
+        $this->generator            = $generator;
+        $this->finder = $finder;
     }
 
     public function getFunctions()
@@ -21,7 +23,8 @@ class AppExtension extends \Twig_Extension
         return array(
             'jsinit' => new \Twig_SimpleFunction('jsinit', array($this, 'jsInitFunction'), array('is_safe' => array('html'))),
             'loadpic' => new \Twig_SimpleFunction('loadpic', array($this, 'loadPicFunction'), array('is_safe' => array('html'))),
-            'redirectToRelative' => new \Twig_SimpleFunction('redirectToRelative', array($this, 'parseUrl'))
+            'redirectToRelative' => new \Twig_SimpleFunction('redirectToRelative', array($this, 'parseUrl')),
+            'orderAttributes' => new \Twig_SimpleFunction('orderAttributes', array($this, 'orderAttributes'))
         );
     }
 
@@ -86,6 +89,40 @@ class AppExtension extends \Twig_Extension
         }
 
         return $redirectUri;
+    }
+
+    public function orderAttributes($type, $values)
+    {
+
+
+        $array = [];
+
+        foreach($values as $value) {
+
+            $boolQuery = new \Elastica\Query\BoolQuery();
+
+            $fieldTerm = new \Elastica\Query\Term();
+            $fieldTerm->setTerm(strtolower($type), $value->getId());
+            $boolQuery->addMust($fieldTerm);
+
+            $query = new \Elastica\Query($boolQuery);
+
+            $count = $this->finder->findPaginated(
+                $query
+            )->getNbResults();
+
+
+            if ($count != 0) {
+                $array[] = $value;
+            }
+
+        }
+
+        return $array;
+
+
+        // Faire un calcul sur ElasticSearch
+
     }
 
     public function getName()

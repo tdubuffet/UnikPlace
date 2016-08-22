@@ -54,10 +54,15 @@ class SearchController extends Controller
         $categoryId = $request->request->get('category_id');
         $category = null;
         if ($categoryId) {
-            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($categoryId);
+            $category = $this->getDoctrine()
+                ->getRepository('ProductBundle:Category')
+                ->findOneById($categoryId);
         }
+
         $search = $this->get('product_bundle.product_search_service');
+
         $html = $search->getHtmlFilters($category);
+
         return new Response($html);
     }
 }
