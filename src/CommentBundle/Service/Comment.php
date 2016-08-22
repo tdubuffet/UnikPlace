@@ -12,12 +12,10 @@ namespace CommentBundle\Service;
 use CommentBundle\Entity\ThreadComment;
 use CommentBundle\Form\CommentType;
 use Doctrine\ORM\EntityManager;
-use Elastica\Request;
-use FOS\UserBundle\Model\User;
-use MessageBundle\Entity\Thread;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 
 class Comment
@@ -75,11 +73,10 @@ class Comment
 
     }
 
-    public function handler(\Symfony\Component\HttpFoundation\Request $request, Product $product, $user)
+    public function handler(Request $request, Product $product, $user)
     {
         $views = [];
-
-        $thread = $this->entityManager->getRepository('CommentBundle:ThreadComment')->findOneByProduct($product);
+        $thread = $this->entityManager->getRepository('CommentBundle:ThreadComment')->findOneBy(['product' => $product]);
 
         if ($thread) {
             $views['comments'] = $this->entityManager->getRepository('CommentBundle:Comment')->findBy([
@@ -96,18 +93,13 @@ class Comment
             $form = $this->formFactory->create(CommentType::class); // A faire
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $comment = $this->newComment(
-                    $thread,
-                    $product,
-                    $form->getData(),
-                    $user
-                );
+                $comment = $this->newComment($thread,$product,$form->getData(),$user);
 
                 return new RedirectResponse(
                     $this->router->generate('product_details', [
                         'id' => $product->getId(),
                         'slug' => $product->getSlug()
-                    ]) . '#comment-' . $thread->getId() . $comment->getId()
+                    ]) . '#comment-' . $comment->getThread()->getId() . $comment->getId()
                 );
             }
             $views['formNewComment'] = $form->createView();
@@ -123,12 +115,7 @@ class Comment
                 $comment->setMessage($request->get('message'));
                 $comment->setParent($parent);
 
-                $comment = $this->newComment(
-                    $thread,
-                    $product,
-                    $comment,
-                    $user
-                );
+                $comment = $this->newComment($thread,$product,$comment,$user);
 
                 return new RedirectResponse(
                     $this->router->generate('product_details', [
@@ -139,11 +126,7 @@ class Comment
             }
         }
 
-
-        return array_merge($views, [
-            'thread' => $thread,
-            'product' => $product
-        ]);
+        return array_merge($views, ['thread' => $thread,'product' => $product]);
     }
 
 }
