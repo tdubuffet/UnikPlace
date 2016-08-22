@@ -84,6 +84,12 @@ class ProductSearchService
             'prev_message' => '← Précèdent',
             'next_message' => 'Suivant →'
         );
+
+        if ($results->getNbPages() == 1) {
+            return '';
+        }
+
+
         $pagination = $view->render($results, $routeGenerator, $options);
 
         return $pagination;
