@@ -99,10 +99,7 @@ class ProductSearchService
     public function getHtmlFilters($category = null)
     {
         /** @var Category $category */
-        $filters = [
-            'price' => ['template' => 'price'],
-            'county' => ['template' => 'county'],
-        ]; // Price filter is always displayed
+        $filters['price'] = ['template' => 'price']; // Price filter is always displayed
         if ($category) {
             $attributes = $category->getAttributes();
             /** @var Attribute $attribute */
@@ -123,6 +120,7 @@ class ProductSearchService
             }
         }
         $html = '';
+        $filters['county'] = ['template' => 'county'];
         foreach ($filters as $filter) {
             $html .= $this->twig->render(
                 'ProductBundle:SearchFilters:'.$filter['template'].'.html.twig',
