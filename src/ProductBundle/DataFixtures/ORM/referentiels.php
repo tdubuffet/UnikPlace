@@ -2106,9 +2106,8 @@ return $referentiels = [
         'Zho - Pop Corn',
     ],
     'État' => [
-        'À restaurer',
+        'Excellent',
         'Bon',
-        'Dans son jus',
-        'Excellent'
+        'À restaurer',
     ]
 ];
