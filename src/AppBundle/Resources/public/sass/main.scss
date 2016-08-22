@@ -8155,3 +8155,8 @@ table.table-carts {
     line-height: normal;
   }
 }
+@media (max-width : 768px) {
+  .col-value {
+    margin-top : 30px;
+  }
+}
