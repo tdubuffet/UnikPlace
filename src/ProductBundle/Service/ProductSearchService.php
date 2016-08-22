@@ -84,12 +84,6 @@ class ProductSearchService
             'prev_message' => '← Précèdent',
             'next_message' => 'Suivant →'
         );
-
-        if ($results->getNbPages() == 1) {
-            return '';
-        }
-
-
         $pagination = $view->render($results, $routeGenerator, $options);
 
         return $pagination;
@@ -104,45 +98,29 @@ class ProductSearchService
      */
     public function getHtmlFilters($category = null)
     {
-        /**
-         * Price filter is always displayed
-         * @var Category $category
-         * */
-        $filters = [
-            'price' => [
-                'template' => 'price'
-            ],
-            'county' => [
-                'template' => 'county'
-            ],
-
-        ];
-
+        /** @var Category $category */
+        $filters['price'] = ['template' => 'price']; // Price filter is always displayed
         if ($category) {
-
+            $attributes = $category->getAttributes();
             /** @var Attribute $attribute */
-            foreach ($category->getAttributes() as $attribute) {
-
+            foreach ($attributes as $attribute) {
                 $template = $attribute->getAttributeSearchTemplate();
-
                 $filters[$attribute->getCode()] = [
-
                     'template' => $template->getName(),
                     'viewVars' => [
                         'label' => $attribute->getName(),
                         'id' => $attribute->getCode(),
                     ],
                 ];
-
                 $referential = $attribute->getReferential();
                 if (isset($referential)) {
-
-                    $filters[$attribute->getCode()]['viewVars']['referentialValues'] =
-                        $referential->getReferentialValues();
+                    $filters[$attribute->getCode(
+                    )]['viewVars']['referentialValues'] = $referential->getReferentialValues();
                 }
             }
         }
         $html = '';
+        $filters['county'] = ['template' => 'county'];
         foreach ($filters as $filter) {
             $html .= $this->twig->render(
                 'ProductBundle:SearchFilters:'.$filter['template'].'.html.twig',
