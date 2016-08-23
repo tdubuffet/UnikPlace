@@ -39,7 +39,7 @@ services:
 
     product_bundle.product_search_service:
         class: ProductBundle\Service\ProductSearchService
-        arguments: ['@fos_elastica.finder.noname.product', '@router', '@doctrine.orm.entity_manager', '@twig']
+        arguments: ['@fos_elastica.finder.noname.product', '@router', '@doctrine.orm.entity_manager', '@twig', '@product.attribut.value']
 
     app.twig_extension:
         class: AppBundle\Twig\AppExtension

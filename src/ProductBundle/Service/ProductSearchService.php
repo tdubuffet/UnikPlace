@@ -25,12 +25,16 @@ class ProductSearchService
     /** @var \Twig_Environment */
     private $twig;
 
-    public function __construct($finder, $router, EntityManager $entityManager, $twig)
+    /** @var AttributValue */
+    private $attributValue;
+
+    public function __construct($finder, $router, EntityManager $entityManager, $twig, AttributValue $attributValue)
     {
         $this->finder = $finder;
         $this->router = $router;
         $this->em = $entityManager;
         $this->twig = $twig;
+        $this->attributValue = $attributValue;
     }
 
 
@@ -102,6 +106,22 @@ class ProductSearchService
         $filters['price'] = ['template' => 'price']; // Price filter is always displayed
         if ($category) {
             $attributes = $category->getAttributes();
+
+            if (!is_array($attributes)) {
+                $attributes = $attributes->toArray();
+            }
+
+            if ($category->getParent() == null) {
+                foreach($category->getChildren() as $children) {
+
+                    $newAttributes = $children->getAttributes();
+                    if (!is_array($newAttributes)) {
+                        $newAttributes = $newAttributes->toArray();
+                    }
+                    $attributes = array_merge($attributes, $newAttributes);
+                }
+            }
+
             /** @var Attribute $attribute */
             foreach ($attributes as $attribute) {
                 $template = $attribute->getAttributeSearchTemplate();
@@ -114,14 +134,29 @@ class ProductSearchService
                 ];
                 $referential = $attribute->getReferential();
                 if (isset($referential)) {
-                    $filters[$attribute->getCode(
-                    )]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+                    $filters[$attribute->getCode()]['viewVars']['referentialValues'] = true;
                 }
             }
         }
         $html = '';
         $filters['county'] = ['template' => 'county'];
         foreach ($filters as $filter) {
+
+            if (isset($filter['viewVars']['referentialValues'])) {
+
+                //Load Referential values used
+                $filter['viewVars']['referentialValues'] = $this->attributValue->orderAttributes(
+                    $filter['viewVars']['id'],
+                    $category
+                );
+
+                //No values used => disabled
+                if (count($filter['viewVars']['referentialValues']) == 0) {
+                    continue;
+                }
+
+            }
+
             $html .= $this->twig->render(
                 'ProductBundle:SearchFilters:'.$filter['template'].'.html.twig',
                 isset($filter['viewVars']) ? $filter['viewVars'] : []
