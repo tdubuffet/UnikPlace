@@ -283,13 +283,14 @@ var Search = {
         });
 
         // select
-        $('select.attribute-search-filter').each(function( index ) {
+        $('select.attribute-search-filter:not(.select-select2), select.attribute-search-filter.select-select2.select2-hidden-accessible').each(function( index ) {
             if ($(this).val() != '') {
                 Search.params[$(this).data('key')] = $(this).val();
             }else {
                 delete Search.params[$(this).data('key')];
             }
         });
+
         // color
         if ($('.attribute-search-filter-color').data('key')) {
             delete Search.params[$('.attribute-search-filter-color').data('key')];
