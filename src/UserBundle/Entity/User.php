@@ -38,22 +38,22 @@ class User extends BaseUser implements ParticipantInterface
     protected $email;
 
     /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
-    protected $facebookId;
+    protected $facebook_id;
 
     /** @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true) */
-    protected $facebookAccessToken;
+    protected $facebook_access_token;
 
     /** @ORM\Column(name="google_id", type="string", length=255, nullable=true) */
-    protected $googleId;
+    protected $google_id;
 
     /** @ORM\Column(name="google_access_token", type="string", length=255, nullable=true) */
-    protected $googleAccessToken;
+    protected $google_access_token;
 
     /** @ORM\Column(name="twitter_id", type="string", length=255, nullable=true) */
-    protected $twitterId;
+    protected $twitter_id;
 
     /** @ORM\Column(name="twitter_access_token", type="string", length=255, nullable=true) */
-    protected $twitterAccessToken;
+    protected $twitter_access_token;
 
     /**
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
@@ -548,7 +548,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function setFacebookId($facebookId)
     {
-        $this->facebookId = $facebookId;
+        $this->facebook_id = $facebookId;
 
         return $this;
     }
@@ -560,7 +560,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function getFacebookId()
     {
-        return $this->facebookId;
+        return $this->facebook_id;
     }
 
     /**
@@ -572,7 +572,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function setFacebookAccessToken($facebookAccessToken)
     {
-        $this->facebookAccessToken = $facebookAccessToken;
+        $this->facebook_access_token = $facebookAccessToken;
 
         return $this;
     }
@@ -584,7 +584,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function getFacebookAccessToken()
     {
-        return $this->facebookAccessToken;
+        return $this->facebook_access_token;
     }
 
     /**
@@ -596,7 +596,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function setGoogleId($googleId)
     {
-        $this->googleId = $googleId;
+        $this->google_id = $googleId;
 
         return $this;
     }
@@ -608,7 +608,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function getGoogleId()
     {
-        return $this->googleId;
+        return $this->google_id;
     }
 
     /**
@@ -620,7 +620,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function setGoogleAccessToken($googleAccessToken)
     {
-        $this->googleAccessToken = $googleAccessToken;
+        $this->google_access_token = $googleAccessToken;
 
         return $this;
     }
@@ -632,7 +632,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function getGoogleAccessToken()
     {
-        return $this->googleAccessToken;
+        return $this->google_access_token;
     }
 
     /**
@@ -644,7 +644,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function setTwitterId($twitterId)
     {
-        $this->twitterId = $twitterId;
+        $this->twitter_id = $twitterId;
 
         return $this;
     }
@@ -656,7 +656,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function getTwitterId()
     {
-        return $this->twitterId;
+        return $this->twitter_id;
     }
 
     /**
@@ -668,7 +668,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function setTwitterAccessToken($twitterAccessToken)
     {
-        $this->twitterAccessToken = $twitterAccessToken;
+        $this->twitter_access_token = $twitterAccessToken;
 
         return $this;
     }
@@ -680,7 +680,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function getTwitterAccessToken()
     {
-        return $this->twitterAccessToken;
+        return $this->twitter_access_token;
     }
 
     /**

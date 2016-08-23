@@ -1,3 +1,7 @@
 services:
     product.elastica.transformer:
         class: ProductBundle\Transformer\ProductToElasticaTransformer
+
+    product.attribut.value:
+        class: ProductBundle\Service\AttributValue
+        arguments: ['@service_container']
