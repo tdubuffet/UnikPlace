@@ -60,8 +60,44 @@
         </div>
 
         <div class="row show-grid">
-          <div class="col-lg-3 sidebar">
+          <div class="col-lg-3 sidebar filter-sidebar">
             <div class="col-left">
+              {% if category is defined %}
+              <div class="block block-layered-nav">
+                <div class="block-title hidden-xs">
+                  <strong><span>Catégories</span></strong>
+                  <span class="mobile-button visible-xs active"></span>
+                </div>
+                <div class="block-title visible-xs">
+                  <strong>
+                    <span data-toggle="collapse" data-target="#categoriesCollapse" aria-expanded="false"
+                          aria-controls="collapseExample" class="collapseTitle">
+                      Afficher les categories
+                    </span>
+                  </strong>
+                  <span class="mobile-button visible-xs active"></span>
+                </div>
+                <div class="block-content block-content-categories hidden-xs">
+
+                    {% if category.getParent() is null %}
+                      {% set children = category.getChildren() %}
+                    {% else %}
+                      {% set children = category.getParent().getChildren() %}
+                    {% endif %}
+
+                    <ul>
+                      {% for subCat in children %}
+                        <li>
+                          <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.name }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                </div>
+                <div class="block-content collapse hidden-sm hidden-md" id="categoriesCollapse">
+                  <!-- search filters go here -->
+                </div>
+              </div>
+              {% endif %}
 
               <div class="block block-layered-nav">
                 <div class="block-title hidden-xs">
@@ -77,10 +113,10 @@
                   </strong>
                   <span class="mobile-button visible-xs active"></span>
                 </div>
-                <div class="block-content hidden-xs">
+                <div class="block-content block-content-filters hidden-xs">
                   <!-- search filters go here -->
                 </div>
-                <div class="block-content collapse hidden-sm hidden-md" id="filtersCollapse">
+                <div class="block-content block-content-filters collapse hidden-sm hidden-md" id="filtersCollapse">
                   <!-- search filters go here -->
                 </div>
               </div>

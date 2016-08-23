@@ -2,13 +2,9 @@
 
 {% block body_class %}easyadmin sidebar-mini list{% endblock %}
 
-{% block content_title %}
-  Commentaires
-{% endblock %}
-
+{% block content_title %}Commentaires{% endblock %}
 
 {% block main %}
-
 
   <section id="main" class="content">
 
@@ -17,61 +13,74 @@
         <table class="table">
           <thead>
           <tr>
-            <th>
-              Commentaires
-            </th>
-            <th>
-              Infos
-            </th>
-            <th>
-              Valider
-            </th>
-            <th>
-              Supprimer
-            </th>
+            <th><span>Commentaires</span></th>
+            <th><span>Infos</span></th>
+            <th><span>Valider</span></th>
+            <th><span>Supprimer</span></th>
           </tr>
           </thead>
-
           <tbody>
-
-            {% for comment in comments %}
-
-              <tr>
-                <td>
-                  {{ comment.message|raw }}
-                </td>
-                <td>
-                  <b>Utilisateur:</b> <a target="_blank" href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': comment.user.id}) }}">{{ comment.user }}</a><br />
-                  <b>Produit:</b> {{ comment.thread.product.name }}
-                </td>
-                <td>
-                  <input type="radio" name="comment_{{ comment.id }}" value="1" checked />
-                </td>
-
-
-                <td>
-                  <input type="radio" name="comment_{{ comment.id }}" value="0" />
-                </td>
-
-              </tr>
-            {% else %}
-
-              <tr>
-                <td colspan="4" class="text-center">Aucun commentaire</td>
-              </tr>
-
-            {% endfor %}
-
+          {% for comment in comments %}
+            <tr>
+              <td>
+                <span>{{ comment.message|raw }}</span>
+                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#textEdit"
+                data-id="{{ comment.id }}">
+                  Modifier
+                </button>
+              </td>
+              <td>
+                <b>Utilisateur:</b>
+                <a target="_blank"
+                   href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': comment.user.id}) }}">
+                  {{ comment.user }}
+                </a>
+                <br/>
+                <b>Produit:</b> {{ comment.thread.product.name }}
+              </td>
+              <td><input type="radio" name="comment_{{ comment.id }}" value="1" placeholder="" checked/></td>
+              <td><input type="radio" name="comment_{{ comment.id }}" value="0" placeholder=""/></td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="4" class="text-center">Aucun commentaire</td>
+            </tr>
+          {% endfor %}
           </tbody>
         </table>
       </div>
-
-      <button class="btn btn-primary pull-right" type="submit" name="save-comment" value="1">Modérer les commentaires</button>
-
+      <button class="btn btn-primary pull-right" type="submit" name="save-comment" value="1">
+        Modérer les commentaires
+      </button>
     </form>
-
-
   </section>
 
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="textEdit">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Modifier le commentaire</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <textarea class="form-control" name="text" placeholder="Commentaire"></textarea>
+            <input type="text" class="form-control hidden" name="id" placeholder="">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-primary save-btn" data-dismiss="modal">Sauvegarder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+  <script src="{{ asset('bundles/comment/js/comments.js') }}"></script>
 
 {% endblock %}

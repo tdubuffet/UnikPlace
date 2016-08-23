@@ -1,0 +1,52 @@
+default:
+  title: " | %siteName%, le premium à votre portée"
+  description: "Des produits premium à votre portée sur %siteName%"
+
+homepage:
+  title: "Univers vintage et d'exception"
+  description: "Univers vintage et d'exception à votre portée"
+
+about:
+  title: "A propos de nous"
+  description: ""
+
+faq:
+  title: "Foire aux questions"
+  description: ""
+
+contact:
+  title: "Nous contacter"
+  description: ""
+
+legal_notice:
+  title: "Mentions légales"
+  description: ""
+
+cart:
+  title: "Mon panier"
+  description: "Mon panier sur %siteName%"
+
+sell_category:
+  title: "Choix de la catégorie"
+  description: "Dépôt d'annonce - Catégorie"
+
+sell_photos:
+  title: "Choix des photos"
+  description: "Dépôt d'annonce - Photos"
+
+sell_description:
+  title: "Choix de la description"
+  description: "Dépôt d'annonce - Description"
+
+sell_price:
+  title: "Choix du prix"
+  description: "Dépôt d'annonce - Prix"
+
+sell_shipping:
+  title: "Choix de la livraison"
+  description: "Dépôt d'annonce - Livraison"
+
+sell_thanks:
+  title: "Annonce déposée"
+  description: "Dépôt d'annonce - Annonce déposée avec succès"
+

@@ -31,7 +31,7 @@ var Search = {
             data: data,
             success: function(result) {
                 // Update filter div
-                $('.sidebar .block-layered-nav .block-content').html(result);
+                $('.sidebar .block-layered-nav .block-content-filters').html(result);
                 Search.initPrice();
                 Search.initRange();
                 Search.initCounty();
