@@ -1,7 +1,7 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title %}Mon panier{% endblock %}
-{% block description %}Mon panier sur {{ siteName }}{% endblock %}
+{% block description %}{{ 'cart.description'|trans({ '%siteName%': siteName }, 'seo') }}{% endblock %}
+
 {% block javascript_include %}{{ jsinit(['cart']) }}{% endblock javascript_include %}
 
 {% block body %}
