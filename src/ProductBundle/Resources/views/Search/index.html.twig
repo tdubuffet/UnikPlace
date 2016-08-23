@@ -94,7 +94,19 @@
                     </ul>
                 </div>
                 <div class="block-content collapse hidden-sm hidden-md" id="categoriesCollapse">
-                  <!-- search filters go here -->
+                  {% if category.getParent() is null %}
+                    {% set children = category.getChildren() %}
+                  {% else %}
+                    {% set children = category.getParent().getChildren() %}
+                  {% endif %}
+
+                  <ul>
+                    {% for subCat in children %}
+                      <li>
+                        <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.name }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
                 </div>
               </div>
               {% endif %}
