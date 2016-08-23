@@ -19,15 +19,21 @@ class SearchController extends Controller
      */
     public function searchAction(Request $request)
     {
-        $params = $request->query->all();
-        $search = $this->get('product_bundle.product_search_service');
-        $results = $search->search($params);
-        $pagination = $search->getHtmlPagination($results, $params);
+        $params         = $request->query->all();
+        $search         = $this->get('product_bundle.product_search_service');
+        $results        = $search->search($params);
+        $pagination     = $search->getHtmlPagination($results, $params);
 
-        $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-        $mainCategories = $repository->findBy(array('parent' => null));
+        $repository = $this->getDoctrine()
+            ->getRepository('ProductBundle:Category');
+        $mainCategories = $repository
+            ->findBy(array('parent' => null));
 
-        return ['products' => $results, 'mainCategories' => $mainCategories, 'pagination' => $pagination];
+        return [
+            'products' => $results,
+            'mainCategories' => $mainCategories,
+            'pagination' => $pagination
+        ];
     }
 
 
