@@ -5,7 +5,7 @@
 var Comments = {
     init: function () {
         $('#textEdit').on('shown.bs.modal', function (event) {
-            $("input[name='text']").val("");
+            $("textarea[name='text']").val("");
             $("input[name='id']").val("");
             Comments.button = $(event.relatedTarget);
             Comments.getComment();
@@ -23,7 +23,7 @@ var Comments = {
             data: {'comment_id': Comments.button.data('id'), 'action': 'get'},
             success: function (result) {
                 var comment = result['comment'];
-                $("input[name='text']").val(comment.message);
+                $("textarea[name='text']").val(comment.message);
                 $("input[name='id']").val(comment.id);
             },
             error: function (result) {
