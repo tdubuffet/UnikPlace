@@ -3,8 +3,7 @@
 namespace ProductBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use DepositBundle\Entity\Category;
+use ProductBundle\Entity\Category;
 
 class CategoryService
 {
@@ -23,7 +22,7 @@ class CategoryService
     /**
      * Get tree of subcategories
      *
-     * @param \ProductBundle\Entity\Product $product
+     * @param Category $category
      *
      * @return array
      */
@@ -34,6 +33,7 @@ class CategoryService
 
             if ($subCategories) {
                 $subCategInfos = [];
+                /** @var Category $subCateg */
                 foreach ($subCategories as $subCateg) {
                     $subCategInfos[$subCateg->getId()] = ['id' => $subCateg->getId(), 'name' => $subCateg->getName()];
 
