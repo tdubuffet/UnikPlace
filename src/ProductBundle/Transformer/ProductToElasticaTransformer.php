@@ -29,6 +29,8 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
     {
         $identifier = $product->getId();
 
+        $county = $product->getAddress()->getCity()->getCounty();
+
         $document = new Document($identifier, array(
             'id' => $product->getId(),
             'name' => $product->getName(),
@@ -36,7 +38,7 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
             'category' => $product->getCategory()->getPath(),
             'price' => $product->getPrice(),
             'updated_at' => $product->getUpdatedAt()->getTimestamp(),
-            'county' => $product->getAddress()->getCity()->getCounty()->getId(),
+            'county' => ($county == null) ? null : $county->getId(),
             'status' => $product->getStatus()->getName()
         ));
 
