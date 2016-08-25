@@ -7,6 +7,13 @@
 {% block page_content %}
 
   <div class="box">
+    {% for type, messages in app.session.flashbag.all() %}
+      {% for message in messages %}
+        <div class="alert alert-{{ type }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endfor %}
     <!-- /.box-header -->
     <div class="box-body">
       <table class="table table-bordered">
@@ -26,7 +33,7 @@
               {{ category.name }}
             </td>
             <td>
-              <a href="" class="btn btn-info">
+              <a href="{{ path('ad2_categories_new') }}" class="btn btn-info">
                 <i class="fa fa-plus"></i>
               </a>
               <a href="" class="btn btn-primary">
