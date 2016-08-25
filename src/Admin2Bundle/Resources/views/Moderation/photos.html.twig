@@ -1,0 +1,78 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Modération du produit {{ product.name }}{% endblock %}
+{% block page_subtitle %}Modération{% endblock %}
+
+
+{% block page_content %}
+
+
+
+  <div class="box">
+
+    <div class="box-header">
+      <h4>Ajouter une image</h4>
+    </div>
+    {{ form_start(form) }}
+      <div class="box-body">
+
+
+          {{ form_widget(form.imageFile) }}
+
+          {{ form_rest(form) }}
+      </div>
+      <div class="box-body">
+        <button class="btn btn-success" type="submit">
+          Ajouter
+        </button>
+      </div>
+    {{ form_end(form) }}
+  </div>
+
+
+
+  <form method="post">
+    <input type="hidden" name="sort" />
+    <div class="box">
+
+      <div class="box-body">
+
+        <h4>Images</h4>
+
+
+          <table class="table table-bordered">
+
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for image in images %}
+              <tr>
+                <td><img src="{{ loadpic(image, 250, 250, 'r3') }}" class="img-thumbnail"></td>
+                <td>
+                    <input type="hidden" name="image_id" value="{{ image.id }}" />
+                    <input type="number" name="sort[{{ image.id }}]" value="{{ image.sort }}" />
+                    <a href="{{ path('ad2_moderation_photos_remove', { id : image.id }) }}" class="btn btn-danger">Supprimer</a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+
+
+          </table>
+
+      </div>
+      <div class="box-footer">
+        <button class="btn btn-success" type="submit">
+          Valider l'ordre
+        </button>
+      </div>
+    </div>
+  </form>
+
+
+{% endblock %}

@@ -3,7 +3,7 @@
     <div class="box-color-choice">
       {% for value in referentialValues %}
         <label class="color-choice" style="background-color: {{ value.getValue() }};">
-          <input type="radio" name="attribute-{{ id }}" value="{{ value.getId() }}" class="attribute-color {% if mandatory %}required{% endif %}" />
+          <input type="radio" name="attribute-{{ id }}" value="{{ value.getId() }}" {% if selected is defined and selected.id == value.id %}checked="checked"{% endif %} class="attribute-color {% if mandatory %}required{% endif %}" />
         </label>
       {% endfor %}
     </div>

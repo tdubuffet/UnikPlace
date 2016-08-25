@@ -40,7 +40,7 @@
               {{ product.createdAt|date('d/m/Y H:i') }}
             </td>
             <td>
-              <a href="" class="btn btn-success">
+              <a href="{{ path('ad2_moderation_edit', { id: product.id}) }}" class="btn btn-success">
                 <i class="fa fa-pencil"></i>
               </a>
             </td>

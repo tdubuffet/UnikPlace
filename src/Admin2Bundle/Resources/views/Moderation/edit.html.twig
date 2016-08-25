@@ -1,0 +1,123 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Modération du produit {{ product.name }}{% endblock %}
+{% block page_subtitle %}Modération{% endblock %}
+
+
+{% block page_content %}
+
+
+
+  <div class="box">
+
+    <div class="box-body">
+
+      <h4>Images</h4>
+
+      {% for image in product.images %}
+        <div class="row-fluid">
+          <div class="col-xs-2">
+            <img src="{{ loadpic(image, 250, 250, 'r3') }}" class="img-thumbnail">
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+    <div class="box-footer">
+      <a class="btn btn-primary" href="{{ path('ad2_moderation_photos', {id: product.id}) }}" target="_blank">
+        Gérer les photos
+      </a>
+    </div>
+  </div>
+
+  {{ form_start(productForm) }}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+
+      <h3>Informations</h3>
+
+      {{ form_row(productForm.name) }}
+      {{  form_row(productForm.category) }}
+      {{ form_row(productForm.description, { 'attr': { 'rows': 6}}) }}
+
+
+
+      <h3>Prix</h3>
+
+      <div class="row">
+        <div class="col-md-3">
+          {{  form_row(productForm.price) }}
+        </div>
+
+        <div class="col-md-3">
+          {{  form_row(productForm.originalPrice) }}
+        </div>
+
+        <div class="col-md-3">
+          {{  form_row(productForm.currency) }}
+        </div>
+
+        <div class="col-md-3">
+          {{  form_row(productForm.allowOffer) }}
+        </div>
+      </div>
+
+      <h3>Dimensions (en mètre) et poids (En gramme)</h3>
+
+      <div class="row">
+        <div class="col-md-3">
+          {{  form_row(productForm.weight) }}
+        </div>
+        <div class="col-md-3">
+          {{  form_row(productForm.width) }}
+        </div>
+
+        <div class="col-md-3">
+          {{  form_row(productForm.length) }}
+        </div>
+
+        <div class="col-md-3">
+          {{  form_row(productForm.height) }}
+        </div>
+      </div>
+
+
+      <h3>Compléments</h3>
+
+      <div class="row">
+        <div class="col-md-6">
+          {{ form_row(productForm.address) }}
+        </div>
+
+        <div class="col-md-6">
+
+          {% for customField in customFields %}
+            {{ customField|raw }}
+          {% endfor %}
+
+        </div>
+      </div>
+
+
+      {{ form_rest(productForm) }}
+
+    </div>
+
+    <div class="box-footer">
+      <button class="btn btn-success" type="submit" name="accepted">
+        Accepter
+      </button>
+      <button class="btn btn-danger" type="submit" name="refused">
+        Refuser
+      </button>
+
+      <button class="btn" type="submit">
+        Enregistrer
+      </button>
+    </div>
+  </div>
+  {{ form_end(productForm) }}
+
+{% endblock %}
