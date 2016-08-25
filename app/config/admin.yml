@@ -6,7 +6,7 @@ easy_admin:
             list:
                 fields: ['username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'enabled', 'locked']
             edit:
-                fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'locked']
+                fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'locked', 'phone']
             show:
                 fields: ['enabled', 'username', 'firstname', 'lastname', 'email', 'roles', 'lastLogin', 'locked']
             new:
@@ -114,6 +114,8 @@ easy_admin:
             class: ProductBundle\Entity\Attribute
         AttributeValue:
             class: ProductBundle\Entity\AttributeValue
+            list:
+              fields: ['id', 'product', 'attribute', 'referentialValue']
         Collection:
             class: ProductBundle\Entity\Collection
             new:
