@@ -1,0 +1,50 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Utilisateurs{% endblock %}
+{% block page_subtitle %}Liste des utilisateurs{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Username</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Activé</th>
+          <th>Bloqué</th>
+          <th>Actions</th>
+        </tr>
+
+        {% for user in users %}
+
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.firstname }}</td>
+            <td>{{ user.lastname }}</td>
+            <td>{% if user.enabled %}<span class="badge bg-green">Oui</span>{% else %}<span class="badge bg-red">Non</span>{% endif %}</td>
+            <td>{% if user.locked %}<span class="badge bg-red">Oui</span>{% else %}<span class="badge bg-green">Non</span>{% endif %}</td>
+            <td>
+              <a href="" class="btn btn-primary">
+                <i class="fa fa-pencil"></i>
+              </a>
+              <a href="" class="btn btn-danger">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+
+        {% endfor %}
+
+        </tbody></table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+      {{ pagerfanta(users, 'twitter_bootstrap3_translated') }}
+  </div>
+
+{% endblock %}

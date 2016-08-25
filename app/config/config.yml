@@ -15,6 +15,7 @@ imports:
     - { resource: "@OrderBundle/Resources/config/services.yml" }
     - { resource: "@DepositBundle/Resources/config/services.yml" }
     - { resource: "@CommentBundle/Resources/config/services.yml" }
+    - { resource: "@Admin2Bundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -72,6 +73,7 @@ twig:
         siteName: "%site_name%"
         website: %website%
         crispWebsiteId: "%crisp.website_id%"
+        admin_skin: skin-red
 
 
 # Doctrine Configuration

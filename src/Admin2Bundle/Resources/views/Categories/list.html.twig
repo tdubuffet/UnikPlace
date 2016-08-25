@@ -1,0 +1,65 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Catégories{% endblock %}
+{% block page_subtitle %}Liste des catégories{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+
+        {% for category in categories %}
+
+          <tr>
+            <td>
+              {% if category.parent is null %}
+                <span class="badge bg-red">Parent</span>
+              {% endif %}
+              {{ category.name }}
+            </td>
+            <td>
+              <a href="" class="btn btn-info">
+                <i class="fa fa-plus"></i>
+              </a>
+              <a href="" class="btn btn-primary">
+                <i class="fa fa-pencil"></i>
+              </a>
+              <a href="" class="btn btn-danger">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+
+          {% for subCat in category.children %}
+
+            <tr>
+              <td>
+
+                <div style="padding: 0 30px; text-align: center; float: left">
+                  <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
+
+                {% if subCat.parent is null %}
+                  <span class="badge bg-red">Parent</span>
+                {% endif %}
+                {{ subCat.name }}
+              </td>
+            </tr>
+
+          {% endfor %}
+
+        {% endfor %}
+
+        </tbody></table>
+    </div>
+  </div>
+
+{% endblock %}

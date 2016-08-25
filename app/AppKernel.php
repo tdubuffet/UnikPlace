@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new FOS\MessageBundle\FOSMessageBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Kachkaev\AssetsVersionBundle\KachkaevAssetsVersionBundle(),
+            new Avanzu\AdminThemeBundle\AvanzuAdminThemeBundle(),
 
             // Private bundles
             new AppBundle\AppBundle(),
@@ -43,6 +44,7 @@ class AppKernel extends Kernel
             new OrderBundle\OrderBundle(),
             new DepositBundle\DepositBundle(),
             new CommentBundle\CommentBundle(),
+            new Admin2Bundle\Admin2Bundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

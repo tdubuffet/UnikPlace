@@ -46,7 +46,8 @@
         "friendsofsymfony/message-bundle": "dev-symfony3",
         "mangopay/php-sdk-v2": "^2.3",
         "white-october/pagerfanta-bundle": "^1.0",
-        "kachkaev/assets-version-bundle": "^2.0"
+        "kachkaev/assets-version-bundle": "^2.0",
+        "avanzu/admin-theme-bundle": "^1.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
