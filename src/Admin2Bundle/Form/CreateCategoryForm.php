@@ -67,6 +67,18 @@ class CreateCategoryForm extends AbstractType
                     },
                 ])
             ->add(
+                "collections",
+                EntityType::class,
+                [
+                    'label' => 'Collections',
+                    'required' => false,
+                    'multiple' => true,
+                    'class' => 'ProductBundle\Entity\Collection',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('c');
+                    },
+                ])
+            ->add(
                 "image",
                 CategoryImageType::class,
                 ['label' => 'Image', 'required' => true, 'label_attr' => ['class' => 'hidden']]

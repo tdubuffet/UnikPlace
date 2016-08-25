@@ -33,7 +33,6 @@ class CategoriesController extends Controller
      */
     public function createCategoryAction(Request $request)
     {
-        $twigArray = [];
         $form = $this->createForm(CreateCategoryForm::class, null);
         $form->handleRequest($request);
         $twigArray['form'] = $form->createView();
