@@ -20,6 +20,11 @@
             </div>
           {% endfor %}
 
+          <img src="{{ asset('bundles/deposit/images/living_room.jpg')}}"
+               alt="Choix de la catégorie" style="width: 100%">
+
+          <h2 class="title-widget"><span>Choisissez une catégorie</span></h2>
+
           <form method="post" action="{{ path('deposit_postcategory') }}" id="category-form">
             <div class="category-choices">
               <div class="row">
