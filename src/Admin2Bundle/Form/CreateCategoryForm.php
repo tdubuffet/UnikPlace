@@ -21,6 +21,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateCategoryForm extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -81,16 +85,17 @@ class CreateCategoryForm extends AbstractType
             ->add(
                 "image",
                 CategoryImageType::class,
-                ['label' => 'Image', 'required' => true, 'label_attr' => ['class' => 'hidden']]
+                ['label' => 'Image', 'required' => $options['img_req'], 'label_attr' => ['class' => 'hidden']]
             )
             ->add('save', SubmitType::class, ['label' => 'Sauvegarder la catégorie']);;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            ['parents' => null, 'childrens' => null, 'data_class' => 'ProductBundle\Entity\Category']
-        );
+        $resolver->setDefaults(['data_class' => 'ProductBundle\Entity\Category', 'img_req' => true]);
     }
 
 }

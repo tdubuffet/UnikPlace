@@ -33,15 +33,13 @@
               {{ category.name }}
             </td>
             <td>
-              <a href="{{ path('ad2_categories_new') }}" class="btn btn-info">
+              <a href="{{ path('ad2_categories_new', {'parent' : category.id}) }}" class="btn btn-info">
                 <i class="fa fa-plus"></i>
               </a>
-              <a href="" class="btn btn-primary">
+              <a href="{{ path('ad2_categories_edit', {'id': category.id}) }}" class="btn btn-primary">
                 <i class="fa fa-pencil"></i>
               </a>
-              <a href="" class="btn btn-danger">
-                <i class="fa fa-trash"></i>
-              </a>
+              <button class="btn btn-danger" data-id="{{ category.id }}"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
 
@@ -49,15 +47,19 @@
 
             <tr>
               <td>
-
                 <div style="padding: 0 30px; text-align: center; float: left">
                   <i class="fa fa-chevron-right" aria-hidden="true"></i>
                 </div>
-
                 {% if subCat.parent is null %}
                   <span class="badge bg-red">Parent</span>
                 {% endif %}
                 {{ subCat.name }}
+              </td>
+              <td>
+                <a href="{{ path('ad2_categories_edit', {'id': subCat.id}) }}" class="btn btn-primary">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <button class="btn btn-danger" data-id="{{ subCat.id }}"><i class="fa fa-trash"></i></button>
               </td>
             </tr>
 
@@ -65,8 +67,16 @@
 
         {% endfor %}
 
-        </tbody></table>
+        </tbody>
+      </table>
     </div>
   </div>
 
 {% endblock %}
+
+  {% block javascripts_inline %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('components/bootbox.js/bootbox.js') }}"></script>
+    <script src="{{ asset('bundles/admin2/js/list.js') }}"></script>
+  {% endblock %}
