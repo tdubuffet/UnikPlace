@@ -32,7 +32,6 @@
             <td><span class="badge">{{ collection.categories|length() }}</span> </td>
             <td><span class="badge">{{ collection.products|length() }}</span> </td>
             <td>
-              <a href="{{ path('ad2_collections_new') }}" class="btn btn-info"><i class="fa fa-plus"></i></a>
               <a href="{{ path('ad2_collections_edit', {'id': collection.id}) }}" class="btn btn-primary">
                 <i class="fa fa-pencil"></i>
               </a>
@@ -43,6 +42,9 @@
 
         </tbody>
       </table>
+    </div>
+    <div class="box-footer">
+      <a href="{{ path('ad2_collections_new') }}" class="btn btn-info"><i class="fa fa-plus"></i> Ajouter une collection</a>
     </div>
   </div>
 
