@@ -1,0 +1,18 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Reférentiels{% endblock %}
+{% block page_subtitle %}Ajouter un référentiel{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Ajouter" class="btn btn-success" />
+    {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

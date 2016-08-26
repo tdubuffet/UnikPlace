@@ -1,0 +1,41 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Reférentiels{% endblock %}
+{% block page_subtitle %}Liste des reférentiels{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Code</th>
+                    <th>Nom</th>
+                    <th>Valeurs</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for referential in referentials %}
+                <tr>
+                    <td><a href="{{ path('ad2_ref_show', { 'id': referential.id }) }}">{{ referential.id }}</a></td>
+                    <td>{{ referential.code }}</td>
+                    <td>{{ referential.name }}</td>
+                    <td><span class="badge">{{ referential.referentialValues.count() }}</span></td>
+                    <td>
+                        <a href="{{ path('ad2_ref_edit', { 'id': referential.id }) }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer">
+        <a href="{{ path('ad2_ref_new') }}" class="btn btn-success">Ajouter</a>
+    </div>
+</div>
+{% endblock %}

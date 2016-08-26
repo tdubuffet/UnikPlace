@@ -1,0 +1,25 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Reférentiels{% endblock %}
+{% block page_subtitle %}{{ referential.name }}{% endblock %}
+
+
+{% block page_content %}
+
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+            <input type="submit" value="Editer" class="btn btn-warning" />
+        {{ form_end(edit_form) }}
+        <br />
+
+        {{ form_start(delete_form) }}
+            <input type="submit" value="Supprimer" class="btn btn-danger">
+        {{ form_end(delete_form) }}
+
+    </div>
+</div>
+{% endblock %}
