@@ -2,6 +2,7 @@
 
 namespace OrderBundle\Repository;
 
+use OrderBundle\Entity\Status;
 use UserBundle\Entity\User;
 
 /**
@@ -48,6 +49,15 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getSingleResult()
         ;
+    }
+
+    /**
+     * @param Status $status
+     * @return int
+     */
+    public function countByStatus(Status $status)
+    {
+        return count($this->findBy(['status' => $status]));
     }
 
 }

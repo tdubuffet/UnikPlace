@@ -37,6 +37,7 @@ class MenuItemListListener {
             new MenuItemModel('category', 'Catégories', 'ad2_categories_list', [], 'iconclasses fa fa-bars'),
             new MenuItemModel('collection', 'Tendances', 'ad2_collections_list', [], 'iconclasses fa fa-bars'),
             new MenuItemModel('ref', 'Référentiel', 'ad2_ref_list', [/* options */], 'iconclasses fa fa-wrench '),
+            new MenuItemModel('order_status', 'Statut de commande', 'ad2_order_status_list', [/* options */], 'iconclasses fa fa-wrench '),
         ];
 
         $user->addChild(new MenuItemModel('user-list', 'Recherche & liste', 'ad2_user_list', [], 'fa fa-user'));

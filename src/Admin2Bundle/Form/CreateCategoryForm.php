@@ -78,7 +78,7 @@ class CreateCategoryForm extends AbstractType
                 CategoryImageType::class,
                 ['label' => 'Image', 'required' => $options['img_req'], 'label_attr' => ['class' => 'hidden']]
             )
-            ->add('save', SubmitType::class, ['label' => 'Sauvegarder la catégorie']);;
+            ->add('save', SubmitType::class, ['label' => 'Sauvegarder la catégorie']);
     }
 
     /**

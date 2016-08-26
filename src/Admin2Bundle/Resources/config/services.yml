@@ -3,3 +3,6 @@ services:
         class: Admin2Bundle\EventListener\MenuItemListListener
         tags:
             - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method:onSetupMenu }
+    my_admin_bundle.delete:
+        class: Admin2Bundle\Utils\DeleteService
+        arguments: ['@doctrine.orm.entity_manager', '@security.authorization_checker']

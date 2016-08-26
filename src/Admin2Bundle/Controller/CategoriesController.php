@@ -42,9 +42,9 @@ class CategoriesController extends Controller
             $parent = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneBy(['id' => $id]);
             $category = new Category();
             $category->setParent($parent);
-            $form = $this->createForm(CreateCategoryForm::class, $category);
+            $form = $this->createForm(CreateCategoryForm::class, $category, ['img_req' => false]);
         } else {
-            $form = $this->createForm(CreateCategoryForm::class, null);
+            $form = $this->createForm(CreateCategoryForm::class, null, ['img_req' => false]);
         }
 
         $form->handleRequest($request);

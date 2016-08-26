@@ -17,7 +17,7 @@ var List = {
                 message: 'Cette action est irréversible.',
                 callback: function (result) {
                     if (result) {
-                        List.removeCategory(button.data('id'));
+                        List.removeCategory(button.data('id'), button.data('type'));
                     }
                 },
                 title: "Voulez-vous supprimer cet élément ?"
@@ -25,11 +25,11 @@ var List = {
         })
     },
 
-    removeCategory: function (id) {
+    removeCategory: function (id, type) {
         $.ajax({
-            url: Routing.generate('ad2_categories_remove'),
+            url: Routing.generate('ad2_object_remove'),
             type: 'POST',
-            data: {category_id: id},
+            data: {id: id, type: type},
             success: function (result) {
                 window.location.reload();
             },

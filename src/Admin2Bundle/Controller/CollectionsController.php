@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class CollectionsController
  * @package Admin2Bundle\Controller
- * @Route("/ad2/collection")
+ * @Route("/collection")
  */
 class CollectionsController extends Controller
 {
