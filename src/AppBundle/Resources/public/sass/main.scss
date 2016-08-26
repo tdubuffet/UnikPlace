@@ -207,7 +207,7 @@ button.button span {
   top:38%;
   z-index:999999;
 }
-.popup-wrapper .content-wrapper {
+.popup-wrapper .content-wrapper-cart {
   display:block;
   position:fixed;
   left:36%;
@@ -221,21 +221,21 @@ button.button span {
   border: #dcdcdc solid 1px;
 
 }
-.popup-wrapper .content-wrapper .product-detail img {
+.popup-wrapper .content-wrapper-cart .product-detail img {
   float:left;
   margin-right:10px;
 }
-.popup-wrapper .content-wrapper .product-detail .product-name {
+.popup-wrapper .content-wrapper-cart .product-detail .product-name {
   margin-bottom: 12px;
   display:block;
   font-weight:400;
   font-size:14px;
 }
-.popup-wrapper .content-wrapper .product-detail .product-name span {
+.popup-wrapper .content-wrapper-cart .product-detail .product-name span {
   color:#383838;
   font-weight:600;
 }
-.popup-wrapper .content-wrapper .product-detail .actions .btn { margin: 5px 0; }
+.popup-wrapper .content-wrapper-cart .product-detail .actions .btn { margin: 5px 0; }
 
 .tooltip.left .tooltip-arrow {
   top:50%;
