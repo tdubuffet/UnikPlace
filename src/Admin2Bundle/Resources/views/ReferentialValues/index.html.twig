@@ -1,0 +1,50 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Reférentiels / Valeurs{% endblock %}
+{% block page_subtitle %}Liste des valeurs pour {{ referential.name }}{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-hader">
+
+        <div class="box-footer">
+            <a href="{{ path('ad2_ref_values_add', { 'ref': referential.id}) }}" class="btn btn-success">Ajouter</a>
+        </div>
+
+    </div>
+    <div class="box-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Referentiels</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for val in referential.referentialValues %}
+                <tr>
+                    <td>{{ val.id }}</td>
+                    <td>{{ val.value }}</td>
+                    <td>
+                        {% for ref in val.referentials %}
+                            {{ ref.name }}<br />
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('ad2_ref_values_edit', { 'ref': referential.id, 'id' : val.id }) }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                        <a href="{{ path('ad2_ref_edit', { 'id': referential.id }) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer">
+        <a href="{{ path('ad2_ref_values_add', { 'ref': referential.id}) }}" class="btn btn-success">Ajouter</a>
+    </div>
+</div>
+{% endblock %}

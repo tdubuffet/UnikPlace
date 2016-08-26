@@ -1,0 +1,24 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Reférentiels{% endblock %}
+{% block page_subtitle %}Gérer une valeur{% endblock %}
+
+
+{% block page_content %}
+
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+
+
+        {{ form_start(form) }}
+
+            {{ form_rest(form) }}
+
+            <button class="btn btn-success" type="submit">Enregistrer</button>
+
+        {{ form_start(form) }}
+
+    </div>
+</div>
+{% endblock %}
