@@ -65,12 +65,18 @@ class Category
      */
     private $image;
 
+    /**
+     * @var ArrayCollection $products
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
+     */
+    private $products;
 
 
     public function __construct() {
         $this->children = new ArrayCollection();
         $this->attributes = new ArrayCollection();
         $this->collections = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     /**
@@ -297,5 +303,36 @@ class Category
         return $this;
     }
 
+    /**
+     * Add product
+     * @param Product $product
+     * @return Category
+     */
+    public function addProduct(Product $product)
+    {
+        $this->products->add($product);
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     * @param Product $product
+     * @return Category
+     */
+    public function removeProduct(Product $product)
+    {
+        $this->products->removeElement($product);
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
 
 }

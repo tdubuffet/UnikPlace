@@ -34,7 +34,7 @@ class Collection
     private $categories;
 
     /**
-     * @ORM\OneToOne(targetEntity="CollectionImage", mappedBy="collection")
+     * @ORM\OneToOne(targetEntity="CollectionImage", mappedBy="collection", cascade={"persist"})
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $image;
