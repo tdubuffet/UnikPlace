@@ -12,7 +12,7 @@ use ProductBundle\Form\ReferentialType;
 /**
  * Referential controller.
  *
- * @Route("/ad2/referential")
+ * @Route("/referential")
  */
 class ReferentialController extends Controller
 {

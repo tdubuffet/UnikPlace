@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/ad2/category")
+ * @Route("/category")
  */
 class CategoriesController extends Controller
 {
