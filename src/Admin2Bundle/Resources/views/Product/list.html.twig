@@ -1,0 +1,76 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Produits{% endblock %}
+{% block page_subtitle %}Liste des produits{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+
+      <form method="post">
+
+        <div class="row">
+
+          <div class="col-xs-5 col-md-offset-6">
+            <div class="form-group">
+              <input type="text" name="search" class="form-control" id="search" placeholder="Recherche (Nom produit, Id du produit, Email du vendeur)" value="{{ app.request.get('search') }}">
+            </div>
+          </div>
+          <div class="col-xs-1">
+            <input type="submit" value="OK" class="btn btn-success" />
+          </div>
+
+        </div>
+      </form>
+
+
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Categorie</th>
+          <th>Utilisateur</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+
+        {% for product in products %}
+
+          <tr>
+            <td>
+              {{ product.name }}
+            </td>
+            <td>
+              {{ product.price }}
+            </td>
+            <td>
+              {% if product.category.parent %}{{ product.category.parent.name }} / {% endif %}
+              {{ product.category.name }}
+            </td>
+            <td>
+              {{ product.user.username }}
+            </td>
+            <td>
+              {{ product.createdAt|date('d/m/Y H:i') }}
+            </td>
+            <td>
+              <a href="{{ path('ad2_product_edit', { id: product.id}) }}" class="btn btn-success">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody></table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+      {{ pagerfanta(products, 'twitter_bootstrap3_translated') }}
+    </div>
+  </div>
+
+{% endblock %}
