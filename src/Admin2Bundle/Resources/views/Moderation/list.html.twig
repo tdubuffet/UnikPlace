@@ -1,0 +1,58 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Modération{% endblock %}
+{% block page_subtitle %}Liste des produits en attente de modération{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Categorie</th>
+          <th>Utilisateur</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+
+        {% for product in products %}
+
+          <tr>
+            <td>
+              {{ product.name }}
+            </td>
+            <td>
+              {{ product.price }}
+            </td>
+            <td>
+              {% if product.category.parent %}{{ product.category.parent.name }} / {% endif %}
+              {{ product.category.name }}
+            </td>
+            <td>
+              {{ product.user.username }}
+            </td>
+            <td>
+              {{ product.createdAt|date('d/m/Y H:i') }}
+            </td>
+            <td>
+              <a href="{{ path('ad2_moderation_edit', { id: product.id}) }}" class="btn btn-success">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody></table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+      {{ pagerfanta(products, 'twitter_bootstrap3_translated') }}
+    </div>
+  </div>
+
+{% endblock %}

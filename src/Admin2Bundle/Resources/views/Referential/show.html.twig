@@ -1,0 +1,41 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Reférentiels{% endblock %}
+{% block page_subtitle %}{{ referential.name }}{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th style="width: 20%">Id</th>
+                    <td>{{ referential.id }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Code</th>
+                    <td>{{ referential.code }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Nom</th>
+                    <td>{{ referential.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="box-footer">
+
+        <a href="{{ path('ad2_ref_edit', { 'id': referential.id }) }}">Editer</a>
+        <a class="btn btn-link" href="{{ path('ad2_ref_list') }}">Retour</a>
+
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Supprimer" class="btn btn-danger">
+        {{ form_end(delete_form) }}
+
+    </div>
+</div>
+{% endblock %}

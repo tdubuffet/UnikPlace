@@ -15,7 +15,6 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  */
 class Category
 {
-
     use ORMBehaviors\Sluggable\Sluggable,
         ORMBehaviors\Timestampable\Timestampable;
 
@@ -60,7 +59,7 @@ class Category
     private $collections;
 
     /**
-     * @ORM\OneToOne(targetEntity="CategoryImage")
+     * @ORM\OneToOne(targetEntity="CategoryImage",cascade={"persist"})
      * @ORM\JoinColumn(name="category_image_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */

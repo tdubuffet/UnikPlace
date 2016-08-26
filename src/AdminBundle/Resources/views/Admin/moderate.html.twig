@@ -97,7 +97,7 @@
                 <img src="{{ loadpic(image, 150, 100) }}">
               </a>
               <div class="easyadmin-lightbox" id="image{{ image.id }}">
-                <img src="{{ loadpic(image, 500, 600) }}">
+                <img src="{{ asset('/images/products/' ~ image.getImagePath()) }}">
               </div>
             {% endfor %}
           </div>

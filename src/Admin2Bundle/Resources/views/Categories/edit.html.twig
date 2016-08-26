@@ -1,0 +1,44 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Catégorie {{ category.name }}{% endblock %}
+{% block page_subtitle %}Catégorie {{ category.name }}{% endblock %}
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <div class="col-md-8">
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+        {% if category.image is not null %}
+          <a href="#" data-featherlight-close-on-click="anywhere"
+             data-featherlight="{{ asset('/images/categories/' ~ category.image.getImagePath()) }}">
+            <img src="{{ loadpic(category.image, 150, 100, 'r3', 'categories') }}">
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+  {% block javascripts_inline %}
+    <link rel="stylesheet" href="{{ asset('components/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('components/featherlight/release/featherlight.min.css') }}">
+    <script src="{{ asset('components/select2/dist/js/select2.js') }}"></script>
+    <script src="{{ asset('components/select2/dist/js/i18n/fr.js') }}"></script>
+    <script src="{{ asset('components/featherlight/release/featherlight.min.js') }}"></script>
+    <script>
+      $(document).ready(function () {
+        $("#create_category_form_parent").select2({
+          placeholder: "Catégorie parente",
+          allowClear: true
+        });
+        $("#create_category_form_children").select2();
+        $("#create_category_form_attributes").select2();
+        $("#create_category_form_collections").select2();
+      });
+    </script>
+  {% endblock %}

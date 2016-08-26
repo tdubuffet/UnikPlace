@@ -3,7 +3,7 @@
   <select class="form-control attribute-field" name="attribute-{{ id }}" {% if mandatory %}data-required="true"{% endif %}>
     <option value="">{{ referentialName }} de votre produit</option>
     {% for value in referentialValues %}
-    <option value="{{ value.getId() }}">{{ value.getValue() }}</option>
+    <option {% if selected is defined and selected.id == value.id %}selected="selected"{% endif %} value="{{ value.getId() }}">{{ value.getValue() }}</option>
     {% endfor %}
   </select>
 </div>

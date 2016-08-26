@@ -1,0 +1,5 @@
+services:
+    my_admin_bundle.menu_listener:
+        class: Admin2Bundle\EventListener\MenuItemListListener
+        tags:
+            - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method:onSetupMenu }
