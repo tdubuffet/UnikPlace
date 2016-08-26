@@ -157,10 +157,10 @@
                           <div class="actions">
                             {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user)%}
                               <div class="action-list addtocart">
-                                <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}J'ajoute{% endif %}" class="btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
+                                <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}Ajouter au panier{% endif %}" class="btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
                                   <span class="btn-cart-lbl">
                                     <i class="fa fa-shopping-bag"></i>
-                                    <span class="btn-cart-txt">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}J'ajoute{% endif %}</span>
+                                    <span class="btn-cart-txt">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}</span>
                                   </span>
                                 </button>
                               </div>
@@ -310,11 +310,17 @@
                         {% if productAttributes is empty %}
                           <p>Aucune caractéristique renseignée pour ce produit.</p>
                         {% else %}
-                          <ul>
+
                             {% for code, attribute in productAttributes if attribute.deposit != "color" %}
-                              <li>{{ attribute.name }} : {{ attribute.value }}</li>
+                              <div class="row">
+                                <div class="col-xs-4 col-sm-2">
+                                  <b>{{ attribute.name }}</b>
+                                </div>
+                                <div class="col-xs-8 col-sm-10">
+                                  {{ attribute.value }}
+                                </div>
+                              </div>
                             {% endfor %}
-                          </ul>
                         {% endif %}
                       </div>
                     </div>
@@ -327,17 +333,26 @@
                           Le vendeur propose les modes de livraison suivants :
                           <br>
                           {% for delivery in product.deliveries.toArray %}
-                              {{ delivery.deliveryMode.name }}
-                            {% if delivery.deliveryMode.type == 'by_hand' %}<i>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</i>{% endif %} :
-                            {% if delivery.fee == 0 %}
-                              Gratuit
-                            {% else %}
-                              {{  delivery.fee|currency_convert_format(product.currency.code) }}
-                            {% endif %}
-                            {% if delivery.deliveryMode.description is not null %}
-                              <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
-                                 data-container="body" title="{{  delivery.deliveryMode.description }}"></i>
-                            {% endif %}
+
+                            <div class="row">
+                              <div class="col-xs-6 col-sm-6">
+                                <b>
+                                  {{ delivery.deliveryMode.name }}
+                                  {% if delivery.deliveryMode.type == 'by_hand' %}<i>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</i>{% endif %}
+                                </b>
+                              </div>
+                              <div class="col-xs-6 col-sm-6">
+                                {% if delivery.fee == 0 %}
+                                  Gratuit
+                                {% else %}
+                                  {{  delivery.fee|currency_convert_format(product.currency.code) }}
+                                {% endif %}
+                                {% if delivery.deliveryMode.description is not null %}
+                                  <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
+                                     data-container="body" title="{{  delivery.deliveryMode.description }}"></i>
+                                {% endif %}
+                              </div>
+                            </div>
                             <br>
                           {% endfor %}
                         </div>
@@ -457,7 +472,7 @@
   <div class="content-wrapper">
     <div class="product-detail">
       {% set images = product.getImages() %}
-      <img src="{% if images[0] is defined %}{{ loadpic(images[0], 135, 135) }}{% endif %}" width="135" height="135"
+      <img src="{% if images[0] is defined %}{{ loadpic(images[0], 135, 135, 'r3') }}{% endif %}" width="135" height="135"
            alt="{{ product.name }}" />
       <span class="product-name">Le produit "<span>{{ product.name }}</span>" a été ajouté au panier.</span>
       <div class="actions">
