@@ -91,7 +91,6 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity="AttributeValue", mappedBy="product")
-     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
     private $attributeValues;
 

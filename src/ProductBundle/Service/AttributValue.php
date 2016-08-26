@@ -48,7 +48,7 @@ class AttributValue
 
         }
 
-        $this->container->get('app_cache')->save($key, $array, 300);
+        $this->container->get('app_cache')->save($key, $array, 60);
 
 
         return $array;
