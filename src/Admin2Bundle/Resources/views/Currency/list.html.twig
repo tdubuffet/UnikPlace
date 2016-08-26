@@ -1,0 +1,62 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Devises{% endblock %}
+{% block page_subtitle %}Devises{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    {% for type, messages in app.session.flashbag.all() %}
+      {% for message in messages %}
+        <div class="alert alert-{{ type }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Code</th>
+          <th>Taux</th>
+          <th>Actions</th>
+        </tr>
+
+        {% for key, currency in currencies %}
+
+          <tr>
+            <td>{{ currency.code }}</td>
+            <td>{{ currency.rate }}</td>
+            <td>
+              <a href="{{ path('ad2_currency_edit', {'id': currency.id}) }}" class="btn btn-primary">
+                <i class="fa fa-pencil"></i>
+              </a>
+              {% if count[key] <= 0 %}
+                <button class="btn btn-danger" data-id="{{ currency.id }}" data-type="currency">
+                  <i class="fa fa-trash"></i>
+                </button>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+    <div class="box-footer">
+      <a href="{{ path('ad2_currency_new') }}" class="btn btn-info">
+        <i class="fa fa-plus"></i> Ajouter une devise
+      </a>
+    </div>
+  </div>
+
+{% endblock %}
+
+  {% block javascripts_inline %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('components/bootbox.js/bootbox.js') }}"></script>
+    <script src="{{ asset('bundles/admin2/js/list.js') }}"></script>
+  {% endblock %}

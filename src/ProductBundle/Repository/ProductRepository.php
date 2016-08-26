@@ -3,6 +3,7 @@
 namespace ProductBundle\Repository;
 
 use ProductBundle\Entity\Collection;
+use ProductBundle\Entity\Currency;
 use ProductBundle\Entity\Product;
 use ProductBundle\Entity\Status;
 use UserBundle\Entity\User;
@@ -108,5 +109,13 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     public function countByStatus(Status $status)
     {
         return count($this->findBy(['status' => $status]));
+    }
+    /**
+     * @param Currency $currency
+     * @return int
+     */
+    public function countByCurrency(Currency $currency)
+    {
+        return count($this->findBy(['currency' => $currency]));
     }
 }

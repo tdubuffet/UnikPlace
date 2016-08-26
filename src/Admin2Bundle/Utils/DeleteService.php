@@ -86,6 +86,15 @@ class DeleteService
                 $message = sprintf('Status de produit %s supprimé', $status->getName());
                 $this->addFlash("success", $message);
                 break;
+            case 'currency' :
+                $currency = $this->em->getRepository("ProductBundle:Currency")->findOneBy(['id' => $id]);
+                if (!$currency) {
+                    return [['message' => 'Currency not found'], 404];
+                }
+                $this->em->remove($currency);
+                $message = sprintf('Devise %s supprimée', $currency->getCode());
+                $this->addFlash("success", $message);
+                break;
             default:
                 return [['message' => 'Parameter type invalid.'], 401];
                 break;
