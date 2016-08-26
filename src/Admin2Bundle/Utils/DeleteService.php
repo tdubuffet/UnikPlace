@@ -77,6 +77,15 @@ class DeleteService
                 $message = sprintf('Status de commande %s supprimé', $status->getName());
                 $this->addFlash("success", $message);
                 break;
+            case 'product_status' :
+                $status = $this->em->getRepository("ProductBundle:Status")->findOneBy(['id' => $id]);
+                if (!$status) {
+                    return [['message' => 'Product Status not found'], 404];
+                }
+                $this->em->remove($status);
+                $message = sprintf('Status de produit %s supprimé', $status->getName());
+                $this->addFlash("success", $message);
+                break;
             default:
                 return [['message' => 'Parameter type invalid.'], 401];
                 break;

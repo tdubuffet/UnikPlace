@@ -4,6 +4,7 @@ namespace ProductBundle\Repository;
 
 use ProductBundle\Entity\Collection;
 use ProductBundle\Entity\Product;
+use ProductBundle\Entity\Status;
 use UserBundle\Entity\User;
 
 /**
@@ -98,5 +99,14 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->setParameters($params)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param Status $status
+     * @return int
+     */
+    public function countByStatus(Status $status)
+    {
+        return count($this->findBy(['status' => $status]));
     }
 }
