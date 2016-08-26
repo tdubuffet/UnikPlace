@@ -52,7 +52,7 @@
             <tbody>
             {% for image in images %}
               <tr>
-                <td><img src="{{ loadpic(image, 250, 250, 'r3') }}" class="img-thumbnail"></td>
+                <td><a href="{{ asset('images/products/' ~ image.getImagePath()) }}" target="_blank"><img src="{{ loadpic(image, 250, 250, 'r3') }}" class="img-thumbnail"></a></td>
                 <td>
                     <input type="hidden" name="image_id" value="{{ image.id }}" />
                     <input type="number" name="sort[{{ image.id }}]" value="{{ image.sort }}" />
