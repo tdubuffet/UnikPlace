@@ -1,0 +1,52 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Messages{% endblock %}
+{% block page_subtitle %}Conversation{% endblock %}
+
+{% block page_content %}
+
+
+<div class="box">
+
+  <div class="box-body">
+
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>
+            User
+          </th>
+          <th>
+            Message
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+          {% for message in thread.messages %}
+
+            <tr>
+              <td><a href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': message.sender.id}) }}">{{ message.sender.username }}</a></td>
+              <td style="width: 75%">
+                {{ message.body|raw }}
+                <hr />
+                <p>Envoyé le <b>{{ message.createdAt|date('d/m/Y H:i') }}</b></p>
+              </td>
+
+            </tr>
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+
+
+{% endblock %}

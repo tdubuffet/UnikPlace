@@ -30,6 +30,8 @@ class MenuItemListListener {
             new MenuItemModel('moderation', 'Modération', 'ad2_moderation_list', array(/* options */), 'iconclasses fa fa-chevron-circle-down'),
             $user = new MenuItemModel('user', 'Utilisateurs', 'ad2_user_list', array(/* options */), 'iconclasses fa fa-plane'),
             new MenuItemModel('products', 'Produits', 'ad2_product_list', array(/* options */), 'iconclasses fa fa-cube'),
+            new MenuItemModel('user-messages', 'Messages', 'ad2_messages', [], 'iconclasses fa fa-envelope'),
+            new MenuItemModel('user-litiges', 'Litiges', 'ad2_disputes', [], 'iconclasses fa fa-graduation-cap'),
 
             new MenuItemModel('configuration', 'Ecommerce', false),
             new MenuItemModel('category', 'Catégories', 'ad2_categories_list', [], 'iconclasses fa fa-bars'),
@@ -38,7 +40,6 @@ class MenuItemListListener {
         ];
 
         $user->addChild(new MenuItemModel('user-list', 'Recherche & liste', 'ad2_user_list', [], 'fa fa-user'));
-        $user->addChild(new MenuItemModel('user-messages', 'Messages', 'ad2_user_list'));
 
 
         return $this->activateByRoute($request->get('_route'), $menuItems);

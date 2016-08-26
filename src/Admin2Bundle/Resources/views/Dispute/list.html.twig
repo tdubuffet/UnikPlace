@@ -1,0 +1,63 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Dispute{% endblock %}
+{% block page_subtitle %}Liste{% endblock %}
+
+{% block page_content %}
+
+
+<div class="box">
+
+  <div class="box-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>
+            Order ID
+          </th>
+          <th>
+            Acheteur
+          </th>
+          <th>
+            Vendeur
+          </th>
+          <th>
+            Produit
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+          {% for dispute in disputes %}
+            <tr>
+              <td>
+                {{ dispute.id }}
+              </td>
+              <td>
+                {{ dispute.user.username }}
+              </td>
+              <td>
+                {{ dispute.product.user.username }}
+              </td>
+              <td>
+                {{ dispute.product.name }} - {{ dispute.amount }} €<br />
+                Prix produit:
+                {{ dispute.productAmount }} €  - Prix livraison: {{ dispute.deliveryAmount }} €
+              </td>
+              <td>
+                <a href="{{ path('ad2_dispute', { id: dispute.id }) }}" class="btn btn-success">Gérer le litige</a>
+              </td>
+            </tr>
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+
+</div>
+
+
+{% endblock %}
