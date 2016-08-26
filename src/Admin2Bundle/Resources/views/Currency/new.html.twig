@@ -1,7 +1,7 @@
 {% extends 'Admin2Bundle::layout.html.twig' %}
 
-{% block page_title %}Nouvelle devise{% endblock %}
-{% block page_subtitle %}Nouvelle devise{% endblock %}
+{% block page_title %}{{ currency is defined ? "Devise : "~currency.code : "Nouvelle devise" }}{% endblock %}
+{% block page_subtitle %}{{ currency is defined ? "Edition de devise" : "Nouvelle devise" }}{% endblock %}
 
 
 {% block page_content %}

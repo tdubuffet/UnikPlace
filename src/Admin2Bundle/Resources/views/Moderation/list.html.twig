@@ -3,7 +3,6 @@
 {% block page_title %}Modération{% endblock %}
 {% block page_subtitle %}Liste des produits en attente de modération{% endblock %}
 
-
 {% block page_content %}
 
   <div class="box">
@@ -19,7 +18,7 @@
         <tr>
           <th>Name</th>
           <th>Price</th>
-          <th>Status</th>
+          <th>Statut</th>
           <th>Categorie</th>
           <th>Utilisateur</th>
           <th>Date</th>
@@ -29,23 +28,15 @@
         {% for product in products %}
 
           <tr>
-            <td>
-              {{ product.name }}
-            </td>
-            <td>
-              {{ product.price }}
-            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
             <td><span class="badge">{{ product.status.name }}</span></td>
             <td>
               {% if product.category.parent %}{{ product.category.parent.name }} / {% endif %}
               {{ product.category.name }}
             </td>
-            <td>
-              {{ product.user.username }}
-            </td>
-            <td>
-              {{ product.createdAt|date('d/m/Y H:i') }}
-            </td>
+            <td>{{ product.user.username }}</td>
+            <td>{{ product.createdAt|date('d/m/Y H:i') }}</td>
             <td>
               <a href="{{ path('ad2_moderation_edit', { id: product.id}) }}" class="btn btn-success">
                 <i class="fa fa-pencil"></i>

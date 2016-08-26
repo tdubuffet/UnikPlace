@@ -13,7 +13,9 @@ use ProductBundle\Form\ImageType;
 use ProductBundle\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -23,10 +25,11 @@ class ProductController extends Controller
 {
     /**
      * @Route("/", name="ad2_product_list")
+     * @param Request $request
+     * @return Response
      */
     public function listAction(Request $request)
     {
-
         $search = $request->get('search');
 
         $query = $this->getDoctrine()->getManager()->createQueryBuilder()
@@ -35,12 +38,9 @@ class ProductController extends Controller
             ->join('p.user', 'u');
 
         if ($search) {
-
             $query->where('p.name LIKE :search or u.username LIKE :search OR p.id LIKE :search')
                 ->setParameter('search', "%$search%");
-
         }
-
 
         $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($query));
         $pagerfanta->setMaxPerPage(50);
@@ -51,26 +51,23 @@ class ProductController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return $this->render('Admin2Bundle:Product:list.html.twig', [
-            'products' => $pagerfanta
-        ]);
+        return $this->render('Admin2Bundle:Product:list.html.twig', ['products' => $pagerfanta]);
     }
 
     /**
      * @Route("/edit/{id}", name="ad2_product_edit")
+     * @param Request $request
+     * @param Product $product
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Product $product)
     {
-
-
         $productForm = $this->createForm(ProductType::class, $product);
         $productForm->handleRequest($request);
 
         $customFields = (new AttributesProduct($this->get('twig')))->getAttributes($product, $filters);
 
-
         if ($productForm->isValid())  {
-
 
             foreach($product->getAttributeValues() as $attr) {
                 $this->getDoctrine()->getManager()->remove($attr);
@@ -79,14 +76,11 @@ class ProductController extends Controller
             $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
 
-
             foreach($filters as $key => $filter) {
 
                 $value  = $request->get('attribute-' . $key);
 
                 if ($request->get('attribute-' . $key)) {
-
-
                     $attributeValue = new AttributeValue();
                     $attributeValue->setProduct($product);
 
@@ -97,9 +91,7 @@ class ProductController extends Controller
                     $attributeValue->setAttribute($attribute);
 
                     $this->getDoctrine()->getManager()->persist($attributeValue);
-
                 }
-
             }
 
             $this->getDoctrine()->getManager()->flush();

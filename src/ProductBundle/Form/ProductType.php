@@ -18,19 +18,19 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('price')
-            ->add('originalPrice')
-            ->add('allowOffer')
-            ->add('weight')
-            ->add('width')
-            ->add('length')
-            ->add('height')
-            ->add('category')
-            ->add('currency')
-            ->add('status')
-            ->add('address', AddressAdminType::class)
+            ->add('name', null, ['label' => 'Nom'])
+            ->add('description', null, ['label' => 'Description'])
+            ->add('price', null, ['label' => 'Prix'])
+            ->add('originalPrice', null, ['label' => 'Prix d\'origine'])
+            ->add('allowOffer', null, ['label' => 'Autoriser l\'offre'])
+            ->add('weight', null, ['label' => 'Poids'])
+            ->add('width', null, ['label' => 'Largeur'])
+            ->add('length', null, ['label' => 'Longueur'])
+            ->add('height', null, ['label' => 'Hauteur'])
+            ->add('category', null, ['label' => 'Catégorie'])
+            ->add('currency', null, ['label' => 'Devise'])
+            ->add('status', null, ['label' => 'Statut'])
+            ->add('address', AddressAdminType::class, ['label' => 'Adresse'])
         ;
     }
     

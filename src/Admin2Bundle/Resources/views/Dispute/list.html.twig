@@ -1,10 +1,9 @@
 {% extends 'Admin2Bundle::layout.html.twig' %}
 
-{% block page_title %}Dispute{% endblock %}
+{% block page_title %}Litiges{% endblock %}
 {% block page_subtitle %}Liste{% endblock %}
 
 {% block page_content %}
-
 
 <div class="box">
 
@@ -12,34 +11,19 @@
       <table class="table">
         <thead>
         <tr>
-          <th>
-            Order ID
-          </th>
-          <th>
-            Acheteur
-          </th>
-          <th>
-            Vendeur
-          </th>
-          <th>
-            Produit
-          </th>
+          <th>Order ID</th>
+          <th>Acheteur</th>
+          <th>Vendeur</th>
+          <th>Produit</th>
         </tr>
         </thead>
 
         <tbody>
-
           {% for dispute in disputes %}
             <tr>
-              <td>
-                {{ dispute.id }}
-              </td>
-              <td>
-                {{ dispute.user.username }}
-              </td>
-              <td>
-                {{ dispute.product.user.username }}
-              </td>
+              <td>{{ dispute.id }}</td>
+              <td>{{ dispute.user.username }}</td>
+              <td>{{ dispute.product.user.username }}</td>
               <td>
                 {{ dispute.product.name }} - {{ dispute.amount }} €<br />
                 Prix produit:
@@ -55,9 +39,5 @@
         </tbody>
       </table>
     </div>
-
-
 </div>
-
-
 {% endblock %}

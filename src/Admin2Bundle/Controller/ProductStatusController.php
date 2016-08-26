@@ -83,7 +83,8 @@ class ProductStatusController extends Controller
             return $this->redirectToRoute('ad2_product_status_list');
         }
 
-        return $this->render('Admin2Bundle:OrderStatus:new.html.twig', ['form' => $form->createView()]);
+        return $this->render('Admin2Bundle:OrderStatus:new.html.twig',
+            ['form' => $form->createView(), 'status' => $status]);
     }
 
 

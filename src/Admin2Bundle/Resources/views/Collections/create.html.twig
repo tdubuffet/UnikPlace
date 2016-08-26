@@ -1,7 +1,7 @@
 {% extends 'Admin2Bundle::layout.html.twig' %}
 
-{% block page_title %}{{ collection is defined ? "Edition de la tendance ": "Nouvelle tendance" }}{% endblock %}
-{% block page_subtitle %}{{ collection is defined ? collection.__toString : "Nouvelle tendance" }}{% endblock %}
+{% block page_title %}{{ collection is defined ? "Tendance : "~collection.__toString: "Nouvelle tendance" }}{% endblock %}
+{% block page_subtitle %}{{ collection is defined ? "Edition de tendance": "Nouvelle tendance" }}{% endblock %}
 
 
 {% block page_content %}

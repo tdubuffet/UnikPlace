@@ -9,11 +9,8 @@
 
 
   <div class="box">
-
     <div class="box-body">
-
       <h4>Images</h4>
-
       {% for image in product.images %}
         <div class="row-fluid">
           <div class="col-xs-2">
@@ -21,7 +18,6 @@
           </div>
         </div>
       {% endfor %}
-
     </div>
     <div class="box-footer">
       <a class="btn btn-primary" href="{{ path('ad2_moderation_photos', {id: product.id}) }}" target="_blank">
@@ -35,57 +31,49 @@
   <div class="box">
     <!-- /.box-header -->
     <div class="box-body">
-
       <h3>Informations</h3>
-
       {{ form_row(productForm.name) }}
-      {{  form_row(productForm.category) }}
+      {{ form_row(productForm.category) }}
       {{ form_row(productForm.description, { 'attr': { 'rows': 6}}) }}
 
-
-
       <h3>Prix</h3>
-
       <div class="row">
         <div class="col-md-3">
-          {{  form_row(productForm.price) }}
+          {{ form_row(productForm.price) }}
         </div>
 
         <div class="col-md-3">
-          {{  form_row(productForm.originalPrice) }}
+          {{ form_row(productForm.originalPrice) }}
         </div>
 
         <div class="col-md-3">
-          {{  form_row(productForm.currency) }}
+          {{ form_row(productForm.currency) }}
         </div>
 
         <div class="col-md-3">
-          {{  form_row(productForm.allowOffer) }}
+          {{ form_row(productForm.allowOffer) }}
         </div>
       </div>
 
       <h3>Dimensions (en mètre) et poids (En gramme)</h3>
-
       <div class="row">
         <div class="col-md-3">
-          {{  form_row(productForm.weight) }}
+          {{ form_row(productForm.weight) }}
         </div>
         <div class="col-md-3">
-          {{  form_row(productForm.width) }}
-        </div>
-
-        <div class="col-md-3">
-          {{  form_row(productForm.length) }}
+          {{ form_row(productForm.width) }}
         </div>
 
         <div class="col-md-3">
-          {{  form_row(productForm.height) }}
+          {{ form_row(productForm.length) }}
+        </div>
+
+        <div class="col-md-3">
+          {{ form_row(productForm.height) }}
         </div>
       </div>
 
-
       <h3>Compléments</h3>
-
       <div class="row">
         <div class="col-md-6">
           {{ form_row(productForm.address) }}
@@ -100,10 +88,10 @@
         </div>
       </div>
 
-
       {{ form_rest(productForm) }}
 
     </div>
+    <div class="box-footer">
       <button class="btn btn-primary" type="submit">
         Enregistrer
       </button>

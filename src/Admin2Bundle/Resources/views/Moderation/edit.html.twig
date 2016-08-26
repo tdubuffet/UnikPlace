@@ -6,18 +6,17 @@
 
 {% block page_content %}
 
-
-
   <div class="box">
-
     <div class="box-body">
-
       <h4>Images</h4>
 
       {% for image in product.images %}
         <div class="row-fluid">
           <div class="col-xs-2">
-            <img src="{{ loadpic(image, 250, 250, 'r3') }}" class="img-thumbnail">
+            <a href="#" data-featherlight-close-on-click="anywhere"
+               data-featherlight="{{ asset('/images/products/' ~ image.getImagePath()) }}">
+              <img src="{{ loadpic(image, 250, 250, 'r3') }}" class="img-thumbnail">
+            </a>
           </div>
         </div>
       {% endfor %}
@@ -92,11 +91,9 @@
         </div>
 
         <div class="col-md-6">
-
           {% for customField in customFields %}
             {{ customField|raw }}
           {% endfor %}
-
         </div>
       </div>
 
@@ -106,18 +103,17 @@
     </div>
 
     <div class="box-footer">
-      <button class="btn btn-success" type="submit" name="accepted">
-        Accepter
-      </button>
-      <button class="btn btn-danger" type="submit" name="refused">
-        Refuser
-      </button>
+      <button class="btn btn-success" type="submit" name="accepted">Accepter</button>
+      <button class="btn btn-danger" type="submit" name="refused">Refuser</button>
 
-      <button class="btn" type="submit">
-        Enregistrer
-      </button>
+      <button class="btn" type="submit">Enregistrer</button>
     </div>
   </div>
   {{ form_end(productForm) }}
 
 {% endblock %}
+
+  {% block javascripts_inline %}
+    <link rel="stylesheet" href="{{ asset('components/featherlight/release/featherlight.min.css') }}">
+    <script src="{{ asset('components/featherlight/release/featherlight.min.js') }}"></script>
+  {% endblock %}

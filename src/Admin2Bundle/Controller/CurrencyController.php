@@ -84,6 +84,7 @@ class CurrencyController extends Controller
             return $this->redirectToRoute('ad2_currency_list');
         }
 
-        return $this->render('Admin2Bundle:Currency:new.html.twig', ['form' => $form->createView()]);
+        return $this->render('Admin2Bundle:Currency:new.html.twig',
+            ['form' => $form->createView(), 'currency' => $currency]);
     }
 }

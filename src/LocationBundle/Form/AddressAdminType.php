@@ -17,7 +17,7 @@ class AddressAdminType extends AbstractType
             ->add('name', TextType::class, ['label' => 'Nom du destinataire', 'required' => true])
             ->add('street', TextType::class, ['label' => 'Adresse', 'required' => true])
             ->add('additional', TextType::class, ['label' => 'Complément d\'adresse', 'required' => false])
-            ->add('city', TextType::class, ['disabled' => true])
+            ->add('city', TextType::class, ['label' => 'Ville', 'disabled' => true])
             ->add('country', TextType::class, ['mapped' => false, 'label' => 'Pays', 'disabled' => true, 'data' => 'FRANCE'])
             ;
     }

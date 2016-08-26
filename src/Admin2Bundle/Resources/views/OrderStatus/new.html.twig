@@ -1,7 +1,7 @@
 {% extends 'Admin2Bundle::layout.html.twig' %}
 
-{% block page_title %}Nouveau statut de commande{% endblock %}
-{% block page_subtitle %}Nouveau statut de commande{% endblock %}
+{% block page_title %}{{ status is defined ? "Statut : "~status.__toString : "Nouveau statut de commande" }}{% endblock %}
+{% block page_subtitle %}{{ status is defined ? "Edition du statut" : "Nouveau statut de commande" }}{% endblock %}
 
 
 {% block page_content %}
