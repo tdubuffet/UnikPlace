@@ -134,36 +134,6 @@ class CollectionsController extends Controller
     }
 
     /**
-     * @Route("/remove", name="ad2_collection_remove", options={"expose": "true"})
-     * @Method({"POST"})
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function removeCollectionAction(Request $request)
-    {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse(['message' => 'You must be authentificated to remove a collection.'], 401);
-        }
-
-        if (!$request->request->has('collection_id')) {
-            return new JsonResponse(['message' => 'Parameter collection_id missing.'], 401);
-
-        }
-        $id = $request->request->get('collection_id');
-        $collection = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findOneBy(['id' => $id]);
-        if (!$collection) {
-            return new JsonResponse(['message' => 'Collection not found'], 404);
-        }
-
-        $this->getDoctrine()->getManager()->remove($collection->getImage());
-        $this->getDoctrine()->getManager()->remove($collection);
-        $this->getDoctrine()->getManager()->flush();
-        $this->addFlash("success", sprintf('Tendance %s supprimée', $collection->getName()));
-
-        return new JsonResponse(['message' => sprintf('Tendance %s supprimée', $collection->getName())]);
-    }
-
-    /**
      * @param Collection $collection
      * @param array $products
      * @return Collection

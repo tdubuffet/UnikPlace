@@ -95,35 +95,6 @@ class CategoriesController extends Controller
     }
 
     /**
-     * @Route("/remove", name="ad2_categories_remove", options={"expose": "true"})
-     * @Method({"POST"})
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function removeCategoryAction(Request $request)
-    {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse(['message' => 'You must be authentificated to remove a category.'], 401);
-        }
-
-        if (!$request->request->has('category_id')) {
-            return new JsonResponse(['message' => 'Parameter category_id missing.'], 401);
-
-        }
-        $id = $request->request->get('category_id');
-        $category = $this->getDoctrine()->getRepository("ProductBundle:Category")->findOneBy(['id' => $id]);
-        if (!$category) {
-            return new JsonResponse(['message' => 'Category not found'], 404);
-        }
-
-        $this->getDoctrine()->getManager()->remove($category);
-        $this->getDoctrine()->getManager()->flush();
-        $this->addFlash("success", sprintf('Catégorie %s supprimée', $category->getName()));
-
-        return new JsonResponse(['message' => sprintf('Catégorie %s supprimée', $category->getName())]);
-    }
-
-    /**
      * @param Category $category
      * @return Category
      */
