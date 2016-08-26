@@ -99,7 +99,7 @@ class ModerationController extends Controller
                 $product->setStatus($accepted);
 
 
-                $this->get('mailer_sender')->sendAcceptedProductEmailMessage($product);
+                //$this->get('mailer_sender')->sendAcceptedProductEmailMessage($product);
 
                 $this->getDoctrine()->getManager()->persist($product);
 
@@ -110,7 +110,7 @@ class ModerationController extends Controller
                 $status = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneByName('refused');
                 $product->setStatus($status);
 
-                $this->get('mailer_sender')->sendRefusedProductEmailMessage($product);
+                //$this->get('mailer_sender')->sendRefusedProductEmailMessage($product);
 
                 $this->getDoctrine()->getManager()->persist($product);
 
