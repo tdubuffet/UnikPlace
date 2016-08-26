@@ -1,0 +1,53 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}{{ collection is defined ? "Edition de la tendance ": "Nouvelle tendance" }}{% endblock %}
+{% block page_subtitle %}{{ collection is defined ? collection.__toString : "Nouvelle tendance" }}{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <div class="col-md-8">
+        {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.categories) }}
+        <div class="form-group">
+          <label for="collection_form_products">Produits</label>
+          <select class="form-control" id="collection_form_products" name="products[]" multiple>
+            {% if collection is defined and collection.products is not null %}
+              {% for product in collection.products %}
+                <option value="{{ product.id }}" selected>{{ product.__toString }}</option>
+              {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+        {{ form_row(form.image) }}
+        {{ form_row(form.save) }}
+        {{ form_end(form) }}
+
+        {% if collection is defined and collection.image is not null %}
+            <a href="#" data-featherlight-close-on-click="anywhere"
+               data-featherlight="{{ asset('/images/collections/' ~ collection.image.getImagePath()) }}">
+              <img src="{{ loadpic(collection.image, 150, 100, 'r3', 'collections') }}">
+            </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+
+
+  {% block javascripts_inline %}
+    <link rel="stylesheet" href="{{ asset('components/select2/dist/css/select2.min.css') }}">
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('components/select2/dist/js/select2.js') }}"></script>
+    <script src="{{ asset('components/select2/dist/js/i18n/fr.js') }}"></script>
+    <script src="{{ asset('bundles/admin2/js/collection.js') }}"></script>
+  {% endblock %}

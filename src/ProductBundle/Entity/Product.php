@@ -69,7 +69,7 @@ class Product
     private $weight;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */

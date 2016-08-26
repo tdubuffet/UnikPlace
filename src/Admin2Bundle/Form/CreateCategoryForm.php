@@ -52,10 +52,7 @@ class CreateCategoryForm extends AbstractType
                     'label' => 'Enfants',
                     'required' => false,
                     'multiple' => true,
-                    'class' => 'ProductBundle\Entity\Category',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('c');
-                    },
+                    'class' => 'ProductBundle\Entity\Category'
                 ]
             )
             ->add(
@@ -65,10 +62,7 @@ class CreateCategoryForm extends AbstractType
                     'label' => 'Attributs',
                     'required' => false,
                     'multiple' => true,
-                    'class' => 'ProductBundle\Entity\Attribute',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('c');
-                    },
+                    'class' => 'ProductBundle\Entity\Attribute'
                 ])
             ->add(
                 "collections",
@@ -77,10 +71,7 @@ class CreateCategoryForm extends AbstractType
                     'label' => 'Collections',
                     'required' => false,
                     'multiple' => true,
-                    'class' => 'ProductBundle\Entity\Collection',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('c');
-                    },
+                    'class' => 'ProductBundle\Entity\Collection'
                 ])
             ->add(
                 "image",

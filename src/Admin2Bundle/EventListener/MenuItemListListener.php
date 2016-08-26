@@ -23,7 +23,7 @@ class MenuItemListListener {
 
     protected function getMenu(Request $request) {
         // Build your menu here by constructing a MenuItemModel array
-        $menuItems = array(
+        $menuItems = [
 
             new MenuItemModel('ecommerce', 'Ecommerce', false),
 
@@ -33,10 +33,11 @@ class MenuItemListListener {
 
             new MenuItemModel('configuration', 'Ecommerce', false),
             new MenuItemModel('category', 'Catégories', 'ad2_categories_list', [], 'iconclasses fa fa-bars'),
-            new MenuItemModel('ref', 'Référentiel', 'ad2_ref_list', array(/* options */), 'iconclasses fa fa-wrench '),
-        );
+            new MenuItemModel('collection', 'Tendances', 'ad2_collections_list', [], 'iconclasses fa fa-bars'),
+            new MenuItemModel('ref', 'Référentiel', 'ad2_ref_list', [/* options */], 'iconclasses fa fa-wrench '),
+        ];
 
-        $user->addChild(new MenuItemModel('user-list', 'Recherche & liste', 'ad2_user_list', array(), 'fa fa-user'));
+        $user->addChild(new MenuItemModel('user-list', 'Recherche & liste', 'ad2_user_list', [], 'fa fa-user'));
         $user->addChild(new MenuItemModel('user-messages', 'Messages', 'ad2_user_list'));
 
 
@@ -44,7 +45,7 @@ class MenuItemListListener {
     }
 
     protected function activateByRoute($route, $items) {
-
+        /** @var MenuItemModel $item */
         foreach($items as $item) {
             if($item->hasChildren()) {
                 $this->activateByRoute($route, $item->getChildren());

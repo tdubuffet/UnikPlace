@@ -1,0 +1,56 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Tendances{% endblock %}
+{% block page_subtitle %}Liste des tendances{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    {% for type, messages in app.session.flashbag.all() %}
+      {% for message in messages %}
+        <div class="alert alert-{{ type }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Nom</th>
+          <th>Ccatégories</th>
+          <th>Produits</th>
+          <th>Actions</th>
+        </tr>
+
+        {% for collection in collections %}
+
+          <tr>
+            <td>{{ collection.name }}</td>
+            <td><span class="badge">{{ collection.categories|length() }}</span> </td>
+            <td><span class="badge">{{ collection.products|length() }}</span> </td>
+            <td>
+              <a href="{{ path('ad2_collections_new') }}" class="btn btn-info"><i class="fa fa-plus"></i></a>
+              <a href="{{ path('ad2_collections_edit', {'id': collection.id}) }}" class="btn btn-primary">
+                <i class="fa fa-pencil"></i>
+              </a>
+              <button class="btn btn-danger" data-id="{{ collection.id }}"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% endblock %}
+
+  {% block javascripts_inline %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('components/bootbox.js/bootbox.js') }}"></script>
+    <script src="{{ asset('bundles/admin2/js/collection_delete.js') }}"></script>
+  {% endblock %}
