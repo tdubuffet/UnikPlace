@@ -147,7 +147,7 @@
                         <div class="short-description-detail">
                           <div class="short-description">
                             <h2>Aperçu rapide</h2>
-                            <div class="std">{{ product.description }}</div>
+                            <div class="std">{{ product.description|striptags|raw }}</div>
                           </div>
                         </div>
                       </div><!-- .middle-product-detail -->
