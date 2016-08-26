@@ -7,6 +7,11 @@
 {% block page_content %}
 
   <div class="box">
+
+    <div class="box-header">
+      <b>{{ products.nbResults }}</b> annonce(s)
+    </div>
+
     <!-- /.box-header -->
     <div class="box-body">
       <table class="table table-bordered">
@@ -14,6 +19,7 @@
         <tr>
           <th>Name</th>
           <th>Price</th>
+          <th>Status</th>
           <th>Categorie</th>
           <th>Utilisateur</th>
           <th>Date</th>
@@ -29,6 +35,7 @@
             <td>
               {{ product.price }}
             </td>
+            <td><span class="badge">{{ product.status.name }}</span></td>
             <td>
               {% if product.category.parent %}{{ product.category.parent.name }} / {% endif %}
               {{ product.category.name }}

@@ -32,6 +32,7 @@
         <tr>
           <th>Name</th>
           <th>Price</th>
+          <th>Status</th>
           <th>Categorie</th>
           <th>Utilisateur</th>
           <th>Date</th>
@@ -47,6 +48,7 @@
             <td>
               {{ product.price }}
             </td>
+            <td><span class="badge">{{ product.status.name }}</span></td>
             <td>
               {% if product.category.parent %}{{ product.category.parent.name }} / {% endif %}
               {{ product.category.name }}
