@@ -19,6 +19,7 @@ class DefaultController extends Controller
     {
 
 
+        /* Orders */
         $countOrders            = $this->getDoctrine()->getRepository('OrderBundle:Order')->count();
         $countOrdersAccepted    = $this->getDoctrine()->getRepository('OrderBundle:Order')->count('accepted');
         $countOrdersRefused     = $this->getDoctrine()->getRepository('OrderBundle:Order')->count('refused');
@@ -26,10 +27,16 @@ class DefaultController extends Controller
         $lastOrders             = $this->getDoctrine()->getRepository('OrderBundle:Order')->findBy([], ['createdAt' => 'DESC'], 10);
 
 
+        /* Products */
         $countProducts            = $this->getDoctrine()->getRepository('ProductBundle:Product')->count();
         $countProductsAccepted    = $this->getDoctrine()->getRepository('ProductBundle:Product')->count('published');
         $countProductsAwaiting     = $this->getDoctrine()->getRepository('ProductBundle:Product')->count('awaiting');
 
+
+        /* Users */
+        $countUsers = $this->getDoctrine()->getRepository('UserBundle:User')->count();
+        $countUsersAfk = $this->getDoctrine()->getRepository('UserBundle:User')->count('afk');
+        $countUsersActive = $this->getDoctrine()->getRepository('UserBundle:User')->count('active');
 
 
         return $this->render('Admin2Bundle:Default:index.html.twig',
@@ -43,6 +50,10 @@ class DefaultController extends Controller
             'totalProducts' => $countProducts,
             'totalProductsAccepted' => $countProductsAccepted,
             'totalProductsAwaiting' => $countProductsAwaiting,
+
+            'totalUsers'            => $countUsers,
+            'totalUsersAfk'         => $countUsersAfk,
+            'totalUsersActive'      => $countUsersActive,
         ]);
     }
 }

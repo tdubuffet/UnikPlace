@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
  * @ORM\Table(name="fos_user")
  */
 class User extends BaseUser implements ParticipantInterface

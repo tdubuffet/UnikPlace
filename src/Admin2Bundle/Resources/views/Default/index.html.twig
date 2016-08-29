@@ -5,15 +5,12 @@
 
 {% block page_content %}
 
-
-
   <hr />
 
-  <h3>Commandes</h3>
 
   <div class="row">
+    <div class="col-md-4">
 
-    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
         <span class="info-box-icon bg-info"><i class="fa fa-shopping-cart"></i></span>
 
@@ -23,10 +20,7 @@
         </div>
         <!-- /.info-box-content -->
       </div>
-      <!-- /.info-box -->
-    </div>
 
-    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
         <span class="info-box-icon bg-orange"><i class="fa fa-shopping-cart"></i></span>
 
@@ -36,10 +30,7 @@
         </div>
         <!-- /.info-box-content -->
       </div>
-      <!-- /.info-box -->
-    </div>
 
-    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
         <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
 
@@ -49,10 +40,8 @@
         </div>
         <!-- /.info-box-content -->
       </div>
-      <!-- /.info-box -->
-    </div>
 
-    <div class="col-md-3 col-sm-6 col-xs-12">
+
       <div class="info-box">
         <span class="info-box-icon bg-red"><i class="fa fa-shopping-cart"></i></span>
 
@@ -62,10 +51,87 @@
         </div>
         <!-- /.info-box-content -->
       </div>
-      <!-- /.info-box -->
+
+    </div>
+
+
+    <div class="col-md-4">
+
+      <div class="info-box">
+        <span class="info-box-icon bg-info"><i class="fa fa-cube"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Produits</span>
+          <span class="info-box-number">{{ totalProducts }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+
+      <div class="info-box">
+        <span class="info-box-icon bg-orange"><i class="fa fa-cube"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Produits en attente de modération</span>
+          <span class="info-box-number">{{ totalProductsAwaiting }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="fa fa-cube"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Produits publiés</span>
+          <span class="info-box-number">{{ totalProductsAccepted }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-box">
+        <span class="info-box-icon bg-info"><i class="fa fa-user"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Utilisateurs</span>
+          <span class="info-box-number">{{ totalUsers }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+
+
+      <div class="info-box">
+        <span class="info-box-icon bg-orange"><i class="fa fa-user"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Utilisateurs AFK</span>
+          <span class="info-box-number">{{ totalUsersAfk }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="fa fa-user"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Utilisateurs actif</span>
+          <span class="info-box-number">{{ totalUsersActive }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+
     </div>
 
   </div>
+
+
+
+
+
+
+
+  <hr />
 
   <div class="row">
     <div class="col-md-12">
@@ -123,54 +189,6 @@
       <!-- /.box-footer -->
     </div>
     </div>
-  </div>
-
-
-  <h3>Produits</h3>
-
-  <div class="row">
-
-    <div class="col-md-4 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-info"><i class="fa fa-cube"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Produits</span>
-          <span class="info-box-number">{{ totalProducts }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-
-    <div class="col-md-4 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-orange"><i class="fa fa-cube"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Produits en attente de modération</span>
-          <span class="info-box-number">{{ totalProductsAwaiting }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-
-    <div class="col-md-4 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-green"><i class="fa fa-cube"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Produits publiés</span>
-          <span class="info-box-number">{{ totalProductsAccepted }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-
-
-
   </div>
 
 
