@@ -50,3 +50,10 @@ sell_thanks:
   title: "Annonce déposée"
   description: "Dépôt d'annonce - Annonce déposée avec succès"
 
+fos_user_registration_confirmed:
+  title: "Validation de votre email"
+  description: "Validation de votre email"
+
+fos_user_registration_check_email:
+  title: "Inscription finalisée"
+  description: "Inscription prise en compte"
