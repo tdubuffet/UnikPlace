@@ -9,18 +9,12 @@
 <div class="box">
 
   <div class="box-body">
-
-
     <div class="table-responsive">
       <table class="table">
         <thead>
         <tr>
-          <th>
-            User
-          </th>
-          <th>
-            Message
-          </th>
+          <th>Utilisateur</th>
+          <th>Message</th>
         </tr>
         </thead>
 
@@ -29,17 +23,14 @@
           {% for message in thread.messages %}
 
             <tr>
-              <td><a href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': message.sender.id}) }}">{{ message.sender.username }}</a></td>
+              <td><a href="{{ path('ad2_user_show', {'id': message.sender.id}) }}">{{ message.sender.username }}</a></td>
               <td style="width: 75%">
                 {{ message.body|raw }}
-                <hr />
+                <hr/>
                 <p>Envoyé le <b>{{ message.createdAt|date('d/m/Y H:i') }}</b></p>
               </td>
-
             </tr>
-
           {% endfor %}
-
         </tbody>
       </table>
     </div>

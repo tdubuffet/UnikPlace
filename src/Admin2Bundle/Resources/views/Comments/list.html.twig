@@ -36,7 +36,7 @@
             </td>
             <td>
               <b>Utilisateur:</b>
-              <a target="_blank" href="{{ path('ad2_user_list') }}"> {{ comment.user }}</a>
+              <a target="_blank" href="{{ path('ad2_user_show', {'id' : comment.user.id}) }}"> {{ comment.user }}</a>
               <br/>
               <b>Produit:</b>
               <a href="{{ path('ad2_product_edit', {'id': comment.thread.product.id}) }}">

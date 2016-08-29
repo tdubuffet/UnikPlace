@@ -4,41 +4,31 @@
 {% block page_subtitle %}Liste{% endblock %}
 
 {% block page_content %}
+  <div class="box">
 
+    <div class="box-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Conversation</th>
+            <th>Utilisateur</th>
+            <th>Message</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
 
-<div class="box">
-
-  <div class="box-body">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>
-            Conversation
-          </th>
-          <th>
-            User
-          </th>
-          <th>
-            Message
-          </th>
-          <th>
-            Actions
-          </th>
-        </tr>
-        </thead>
-
-        <tbody>
-
+          <tbody>
           {% for message in messages %}
-
             <tr>
               <td>
-                {{ message.thread.subject }}<br />
+                {{ message.thread.subject }}<br/>
                 Produit: {{ message.thread.product.name }} - ID = {{ message.thread.product.id }}
               </td>
-              <td><a href="{{ path('easyadmin', {'entity': 'User', 'action': 'edit', 'id': message.sender.id}) }}">{{ message.sender.username }}</a></td>
+              <td><a href="{{ path('ad2_user_show', {'id': message.sender.id}) }}">{{ message.sender.username }}</a>
+              </td>
               <td style="width: 50%">
-                {{ message.body|raw }}<br /><br />
+                {{ message.body|raw }}<br/><br/>
                 <p>Envoyé le <b>{{ message.createdAt|date('d/m/Y H:i') }}</b></p>
               </td>
               <td>
@@ -46,16 +36,11 @@
               </td>
 
             </tr>
-
           {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-        </tbody>
-      </table>
     </div>
-
-
   </div>
-</div>
-
-
 {% endblock %}

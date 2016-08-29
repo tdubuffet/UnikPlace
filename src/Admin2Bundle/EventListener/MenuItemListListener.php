@@ -28,8 +28,8 @@ class MenuItemListListener {
             new MenuItemModel('ecommerce', 'Ecommerce', false),
 
             new MenuItemModel('moderation', 'Modération', 'ad2_moderation_list', array(/* options */), 'iconclasses fa fa-chevron-circle-down'),
-            new MenuItemModel('user', 'Utilisateurs', 'ad2_user_list', array(/* options */), 'iconclasses fa fa-plane'),
             new MenuItemModel('orders', 'Commandes', 'ad2_orders_list', array(/* options */), 'iconclasses fa fa-envelope-o'),
+            new MenuItemModel('user', 'Utilisateurs', 'ad2_user_list', array(/* options */), 'iconclasses fa fa-plane'),
             new MenuItemModel('products', 'Produits', 'ad2_product_list', array(/* options */), 'iconclasses fa fa-cube'),
             new MenuItemModel('comments', 'Commentaires', 'ad2_comments_list', array(/* options */), 'iconclasses fa fa-comments'),
             new MenuItemModel('user-messages', 'Messages', 'ad2_messages', [], 'iconclasses fa fa-envelope'),

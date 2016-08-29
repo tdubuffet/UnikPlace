@@ -50,7 +50,7 @@
               {% if product.category.parent %}{{ product.category.parent.name }} / {% endif %}
               {{ product.category.name }}
             </td>
-            <td>{{ product.user.username }}</td>
+            <td><a href="{{ path('ad2_user_show', {'id' : product.user.id}) }}">{{ product.user.username }}</a></td>
             <td>{{ product.createdAt|date('d/m/Y H:i') }}</td>
             <td>
               <a href="{{ path('ad2_product_edit', { id: product.id}) }}" class="btn btn-success">
