@@ -307,21 +307,34 @@
                   <div class="tab-pane" id="product_tabs_customfields">
                     <div class="product-tabs-content-inner clearfix">
                       <div class="std">
-                        {% if productAttributes is empty %}
-                          <p>Aucune caractéristique renseignée pour ce produit.</p>
-                        {% else %}
+                        {% for code, attribute in productAttributes if attribute.deposit != "color" %}
+                          <div class="row">
+                            <div class="col-xs-4 col-sm-2">
+                              <b>{{ attribute.name }}</b>
+                            </div>
+                            <div class="col-xs-8 col-sm-10">
+                              {{ attribute.value }}
+                            </div>
+                          </div>
+                        {% endfor %}
+                        <div class="row">
+                          <div class="col-xs-4 col-sm-2">
+                            <b>Poids</b>
+                          </div>
+                          <div class="col-xs-8 col-sm-10">
+                            {{ product.weight / 1000 }} Kg
+                          </div>
+                        </div>
 
-                            {% for code, attribute in productAttributes if attribute.deposit != "color" %}
-                              <div class="row">
-                                <div class="col-xs-4 col-sm-2">
-                                  <b>{{ attribute.name }}</b>
-                                </div>
-                                <div class="col-xs-8 col-sm-10">
-                                  {{ attribute.value }}
-                                </div>
-                              </div>
-                            {% endfor %}
-                        {% endif %}
+                        <div class="row">
+                          <div class="col-xs-4 col-sm-2">
+                            <b>Dimensions</b>
+                          </div>
+                          <div class="col-xs-8 col-sm-10">
+                            Hauteur: {{ product.height * 100 }} cm / Largeur: {{ product.width * 100 }} cm / Profondeur: {{ product.weight * 100 }} cm
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
