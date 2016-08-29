@@ -116,4 +116,13 @@
   {% block javascripts_inline %}
     <link rel="stylesheet" href="{{ asset('components/featherlight/release/featherlight.min.css') }}">
     <script src="{{ asset('components/featherlight/release/featherlight.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('components/select2/dist/css/select2.min.css') }}">
+    <script src="{{ asset('components/select2/dist/js/select2.js') }}"></script>
+    <script src="{{ asset('components/select2/dist/js/i18n/fr.js') }}"></script>
+    <script>
+      $(document).ready(function() {
+        $(".select-select2").select2();
+      });
+    </script>
+
   {% endblock %}
