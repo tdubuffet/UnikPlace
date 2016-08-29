@@ -1,0 +1,44 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Commandes{% endblock %}
+{% block page_subtitle %}Liste des commandes{% endblock %}
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>ID</th>
+          <th>Produit</th>
+          <th>Montant total</th>
+          <th>Prix du produit</th>
+          <th>Frais de port</th>
+          <th>Livraison</th>
+          <th>Statut</th>
+          <th>Date de création</th>
+          <th>Actions</th>
+        </tr>
+
+        {% for order in orders %}
+          {% set code = order.product.currency.code %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.amount|currency_convert_format(code) }}</td>
+            <td>{{ order.productAmount|currency_convert_format(code) }}</td>
+            <td>{{ order.deliveryAmount|currency_convert_format(code) }}</td>
+            <td>{{ order.delivery.deliveryMode.name }}</td>
+            <td>{{ order.status.name }}</td>
+            <td>{{ order.createdAt|date() }}</td>
+            <td><b><a class="action-show" href="{{ path('ad2_orders_view', {'id' : order.id}) }}">Voir</a></b></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Commande {{ order.id }}{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+  {% set code = order.product.currency.code %}
+  {% set labelEmpty = '<span class="label label-default">Aucun(e)</span>' %}
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">ID</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.id }}</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Produit</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          <a href="{{ path('ad2_product_edit', {'id' : order.product.id}) }}">{{ order.product.name }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Montant total</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.amount|currency_convert_format(code) }}</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Prix du produit</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.productAmount|currency_convert_format(code) }}</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Frais de port</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.deliveryAmount|currency_convert_format(code) }}</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Statut</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.status.name }}</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Acheteur</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          <a href="{{ path('ad2_user_list') }}">{{ order.user.username }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Vendeur</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          <a href="{{ path('ad2_user_list') }}">{{ order.product.user.username }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Adresse de livraison</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          {{ (order.deliveryAddress is not null ? order.deliveryAddress.__toString() : labelEmpty)|raw }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Adresse de facturation</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          {{ ( order.billingAddress is not null ? order.billingAddress.__toString() : labelEmpty)|raw }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Date de création</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.createdAt|date() }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Date de mise à jour</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.updatedAt|date() }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">mangopayPreauthorizationId</label>
+      <div class="col-sm-10">
+        <div class="form-control">{{ order.mangopayPreauthorizationId }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">mangopayPayinId</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          {{ (order.mangopayPayinId is not null ? order.mangopayPayinId : labelEmpty)|raw }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">mangopayPayinDate</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          {{ (order.mangopayPayinDate is not null ? order.mangopayPayinDate|date() : labelEmpty)|raw }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">mangopayRefundId</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          {{ (order.mangopayRefundId is not null ? order.mangopayRefundId : labelEmpty)|raw }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">mangopayTransferId</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          {{ (order.mangopayTransferId is not null ? order.mangopayTransferId : labelEmpty)|raw }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">mangopayRefundDate</label>
+      <div class="col-sm-10">
+        <div class="form-control">
+          {{ (order.mangopayRefundDate is not null ? order.mangopayRefundDate|date() : labelEmpty)|raw }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-2">
+        <a class="btn btn-link" href="{{ path('ad2_orders_list') }}">Retour à la liste</a>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
