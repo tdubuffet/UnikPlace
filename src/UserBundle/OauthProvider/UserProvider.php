@@ -36,7 +36,6 @@ class UserProvider extends BaseFOSUBProvider
     public function connect(UserInterface $user, UserResponseInterface $response)
     {
 
-        die;
         $property = $this->getProperty($response);
         $username = $response->getUsername();
         //on connect - get the access token and the user ID
