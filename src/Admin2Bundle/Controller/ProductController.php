@@ -67,33 +67,32 @@ class ProductController extends Controller
 
         $customFields = (new AttributesProduct($this->get('twig')))->getAttributes($product, $filters);
 
-        if ($productForm->isValid())  {
-
-            foreach($product->getAttributeValues() as $attr) {
+        if ($productForm->isValid()) {
+            foreach ($product->getAttributeValues() as $attr) {
                 $this->getDoctrine()->getManager()->remove($attr);
+                $product->removeAttributeValue($attr);
             }
 
-            $this->getDoctrine()->getManager()->persist($product);
-            $this->getDoctrine()->getManager()->flush();
+            foreach ($filters as $key => $filter) {
+                $value = $request->get('attribute-'.$key);
 
-            foreach($filters as $key => $filter) {
-
-                $value  = $request->get('attribute-' . $key);
-
-                if ($request->get('attribute-' . $key)) {
+                if ($request->get('attribute-'.$key)) {
                     $attributeValue = new AttributeValue();
                     $attributeValue->setProduct($product);
 
-                    $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')->find($value);
+                    $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
+                        ->find($value);
                     $attributeValue->setReferentialValue($referentialValue);
 
                     $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
                     $attributeValue->setAttribute($attribute);
+                    $product->addAttributeValue($attributeValue);
 
                     $this->getDoctrine()->getManager()->persist($attributeValue);
                 }
             }
 
+            $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('ad2_product_list');
