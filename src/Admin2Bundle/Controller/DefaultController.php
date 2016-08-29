@@ -17,6 +17,23 @@ class DefaultController extends Controller
      */
     public function listAction(Request $request)
     {
-        return $this->render('Admin2Bundle:Default:index.html.twig');
+
+
+        $countOrders            = $this->getDoctrine()->getRepository('OrderBundle:Order')->count();
+        $countOrdersAccepted    = $this->getDoctrine()->getRepository('OrderBundle:Order')->count('accepted');
+        $countOrdersRefused     = $this->getDoctrine()->getRepository('OrderBundle:Order')->count('refused');
+        $countOrdersAwaiting    = $this->getDoctrine()->getRepository('OrderBundle:Order')->count('awaiting');
+        $lastOrders             = $this->getDoctrine()->getRepository('OrderBundle:Order')->findBy([], ['createdAt' => 'DESC'], 10);
+
+
+
+        return $this->render('Admin2Bundle:Default:index.html.twig',
+        [
+            'totalOrders' => $countOrders,
+            'totalOrdersAccepted' => $countOrdersAccepted,
+            'totalOrdersRefused' => $countOrdersRefused,
+            'totalOrdersAwaiting' => $countOrdersAwaiting,
+            'orders' => $lastOrders
+        ]);
     }
 }

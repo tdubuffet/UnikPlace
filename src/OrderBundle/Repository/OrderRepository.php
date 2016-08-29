@@ -14,6 +14,27 @@ use UserBundle\Entity\User;
 class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function count($statusName = null)
+    {
+
+        $query = $this->createQueryBuilder('o')
+            ->select('count(o.id)');
+
+        if ($statusName) {
+            $query->join('o.status', 's')
+                ->where('s.name = :statusName');
+            $query->setParameter('statusName', $statusName);
+        }
+
+
+        return $query
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+
+    }
+
+
     public function findPurchaseByUser(User $user)
     {
 
