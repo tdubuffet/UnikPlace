@@ -103,7 +103,7 @@ var Search = {
             var value = Search.getUrlParameter(key);
             if (key && value) {
                 // Inputs and select
-                if ($(this).prop('tagName').toLowerCase() == 'input' || 
+                if ($(this).prop('tagName').toLowerCase() == 'input' ||
                     $(this).prop('tagName').toLowerCase() == 'select') {
                     if ($(this).hasClass('attribute-search-filter-multiselect2')) {
                         var values = value.split(',');
@@ -197,6 +197,7 @@ var Search = {
                 Search.params.p = currentPage + 1;
                 Search.search('pagination');
             }
+            $(window).scrollTop(0);
             e.preventDefault();
         });
     },
