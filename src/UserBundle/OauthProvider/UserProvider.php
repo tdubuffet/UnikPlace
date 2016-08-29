@@ -95,6 +95,9 @@ class UserProvider extends BaseFOSUBProvider
 
                 $user->setNationality('FR');
                 $user->setResidentialCountry('FR');
+                $user->setBirthday(new \DateTime($response->getResponse()['birthday']));
+
+                $nickName = $response->getEmail();
 
             } elseif($service == "twitter") {
 
