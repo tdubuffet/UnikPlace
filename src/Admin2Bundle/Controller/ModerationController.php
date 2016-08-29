@@ -64,10 +64,8 @@ class ModerationController extends Controller
         if ($productForm->isValid()) {
             foreach ($product->getAttributeValues() as $attr) {
                 $this->getDoctrine()->getManager()->remove($attr);
+                $product->removeAttributeValue($attr);
             }
-
-            $this->getDoctrine()->getManager()->persist($product);
-            $this->getDoctrine()->getManager()->flush();
 
             foreach ($filters as $key => $filter) {
                 $value = $request->get('attribute-'.$key);
@@ -82,6 +80,7 @@ class ModerationController extends Controller
 
                     $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
                     $attributeValue->setAttribute($attribute);
+                    $product->addAttributeValue($attributeValue);
 
                     $this->getDoctrine()->getManager()->persist($attributeValue);
                 }
@@ -93,9 +92,6 @@ class ModerationController extends Controller
                 $product->setStatus($accepted);
 
                 //$this->get('mailer_sender')->sendAcceptedProductEmailMessage($product);
-
-                $this->getDoctrine()->getManager()->persist($product);
-
             }
 
             if ($request->get('refused', false) !== false) {
@@ -104,11 +100,10 @@ class ModerationController extends Controller
                 $product->setStatus($status);
 
                 //$this->get('mailer_sender')->sendRefusedProductEmailMessage($product);
-
-                $this->getDoctrine()->getManager()->persist($product);
-
             }
 
+
+            $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('ad2_moderation_list');

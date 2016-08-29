@@ -410,6 +410,9 @@ class Product
      */
     public function addAttributeValue(\ProductBundle\Entity\AttributeValue $attributeValue)
     {
+
+        $attributeValue->setProduct($this);
+
         $this->attributeValues[] = $attributeValue;
 
         return $this;
