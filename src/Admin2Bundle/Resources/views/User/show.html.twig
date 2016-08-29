@@ -1,0 +1,169 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Utilisateur {{ user.email }}{% endblock %}
+{% block page_subtitle %}Liste des utilisateurs{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+
+    <div class="box-header">
+      <h4>Informations</h4>
+    </div>
+
+    <div class="box-body">
+
+      <p>
+        <b>Nom / Prénom: </b> {{ user.firstname }} {{ user.lastname }}
+      </p>
+
+      <p>
+        <b>Email: </b> {{ user.email }}
+      </p>
+
+      <p>
+        <b>Numéro de téléphone: </b> {{ user.phone }}
+      </p>
+
+      <p>
+        <b>Est un pro ?: </b> {% if user.pro %}Oui{% else %}Non{% endif %}
+      </p>
+
+      <p>
+        <b>Nationalité: </b> {{ user.nationality }}
+      </p>
+
+
+      <p>
+        <b>Lieu de résidence: </b> {{ user.residentialCountry }}
+      </p>
+
+      <p>
+        <b>Date de naissance: </b> {{ user.birthday|date('d/m/Y') }}
+      </p>
+
+      <p>
+        <b>Dernière connexion: </b> {{ user.lastLogin|date('d/m/Y') }}
+      </p>
+
+      {% if user.pro %}
+
+        <p>
+          <b>Entreprise: </b> {{ user.companyCode }}
+        </p>
+
+        <p>
+          <b>Nom de l'entreprise: </b> {{ user.companyName }} - {{ user.companyZipcode }} - {{ user.companyCity }}
+        </p>
+
+      {% endif %}
+
+
+    </div>
+    <div class="box-footer">
+
+      <a href="" class="btn btn-success">
+        Modifier
+      </a>
+
+    </div>
+  </div>
+
+  <div class="box">
+
+    <div class="box-header">
+      <h4>Produits</h4>
+    </div>
+
+    <div class="box-body">
+
+    <table class="table table-bordered">
+      <tbody>
+      <tr>
+        <th>Nom</th>
+        <th>Prix</th>
+        <th>Catégorie</th>
+        <th>Statut</th>
+        <th>Utilisateur</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+
+      {% for product in user.products %}
+
+        <tr>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
+          <td><span class="badge">{{ product.status.name }}</span></td>
+
+          <td>
+            {% if product.category.parent %}{{ product.category.parent.name }} / {% endif %}
+            {{ product.category.name }}
+          </td>
+          <td>{{ product.user.username }}</td>
+          <td>{{ product.createdAt|date('d/m/Y H:i') }}</td>
+          <td>
+            <a href="{{ path('ad2_product_edit', { id: product.id}) }}" class="btn btn-success">
+              <i class="fa fa-pencil"></i>
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+
+      </tbody>
+    </table>
+
+    </div>
+  </div>
+
+  <div class="box">
+
+  <div class="box-header">
+    <h4>Conversation</h4>
+  </div>
+
+  <div class="box-body">
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        Conversation
+      </th>
+      <th>
+        Date
+      </th>
+      <th>
+        Actions
+      </th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {% for thread in threads %}
+
+      <tr>
+        <td>
+          {{ thread.subject }}<br />
+          Produit: {{ thread.product.name }} - ID = {{ thread.product.id }}
+        </td>
+        <td>
+          {{ thread.createdAt|date('d/m/Y') }}
+        </td>
+        <td>
+          <a class="btn btn-primary" href="{{ path('ad2_thread', {id: message.thread.id }) }}">Conversation</a>
+        </td>
+
+      </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+  <div>
+  </div>
+
+{% endblock %}

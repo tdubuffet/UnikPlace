@@ -59,6 +59,25 @@ class MessageRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findThreadByUser($user)
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.metadata', 'tm')
+            ->innerJoin('tm.participant', 'p')
+
+            ->andWhere('p.id = :user_id')
+            ->setParameter('user_id', $user->getId())
+
+            ->andWhere('t.isSpam = :isSpam')
+            ->setParameter('isSpam', false, \PDO::PARAM_BOOL)
+
+            ->andWhere('tm.isDeleted = :isDeleted')
+            ->setParameter('isDeleted', false, \PDO::PARAM_BOOL)
+
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findThreadByProductAndUsers($product, $usersIds)
     {
         return $this->createQueryBuilder('t')

@@ -1,0 +1,25 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Utilisateur {{ user.email }}{% endblock %}
+{% block page_subtitle %}Edition{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    {{ form_start(form) }}
+    <div class="box-body">
+
+      {{ form_rest(form) }}
+
+    </div>
+    <div class="box-footer">
+
+      <button type="submit" class="btn btn-success">Enregistrer</button>
+
+    </div>
+    {{ form_end(form) }}
+  </div>
+
+{% endblock %}

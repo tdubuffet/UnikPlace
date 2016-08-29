@@ -9,6 +9,24 @@
   <div class="box">
     <!-- /.box-header -->
     <div class="box-body">
+
+      <form method="post">
+
+        <div class="row">
+
+          <div class="col-xs-5 col-md-offset-6">
+            <div class="form-group">
+              <input type="text" name="search" class="form-control" id="search"
+                     placeholder="Recherche (Email, id, nom, prénom)"
+                     value="{{ app.request.get('search') }}">
+            </div>
+          </div>
+          <div class="col-xs-1">
+            <input type="submit" value="OK" class="btn btn-success" />
+          </div>
+        </div>
+      </form>
+
       <table class="table table-bordered">
         <tbody>
         <tr>
@@ -29,11 +47,11 @@
             <td>{% if user.enabled %}<span class="badge bg-green">Oui</span>{% else %}<span class="badge bg-red">Non</span>{% endif %}</td>
             <td>{% if user.locked %}<span class="badge bg-red">Oui</span>{% else %}<span class="badge bg-green">Non</span>{% endif %}</td>
             <td>
-              <a href="" class="btn btn-primary">
-                <i class="fa fa-pencil"></i>
+              <a href="{{ path('ad2_user_show', {id: user.id}) }}" class="btn btn-info">
+                <i class="fa fa-eye"></i>
               </a>
-              <a href="" class="btn btn-danger">
-                <i class="fa fa-trash"></i>
+              <a href="{{ path('ad2_user_edit', {id: user.id}) }}" class="btn btn-primary">
+                <i class="fa fa-pencil"></i>
               </a>
             </td>
           </tr>
@@ -46,6 +64,7 @@
     <!-- /.box-body -->
     <div class="box-footer clearfix">
       {{ pagerfanta(users, 'twitter_bootstrap3_translated') }}
+    </div>
   </div>
 
 {% endblock %}
