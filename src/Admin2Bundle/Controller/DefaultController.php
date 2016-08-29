@@ -31,6 +31,7 @@ class DefaultController extends Controller
         $countProducts            = $this->getDoctrine()->getRepository('ProductBundle:Product')->count();
         $countProductsAccepted    = $this->getDoctrine()->getRepository('ProductBundle:Product')->count('published');
         $countProductsAwaiting     = $this->getDoctrine()->getRepository('ProductBundle:Product')->count('awaiting');
+        $countProductsRefused     = $this->getDoctrine()->getRepository('ProductBundle:Product')->count('refused');
 
 
         /* Users */
@@ -50,6 +51,7 @@ class DefaultController extends Controller
             'totalProducts' => $countProducts,
             'totalProductsAccepted' => $countProductsAccepted,
             'totalProductsAwaiting' => $countProductsAwaiting,
+            'totalProductsRefused'  => $countProductsRefused,
 
             'totalUsers'            => $countUsers,
             'totalUsersAfk'         => $countUsersAfk,
