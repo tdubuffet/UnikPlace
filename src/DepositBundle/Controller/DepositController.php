@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Intervention\Image\ImageManager;
 use ProductBundle\Entity\Image;
 use ProductBundle\Entity\Product;
 use ProductBundle\Entity\AttributeValue;
@@ -24,7 +23,6 @@ use OrderBundle\Entity\Delivery;
 /**
  * Class DepositController
  * @package DepositBundle\Controller
- *
  * @Security("has_role('ROLE_USER')")
  * @Route("/vendez")
  */
@@ -33,80 +31,83 @@ class DepositController extends Controller
     /**
      * @Route("/etape-1", name="sell_category")
      * @Template("DepositBundle:Deposit:category.html.twig")
+     * @return array
      */
     public function categoryAction()
     {
         $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')
-            ->findByParentHavingChildrenCache(NULL);
+            ->findByParentHavingChildrenCache(null);
 
-        return [
-            'categories' => $categories,
-        ];
+        return ['categories' => $categories];
     }
 
     /**
      * @Route("/deposit_postcategory", name="deposit_postcategory")
      * @Method({"POST"})
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function postCategoryAction(Request $request)
     {
-        $categoryId = $request->get('category_id');
-        $session = $this->get('session');
-
-        if ($categoryId) {
-            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($categoryId);
+        if ($request->request->has('category_id')) {
+            $categoryId = $request->get('category_id');
+            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneBy(['id' => $categoryId]);
             if ($category) {
-                $deposit = array('category_id' => $categoryId);
-                $session->set('deposit', $deposit);
+                $this->get('session')->set('deposit', ['category_id' => $categoryId]);
+
                 return $this->redirectToRoute('sell_photos');
             } else {
-                $session->getFlashBag()->add('error', "La catégorie sélectionnée n'existe pas.");
+                $this->addFlash("error", "La catégorie sélectionnée n'existe pas.");
             }
         } else {
-            $session->getFlashBag()->add('error', "Aucune catégorie n'a été sélectionnée.");
+            $this->addFlash("error", "Aucune catégorie n'a été sélectionnée.");
         }
+
         return $this->redirectToRoute('sell_category');
     }
 
     /**
      * @Route("/etape-2", name="sell_photos")
      * @Template("DepositBundle:Deposit:photos.html.twig")
+     * @return array|RedirectResponse
      */
     public function photosAction()
     {
-        $session = $this->get('session');
-        $deposit = $session->get('deposit');
+        $deposit = $this->get('session')->get('deposit');
         if (!$deposit || !isset($deposit['category_id'])) {
+
             return $this->redirectToRoute('sell_category');
         }
+
+        return [];
     }
 
     /**
      * @Route("/deposit_postphotos", name="deposit_postphotos")
      * @Method({"POST"})
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function postPhotosAction(Request $request)
     {
-        $session = $this->get('session');
-
-        $picIds = array();
+        $picIds = [];
         for ($i = 1; $i <= 5; $i++) {
             if (!empty($request->get('image'.$i))) {
                 $picIds[] = $request->get('image'.$i);
             }
         }
         if (count($picIds) > 0) {
-            if ($session->has('deposit')) {
-                $deposit = $session->get('deposit');
+            if ($this->get('session')->has('deposit')) {
+                $deposit = $this->get('session')->get('deposit');
                 $deposit['images'] = $picIds;
-                $session->set('deposit', $deposit);
+                $this->get('session')->set('deposit', $deposit);
+
                 return $this->redirectToRoute('sell_description');
-            } else {
-                return $this->redirectToRoute('sell_photos');
             }
-        } else {
-            $session->getFlashBag()->add('error', "Aucune image n'a été ajoutée.");
+
+            return $this->redirectToRoute('sell_photos');
         }
+        $this->addFlash('error', "Aucune image n'a été ajoutée.");
 
         return $this->redirectToRoute('sell_photos');
     }
@@ -114,13 +115,12 @@ class DepositController extends Controller
     /**
      * @Route("/etape-3", name="sell_description")
      * @Template("DepositBundle:Deposit:description.html.twig")
+     * @return array|RedirectResponse
      */
     public function descriptionAction()
     {
-        $session = $this->get('session');
-
-        if ($session->has('deposit')) {
-            $deposit = $session->get('deposit');
+        if ($this->get('session')->has('deposit')) {
+            $deposit = $this->get('session')->get('deposit');
 
             // Make sure at least one image is set
             if (!isset($deposit['images'])) {
@@ -128,65 +128,64 @@ class DepositController extends Controller
             }
 
             if (isset($deposit['category_id'])) {
-                $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-                $category = $repository->findOneById($deposit['category_id']);
+                $category = $this->getDoctrine()->getRepository('ProductBundle:Category')
+                    ->findOneBy(['id' => $deposit['category_id']]);
                 if ($category) {
                     $attributes = $category->getAttributes();
 
                     $filters = [];
-
+                    /** @var Attribute $attribute */
                     foreach ($attributes as $attribute) {
-                        $template = $attribute->getAttributeDepositTemplate();
-                        $filters[$attribute->getCode()] = [
-                            'template' => $template->getName(),
+                        $code = $attribute->getCode();
+                        $filters[$code] = [
+                            'template' => $attribute->getAttributeDepositTemplate()->getName(),
                             'viewVars' => [
-                                'label'     => $attribute->getName(),
-                                'id'        => $attribute->getCode(),
+                                'label' => $attribute->getName(),
+                                'id' => $attribute->getCode(),
                                 'mandatory' => $attribute->getMandatory(),
                             ],
                         ];
                         $referential = $attribute->getReferential();
-                        if (isset($referential)) {
-                            $filters[$attribute->getCode()]['viewVars']['referentialName'] = $referential->getName();
-                            $filters[$attribute->getCode()]['viewVars']['referentialValues'] = $referential->getReferentialValues();
+                        if ($referential) {
+                            $filters[$code]['viewVars']['referentialName'] = $referential->getName();
+                            $filters[$code]['viewVars']['referentialValues'] = $referential->getReferentialValues();
                         }
                     }
 
                     $customFields = [];
                     if (count($filters) > 0) {
                         foreach ($filters as $filter) {
-                            $customFields[] = $this->renderView(
-                                'DepositBundle:DepositFilters:'.$filter['template'].'.html.twig',
-                                isset($filter['viewVars']) ? $filter['viewVars'] : []
-                            );
+                            $viewName = sprintf('DepositBundle:DepositFilters:%s.html.twig', $filter['template']);
+                            $params = isset($filter['viewVars']) ? $filter['viewVars'] : [];
+                            $customFields[] = $this->renderView($viewName, $params);
                         }
                     }
 
-                    return array('customFields' => $customFields);
+                    return ['customFields' => $customFields];
                 }
             }
-        } else {
-            return $this->redirectToRoute('sell_photos');
         }
+
+        return $this->redirectToRoute('sell_photos');
     }
 
     /**
      * @Route("/deposit_postdescription", name="deposit_postdescription")
      * @Method({"POST"})
+     * @param Request $request
+     * @return array
      */
     public function postDescriptionAction(Request $request)
     {
-        $session = $this->get('session');
-
-        if ($session->has('deposit')) {
-            $deposit = $session->get('deposit');
+        if ($this->get('session')->has('deposit')) {
+            $deposit = $this->get('session')->get('deposit');
 
             $errors = $listAttributes = [];
             foreach (['name' => "nom", 'description' => "description"] as $field => $fieldName) {
-                if (!$request->get($field) || empty($request->get($field))) {
-                    $errors[] = "Le champ ".$fieldName." doit être renseigné.";
+                if (!$request->request->has($field) || empty($request->request->get($field))) {
+                    $errors[] = sprintf("Le champ %s doit être renseigné.", $fieldName);
                 } else {
-                    $deposit[$field] = $request->get($field);
+                    $deposit[$field] = $request->request->get($field);
                 }
             }
             foreach ($request->request->all() as $field => $value) {
@@ -195,18 +194,20 @@ class DepositController extends Controller
                     $listAttributes[$fieldName] = $value;
                 }
             }
-            $repository = $this->getDoctrine()->getRepository('ProductBundle:Category');
-            $category = $repository->findOneById($deposit['category_id']);
+            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')
+                ->findOneBy(['id' => $deposit['category_id']]);
             if ($category) {
                 $attributes = $category->getAttributes();
                 foreach ($attributes as $attribute) {
-                    if ($attribute->getMandatory() && (!array_key_exists($attribute->getCode(), $listAttributes) || empty($listAttributes[$attribute->getCode()]))) {
-                        $errors[] = "Le champ ".$attribute->getName()." doit être renseigné.";
+                    $codeExist = array_key_exists($attribute->getCode(), $listAttributes);
+                    if ($attribute->getMandatory() && (!$codeExist || empty($listAttributes[$attribute->getCode()]))) {
+                        $errors[] = sprintf("Le champ %s doit être renseigné.", $attribute->getName());
                     }
                 }
 
                 if (count($errors) > 0) {
-                    $session->getFlashBag()->add('error', $errors);
+                    $this->get('session')->getFlashBag()->add('error', $errors);
+
                     return $this->redirectToRoute('sell_description');
                 } else {
                     if (count($listAttributes) > 0) {
@@ -215,7 +216,8 @@ class DepositController extends Controller
                             $deposit['attribute_values'] = $attributeValues;
                         }
                     }
-                    $session->set('deposit', $deposit);
+                    $this->get('session')->set('deposit', $deposit);
+
                     return $this->redirectToRoute('sell_price');
                 }
             }
@@ -227,41 +229,45 @@ class DepositController extends Controller
     /**
      * @Route("/etape-4", name="sell_price")
      * @Template("DepositBundle:Deposit:price.html.twig")
+     * @return array|RedirectResponse
      */
     public function priceAction()
     {
-        $session = $this->get('session');
-        $deposit = $session->get('deposit');
+        $deposit = $this->get('session')->get('deposit');
         if (!$deposit || !isset($deposit['name'])) {
+
             return $this->redirectToRoute('sell_description');
         }
 
         return [
-            'fee_rates' =>  $this->getParameter('mangopay.fee_rates'),
-            'fixed_fee' =>  $this->getParameter('mangopay.fixed_fee'),
+            'fee_rates' => $this->getParameter('mangopay.fee_rates'),
+            'fixed_fee' => $this->getParameter('mangopay.fixed_fee'),
         ];
     }
 
     /**
      * @Route("/deposit_postprice", name="deposit_postprice")
      * @Method({"POST"})
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws \Exception
      */
     public function postPriceAction(Request $request)
     {
-        $session = $this->get('session');
-
-        if ($session->has('deposit')) {
-            $deposit = $session->get('deposit');
+        if ($this->get('session')->has('deposit')) {
+            $deposit = $this->get('session')->get('deposit');
 
             $errors = [];
             foreach (['price', 'original_price', 'allow_offer'] as $field) {
-                if ($request->get($field) && !empty($request->get($field))) {
-                    if ($field == 'price' && $request->get($field) < 1) {
+                if ($request->request->has($field) && !empty($request->request->get($field))) {
+                    if ($field == 'price' && $request->request->get($field) < 1) {
                         throw new \Exception('Price cannot be lower than 1.00');
-                    } else if($field == 'original_price' && $request->get($field) < 1) {
-                        throw new \Exception('Price cannot be lower than 1.00');
+                    } else {
+                        if ($field == 'original_price' && $request->request->get($field) < 1) {
+                            throw new \Exception('Price cannot be lower than 1.00');
+                        }
                     }
-                    $deposit[$field] = $request->get($field);
+                    $deposit[$field] = $request->request->get($field);
                 } else {
                     if ($field == 'price') {
                         $errors[] = "Le champ prix de vente doit être renseigné.";
@@ -272,10 +278,12 @@ class DepositController extends Controller
             }
 
             if (count($errors) > 0) {
-                $session->getFlashBag()->add('error', $errors);
+                $this->get('session')->getFlashBag()->add('error', $errors);
+
                 return $this->redirectToRoute('sell_price');
             } else {
-                $session->set('deposit', $deposit);
+                $this->get('session')->set('deposit', $deposit);
+
                 return $this->redirectToRoute('sell_shipping');
             }
         } else {
@@ -286,12 +294,13 @@ class DepositController extends Controller
     /**
      * @Route("/etape-5", name="sell_shipping")
      * @Template("DepositBundle:Deposit:shipping.html.twig")
+     * @return array|RedirectResponse
      */
     public function shippingAction()
     {
-        $session = $this->get('session');
-        $deposit = $session->get('deposit');
+        $deposit = $this->get('session')->get('deposit');
         if (!$deposit || !isset($deposit['price'])) {
+
             return $this->redirectToRoute('sell_price');
         }
 
@@ -301,7 +310,7 @@ class DepositController extends Controller
         $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
             ->findBy(['user' => $this->getUser()]);
 
-        return array('addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView());
+        return ['addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView()];
     }
 
     /**
@@ -313,12 +322,10 @@ class DepositController extends Controller
      */
     public function postShippingAction(Request $request)
     {
-        $session = $this->get('session');
+        if ($this->get('session')->has('deposit')) {
+            $deposit = $this->get('session')->get('deposit');
 
-        if ($session->has('deposit')) {
-            $deposit = $session->get('deposit');
-
-            if($request->request->has('address')) {
+            if ($request->request->has('address')) {
                 $address = new Address();
                 $form = $this->createForm(AddressType::class, $address);
                 $form->handleRequest($request);
@@ -336,13 +343,13 @@ class DepositController extends Controller
 
                     // Store user phone in session
                     $deposit['phone'] = $request->request->get('phone');
-                    $session->set('deposit', $deposit);
-
-                    $session->getFlashBag()->add('notice', 'Adresse ajoutée avec succès.');
+                    $this->get('session')->set('deposit', $deposit);
+                    $this->addFlash('notice', 'Adresse ajoutée avec succès.');
 
                     return $this->redirectToRoute('sell_shipping');
                 }
             } else {
+                $shippings = $request->request->has('shipping_fees') && !empty($request->request->get('shipping_fees'));
                 $fields = [
                     'weight' => "poids",
                     'address_id' => "adresse",
@@ -353,47 +360,48 @@ class DepositController extends Controller
 
                 $errors = [];
                 foreach ($fields as $field => $label) {
-                    if (!$request->get($field) || empty($request->get($field))) {
-                        $errors[] = "Le champ ".$label." doit être renseigné.";
+                    if (!$request->request->has($field) || empty($request->request->get($field))) {
+                        $errors[] = sprintf("Le champ %s doit être renseigné.", $label);
                     } else {
-
-                        $dim = $request->get('length', 0) + $request->get('width', 0) + $request->get('height');
+                        $fieldVal = $request->request->get($field);
+                        $length = $request->request->get('length', 0);
+                        $dim = $length + $request->request->get('width', 0) + $request->request->get('height');
                         if ($field == 'weight') {
-                            if ($request->get($field) < 0) {
+                            $deposit['delivery'][$field] = ($fieldVal * 1000); // transform Kg to g
+                            if ($fieldVal < 0) {
                                 throw new \Exception('Weight cannot be lower than 0 kg');
                             }
-                            if ($request->get($field) < 30 && $dim <= 150 && $request->get('length', 0) <= 100 ) {
+                            if ($fieldVal < 30 && $dim <= 150 && $length <= 100) {
                                 $deposit['delivery']['codes'][] = 'colissimo_parcel'; // By default colissimo
-                            } elseif (($request->get($field) >= 30 || $dim > 150 || $request->get('length', 0) > 100 ) && (!$request->get('shipping_fees') || empty($request->get('shipping_fees')))) {
+                            } elseif (($fieldVal >= 30 || $dim > 150 || $length > 100) && !$shippings) {
                                 $errors[] = "Le champ frais de port doit être renseigné.";
                             }
-
-                            $deposit['delivery'][$field] = ($request->get($field) * 1000); // transform Kg to g
                         } elseif ($field == 'shipping_fees') {
-                            if ($request->get($field) < 1) {
+                            if ($fieldVal < 1) {
                                 throw new \Exception('Shipping fees cannot be lower than 1.00');
                             }
                         } else {
-                            $deposit['delivery'][$field] = $request->get($field);
+                            $deposit['delivery'][$field] = $fieldVal;
                         }
                     }
                 }
 
-                if ($request->get('by_hand')) {
+                if ($request->request->has('by_hand')) {
                     $deposit['delivery']['codes'][] = 'by_hand';
                 }
 
-                if ($request->get('shipping_fees') && !empty($request->get('shipping_fees'))) {
-                    $deposit['delivery']['shipping_fees'] = $request->get('shipping_fees');
+                if ($shippings) {
+                    $deposit['delivery']['shipping_fees'] = $request->request->get('shipping_fees');
                 }
 
                 if (count($errors) > 0) {
-                    $session->getFlashBag()->add('error', $errors);
+                    $this->addFlash('error', $errors);
+
                     return $this->redirectToRoute('sell_shipping');
                 } else {
-                    if ($this->saveAction($deposit)){
-                        $session->remove('deposit');
-                        $session->set('deposit_completed', true);
+                    if ($this->saveAction($deposit)) {
+                        $this->get('session')->remove('deposit');
+                        $this->get('session')->set('deposit_completed', true);
                     }
 
                     return $this->redirectToRoute('sell_thanks');
@@ -404,80 +412,92 @@ class DepositController extends Controller
         }
     }
 
-    private function saveAction($deposit) {
-        // Create product
+    /**
+     * @param $deposit
+     * @return bool
+     */
+    private function saveAction($deposit)
+    {
         $product = new Product();
-        $product->setName($deposit['name']);
-        $product->setDescription($deposit['description']);
-        $product->setPrice($deposit['price']);
-        $product->setAllowOffer($deposit['allow_offer']);
-        $product->setWeight($deposit['delivery']['weight']);
-        $product->setLength($deposit['delivery']['length']/100);
-        $product->setWidth($deposit['delivery']['width']/100);
-        $product->setHeight($deposit['delivery']['height']/100);
-        if (isset($deposit['original_price'])) $product->setOriginalPrice($deposit['original_price']);
+        $product
+            ->setName($deposit['name'])
+            ->setDescription($deposit['description'])
+            ->setPrice($deposit['price'])
+            ->setAllowOffer($deposit['allow_offer'])
+            ->setWeight($deposit['delivery']['weight'])
+            ->setLength($deposit['delivery']['length'] / 100)
+            ->setWidth($deposit['delivery']['width'] / 100)
+            ->setHeight($deposit['delivery']['height'] / 100)
+            ->setUser($this->getUser());
 
-        $currency = $this->getDoctrine()->getRepository('ProductBundle:Currency')->findOneByCode('EUR');
-        if (isset($currency)) $product->setCurrency($currency);
+        if (isset($deposit['original_price'])) {
+            $product->setOriginalPrice($deposit['original_price']);
+        }
 
-        $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($deposit['category_id']);
-        if (isset($category)) $product->setCategory($category);
+        $currency = $this->getDoctrine()->getRepository('ProductBundle:Currency')->findOneBy(['code' => 'EUR']);
+        if ($currency) {
+            $product->setCurrency($currency);
+        }
 
-        $status = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneByName('awaiting');
-        if (isset($status)) $product->setStatus($status);
+        $category = $this->getDoctrine()->getRepository('ProductBundle:Category')
+            ->findOneBy(['id' => $deposit['category_id']]);
+        if ($category) {
+            $product->setCategory($category);
+        }
 
-        $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($deposit['delivery']['address_id']);
-        if (isset($address)) $product->setAddress($address);
+        $status = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneBy(['name' => 'awaiting']);
+        if ($status) {
+            $product->setStatus($status);
+        }
+
+        $address = $this->getDoctrine()->getRepository('LocationBundle:Address')
+            ->findOneBy(['id' => $deposit['delivery']['address_id']]);
+        if ($address) {
+            $product->setAddress($address);
+        }
 
         if (isset($deposit['delivery']['shipping_fees'])) {
             $deposit['delivery']['codes'][] = 'seller_custom'; // Custom fees
         }
 
-        $em = $this->getDoctrine()->getManager();
-
         if (isset($deposit['delivery']['codes']) && count($deposit['delivery']['codes']) > 0) {
-            $deliveryModes = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findByCode($deposit['delivery']['codes']);
+            $deliveryModes = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')
+                ->findBy(['code' => $deposit['delivery']['codes']]);
             foreach ($deliveryModes as $deliveryMode) {
                 $delivery = new Delivery();
                 if ($deliveryMode->getCode() == 'seller_custom') {
                     $delivery->setFee($deposit['delivery']['shipping_fees']);
-                }
-                else {
-                    $delivery->setFee($this->get('order.delivery_calculator')->getFeeFromProductAndDeliveryModeCode(
-                        $deliveryMode->getCode(),
-                        [
-                            'weight' => $product->getWeight(),
-                            'length' => $product->getLength(),
-                            'width'  => $product->getWidth(),
-                            'height' => $product->getHeight(),
-                        ]
-                    ));
+                } else {
+                    $infos = [
+                        'weight' => $product->getWeight(),
+                        'length' => $product->getLength(),
+                        'width' => $product->getWidth(),
+                        'height' => $product->getHeight(),
+                    ];
+                    $service = $this->get('order.delivery_calculator');
+                    $delivery->setFee($service->getFeeFromProductAndDeliveryModeCode($deliveryMode->getCode(), $infos));
                 }
                 $delivery->setDeliveryMode($deliveryMode);
                 $product->addDelivery($delivery);
-                $em->persist($delivery);
+                $this->getDoctrine()->getManager()->persist($delivery);
             }
         }
 
-        $product->setUser($this->getUser());
-
         // Associate product to every image
         if (isset($deposit['images']) && count($deposit['images']) > 0) {
-            $images = $this->getDoctrine()->getRepository('ProductBundle:Image')->findById($deposit['images']);
+            $images = $this->getDoctrine()->getRepository('ProductBundle:Image')->findBy(['id' => $deposit['images']]);
             if (isset($images)) {
                 $i = 0;
                 foreach ($images as $image) {
-                    $image->setProduct($product);
-
-                    $image->setSort($i);
-                    $em->persist($image);
+                    $image->setProduct($product)->setSort($i);
+                    $this->getDoctrine()->getManager()->persist($image);
                     $i++;
                 }
             }
         }
 
-        $em->persist($product);
-        $em->flush();
+        $this->getDoctrine()->getManager()->persist($product);
+        $this->getDoctrine()->getManager()->flush();
 
         if (isset($deposit['attribute_values'])) {
             $this->saveProductAttributes($deposit['attribute_values'], $product);
@@ -489,69 +509,71 @@ class DepositController extends Controller
     /**
      * @Route("/etape-6", name="sell_thanks")
      * @Template("DepositBundle:Deposit:thanks.html.twig")
+     * @return array|RedirectResponse
      */
     public function thanksAction()
     {
-        $session = $this->get('session');
-        $depositCompleted = $session->get('deposit_completed', false);
+        $depositCompleted = $this->get('session')->get('deposit_completed', false);
         if (!$depositCompleted) {
             return $this->redirectToRoute('homepage');
         }
-        $session->remove('deposit_completed');
+        $this->get('session')->remove('deposit_completed');
+
+        return [];
     }
 
     /**
      * @Route("/deposit_subcategories", name="deposit_subcategories", options={"expose"=true})
      * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
      */
     public function getSubCategoriesAction(Request $request)
     {
-
         $categoryId = $request->get('category_id');
-        $subcategs = '';
+        $subcategs = [];
         if (isset($categoryId)) {
-            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneById($categoryId);
-
-            $categoryService = $this->get('product_bundle.category_service');
-            $subcategs = $categoryService->getSubCategories($category);
+            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneBy(['id' => $categoryId]);
+            $subcategs = $this->get('product_bundle.category_service')->getSubCategories($category);
         }
 
         if (count($subcategs) == 0) {
-            return new JsonResponse(array('message' => 'No subcategory found.'), 404);
+            return new JsonResponse(['message' => 'No subcategory found.'], 404);
         }
         if (count($subcategs) > 0) {
-            return new JsonResponse(array('message' => 'Subcategories found.', 'subcategories' => $subcategs), 201);
+            return new JsonResponse(['message' => 'Subcategories found.', 'subcategories' => $subcategs], 201);
         }
 
-        return new JsonResponse(array('message' => 'An error occured.'), 500);
+        return new JsonResponse(['message' => 'An error occured.'], 500);
     }
 
     /**
      * @Route("/upload_picture", name="upload_picture", options={"expose"=true})
      * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
      */
     public function uploadPictureAction(Request $request)
     {
-        $file = $request->files->get('files');
-
         try {
             $img = new Image();
-            $img->setImageFile($file[0]);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($img);
-            $em->flush();
+            $img->setImageFile($request->files->get('files')[0]);
+            $this->getDoctrine()->getManager()->persist($img);
+            $this->getDoctrine()->getManager()->flush();
         } catch (\Exception $e) {
-            return new JsonResponse(array('message' => "An error occured while uploading."), 500);
+            return new JsonResponse(['message' => "An error occured while uploading."], 500);
         }
 
-        $pic = array(
-            'id' => $img->getId(),
-        );
-
-        return new JsonResponse(array('message' => "Image successfully uploaded.", 'pic' => $pic), 201);
+        return new JsonResponse(['message' => "Image successfully uploaded.", 'pic' => ['id' => $img->getId()]], 201);
     }
 
-    private function setAttributesInSession($attributes, $listAttributes) {
+    /**
+     * @param $attributes
+     * @param $listAttributes
+     * @return array|bool
+     */
+    private function setAttributesInSession($attributes, $listAttributes)
+    {
         // Reset possible attribute values
         $attribute_values = [];
         /** @var Attribute $attribute */
@@ -574,13 +596,10 @@ class DepositController extends Controller
             } else {
                 // Case for free value
                 $attributeTypeName = $attribute->getAttributeType()->getName();
-
                 // Cast value in the correct type
                 settype($postValue, $attributeTypeName);
-
                 // Fix exception to correctly associate attribute type with attribute value fields
-                if ($attributeTypeName == 'string') $attributeTypeName = 'text';
-
+                $attributeTypeName = $attributeTypeName == 'string' ? 'text' : $attributeTypeName;
                 $attribute_values[$attribute->getId()][$attributeTypeName.'_value'] = $postValue;
             }
         }
@@ -588,33 +607,46 @@ class DepositController extends Controller
         return (count($attribute_values) > 0) ? $attribute_values : false;
     }
 
-    private function saveProductAttributes($attributeValues, $product) {
+    /**
+     * @param $attributeValues
+     * @param $product
+     */
+    private function saveProductAttributes($attributeValues, $product)
+    {
         if (isset($attributeValues) && count($attributeValues) > 0) {
             foreach ($attributeValues as $attrId => $attrValues) {
                 $attributeValue = new AttributeValue();
 
                 if (isset($attrValues['referential_value_id'])) {
-                    $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')->findOneById($attrValues['referential_value_id']);
+                    $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
+                        ->findOneBy(['id' => $attrValues['referential_value_id']]);
                     if (isset($referentialValue)) {
                         $attributeValue->setReferentialValue($referentialValue);
                     }
                 }
 
                 $attributeValue->setProduct($product);
-
-                $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneById($attrId);
-                if (isset($attribute)) {
+                $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')
+                    ->findOneBy(['id' => $attrId]);
+                if ($attribute) {
                     $attributeValue->setAttribute($attribute);
                 }
 
-                if (isset($attrValues['text_value'])) $attributeValue->setTextValue($attrValues['text_value']);
-                if (isset($attrValues['boolean_value'])) $attributeValue->setBooleanValue($attrValues['boolean_value']);
-                if (isset($attrValues['integer_value'])) $attributeValue->setIntegerValue($attrValues['integer_value']);
-                if (isset($attrValues['float_value'])) $attributeValue->setFloatValue($attrValues['float_value']);
+                if (isset($attrValues['text_value'])) {
+                    $attributeValue->setTextValue($attrValues['text_value']);
+                }
+                if (isset($attrValues['boolean_value'])) {
+                    $attributeValue->setBooleanValue($attrValues['boolean_value']);
+                }
+                if (isset($attrValues['integer_value'])) {
+                    $attributeValue->setIntegerValue($attrValues['integer_value']);
+                }
+                if (isset($attrValues['float_value'])) {
+                    $attributeValue->setFloatValue($attrValues['float_value']);
+                }
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($attributeValue);
-                $em->flush();
+                $this->getDoctrine()->getManager()->persist($attributeValue);
+                $this->getDoctrine()->getManager()->flush();
             }
         }
     }
