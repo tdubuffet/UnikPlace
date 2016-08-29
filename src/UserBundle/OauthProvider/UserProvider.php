@@ -5,6 +5,7 @@ namespace UserBundle\OauthProvider;
 use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseFOSUBProvider;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use UserBundle\Entity\User as Account;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -20,7 +21,7 @@ class UserProvider extends BaseFOSUBProvider
      * @param UserManagerInterface $userManager FOSUB user provider.
      * @param array                $properties  Property mapping.
      */
-    public function __construct($userManager, array $properties, EntityManager $em, $container)
+    public function __construct($userManager, array $properties, EntityManager $em, ContainerInterface $container)
     {
 
         parent::__construct($userManager, $properties);
@@ -37,7 +38,7 @@ class UserProvider extends BaseFOSUBProvider
     {
 
         $property = $this->getProperty($response);
-        $username = $response->getUsername();
+        $username = $response->getEmail();
         //on connect - get the access token and the user ID
         $service = $response->getResourceOwner()->getName();
         $setter = 'set'.ucfirst($service);
@@ -85,10 +86,7 @@ class UserProvider extends BaseFOSUBProvider
             $password = substr($tokenGenerator->generateToken(), 0, 8);
 
             if ($service == "facebook") {
-
-                $nickName = strtolower($response->getFirstName()[0] . $response->getLastName());
-
-                $user->setUsername($nickName);
+                $user->setUsername($response->getEmail());
                 $user->setEmail($response->getEmail());
                 $user->setPassword($password);
 
@@ -97,7 +95,6 @@ class UserProvider extends BaseFOSUBProvider
 
                 $user->setNationality('FR');
                 $user->setResidentialCountry('FR');
-                $user->setPro(false);
 
             } elseif($service == "twitter") {
 
@@ -119,6 +116,19 @@ class UserProvider extends BaseFOSUBProvider
                 $user->setLastname($response->getLastName());
 
             }
+
+            $user->setPro(false);
+
+            $mangopayUser = $this->container->get('mangopay_service')->createNaturalUser($user);
+
+            // Also create wallets
+            $wallets = $this->container->get('mangopay_service')->createWallets($mangopayUser->Id);
+
+
+            // Put mangopay user id and wallets in user entity
+            $user->setMangopayUserId($mangopayUser->Id);
+            $user->setMangopayBlockedWalletId($wallets['blocked']->Id);
+            $user->setMangopayFreeWalletId($wallets['free']->Id);
 
             $user->setEnabled(true);
 
