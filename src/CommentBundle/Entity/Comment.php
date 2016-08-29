@@ -5,6 +5,8 @@ namespace CommentBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use UserBundle\Entity\User;
+
 /**
  * Comment
  *
@@ -32,12 +34,14 @@ class Comment
     private $message;
 
     /**
+     * @var User
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
+     * @var ThreadComment
      * @ORM\ManyToOne(targetEntity="CommentBundle\Entity\ThreadComment")
      * @ORM\JoinColumn(name="thread_comment_id", referencedColumnName="id")
      */
@@ -99,7 +103,7 @@ class Comment
     }
 
     /**
-     * @return mixed
+     * @return User
      */
     public function getUser()
     {
@@ -107,7 +111,7 @@ class Comment
     }
 
     /**
-     * @param mixed $user
+     * @param User $user
      */
     public function setUser($user)
     {
@@ -115,7 +119,7 @@ class Comment
     }
 
     /**
-     * @return mixed
+     * @return ThreadComment
      */
     public function getThread()
     {
@@ -123,7 +127,7 @@ class Comment
     }
 
     /**
-     * @param mixed $thread
+     * @param ThreadComment $thread
      */
     public function setThread($thread)
     {
@@ -155,12 +159,12 @@ class Comment
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getChildrenValidated()
     {
         $childs = new ArrayCollection();
-
+        /** @var Comment $child */
         foreach($this->children as $child) {
             if ($child->getIsValidated() == true && $child->getIsDeleted() == false) {
                 $childs->add($child);
@@ -168,15 +172,17 @@ class Comment
         }
 
         return $childs;
-
     }
 
     /**
      * @param mixed $children
+     * @return Comment
      */
     public function setChildren($children)
     {
         $this->children = $children;
+
+        return $this;
     }
 
     /**
@@ -189,10 +195,13 @@ class Comment
 
     /**
      * @param boolean $isValidated
+     * @return Comment
      */
     public function setIsValidated($isValidated)
     {
         $this->isValidated = $isValidated;
+
+        return $this;
     }
 
     /**
@@ -205,10 +214,13 @@ class Comment
 
     /**
      * @param boolean $isDeleted
+     * @return Comment
      */
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
+
+        return $this;
     }
 }
 

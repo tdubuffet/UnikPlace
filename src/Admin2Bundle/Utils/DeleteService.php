@@ -9,9 +9,12 @@
 namespace Admin2Bundle\Utils;
 
 
+use CommentBundle\Event\CommentEvent;
+use CommentBundle\Event\CommentEvents;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class DeleteService
@@ -20,11 +23,23 @@ class DeleteService
     private $em;
     /** @var AuthorizationChecker $checker */
     private $checker;
+    /** @var TraceableEventDispatcher $dispatcher */
+    private $dispatcher;
 
-    public function __construct(EntityManager $entityManager, AuthorizationChecker $checker)
-    {
+    /**
+     * DeleteService constructor.
+     * @param EntityManager $entityManager
+     * @param AuthorizationChecker $checker
+     * @param TraceableEventDispatcher $dispatcher
+     */
+    public function __construct(
+        EntityManager $entityManager,
+        AuthorizationChecker $checker,
+        TraceableEventDispatcher $dispatcher
+    ) {
         $this->em = $entityManager;
         $this->checker = $checker;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -93,6 +108,22 @@ class DeleteService
                 }
                 $this->em->remove($currency);
                 $message = sprintf('Devise %s supprimée', $currency->getCode());
+                $this->addFlash("success", $message);
+                break;
+            case 'comment':
+                $comment = $this->em->getRepository("CommentBundle:Comment")->findOneBy(['id' => $id]);
+                if (!$comment) {
+                    return [['message' => 'Comment not found'], 404];
+                }
+                $comment->setIsValidated(false)->setIsDeleted(true);
+
+                if ($comment->getParent()) {
+                    $this->dispatcher->dispatch(CommentEvents::PRODUCT_COMMENT_REPLY, new CommentEvent($comment));
+                } else {
+                    $this->dispatcher->dispatch(CommentEvents::PRODUCT_COMMENT, new CommentEvent($comment));
+                }
+                $this->em->persist($comment);
+                $message = sprintf('Commentaire %s supprimé', $comment->getId());
                 $this->addFlash("success", $message);
                 break;
             default:

@@ -5,4 +5,4 @@ services:
             - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method:onSetupMenu }
     my_admin_bundle.delete:
         class: Admin2Bundle\Utils\DeleteService
-        arguments: ['@doctrine.orm.entity_manager', '@security.authorization_checker']
+        arguments: ['@doctrine.orm.entity_manager', '@security.authorization_checker', '@event_dispatcher']

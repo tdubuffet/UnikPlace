@@ -1,0 +1,94 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Commentaires{% endblock %}
+{% block page_subtitle %}Liste des commentaires{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    {% for type, messages in app.session.flashbag.all() %}
+      {% for message in messages %}
+        <div class="alert alert-{{ type }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+    <!-- /.box-header -->
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Message</th>
+          <th>Infos</th>
+          <th>Action</th>
+        </tr>
+
+        {% for comment in comments %}
+
+          <tr>
+            <td>
+              <span>{{ comment.message|raw }}</span>
+              <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#textEdit"
+                      data-id="{{ comment.id }}">
+                Modifier
+              </button>
+            </td>
+            <td>
+              <b>Utilisateur:</b>
+              <a target="_blank" href="{{ path('ad2_user_list') }}"> {{ comment.user }}</a>
+              <br/>
+              <b>Produit:</b>
+              <a href="{{ path('ad2_product_edit', {'id': comment.thread.product.id}) }}">
+                {{ comment.thread.product.name }}
+              </a>
+            </td>
+            <td>
+              <button class="btn btn-success" data-id="{{ comment.id }}">
+                <i class="fa fa-check"></i>
+              </button>
+              <button class="btn btn-danger" data-id="{{ comment.id }}" data-type="comment">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="textEdit">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Modifier le commentaire</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <textarea class="form-control" name="text" placeholder="Commentaire"></textarea>
+            <input type="text" class="form-control hidden" name="id" placeholder="">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-primary save-btn" data-dismiss="modal">Sauvegarder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+  {% block javascripts_inline %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('components/bootbox.js/bootbox.js') }}"></script>
+    <script src="{{ asset('bundles/admin2/js/list.js') }}"></script>
+    <script src="{{ asset('bundles/admin2/js/comments.js') }}"></script>
+  {% endblock %}
