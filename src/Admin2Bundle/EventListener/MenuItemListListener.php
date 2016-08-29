@@ -33,7 +33,7 @@ class MenuItemListListener {
             new MenuItemModel('user-messages', 'Messages', 'ad2_messages', [], 'iconclasses fa fa-envelope'),
             new MenuItemModel('user-litiges', 'Litiges', 'ad2_disputes', [], 'iconclasses fa fa-graduation-cap'),
 
-            new MenuItemModel('configuration', 'Ecommerce', false),
+            new MenuItemModel('configuration', 'Configuration', false),
             new MenuItemModel('category', 'Catégories', 'ad2_categories_list', [], 'iconclasses fa fa-bars'),
             new MenuItemModel('collection', 'Tendances', 'ad2_collections_list', [], 'iconclasses fa fa-bars'),
             new MenuItemModel('ref', 'Référentiel', 'ad2_ref_list', [/* options */], 'iconclasses fa fa-wrench '),
