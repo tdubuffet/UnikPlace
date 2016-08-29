@@ -206,7 +206,20 @@
                                 </button>
                               </div>
                             </div><!-- .actions -->
-
+                          {% endif %}
+                          {% if app.user is empty and isProposal and isPublishedAndOfferAllowed %}
+                            <div class="actions">
+                              {% set productURL = url('product_details', {'id' : product.id, 'slug': product.slug}) %}
+                              {% set redirectUrl = path('fos_user_security_login', {'redirectTo': productURL }) %}
+                              <div class="action-list contact-seller">
+                                <button type="button" title="Faire une offre" class="btn-contact"
+                                        onclick="window.location.href='{{ redirectUrl }}'">
+                                  <span class="btn-contact-lbl">
+                                    <span class="btn-contact-txt">Faire une offre</span>
+                                  </span>
+                                </button>
+                              </div>
+                            </div><!-- .actions -->
                           {% endif %}
                         </div>
                       </div><!-- .actions-wrapper -->
