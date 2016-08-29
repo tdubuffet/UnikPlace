@@ -461,17 +461,19 @@
                         {% endif %}
                         <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
                           {% set images = product.getImages() %}
-                          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'f') }}{% endif %}" alt="{{ product.name }}" />
+                          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}" alt="{{ product.name }}" />
                         </a>
                       </div>
                       <div class="product-content">
                         <h3 class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></h3>
 
                         <div class="price-box">
-                          <p class="old-price">
-                            <span class="price-label">Ancien prix :</span>
-                            <span class="price">48,00€</span>
-                          </p>
+                          {% if product.originalPrice is not null %}
+                            <p class="old-price">
+                              <span class="price-label">Ancien prix :</span>
+                              <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
+                            </p>
+                          {% endif %}
 
                           <p class="special-price">
                             <span class="price-label">Nouveau prix :</span>
