@@ -85,15 +85,31 @@
           <table class="table no-margin">
             <thead>
             <tr>
-              <th>Order ID</th>
-              <th>Item</th>
-              <th>Status</th>
-              <th>Popularity</th>
+              <th>ID</th>
+              <th>Produit</th>
+              <th>Montant total</th>
+              <th>Prix du produit</th>
+              <th>Frais de port</th>
+              <th>Livraison</th>
+              <th>Statut</th>
+              <th>Date de création</th>
+              <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             {% for order in orders %}
-
+              {% set code = order.product.currency.code %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.product.name }}</td>
+                <td>{{ order.amount|currency_convert_format(code) }}</td>
+                <td>{{ order.productAmount|currency_convert_format(code) }}</td>
+                <td>{{ order.deliveryAmount|currency_convert_format(code) }}</td>
+                <td>{{ order.delivery.deliveryMode.name }}</td>
+                <td>{{ order.status.name }}</td>
+                <td>{{ order.createdAt|date() }}</td>
+                <td><b><a class="action-show" href="{{ path('ad2_orders_view', {'id' : order.id}) }}">Voir</a></b></td>
+              </tr>
             {% endfor %}
             </tbody>
           </table>
@@ -102,7 +118,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer clearfix">
-        <a href="#" class="btn btn-sm btn-default btn-flat pull-right">Liste des commandes</a>
+        <a href="{{ path('ad2_orders_list') }}" class="btn btn-sm btn-default btn-flat pull-right">Liste des commandes</a>
       </div>
       <!-- /.box-footer -->
     </div>
@@ -111,6 +127,51 @@
 
 
   <h3>Produits</h3>
+
+  <div class="row">
+
+    <div class="col-md-4 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-info"><i class="fa fa-cube"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Produits</span>
+          <span class="info-box-number">{{ totalProducts }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-orange"><i class="fa fa-cube"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Produits en attente de modération</span>
+          <span class="info-box-number">{{ totalProductsAwaiting }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="fa fa-cube"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Produits publiés</span>
+          <span class="info-box-number">{{ totalProductsAccepted }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+
+
+
+  </div>
 
 
 

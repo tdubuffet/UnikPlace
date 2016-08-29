@@ -1,7 +1,7 @@
 admin2:
     resource: "@Admin2Bundle/Controller/"
     type:     annotation
-    prefix:   /ad2
+    prefix:   /admin
 
 comment:
     resource: "@CommentBundle/Controller/"
@@ -37,12 +37,6 @@ location:
     resource: "@LocationBundle/Controller/"
     type:     annotation
     prefix:   /
-
-admin:
-    resource: "@AdminBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 fos_user:
     resource: "@UserBundle/Resources/config/routing/fos_user/all.xml"
 
@@ -56,11 +50,6 @@ user:
 
 user_oauth:
     resource: "@UserBundle/Resources/config/routing/oauth.yml"
-
-easy_admin_bundle:
-    resource: "@EasyAdminBundle/Controller/"
-    type:     annotation
-    prefix:   /admin
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

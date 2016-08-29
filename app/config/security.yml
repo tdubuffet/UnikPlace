@@ -63,4 +63,3 @@ security:
         - { path: ^/reinitialisation, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/compte/, role: ROLE_USER }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/ad2/, role: ROLE_ADMIN }

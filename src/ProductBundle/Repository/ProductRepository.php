@@ -118,4 +118,23 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     {
         return count($this->findBy(['currency' => $currency]));
     }
+
+    public function count($statusName = null)
+    {
+
+        $query = $this->createQueryBuilder('p')
+            ->select('count(p.id)');
+
+        if ($statusName) {
+            $query->join('p.status', 's')
+                ->where('s.name = :statusName');
+            $query->setParameter('statusName', $statusName);
+        }
+
+
+        return $query
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 }

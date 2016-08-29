@@ -35,7 +35,6 @@ class AppKernel extends Kernel
             // Private bundles
             new AppBundle\AppBundle(),
             new UserBundle\UserBundle(),
-            new AdminBundle\AdminBundle(),
             new ProductBundle\ProductBundle(),
             new ImageBundle\ImageBundle(),
             new MessageBundle\MessageBundle(),

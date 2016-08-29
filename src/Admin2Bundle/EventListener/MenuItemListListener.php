@@ -25,6 +25,7 @@ class MenuItemListListener {
         // Build your menu here by constructing a MenuItemModel array
         $menuItems = [
 
+            new MenuItemModel('dashboard', 'Dashboard', 'ad2_index', array(/* options */), 'iconclasses fa fa-tachometer'),
             new MenuItemModel('ecommerce', 'Ecommerce', false),
 
             new MenuItemModel('moderation', 'Modération', 'ad2_moderation_list', array(/* options */), 'iconclasses fa fa-chevron-circle-down'),
