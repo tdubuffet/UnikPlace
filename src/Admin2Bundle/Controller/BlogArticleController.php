@@ -3,6 +3,7 @@
 namespace Admin2Bundle\Controller;
 
 use Admin2Bundle\Model\AttributesProduct;
+use BlogBundle\Entity\Article;
 use BlogBundle\Form\ArticleType;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -62,12 +63,43 @@ class BlogArticleController extends Controller
     public function addAction(Request $request)
     {
 
-        $form = $this->createForm(ArticleType::class);
+        $form = $this->createForm(ArticleType::class, null, ['img_req' => true]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
 
-            $this->getDoctrine()->getManager()->persist($form->getData());
+            $article = $form->getData();
+            $article->setAuthor($this->getUser());
+
+            $this->getDoctrine()->getManager()->persist($article);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('ad2_blog_article_list');
+
+        }
+
+        return $this->render('Admin2Bundle:Article:add.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="ad2_blog_article_edit")
+     * @param Request $request
+     * @return Response
+     */
+    public function editAction(Request $request, Article $article)
+    {
+
+        $form = $this->createForm(ArticleType::class, $article, ['img_req' => false]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $article = $form->getData();
+            $article->setAuthor($this->getUser());
+
+            $this->getDoctrine()->getManager()->persist($article);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('ad2_blog_article_list');

@@ -87,5 +87,10 @@ class BlogCategory
     {
         return $this->articles;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
 

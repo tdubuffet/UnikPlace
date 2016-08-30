@@ -4,6 +4,7 @@ namespace BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Article
@@ -20,7 +21,7 @@ class Article
 
     public function getSluggableFields()
     {
-        return [ 'category', 'title' ];
+        return [ 'title' ];
     }
 
     /**
@@ -34,14 +35,32 @@ class Article
 
     /**
      * @var string
+     * @Assert\Length(
+     *      min = 20,
+     *      max = 120,
+     * )
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="title", type="string", length=120)
      */
     private $title;
 
+
+    /**
+     * @var string
+     * @Assert\Length(
+     *      min = 20,
+     *      max = 255,
+     * )
+     * @Assert\NotBlank()
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
+
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="content", type="text")
      */
     private $content;
@@ -55,9 +74,23 @@ class Article
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BlogBundle\Entity\BlogCategory")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
+     *
+     * @Assert\NotBlank()
+     */
+    private $category;
+
+    /**
+     * @ORM\OneToOne(targetEntity="BlogBundle\Entity\ArticleImage",cascade={"persist"})
+     * @ORM\JoinColumn(name="article_image_id", referencedColumnName="id")
+     */
+    private $image;
 
 
     /**
@@ -164,6 +197,54 @@ class Article
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 }
 

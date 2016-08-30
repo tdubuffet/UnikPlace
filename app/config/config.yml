@@ -224,6 +224,11 @@ vich_uploader:
             upload_destination: "%kernel.root_dir%/../web/images/categories"
             namer:              vich_uploader.namer_uniqid
             directory_namer:    directory_namer.product
+        article_images:
+            uri_prefix:         /images/articles
+            upload_destination: "%kernel.root_dir%/../web/images/articles"
+            namer:              vich_uploader.namer_uniqid
+            directory_namer:    directory_namer.product
 
 fos_js_routing:
     routes_to_expose: [ 'fos_user_security_login']

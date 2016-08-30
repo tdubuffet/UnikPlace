@@ -38,14 +38,16 @@
         </tr>
 
         {% for article in articles %}
-
           <tr>
-            <td>{{ article.title }}</td>
-            <td>{{ article.content }}</td>
-            <td><span class="badge"></span></td>
-            <td>{{ article.createdAt|date('d/m/Y H:i') }}</td>
+            <td>{{ article.title }} - <span class="badge {% if article.published %}bg-green{% else %}bg-red{% endif %}">{% if article.published %}Publié{% else %}Pas publié{% endif %}</span></td>
+            <td>{{ article.description }}</td>
+            <td>{{ article.category }}</td>
             <td>
-              <a href="{{ path('ad2_product_edit', { id: article.id}) }}" class="btn btn-success">
+              {{ article.createdAt|date('d/m/Y H:i') }} <br />
+              {{ article.updatedAt|date('d/m/Y H:i') }} <br />
+            </td>
+            <td>
+              <a href="{{ path('ad2_blog_article_edit', { id: article.id}) }}" class="btn btn-success">
                 <i class="fa fa-pencil"></i>
               </a>
               <a href="{{ path('ad2_product_edit', { id: article.id}) }}" class="btn btn-danger">
@@ -57,6 +59,8 @@
 
         </tbody>
       </table>
+
+      {{ pagerfanta(articles, 'twitter_bootstrap3_translated') }}
     </div>
     <!-- /.box-body -->
     <div class="box-footer clearfix">
@@ -65,7 +69,6 @@
         Ajouter
       </a>
 
-      {{ pagerfanta(articles, 'twitter_bootstrap3_translated') }}
     </div>
   </div>
 
