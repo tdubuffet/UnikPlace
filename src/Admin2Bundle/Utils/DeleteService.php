@@ -126,6 +126,17 @@ class DeleteService
                 $message = sprintf('Commentaire %s supprimé', $comment->getId());
                 $this->addFlash("success", $message);
                 break;
+            case "blog_category":
+                $category = $this->em->getRepository("BlogBundle:BlogCategory")->findOneBy(['id' => $id]);
+                if (!$category) {
+                    return [['message' => 'BlogCategory not found'], 404];
+                }
+
+                $this->em->remove($category);
+                $message = sprintf('Catégorie de blog %s supprimée', $category->getName());
+                $this->addFlash("success", $message);
+                break;
+
             default:
                 return [['message' => 'Parameter type invalid.'], 401];
                 break;
