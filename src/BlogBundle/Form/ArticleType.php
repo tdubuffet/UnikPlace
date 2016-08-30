@@ -22,9 +22,7 @@ class ArticleType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('category')
             ->add('content', FroalaEditorType::class)
-            ->add('published', CheckboxType::class, [
-                'label' => 'Publier l\'article ?'
-            ])
+            ->add('published', CheckboxType::class, ['label' => 'Publier l\'article ?', 'required' => false])
             ->add(
                 "image",
                 ArticleImageType::class,
