@@ -40,3 +40,41 @@
   }
 
 }
+
+#fos_comment_thread{
+
+  .fos_comment_comment_new_form{
+    padding: 0px 0 20px 0;
+  }
+
+  .fos_comment_comment_show{
+    margin: 0 0 20px;
+
+
+    .fos_comment_comment_metas{
+      color: rgb(24,24,24);
+      font-size: 0.9em;
+    }
+
+    .comment-avatar{
+      float: left;
+    }
+
+    .fos_comment_comment_replies{
+      padding: 0 0 0 50px;
+      margin-top: 15px;
+    }
+
+    .fos-comment-info-d{
+      border: 1px solid #eee;
+      border-radius: 0px;
+      margin-left: 60px;
+      padding: 10px;
+      position: relative;
+    }
+
+  }
+
+
+
+}

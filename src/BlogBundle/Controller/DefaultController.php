@@ -2,10 +2,12 @@
 
 namespace BlogBundle\Controller;
 
+use BlogBundle\Entity\Article;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Vich\UploaderBundle\Adapter\ORM\DoctrineORMAdapter;
@@ -50,10 +52,16 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/article")
+     * @Route("/a/{slug}", name="blog_article")
+     * @ParamConverter("article", class="BlogBundle:Article", options={"slug" = "slug"})
      */
-    public function articleAction()
+    public function articleAction(Request $request, Article $article)
     {
-        return $this->render('BlogBundle:Default:article.html.twig');
+        $categories = $this->getDoctrine()->getRepository('BlogBundle:BlogCategory')->findAll();
+
+        return $this->render('BlogBundle:Default:article.html.twig', [
+            'article' => $article,
+            'categories' => $categories
+        ]);
     }
 }

@@ -33,6 +33,9 @@ class AppKernel extends Kernel
             new Kachkaev\AssetsVersionBundle\KachkaevAssetsVersionBundle(),
             new Avanzu\AdminThemeBundle\AvanzuAdminThemeBundle(),
             new KMS\FroalaEditorBundle\KMSFroalaEditorBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
 
             // Private bundles
             new AppBundle\AppBundle(),
@@ -47,6 +50,7 @@ class AppKernel extends Kernel
             new CommentBundle\CommentBundle(),
             new Admin2Bundle\Admin2Bundle(),
             new BlogBundle\BlogBundle(),
+            new FOS2CommentBundle\FOS2CommentBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

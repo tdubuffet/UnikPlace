@@ -13,43 +13,33 @@
       <h1 class="blog-head-title">Le Journal</h1>
 
       <ul class="blog-categories">
-        <li><a href="#">Tout</a></li>
-        <li><a href="#">Inspiration</a></li>
-        <li><a href="#" class="active">Tutoriaux</a></li>
-        <li><a href="#">&Eacute;vasion</a></li>
-        <li><a href="#">Catégorie 4</a></li>
-        <li><a href="#">Catégorie 5</a></li>
+        <li><a href="{{ path('blog') }}">Tout</a></li>
+        {% for category in categories %}
+          <li><a href="{{ path('blog_category', {id: category.id}) }}">{{ category.name }}</a></li>
+        {% endfor %}
       </ul>
 
       <div class="box-blog-detail">
-        <img class="blog-detail-mainpic img-responsive" src="http://i.imgur.com/8zM8CTv.jpg" alt="" />
+        <img class="blog-detail-mainpic img-responsive" src="{{ loadpic(article.image, 1200, 500, 'f', 'articles') }}" alt="" />
 
         <div class="col-sm-1 blog-detail-date">
-          <span class="day">19</span>
-          <span class="month">Septembre<br />2016</span>
+          <span class="day">{{ article.createdAt|date('d') }}</span>
+          <span class="month">{{ article.createdAt|date('M') }}<br />{{ article.createdAt|date('Y') }}</span>
         </div>
         <div class="col-sm-11 box-detail-article">
           <div class="blog-detail-article">
             <div class="blog-detail-title">
-              Déco tropicale sur l'île de Ré
+              {{ article.title }}
             </div>
-            <div class="blog-detail-category"><span>Posté dans</span> <a href="#">Inspiration</a></div>
-            <div class="blog-detail-content">
-              <p>Mauris semper fermentum ante sed ultricies. In rutrum dolor gravida ligula placerat egestas. Morbi eget convallis orci. Pellentesque suscipit vehicula nisl ac blandit. Mauris sit amet sem ultricies, laoreet justo vulputate, placerat est. Duis sed vehicula mi.</p>
-
-              <p>Mauris cursus, magna vel consequat fermentum, elit orci pulvinar eros, a accumsan sapien est ac diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam fringilla rutrum arcu scelerisque rhoncus. Nullam eu tempus arcu, at laoreet est. Nulla a porta dolor, ut tristique justo.</p>
-
-              <p>Vestibulum nisi augue, pellentesque vel purus sit amet, condimentum consequat orci. Nullam ornare vulputate lacinia. Duis non fermentum libero, quis elementum sem. Suspendisse elementum a orci vel varius. Ut eget nisi a nunc lacinia iaculis. Mauris quis nunc non tortor commodo imperdiet porttitor nec lorem. Sed hendrerit, velit quis consequat scelerisque, nisl elit pharetra magna, ut sagittis nunc sem et tellus.</p>
-
-              <p>Pellentesque est dui, imperdiet eget elit non, commodo dapibus nunc. Praesent est lacus, condimentum et mollis sit amet, viverra ut nisi. Nam ac dolor semper, pellentesque velit at, pretium augue. Etiam lobortis lacus et diam finibus porttitor. Suspendisse sit amet eleifend dui. Nunc vitae mi risus. Maecenas pharetra ultricies faucibus. Morbi libero arcu, tristique ut consequat sit amet, sollicitudin nec dolor. Maecenas non enim nec sapien ullamcorper porta. Aliquam a purus magna. Nulla finibus ut odio ac condimentum. Proin eleifend hendrerit odio eu mattis. Donec in felis massa. Praesent vehicula porttitor imperdiet. Ut tincidunt risus in lacus placerat, viverra accumsan risus mattis.</p>
-            </div>
+            <div class="blog-detail-category"><span>Posté dans</span> <a href="{{ path('blog_category', {id: article.category.id }) }}">{{ article.category }}</a></div>
+            <div class="blog-detail-content">{{ article.content|raw }}</div>
 
             <div class="blog-detail-author clearfix">
               <div class="blog-author-avatar">
-                <img src="https://kckdata.io/avatar/a/alexisp.jpg?v=e95cebccdef1cf7a958ca80db2df5189630fb5d1" alt="avatar" height="70" width="70" />
+                <img src="{{ article.author.getGravatarImage() }}" alt="avatar" height="70" width="70" />
               </div>
               <div class="blog-author-about">
-                Alexis Proust
+                {{ article.author.firstname }} {{ article.author.lastname }}
               </div>
             </div><!-- .blog-detail-author -->
 
@@ -59,8 +49,7 @@
       </div><!-- .box-blog-detail -->
 
       <div class="box-blog-comments">
-        <div class="blog-comments-title">Laisser un commentaire</div>
-        <p>Vous devez être connecté pour poster un commentaire.</p>
+        {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': 'blog-article-' ~ article.slug } %}
       </div>
 
     </div><!-- .container -->
