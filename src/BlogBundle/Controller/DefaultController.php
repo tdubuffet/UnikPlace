@@ -17,4 +17,12 @@ class DefaultController extends Controller
     {
         return $this->render('BlogBundle:Default:index.html.twig');
     }
+
+    /**
+     * @Route("/article")
+     */
+    public function articleAction()
+    {
+        return $this->render('BlogBundle:Default:article.html.twig');
+    }
 }
