@@ -39,7 +39,9 @@
               <a href="{{ path('ad2_categories_edit', {'id': category.id}) }}" class="btn btn-primary">
                 <i class="fa fa-pencil"></i>
               </a>
-              <button class="btn btn-danger" data-id="{{ category.id }}"><i class="fa fa-trash"></i></button>
+              <button class="btn btn-danger" data-id="{{ category.id }}" data-type="category">
+                <i class="fa fa-trash"></i>
+              </button>
             </td>
           </tr>
 
