@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Twig;
 
+use BlogBundle\Entity\ArticleImage;
 use ProductBundle\Entity\CategoryImage;
 use ProductBundle\Entity\CollectionImage;
 use ProductBundle\Entity\Image;
@@ -50,7 +51,7 @@ class AppExtension extends \Twig_Extension
      */
     public function loadPicFunction($image, $width, $height, $method = "r", $type = "products")
     {
-        if (!$image instanceof Image && !$image instanceof CollectionImage && !$image instanceof CategoryImage) {
+        if (!$image instanceof Image && !$image instanceof CollectionImage && !$image instanceof CategoryImage && !$image instanceof ArticleImage) {
             throw new NotFoundHttpException('Image Not Found');
         }
 

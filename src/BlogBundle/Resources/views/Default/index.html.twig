@@ -3,7 +3,6 @@
 {% block title %}Le Journal{% endblock %}
 {% block description %}Le Journal de {{ siteName }}{% endblock %}
 
-{% block javascript_include %}{{ jsinit(['product']) }}{% endblock javascript_include %}
 
 {% block body %}
 <div class="main-wrapper">
@@ -13,12 +12,10 @@
       <h1 class="blog-head-title">Le Journal</h1>
 
       <ul class="blog-categories">
-        <li><a href="#">Tout</a></li>
-        <li><a href="#">Inspiration</a></li>
-        <li><a href="#" class="active">Tutoriaux</a></li>
-        <li><a href="#">&Eacute;vasion</a></li>
-        <li><a href="#">Catégorie 4</a></li>
-        <li><a href="#">Catégorie 5</a></li>
+        <li><a href="{{ path('blog') }}">Tout</a></li>
+        {% for category in categories %}
+          <li><a href="{{ path('blog_category', {id: category.id}) }}">{{ category.name }}</a></li>
+        {% endfor %}
       </ul>
 
       <div class="row">
@@ -26,50 +23,31 @@
 
           <div class="row">
 
-          {% for i in 0..2 %}
+          {% for article in articles %}
 
             <div class="col-sm-6">
               <div class="box-blog-article">
-                <a href="#" title="Lire l'article"><img class="img-responsive" src="http://htmlstream.com/preview/unify-v1.9.6/Blog-Magazine/assets/img/blog/img3.jpg" alt=""></a>
-                <h2 class="blog-article-title"><a href="#">Déco tropicale sur l'île de Ré</a></h2>
+                <a href="#" title="Lire l'article">
+                  <img class="img-responsive" src="{{ loadpic(article.image, 400, 275, 'r', 'articles') }}" alt="">
+                </a>
+                <h2 class="blog-article-title"><a href="#">{{ article.title }}</a></h2>
                 <ul class="blog-article-infos">
-                  <li>Alexis Proust</li>
-                  <li>13 septembre 2016</li>
-                  <li><a href="#"><i class="fa fa-comments-o"></i> 2</a></li>
+                  <li>{{ article.author.firstname }} {{ article.author.lastname }}</li>
+                  <li>{{ article.createdAt|date('d/m/Y H:i') }}</li>
                 </ul>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet sed eros sed tincidunt. Sed eu mauris iaculis, faucibus nisi a, ultrices ipsum. Donec auctor metus eget diam fermentum, et viverra erat semper. Mauris iaculis nisl eu ipsum dapibus pretium. Morbi quis justo non turpis cursus...
+                  {{ article.description|raw }}
                 </p>
                 <a class="btn btn-primary" href="#">Lire la suite</a>
               </div>
             </div>
 
-            <div class="col-sm-6">
-              <div class="box-blog-article">
-                <a href="#" title="Lire l'article"><img class="img-responsive" src="http://htmlstream.com/preview/unify-v1.9.6/Blog-Magazine/assets/img/blog/img40.jpg" alt=""></a>
-                <h2 class="blog-article-title"><a href="#">Créez une ambiance retro</a></h2>
-                <ul class="blog-article-infos">
-                  <li>&Eacute;douard Chapelle</li>
-                  <li>30 août 2016</li>
-                  <li><a href="#"><i class="fa fa-comments-o"></i> 2</a></li>
-                </ul>
-                <p>
-                  Donec imperdiet sed eros sed tincidunt. Sed eu mauris iaculis, faucibus nisi a, ultrices ipsum. Donec auctor metus eget diam fermentum, et viverra erat semper. Mauris iaculis nisl eu ipsum dapibus pretium. Morbi quis justo non turpis cursus pharetra. Lorem ipsum dolor sit amet...
-                </p>
-                <a class="btn btn-primary" href="#">Lire la suite</a>
-              </div>
-            </div>
 
           {% endfor %}
 
           </div><!-- .row -->
 
-          <ul class="pagination">
-            <li class="prev disabled"><span>← Précèdent</span></li>
-            <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
-            <li><a href="#">2</a></li>
-            <li class="next"><a href="#">Suivant →</a></li>
-          </ul>
+          {{ pagerfanta(articles, 'twitter_bootstrap3_translated') }}
 
         </div>
         <div class="col-md-3">
