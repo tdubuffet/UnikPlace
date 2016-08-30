@@ -47,7 +47,9 @@
         "mangopay/php-sdk-v2": "^2.3",
         "white-october/pagerfanta-bundle": "^1.0",
         "kachkaev/assets-version-bundle": "^2.0",
-        "avanzu/admin-theme-bundle": "^1.3"
+        "avanzu/admin-theme-bundle": "^1.3",
+        "kms/froala-editor-bundle": "^2.3",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
