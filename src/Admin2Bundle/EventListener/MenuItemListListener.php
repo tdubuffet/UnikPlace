@@ -38,6 +38,7 @@ class MenuItemListListener {
 
 
             new MenuItemModel('blog', 'Blog', false),
+            new MenuItemModel('blog-article', 'Articles', 'ad2_blog_article_list', [], 'iconclasses fa fa-file-text-o'),
 
 
             new MenuItemModel('configuration', 'Configuration', false),

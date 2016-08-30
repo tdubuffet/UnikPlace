@@ -15,6 +15,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
 
             // External bundles
@@ -31,6 +32,7 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Kachkaev\AssetsVersionBundle\KachkaevAssetsVersionBundle(),
             new Avanzu\AdminThemeBundle\AvanzuAdminThemeBundle(),
+            new KMS\FroalaEditorBundle\KMSFroalaEditorBundle(),
 
             // Private bundles
             new AppBundle\AppBundle(),

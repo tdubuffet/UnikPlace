@@ -227,3 +227,31 @@ vich_uploader:
 
 fos_js_routing:
     routes_to_expose: [ 'fos_user_security_login']
+
+assetic:
+  bundles: ~
+
+kms_froala_editor:
+    serialNumber: "1922-1212-1212"
+    language: "fr"
+    includeJQuery: false
+    includeFontAwesome: false
+    includeCodeMirror: false
+    includeJS: false
+    # The image upload folder in your /web directory.
+    # Default: "/upload".
+    imageUploadFolder: "/upload/blog"
+
+    # The image upload URL base.
+    # Usage: if you are using URL rewritting for your assets.
+    # Default: same value as provided as folder.
+    imageUploadPath: "/upload/blog"
+    # The file upload folder in your /web directory.
+    # Default: "/upload".
+    fileUploadFolder: "/upload/blog"
+
+     # The file upload URL base.
+    # Usage: if you are using URL rewritting for your assets.
+    # Default: same value as provided as folder.
+    fileUploadPath: "/upload/blog"
+    pluginsDisabled: ["save"]
