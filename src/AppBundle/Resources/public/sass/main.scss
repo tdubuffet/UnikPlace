@@ -2593,6 +2593,9 @@ button.button span {
   top:-9px;
 }
 .main-container .sidebar .block .block-title .mobile-button:after { background-color:transparent; }
+.main-container .sidebar .block #categories-action-collapse, .main-container .sidebar .block #filters-action-collapse {
+  cursor: pointer;
+}
 .main-container .sidebar .block .block-title:after {
   height:2px;
   content:'';
