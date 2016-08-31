@@ -2581,16 +2581,15 @@ button.button span {
   letter-spacing:0.075em;
 }
 .main-container .sidebar .block .block-title .mobile-button {
-  cursor:pointer;
-  display:block;
-  float:right;
-  height:30px;
-  text-indent:-999em;
-  width:30px;
-  border:none;
-  position:absolute;
-  right:0px;
-  top:-9px;
+  position: absolute;
+  right: 0px;
+  top: -4px;
+  background: #fff;
+  font-size: 20px;
+  z-index: 50;
+  padding-left: 10px;
+  display: block;
+  color: #181818;
 }
 .main-container .sidebar .block .block-title .mobile-button:after { background-color:transparent; }
 .main-container .sidebar .block .block-title:after {
