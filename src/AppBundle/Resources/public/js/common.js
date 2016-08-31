@@ -34,7 +34,7 @@ var Common = {
                 }
             }
         });
-        $('#mobile-sticky.sticky').affix({
+        /*$('#mobile-sticky.sticky').affix({
             offset: {
                 top: function () {
                     return (this.top = $('#mobile-sticky').offset().top)
@@ -43,7 +43,7 @@ var Common = {
                     return 0;
                 }
             }
-        });
+        });*/
 
         // Price range links in menu
         $('.menu-price-range-link').click(function(){
