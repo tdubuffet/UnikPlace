@@ -1,0 +1,97 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}{{ article.title }} - Le Journal{% endblock %}
+{% block description %}{{ article.title }} - Le Journal de {{ siteName }}{% endblock %}
+
+{% block meta %}
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="{{ article.title }}">
+  <meta itemprop="description" content="{{ article.description }}">
+  <meta itemprop="image" content="{{ loadpic(article.image, 600, 250, 'f', 'articles') }}">
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@publisher_handle">
+  <meta name="twitter:title" content="{{ article.title }}">
+  <meta name="twitter:description" content="{{ article.description }}">
+  <meta name="twitter:creator" content="@author_handle">
+  <meta name="twitter:image" content="http://www.example.com/image.jpg">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="{{ article.title }}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{  path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+  <meta property="og:image" content="{{ loadpic(article.image, 600, 250, 'f', 'articles') }}" />
+  <meta property="og:description" content="{{ article.description }}" />
+  <meta property="og:site_name" content="{{ siteName }}" />
+{% endblock %}
+
+{% block body %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <h1 class="blog-head-title">Le Journal</h1>
+
+      <ul class="blog-categories">
+        <li><a href="{{ path('blog') }}">Tout</a></li>
+        {% for category in categories %}
+          <li><a href="{{ path('blog_category', {id: category.id}) }}">{{ category.name }}</a></li>
+        {% endfor %}
+      </ul>
+
+      <div class="box-blog-detail">
+        <img class="blog-detail-mainpic img-responsive" src="{{ loadpic(article.image, 1200, 500, 'f', 'articles') }}" alt="" />
+
+        <div class="col-sm-1 blog-detail-date">
+          <span class="day">{{ article.createdAt|date('d') }}</span>
+          <span class="month">{{ article.createdAt|date('M') }}<br />{{ article.createdAt|date('Y') }}</span>
+        </div>
+        <div class="col-sm-11 box-detail-article">
+          <div class="blog-detail-article">
+            <div class="blog-detail-title">
+              {{ article.title }}
+            </div>
+            <div class="blog-detail-category"><span>Posté dans</span> <a href="{{ path('blog_category', {id: article.category.id }) }}">{{ article.category }}</a></div>
+            <div class="blog-detail-content">{{ article.content|raw }}</div>
+
+            <div class="blog-detail-author clearfix">
+              <div class="blog-author-avatar">
+                <img src="{{ article.author.getGravatarImage() }}" alt="avatar" height="70" width="70" />
+              </div>
+              <div class="blog-author-about">
+                {{ article.author.firstname }} {{ article.author.lastname }}
+                <div class="pull-right">
+                  <share-button></share-button>
+                </div>
+              </div>
+            </div><!-- .blog-detail-author -->
+
+          </div><!-- .blog-detail-article -->
+        </div><!-- .box-detail-article -->
+
+      </div><!-- .box-blog-detail -->
+
+      <div class="box-blog-comments">
+        {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': 'blog-article-' ~ article.slug } %}
+      </div>
+
+    </div><!-- .container -->
+  </div><!-- .main -->
+</div><!-- .main-wrapper -->
+{% endblock %}
+{% block javascript_include %}
+  {{ jsinit(['product']) }}
+  <script>
+    new ShareButton({
+      networks: {
+        facebook: {
+          appId: "{{ website.facebook_id  }}"
+        }
+      },
+      ui: {
+        buttonText: 'Partager'
+      }
+    });
+  </script>
+{% endblock %}

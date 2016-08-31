@@ -15,6 +15,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
 
             // External bundles
@@ -31,6 +32,10 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Kachkaev\AssetsVersionBundle\KachkaevAssetsVersionBundle(),
             new Avanzu\AdminThemeBundle\AvanzuAdminThemeBundle(),
+            new KMS\FroalaEditorBundle\KMSFroalaEditorBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
 
             // Private bundles
             new AppBundle\AppBundle(),
@@ -44,6 +49,8 @@ class AppKernel extends Kernel
             new DepositBundle\DepositBundle(),
             new CommentBundle\CommentBundle(),
             new Admin2Bundle\Admin2Bundle(),
+            new BlogBundle\BlogBundle(),
+            new FOS2CommentBundle\FOS2CommentBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

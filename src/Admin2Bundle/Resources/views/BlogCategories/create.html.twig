@@ -1,0 +1,23 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}
+  {{ category is defined ? "Catégorie de blog: #{category.name}" : "Nouvelle catégorie de blog" }}
+{% endblock %}
+{% block page_subtitle %}
+  {{ category is defined ? "Edition de la catégorie" : "Nouvelle catégorie" }}
+{% endblock %}
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+      <div class="col-md-8">
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

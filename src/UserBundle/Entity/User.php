@@ -927,4 +927,14 @@ class User extends BaseUser implements ParticipantInterface
     {
         return $this->hasRole('ROLE_ADMIN');
     }
+
+    /**
+     * @param string $ext
+     * @param int $size
+     * @return string
+     */
+    public function getGravatarImage($ext = "jpg", $size = 80)
+    {
+        return sprintf("https://www.gravatar.com/avatar/%s.%s?s=%s", md5(strtolower(trim($this->email))), $ext, $size);
+    }
 }

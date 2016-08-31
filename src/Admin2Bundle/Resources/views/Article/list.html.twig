@@ -1,0 +1,72 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Articles{% endblock %}
+{% block page_subtitle %}Liste des articles{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+
+      <form method="post">
+
+        <div class="row">
+
+          <div class="col-xs-5 col-md-offset-6">
+            <div class="form-group">
+              <input type="text" name="search" class="form-control" id="search"
+                     placeholder="Recherche (Titre, Id)"
+                     value="{{ app.request.get('search') }}">
+            </div>
+          </div>
+          <div class="col-xs-1">
+            <input type="submit" value="OK" class="btn btn-success" />
+          </div>
+        </div>
+      </form>
+
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Titre</th>
+          <th>Description</th>
+          <th>Catégorie</th>
+          <th>Auteur</th>
+          <th>Action</th>
+        </tr>
+
+        {% for article in articles %}
+          <tr>
+            <td>{{ article.title }} - <span class="badge {% if article.published %}bg-green{% else %}bg-red{% endif %}">{% if article.published %}Publié{% else %}Pas publié{% endif %}</span></td>
+            <td>{{ article.description }}</td>
+            <td>{{ article.category }}</td>
+            <td>
+              {{ article.createdAt|date('d/m/Y H:i') }} <br />
+              {{ article.updatedAt|date('d/m/Y H:i') }} <br />
+            </td>
+            <td>
+              <a href="{{ path('ad2_blog_article_edit', { id: article.id}) }}" class="btn btn-success">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+
+      {{ pagerfanta(articles, 'twitter_bootstrap3_translated') }}
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+
+      <a href="{{ path('ad2_blog_article_add') }}" class="btn btn-success">
+        Ajouter
+      </a>
+
+    </div>
+  </div>
+
+{% endblock %}

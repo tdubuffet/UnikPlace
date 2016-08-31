@@ -1,0 +1,80 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Le Journal{% endblock %}
+{% block description %}Le Journal de {{ siteName }}{% endblock %}
+
+{% block body %}
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.7&appId=159369174500622";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="main-wrapper">
+  <div class="container">
+    <div class="main">
+
+      <h1 class="blog-head-title">Le Journal</h1>
+
+      <ul class="blog-categories">
+        <li><a href="{{ path('blog') }}">Tout</a></li>
+        {% for category in categories %}
+          <li><a href="{{ path('blog_category', {id: category.id}) }}">{{ category.name }}</a></li>
+        {% endfor %}
+      </ul>
+
+      <div class="row">
+        <div class="col-md-9">
+
+          <div class="row">
+
+          {% for article in articles %}
+
+            <div class="col-sm-6">
+              <div class="box-blog-article">
+                <a href="{{ path('blog_article', {slug: article.slug }) }}" title="Lire l'article">
+                  <img class="img-responsive" src="{{ loadpic(article.image, 400, 275, 'r', 'articles') }}" alt="">
+                </a>
+                <h2 class="blog-article-title"><a href="{{ path('blog_article', {slug: article.slug }) }}">{{ article.title }}</a></h2>
+                <ul class="blog-article-infos">
+                  <li>{{ article.author.firstname }} {{ article.author.lastname }}</li>
+                  <li>{{ article.createdAt|date('d/m/Y H:i') }}</li>
+                </ul>
+                <p>
+                  {{ article.description|raw }}
+                </p>
+                <a class="btn btn-primary" href="{{ path('blog_article', {slug: article.slug }) }}">Lire la suite</a>
+              </div>
+            </div>
+
+
+          {% endfor %}
+
+          </div><!-- .row -->
+
+          {{ pagerfanta(articles, 'twitter_bootstrap3_translated') }}
+
+        </div>
+        <div class="col-md-3">
+          <div class="blog-col-title">Le Journal c'est quoi ?</div>
+
+          <p class="blog-col-content">Le Journal est un magazine online rafraichissant qui a pour unique but d'étancher votre soif de décoration, de design et de high tech. Même si ce site est sans sucre, nous vous informons que plusieurs cas d’addiction sévère ont été relevés.</p>
+
+          <p class="blog-col-content">
+          <div class="fb-page" data-href="https://www.facebook.com/unikplace/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/unikplace/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/unikplace/">Unik Place</a></blockquote></div>
+          </p>
+
+          <p class="blog-col-content" style="height: 400px; overflow: auto;">
+            <a class="twitter-timeline" href="https://twitter.com/TwitterDev"></a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+          </p>
+        </div>
+      </div><!-- .row -->
+
+    </div><!-- .container -->
+  </div><!-- .main -->
+</div><!-- .main-wrapper -->
+{% endblock %}

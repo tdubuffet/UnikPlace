@@ -52,6 +52,7 @@ gulp.task('scripts-dev', function() {
             './web/components/html.sortable/dist/html.sortable.js',
             './web/components/jquery.maskedinput/src/jquery.maskedinput.js',
             './web/components/jquery-creditcardvalidator/jquery.creditCardValidator.js',
+            './web/components/share-button/share-button.js',
 
             './web/bundles/**/js/*.js'
         ])
@@ -80,6 +81,7 @@ gulp.task('scripts-prod', function() {
             './web/components/html.sortable/dist/html.sortable.js',
             './web/components/jquery.maskedinput/src/jquery.maskedinput.js',
             './web/components/jquery-creditcardvalidator/jquery.creditCardValidator.js',
+            './web/components/share-button/share-button.js',
 
             './web/bundles/**/js/*.js'
         ])

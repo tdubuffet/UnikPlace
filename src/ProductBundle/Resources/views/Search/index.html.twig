@@ -60,24 +60,22 @@
         </div>
 
         <div class="row show-grid">
-          <div class="col-lg-3 sidebar filter-sidebar">
+          <div class="col-md-3 sidebar filter-sidebar">
             <div class="col-left">
               {% if category is defined %}
               <div class="block block-layered-nav">
-                <div class="block-title hidden-xs">
+                <div class="block-title hidden-xs hidden-sm">
                   <strong><span>Catégories</span></strong>
-                  <span class="mobile-button visible-xs active"></span>
                 </div>
                 <div class="block-title hidden-md hidden-lg" id="categories-action-collapse" data-toggle="collapse" data-target="#categoriesCollapse" href="#categoriesCollapse">
                   <strong>
-                    <span data-toggle="collapse" data-target="#categoriesCollapse" aria-expanded="false"
-                          aria-controls="collapseExample" class="collapseTitle">
-                      Afficher les categories
+                    <span>
+                      Afficher les catégories
                     </span>
                   </strong>
-                  <span class="mobile-button visible-xs active"></span>
+                  <i class="mobile-button fa fa-plus"></i>
                 </div>
-                <div class="block-content block-content-categories hidden-xs">
+                <div class="block-content block-content-categories hidden-xs hidden-sm">
 
                     {% if category.getParent() is null %}
                       {% set children = category.getChildren() %}
@@ -93,7 +91,7 @@
                       {% endfor %}
                     </ul>
                 </div>
-                <div class="block-content collapse hidden-sm hidden-md" id="categoriesCollapse">
+                <div class="block-content collapse hidden-md hidden-lg" id="categoriesCollapse">
                   {% if category.getParent() is null %}
                     {% set children = category.getChildren() %}
                   {% else %}
@@ -112,26 +110,24 @@
               {% endif %}
 
               <div class="block block-layered-nav">
-                <div class="block-title hidden-xs">
+                <div class="block-title hidden-xs hidden-sm">
                   <strong><span>Filtres</span></strong>
-                  <span class="mobile-button visible-xs active"></span>
                 </div>
                 <div class="block-title hidden-md hidden-lg" id="filters-action-collapse" data-toggle="collapse" data-target="#filtersCollapse"  href="#filtersCollapse">
                   <strong>
-                    <span data-toggle="collapse" data-target="#filtersCollapse" aria-expanded="false"
-                          aria-controls="collapseExample" class="collapseTitle">
+                    <span>
                       Afficher les filtres
                     </span>
                   </strong>
-                  <span class="mobile-button visible-xs active"></span>
+                  <i class="mobile-button fa fa-plus"></i>
                 </div>
-                <div class="block-content block-content-filters hidden-xs">
+                <div class="block-content block-content-filters hidden-xs hidden-sm">
                   <div class="text-center">
                     <i aria-hidden="true" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
                     <span class="sr-only">Chargement...</span>
                   </div>
                 </div>
-                <div class="block-content block-content-filters collapse hidden-sm hidden-md" id="filtersCollapse">
+                <div class="block-content block-content-filters collapse hidden-md hidden-lg" id="filtersCollapse">
                   <!-- search filters go here -->
                 </div>
               </div>
@@ -141,7 +137,7 @@
           </div><!-- .sidebar -->
 
 
-          <div class="col-lg-9">
+          <div class="col-md-9">
             <div class="col-main">
               {% if category is defined %}
                 <h1>{{ category.name }}</h1>

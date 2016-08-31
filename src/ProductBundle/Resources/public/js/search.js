@@ -5,6 +5,7 @@ var Search = {
 
     init: function() {
         Search.filterCollapsing();
+        Search.categoriesCollapsing();
         Search.loadFilters();
         Search.initSortBy();
         Search.initSortDirection();
@@ -407,11 +408,25 @@ var Search = {
 
     filterCollapsing: function () {
         var collapse = $('#filtersCollapse');
-        collapse.on('shown.bs.collapse', function () {
-            $('.collapseTitle').html("Cacher les filtres");
+        collapse.on('show.bs.collapse', function () {
+            $('#filters-action-collapse strong > span').html("Cacher les filtres");
+            $('#filters-action-collapse .mobile-button').removeClass('fa-plus').addClass('fa-minus');
         });
         collapse.on('hide.bs.collapse', function () {
-            $('.collapseTitle').html("Afficher les filtres");
+            $('#filters-action-collapse strong > span').html("Afficher les filtres");
+            $('#filters-action-collapse .mobile-button').removeClass('fa-minus').addClass('fa-plus');
+        });
+    },
+
+    categoriesCollapsing: function () {
+        var collapse = $('#categoriesCollapse');
+        collapse.on('show.bs.collapse', function () {
+            $('#categories-action-collapse strong > span').html("Cacher les catégories");
+            $('#categories-action-collapse .mobile-button').removeClass('fa-plus').addClass('fa-minus');
+        });
+        collapse.on('hide.bs.collapse', function () {
+            $('#categories-action-collapse strong > span').html("Afficher les catégories");
+            $('#categories-action-collapse .mobile-button').removeClass('fa-minus').addClass('fa-plus');
         });
     }
 

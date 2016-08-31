@@ -36,6 +36,12 @@ class MenuItemListListener {
             new MenuItemModel('user-messages', 'Messages', 'ad2_messages', [], 'iconclasses fa fa-envelope'),
             new MenuItemModel('user-litiges', 'Litiges', 'ad2_disputes', [], 'iconclasses fa fa-graduation-cap'),
 
+
+            new MenuItemModel('blog', 'Blog', false),
+            new MenuItemModel('blog-article', 'Articles', 'ad2_blog_article_list', [], 'iconclasses fa fa-file-text-o'),
+            new MenuItemModel('blog_category', 'Catégories de blog', 'ad2_blog_categories_list', [], 'iconclasses fa fa-bars'),
+
+
             new MenuItemModel('configuration', 'Configuration', false),
             new MenuItemModel('category', 'Catégories', 'ad2_categories_list', [], 'iconclasses fa fa-bars'),
             new MenuItemModel('collection', 'Tendances', 'ad2_collections_list', [], 'iconclasses fa fa-bars'),

@@ -1,0 +1,47 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Articles{% endblock %}
+{% block page_subtitle %}Editer un article{% endblock %}
+
+
+{% block page_content %}
+
+  <div class="box">
+
+    {{ form_start(form) }}
+
+    <!-- /.box-header -->
+    <div class="box-body">
+
+
+      {{ form_rest(form) }}
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+
+      <button type="submit" class="btn btn-success">
+        Editer
+      </button>
+
+    </div>
+
+
+    {{ form_end(form) }}
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script src="{{ asset('bundles/kmsfroalaeditor/froala_editor_2.3.4/js/froala_editor.min.js' ) }}"></script>
+  <script src="{{ asset('bundles/kmsfroalaeditor/froala_editor_2.3.4/js/froala_editor.pkgd.min.js' ) }}"></script>
+  <script src="{{ asset('bundles/kmsfroalaeditor/froala_editor_2.3.4/js/languages/fr.js' ) }}"></script>
+  <script src="{{ asset('bundles/kmsfroalaeditor/misc.js' ) }}"></script>
+
+  {% javascripts '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.3.4/js/plugins/*' %}
+  <script src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+
+{% endblock %}

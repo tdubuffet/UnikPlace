@@ -24,7 +24,7 @@ class DefaultController extends Controller
      */
     public function indexAction($type, $dir, $filename, $width, $height, $method)
     {
-        $maxSize = 800;
+        $maxSize = 1200;
         $thumbnailSize = 100;
         $quality = 90;
         $qualityThumbnail = 60;
