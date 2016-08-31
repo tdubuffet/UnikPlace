@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f596f7c13a2b7751db3266490eca591",
-    "content-hash": "12cc75ed80f48f86a9892461991109a9",
+    "hash": "fdef6dd23bee4542cc88441cb57850f9",
+    "content-hash": "68973621d5d3edbc3ac4780a3a3693d7",
     "packages": [
         {
             "name": "avanzu/admin-theme-bundle",
@@ -866,14 +866,8 @@
             "target-dir": "FOS/CommentBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FriendsOfSymfony/FOSCommentBundle.git",
-                "reference": "83c79129effa90d4b642bcf468944a6cc8c90eb5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCommentBundle/zipball/83c79129effa90d4b642bcf468944a6cc8c90eb5",
-                "reference": "83c79129effa90d4b642bcf468944a6cc8c90eb5",
-                "shasum": ""
+                "url": "https://github.com/tdubuffet/FOSCommentBundle",
+                "reference": "b5155c107ee8281543d615ec986e2e1e5547872d"
             },
             "require": {
                 "friendsofsymfony/rest-bundle": "~1.6|~2.0",
@@ -917,7 +911,6 @@
                     "FOS\\CommentBundle": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -927,12 +920,12 @@
                     "email": "tim@nagel.com.au"
                 },
                 {
-                    "name": "FriendsOfSymfony Community",
-                    "homepage": "https://github.com/friendsofsymfony/FOSCommentBundle/contributors"
-                },
-                {
                     "name": "Alexander Mols",
                     "email": "iam.asm89@gmail.com"
+                },
+                {
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/friendsofsymfony/FOSCommentBundle/contributors"
                 }
             ],
             "description": "This Bundle provides threaded comment functionality for Symfony2 applications",
@@ -942,7 +935,11 @@
                 "forum",
                 "threads"
             ],
-            "time": "2016-07-31 20:02:03"
+            "support": {
+                "irc": "irc://irc.freenode.org/symfony-dev",
+                "issues": "https://github.com/FriendsOfSymfony/FOSCommentBundle/issues"
+            },
+            "time": "2016-08-31 08:45:15"
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
@@ -2054,16 +2051,16 @@
         },
         {
             "name": "kms/froala-editor-bundle",
-            "version": "v2.3.3",
+            "version": "v2.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/froala/KMSFroalaEditorBundle.git",
-                "reference": "2f5f638aa142f5b1271e9ffed8eed8f416cc9b89"
+                "reference": "288365a86d2088627375309c2136f75ef2c652ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/froala/KMSFroalaEditorBundle/zipball/2f5f638aa142f5b1271e9ffed8eed8f416cc9b89",
-                "reference": "2f5f638aa142f5b1271e9ffed8eed8f416cc9b89",
+                "url": "https://api.github.com/repos/froala/KMSFroalaEditorBundle/zipball/288365a86d2088627375309c2136f75ef2c652ff",
+                "reference": "288365a86d2088627375309c2136f75ef2c652ff",
                 "shasum": ""
             },
             "require": {
@@ -2102,7 +2099,7 @@
                 "froala",
                 "wysiwyg"
             ],
-            "time": "2016-06-21 10:59:25"
+            "time": "2016-08-08 19:11:44"
         },
         {
             "name": "knplabs/doctrine-behaviors",

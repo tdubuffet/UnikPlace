@@ -1,9 +1,30 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title %}Le Journal{% endblock %}
-{% block description %}Le Journal de {{ siteName }}{% endblock %}
+{% block title %}{{ article.title }} - Le Journal{% endblock %}
+{% block description %}{{ article.title }} - Le Journal de {{ siteName }}{% endblock %}
 
-{% block javascript_include %}{{ jsinit(['product']) }}{% endblock javascript_include %}
+{% block meta %}
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="{{ article.title }}">
+  <meta itemprop="description" content="{{ article.description }}">
+  <meta itemprop="image" content="{{ loadpic(article.image, 600, 250, 'f', 'articles') }}">
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@publisher_handle">
+  <meta name="twitter:title" content="{{ article.title }}">
+  <meta name="twitter:description" content="{{ article.description }}">
+  <meta name="twitter:creator" content="@author_handle">
+  <meta name="twitter:image" content="http://www.example.com/image.jpg">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="{{ article.title }}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{  path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+  <meta property="og:image" content="{{ loadpic(article.image, 600, 250, 'f', 'articles') }}" />
+  <meta property="og:description" content="{{ article.description }}" />
+  <meta property="og:site_name" content="{{ siteName }}" />
+{% endblock %}
 
 {% block body %}
 <div class="main-wrapper">
@@ -40,6 +61,9 @@
               </div>
               <div class="blog-author-about">
                 {{ article.author.firstname }} {{ article.author.lastname }}
+                <div class="pull-right">
+                  <share-button></share-button>
+                </div>
               </div>
             </div><!-- .blog-detail-author -->
 
@@ -55,4 +79,19 @@
     </div><!-- .container -->
   </div><!-- .main -->
 </div><!-- .main-wrapper -->
+{% endblock %}
+{% block javascript_include %}
+  {{ jsinit(['product']) }}
+  <script>
+    new ShareButton({
+      networks: {
+        facebook: {
+          appId: "{{ website.facebook_id  }}"
+        }
+      },
+      ui: {
+        buttonText: 'Partager'
+      }
+    });
+  </script>
 {% endblock %}

@@ -1,6 +1,3 @@
-parameters:
-    fos_comment.manager.comment.default.class: FOS2CommentBundle\Entity\CommentManager
-
 services:
 #    fos_comment.example:
 #        class: FOSCommentBundle\Example

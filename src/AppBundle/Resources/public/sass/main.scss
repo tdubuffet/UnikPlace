@@ -8312,3 +8312,20 @@ table.table-carts {
 .box-blog-detail .blog-detail-author .blog-author-about {
   color: #181818;
 }
+
+share-button{
+  color: #000;
+  background-color: #fff;
+  border-color: black;
+  font-size: 1em;
+  font-weight: normal;
+  font-family:Montserrat, arial, serif;
+  &:hover{
+    color: #000;
+    background-color: #fff;
+    border-color: black;
+  }
+  &:before{
+    margin-top: 4px;
+  }
+}

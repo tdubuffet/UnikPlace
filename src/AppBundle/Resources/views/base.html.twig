@@ -15,6 +15,8 @@
 
     <meta name="description" content="{% block description %}{{ metaDescription }}{% endblock %}">
 
+    {% block meta %}{% endblock %}
+
     <!-- Bootstrap -->
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/master.css') }}">

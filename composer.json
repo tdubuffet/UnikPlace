@@ -20,6 +20,10 @@
         {
             "url": "https://github.com/ownede/FOSMessageBundle.git",
             "type": "git"
+        },
+        {
+            "url": "https://github.com/tdubuffet/FOSCommentBundle",
+            "type": "git"
         }
     ],
     "require": {

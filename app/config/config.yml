@@ -269,6 +269,7 @@ fos_comment:
         model:
             comment: FOS2CommentBundle\Entity\Comment
             thread: FOS2CommentBundle\Entity\Thread
+            vote: FOS2CommentBundle\Entity\Vote
     acl: true
     service:
         acl:
