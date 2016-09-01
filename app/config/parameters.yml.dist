@@ -57,6 +57,7 @@ parameters:
             facebook: "http://facebook.com"
             twitter: "http://facebook.com"
             google: "http://facebook.com"
+        facebook_id: "%oauth.facebook.id%"
 
     # Crisp
     crisp.website_id: xxxxx
