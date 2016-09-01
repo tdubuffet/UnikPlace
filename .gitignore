@@ -20,5 +20,6 @@
 /web/js/
 /web/images/
 /web/upload/
+/web/assetic/
 *~
 .idea

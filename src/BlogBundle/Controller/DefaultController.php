@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Vich\UploaderBundle\Adapter\ORM\DoctrineORMAdapter;
 
@@ -20,22 +21,14 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="blog")
      * @Route("/{id}", name="blog_category")
+     * @param Request $request
+     * @param null $id
+     * @return Response
      */
     public function indexAction(Request $request, $id = null)
     {
         $categories = $this->getDoctrine()->getRepository('BlogBundle:BlogCategory')->findAll();
-
-        $query = $this->getDoctrine()->getManager()->createQueryBuilder()
-            ->select('a')
-            ->from('\BlogBundle\Entity\Article', 'a')
-            ->where('a.published = :published')
-            ->setParameter('published', true);
-
-        if ($id) {
-            $query->andWhere('a.category = :category')
-                ->setParameter('category', $id);
-        }
-
+        $query = $this->getDoctrine()->getRepository("BlogBundle:Article")->getQueryByCategory($id);
         $pagerfanta = new Pagerfanta(new \Pagerfanta\Adapter\DoctrineORMAdapter($query));
         $pagerfanta->setMaxPerPage(50);
 
@@ -54,6 +47,9 @@ class DefaultController extends Controller
     /**
      * @Route("/a/{slug}", name="blog_article")
      * @ParamConverter("article", class="BlogBundle:Article", options={"slug" = "slug"})
+     * @param Request $request
+     * @param Article $article
+     * @return Response
      */
     public function articleAction(Request $request, Article $article)
     {
