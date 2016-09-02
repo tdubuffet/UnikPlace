@@ -235,6 +235,11 @@ fos_js_routing:
 
 assetic:
   bundles: ~
+  node: /usr/bin/nodejs
+  filters:
+      uglifyjs2:
+          # the path to the uglifyjs executable
+          bin: /usr/local/bin/uglifyjs
 
 kms_froala_editor:
     serialNumber: "1922-1212-1212"

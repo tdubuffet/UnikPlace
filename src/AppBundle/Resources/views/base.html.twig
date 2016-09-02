@@ -502,9 +502,37 @@
       </div>
     </footer>
 
-    {% block javascripts %}
-      <script src="{{ asset('js/master.js') }}"></script>
-    {% endblock %}
+    {% javascripts
+    'components/jquery/dist/jquery.js'
+    'components/bootstrap-sass/assets/javascripts/bootstrap.js'
+    'components/jquery-validation/dist/jquery.validate.js'
+    'components/owl.carousel/dist/owl.carousel.js'
+    'components/elevatezoom/jquery.elevatezoom.js'
+    'components/bootbox.js/bootbox.js'
+    'components/select2/dist/js/select2.js'
+    'components/select2/dist/js/i18n/fr.js'
+    'components/blueimp-load-image/js/load-image.all.min.js'
+    'components/blueimp-file-upload/js/vendor/jquery.ui.widget.js'
+    'components/blueimp-file-upload/js/jquery.iframe-transport.js'
+    'components/blueimp-file-upload/js/jquery.fileupload.js'
+    'components/blueimp-file-upload/js/jquery.fileupload-process.js'
+    'components/blueimp-file-upload/js/jquery.fileupload-image.js'
+    'components/html.sortable/dist/html.sortable.js'
+    'components/jquery.maskedinput/src/jquery.maskedinput.js'
+    'components/jquery-creditcardvalidator/jquery.creditCardValidator.js'
+    'components/share-button/share-button.js'
+    'bundles/fosjsrouting/js/router.js'
+    '@CartBundle/Resources/public/js/*'
+    '@AppBundle/Resources/public/js/*'
+    '@CommentBundle/Resources/public/js/*'
+    '@DepositBundle/Resources/public/js/*'
+    '@UserBundle/Resources/public/js/*'
+    '@ProductBundle/Resources/public/js/*'
+    output='js/compiled/main.js'
+    filter='uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
     {% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
       <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
