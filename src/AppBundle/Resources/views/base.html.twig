@@ -107,10 +107,10 @@
                                  class="level-top"><span>Vendez</span></a>
                             </li>
                             {{ render(controller('AppBundle:Default:mobilecategories')) }}
-                            <li class="level0 home level-top">
+                            {#<li class="level0 home level-top">
                               <a href="{{ path('blog') }}"
                                  class="level-top"><span>Blog</span></a>
-                            </li>
+                            </li>#}
                           </ul>
                         </nav>
                       </div>
@@ -310,9 +310,9 @@
                     <li class="level0 nav-end nav-right nav-discover level-top">
                       <a href="{{ path('about') }}" class="level-top">Découvrez-nous</a>
                     </li>
-                    <li class="level0 nav-end nav-right nav-discover level-top">
+                    {#<li class="level0 nav-end nav-right nav-discover level-top">
                       <a href="{{ path('blog') }}" class="level-top">Blog</a>
-                    </li>
+                    </li>-->#}
                   </ul>
                 </div>
               </div>
