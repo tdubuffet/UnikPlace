@@ -119,7 +119,7 @@
                 </div>
                 <div class="header-logo">
                   <a href="{{ path('homepage') }}" title="{{ siteName }}" class="logo">
-                    <img class="x1" src="{{ optipng('bundles/app/images/logo_unik.png') }}" alt="{{ siteName }}" />
+                    <img class="x1" src="{{ optipng('bundles/app/images/logo_unik.png', { 'output' : 'logo_unik.png'}) }}" alt="{{ siteName }}" />
                   </a>
                 </div>
                 <div class="header-top-right">
@@ -188,7 +188,7 @@
               <div class="row">
                 <div class="item col-lg-3 col-md-2 col-sm-3 col-xs-12">
                   <a href="{{ path('homepage') }}" title="{{ siteName }}" class="logo">
-                    <img class="x1 img-responsive" src="{{ optipng('bundles/app/images/logo_unik.png') }}" alt="{{ siteName }}" />
+                    <img class="x1 img-responsive" src="{{ optipng('bundles/app/images/logo_unik.png', { 'output' : 'logo_unik.png'}) }}" alt="{{ siteName }}" />
                   </a>
                 </div>
                 <div class="item col-lg-9 col-md-10 col-sm-9 col-xs-12">
@@ -492,7 +492,7 @@
               <address>
                 {{ siteName }} {{ "now"|date('Y') }} - Tous droits réservés - Site d'achat, vente de biens d'occasions et neufs sécurisé.
                 <p class="text-center">
-                  <img class="mangopay-credits text-center" src="{{ optipng('bundles/app/images/mangopay.png') }}"
+                  <img class="mangopay-credits text-center" src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'mangopay.png'}) }}"
                        alt="mangopay" height="26px">
                 </p>
               </address>
