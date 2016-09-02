@@ -241,6 +241,17 @@ assetic:
           # the path to the uglifyjs executable
           bin: /usr/local/bin/uglifyjs
 
+      jpegoptim:
+          bin: /usr/bin/jpegtran
+          max: 70
+
+      optipng:
+          level: 3
+  twig:
+      functions:
+          jpegoptim: ~
+          optipng: ~
+
 kms_froala_editor:
     serialNumber: "1922-1212-1212"
     language: "fr"
