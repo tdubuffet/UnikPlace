@@ -8071,20 +8071,22 @@ table.table-carts {
 }
 
 @media (max-width: 991px) {
-  .box-project-product {
-    background: #F5F5F5 !important;
-    min-height: auto !important;
-  }
 
   .box-project-product.original-products {
     margin-top: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .box-project-product {
+    background: #F5F5F5 !important;
+    min-height: auto !important;
   }
 
   .box-project-product.original-products .title-project-product {
     margin: auto;
   }
 }
-
 
 
 .box-make-deal {
