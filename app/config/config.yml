@@ -234,8 +234,10 @@ fos_js_routing:
     routes_to_expose: [ 'fos_user_security_login']
 
 assetic:
-  debug:          '%kernel.debug%'
-  use_controller: '%kernel.debug%'
+  debug:          %kernel.debug%
+  use_controller:
+      enabled:  %kernel.debug%
+      profiler: false
   bundles: ~
   node: /usr/bin/nodejs
   filters:
