@@ -84,9 +84,21 @@ var Product = {
         $("#similar-products").owlCarousel({
             "autoPlay": false,
             "items": 4,
-            "loop": true
-        });
+            "loop": true,
+            responsiveClass:true,
+            responsive:{
+                0:{
+                    items:1,
+                },
+                600:{
+                    items:3,
+                },
+                1000:{
+                    items:4,
+                }
+            }
 
+        });
         $(".owl-nav-left").click(function() {
             $("#similar-products").trigger('prev.owl.carousel');
         });
