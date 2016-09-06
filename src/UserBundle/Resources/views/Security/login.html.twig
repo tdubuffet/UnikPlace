@@ -59,8 +59,6 @@
 
         {% if app.request.get('redirect_to') and redirectToRelative(app.request.get('redirect_to')) %}
           <input type="hidden" name="redirect_to" value="{{ redirectToRelative(app.request.get('redirect_to'))  }}" />
-        {% elseif app.request.get('_route') != app.request.headers.get('referer') %}
-          <input type="hidden" name="redirect_to" value="{{ app.request.headers.get('referer') }}" />
         {% endif %}
 
         <p>* Champs obligatoires</p>
