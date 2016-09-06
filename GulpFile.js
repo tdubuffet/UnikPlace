@@ -27,7 +27,7 @@ gulp.task('sass-prod', function () {
 
     gulp.src('./web/bundles/app/sass/master.scss')
         .pipe(sass({sourceComments: 'map'}))
-        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(cleanCSS({compatibility: 'ie8', processImportFrom: ['!fonts.googleapis.com']}))
         .on('error', swallowError)
         .pipe(gulp.dest('./web/css/'));
 });
