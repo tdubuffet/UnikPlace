@@ -135,7 +135,11 @@
               {% endif %}
 
               <div class="text-center">
+              {% if addresses|length > 0 %}
                 <input type="submit" class="btn btn-default" value="Etape suivante"/>
+              {% else %}
+                <p>Merci d'ajouter une adresse pour passer à l'étape suivante.</p>
+              {% endif %}
               </div>
 
             </form>
