@@ -29,6 +29,7 @@ var Deposit = {
         Deposit.loadPriceStep();
 
         Deposit.loadShippingValidation();
+        Deposit.saveShippingForm();
     },
 
     loadSubCategories: function () {
@@ -450,6 +451,13 @@ var Deposit = {
                 }
             }
         });
+    },
+
+    saveShippingForm: function() {
+        $('#addAddressModal').on('shown.bs.modal', function() {
+            // Save previous entered data in shipping form when an address is added
+            $('#shipping-form-data').val($("#shipping-form").serialize());
+        })
     }
 
 };

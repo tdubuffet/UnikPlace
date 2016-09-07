@@ -46,14 +46,14 @@
                   <div class="form-group">
                     <label class="required">Largeur en cm</label>
                     <input type="number" name="width" id="product-width" class="form-control" min="1"
-                           placeholder="Largeur du produit en cm" value="{{ app.request.get('width') }}">
+                           placeholder="Largeur du produit en cm" value="{{ shippingFormData.width is defined ? shippingFormData.width : app.request.get('width') }}">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label class="required">Longueur en cm</label>
                     <input type="number" name="length" id="product-length" class="form-control" min="1"
-                           placeholder="Longueur du produit en cm" value="{{ app.request.get('length') }}">
+                           placeholder="Longueur du produit en cm" value="{{ shippingFormData.length is defined ? shippingFormData.length : app.request.get('length') }}">
                   </div>
                 </div>
 
@@ -61,7 +61,7 @@
                   <div class="form-group">
                     <label class="required">Hauteur en cm</label>
                     <input type="number" name="height" id="product-height" class="form-control" min="1"
-                           placeholder="Hauteur du produit en cm" value="{{ app.request.get('height') }}">
+                           placeholder="Hauteur du produit en cm" value="{{ shippingFormData.height is defined ? shippingFormData.height : app.request.get('height') }}">
                   </div>
                 </div>
 
@@ -69,7 +69,7 @@
                   <div class="form-group">
                     <label class="required">Poids en kg</label>
                     <input type="number" name="weight" id="product-weight" class="form-control" min="1"
-                           placeholder="Poids du produit en kg" value="{{ app.request.get('weight') }}">
+                           placeholder="Poids du produit en kg" value="{{ shippingFormData.weight is defined ? shippingFormData.weight : app.request.get('weight') }}">
                   </div>
                 </div>
               </div>
@@ -92,7 +92,7 @@
                       <div class="col-sm-6 col-sm-offset-3">
 
                         <label>Mes frais de port en France métropolitaine <i class="fa fa-info-circle"></i></label>
-                        <input class="form-control" type="number" name="shipping_fees" placeholder="Montant en euros">
+                        <input class="form-control" type="number" name="shipping_fees" placeholder="Montant en euros" value="{{ shippingFormData.shipping_fees is defined ? shippingFormData.shipping_fees : '' }}">
                       </div>
                     </div>
 
@@ -104,7 +104,7 @@
                 <div class="checkbox">
                   <label>
                     <input type="checkbox" name="by_hand" value="1"
-                           {% if app.session.get('deposit').by_hand is not defined or (app.session.get('deposit').by_hand is defined and app.session.get('deposit').by_hand == '1') %}checked{% endif %}>
+                           {% if app.session.get('deposit').by_hand is not defined or (app.session.get('deposit').by_hand is defined and app.session.get('deposit').by_hand == '1') %}{% if shippingFormData.by_hand_unselected is not defined and shippingFormData is not empty %}checked{% endif %}{% endif %}>
                     J'accepte la remise en main propre
                   </label>
                 </div>
@@ -181,6 +181,7 @@
             <input type="text" name="phone" class="form-control" placeholder="Numéro de téléphone">
           </div>
           {{ form_row(addAddressForm.country) }}
+          <input type="hidden" name="shipping-form-data" id="shipping-form-data" value="" />
         </div>
         <div class="modal-footer">
           {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary'}}) }}

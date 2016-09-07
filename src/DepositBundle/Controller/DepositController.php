@@ -307,10 +307,22 @@ class DepositController extends Controller
         $address = new Address();
         $addAddressForm = $this->createForm(AddressType::class, $address);
 
+        // Load previous entered data in shipping form
+        $shippingFormData = [];
+        $shippingFormDataString = $this->get('session')->get('deposit_shipping_form_data');
+        if ($shippingFormDataString) {
+            $this->get('session')->remove('deposit_shipping_form_data');
+            parse_str($shippingFormDataString, $shippingFormData);
+            $shippingFormData = array_filter($shippingFormData);
+            if (!isset($shippingFormData['by_hand'])) {
+                $shippingFormData['by_hand_unselected'] = '1';
+            }
+        }
+
         $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
             ->findBy(['user' => $this->getUser()]);
 
-        return ['addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView()];
+        return ['addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView(), 'shippingFormData' => $shippingFormData];
     }
 
     /**
@@ -345,6 +357,9 @@ class DepositController extends Controller
                     $deposit['phone'] = $request->request->get('phone');
                     $this->get('session')->set('deposit', $deposit);
                     $this->addFlash('notice', 'Adresse ajoutée avec succès.');
+
+                    // Save previous entered shipping data in session
+                    $this->get('session')->set('deposit_shipping_form_data', $request->request->get('shipping-form-data'));
 
                     return $this->redirectToRoute('sell_shipping');
                 }
