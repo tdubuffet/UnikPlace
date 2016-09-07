@@ -1,0 +1,45 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Attribut{% endblock %}
+{% block page_subtitle %}{{ attribute.name }}{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th style="width: 20%">Id</th>
+                    <td>{{ attribute.id }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Code</th>
+                    <td>{{ attribute.code }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Nom</th>
+                    <td>{{ attribute.name }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Type</th>
+                    <td>{{ attribute.attributeType }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="box-footer">
+
+        <a href="{{ path('ad2_attribute_edit', { 'id': attribute.id }) }}">Editer</a>
+        <a class="btn btn-link" href="{{ path('ad2_attribute_list') }}">Retour</a>
+
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Supprimer" class="btn btn-danger">
+        {{ form_end(delete_form) }}
+
+    </div>
+</div>
+{% endblock %}

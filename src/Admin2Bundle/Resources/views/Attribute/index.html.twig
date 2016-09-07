@@ -1,0 +1,48 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Attributs{% endblock %}
+{% block page_subtitle %}Liste des attributs{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Code</th>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Reférentiel associé</th>
+                    <th>Obligatoire au dépôt</th>
+                    <th>Template au dépôt</th>
+                    <th>Template à la recherche</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for attribute in attributes %}
+                <tr>
+                    <td><a href="{{ path('ad2_attribute_show', { 'id': attribute.id }) }}">{{ attribute.id }}</a></td>
+                    <td>{{ attribute.code }}</td>
+                    <td>{{ attribute.name }}</td>
+                    <td>{{ attribute.attributeType.name }}</td>
+                    <td>{{ attribute.referential.code is defined ? attribute.referential.code : 'Pas de réferentiel' }}</td>
+                    <td>{{ attribute.mandatory ? 'oui' : 'non' }}</td>
+                    <td>{{ attribute.attributeDepositTemplate.name }}</td>
+                    <td>{{ attribute.attributeSearchTemplate.name }}</td>
+                    <td>
+                        <a href="{{ path('ad2_attribute_edit', { 'id': attribute.id }) }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer">
+        <a href="{{ path('ad2_attribute_new') }}" class="btn btn-info"><i class="fa fa-plus"></i> Ajouter un attribut</a>
+    </div>
+</div>
+{% endblock %}
