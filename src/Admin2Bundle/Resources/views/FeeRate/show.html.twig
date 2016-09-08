@@ -1,0 +1,45 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Taux de commission{% endblock %}
+{% block page_subtitle %}Taux de commission{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th style="width: 20%">Id</th>
+                    <td>{{ feeRate.id }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Taux</th>
+                    <td>{{ feeRate.rate }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Miminum</th>
+                    <td>{{ feeRate.minimum }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">Type</th>
+                    <td>{{ feeRate.type }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="box-footer">
+
+        <a href="{{ path('ad2_fee_rate_edit', { 'id': feeRate.id }) }}">Editer</a>
+        <a class="btn btn-link" href="{{ path('ad2_fee_rate_list') }}">Retour</a>
+
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Supprimer" class="btn btn-danger">
+        {{ form_end(delete_form) }}
+
+    </div>
+</div>
+{% endblock %}

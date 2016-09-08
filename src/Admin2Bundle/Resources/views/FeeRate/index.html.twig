@@ -1,0 +1,62 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Taux de commission{% endblock %}
+{% block page_subtitle %}Liste des taux de commission{% endblock %}
+
+
+{% block page_content %}
+
+{% if badConfiguration %}
+<div class="alert alert-danger">Attention, mauvaise configuration. Il doit manquer un ou plusieurs taux de commission minimum.</div>
+{% endif %}
+
+<div class="box">
+    <!-- /.box-header -->
+
+    <div class="box-body">
+
+      {% for type, feeRates in feeRatesByType %}
+      <p>Taux de commission pour "{{ type }}"</p>
+      <ul>
+        {% for type, feeRate in feeRates %}
+        {% if loop.first and feeRates[loop.index] is defined %}
+        <li>{{ feeRate.rate }}% si montant du produit en vente &lt;={{ feeRates[loop.index].minimum -1 }}€</li>
+        {% elseif loop.last %}
+        <li>{{ feeRate.rate }}% si montant du produit supérieur à {{ feeRate.minimum }}€</li>
+        {% else %}
+        <li>{{ feeRate.rate }}% entre {{ feeRate.minimum }} et {{ feeRates[loop.index].minimum -1 }}€</li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+      <hr />
+      {% endfor %}
+
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Minimum de prix</th>
+                    <th>Taux</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for feeRate in feeRates %}
+                <tr>
+                    <td>{{ feeRate.type }}</td>
+                    <td>{{ feeRate.minimum }}</td>
+                    <td>{{ feeRate.rate }}%</td>
+                    <td>
+                        <a href="{{ path('ad2_fee_rate_edit', { 'id': feeRate.id }) }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer">
+        <a href="{{ path('ad2_fee_rate_new') }}" class="btn btn-info"><i class="fa fa-plus"></i> Ajouter un palier</a>
+    </div>
+</div>
+{% endblock %}
