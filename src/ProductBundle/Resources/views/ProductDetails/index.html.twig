@@ -453,7 +453,7 @@
                   <li class="item hover-effect">
                     <div class="item-inner">
                       <div class="product-action">
-                        {% if date(product.getCreatedAt()) > date('-2weeks') %}
+                        {% if date(product.getCreatedAt()) > date('-2weeks') and product.getStatus().getName() != 'sold' %}
                           <div class="product-new-label">Nouveau</div>
                         {% endif %}
                         {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
