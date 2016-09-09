@@ -6,13 +6,15 @@ use MangoPay;
 use OrderBundle\Entity\Order;
 use UserBundle\Entity\User as UserEntity;
 use UserBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
 
 class MangoPayService
 {
     private $mangoPayApi;
     private $config;
+    private $em;
 
-    public function __construct($config)
+    public function __construct($config, EntityManager $entityManager)
     {
         $this->config = $config;
         $this->mangoPayApi = new MangoPay\MangoPayApi();
@@ -20,6 +22,8 @@ class MangoPayService
         $this->mangoPayApi->Config->ClientPassword = $config['client_password'];
         $this->mangoPayApi->Config->BaseUrl = $config['base_url'];
         $this->mangoPayApi->Config->TemporaryFolder = $config['temporary_folder'];
+
+        $this->em = $entityManager;
 
         // Create temporary folder if it does not exist
         if (!file_exists($config['temporary_folder'])) {
@@ -388,7 +392,7 @@ class MangoPayService
 
         $Transfer->Fees = new \MangoPay\Money();
         $Transfer->Fees->Currency       = "EUR";
-        $feeRate = $this->getFeeRateFromProductPrice($order->getProductAmount());
+        $feeRate = $this->getFeeRateFromProductAndOrderAmount($order->getProduct(), $order->getProductAmount());
         $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($feeRate/100) + $this->config['fixed_fee']*100);
 
         $Transfer->DebitedWalletID      = $order->getUser()->getMangopayBlockedWalletId();
@@ -545,10 +549,17 @@ class MangoPayService
         return $this->mangoPayApi->Users->GetKycDocuments($userId);
     }
 
-    private function getFeeRateFromProductPrice($price)
+    private function getFeeRateFromProductAndOrderAmount($product, $price)
     {
         $result = null;
-        $feeRates = $this->config['fee_rates'];
+        $seller = $product->getUser();
+        $feeRateType = $seller->getPro() == 1 ? 'pro' : 'individual';
+        $feeRates = $this->em->getRepository('OrderBundle:FeeRate')->findBy(['type' => $feeRateType], ['minimum' => 'ASC']);
+        $feeRatesArray = [];
+        foreach ($feeRates as $feeRate) {
+            $feeRatesArray[] = ['rate' => $feeRate->getRate(), 'min' => $feeRate->getMinimum()];
+        }
+        $feeRates = $feeRatesArray;
         foreach ($feeRates as $idx => $feeRate) {
             if (isset($feeRates[$idx +1]) && $price < $feeRates[$idx +1]['min'] && $result == null) {
                 $result = $feeRate['rate'];

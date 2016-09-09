@@ -25,7 +25,6 @@ parameters:
         client_id: %mangopay.client_id%
         client_password: %mangopay.client_password%
         base_url: %mangopay.base_url%
-        fee_rates: %mangopay.fee_rates%
         fixed_fee: %mangopay.fixed_fee%
         max_output: %mangopay.max_output%
         max_input: %mangopay.max_input%

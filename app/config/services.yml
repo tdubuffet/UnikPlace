@@ -58,7 +58,7 @@ services:
 
     mangopay_service:
         class: AppBundle\Service\MangoPayService
-        arguments: [%mangopay%]
+        arguments: [%mangopay%, '@doctrine.orm.entity_manager']
 
     mailer_sender:
         class: AppBundle\Service\MailerSender
