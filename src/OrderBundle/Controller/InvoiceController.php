@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InvoiceController extends Controller
 {
@@ -21,6 +22,10 @@ class InvoiceController extends Controller
      */
     public function indexAction(Request $request, Order $order)
     {
+
+        if ($order->getStatus()->getName() != 'done') {
+            throw new NotFoundHttpException;
+        }
 
         $feesRate = $this->get('mangopay_service')
             ->getFeeRateFromProductAndOrderAmount(
