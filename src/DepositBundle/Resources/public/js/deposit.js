@@ -253,7 +253,7 @@ var Deposit = {
             },
             "description": {
                 required: true,
-                minlength: 80,
+                minlength: 20,
                 maxlength: 2000,
             },
         };
