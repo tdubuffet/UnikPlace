@@ -420,7 +420,8 @@ class AccountController extends Controller
             return new JsonResponse(['message' => 'The product can not be removed.'], 409);
         }
         if ($action == 'remove') {
-            $status = $this->getDoctrine()->getRepository("ProductBundle:Status")->findOneBy(['name' => 'deleted']);
+            // If product is removed, update the product status to "sold"
+            $status = $this->getDoctrine()->getRepository("ProductBundle:Status")->findOneBy(['name' => 'sold']);
             if (!$status) {
                 return new JsonResponse(['message' => 'Status not found.'], 404);
             }
