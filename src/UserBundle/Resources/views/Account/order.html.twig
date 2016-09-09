@@ -133,6 +133,11 @@
     <div class="order-summary">
       <h3 class="order-summary-title">Commande terminée</h3>
       <p>Cette commande est désormais terminée.</p>
+      {% if sale %}
+        <a target="_blank" class="btn btn-default" href="{{ path('invoice', { 'id': order.id}) }}">
+          Télécharger la facture
+        </a>
+      {% endif %}
     </div>
   {% elseif order.status == 'error' %}
     <div class="order-summary">
