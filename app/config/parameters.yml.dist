@@ -32,6 +32,7 @@ parameters:
     mangopay.fixed_fee: 0
     mangopay.max_output: 600
     mangopay.max_input: 1200
+    tax.rate: 20
 
     # Sender email
     mailer_sender_email: contact@noname.dev

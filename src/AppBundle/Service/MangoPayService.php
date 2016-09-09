@@ -549,7 +549,7 @@ class MangoPayService
         return $this->mangoPayApi->Users->GetKycDocuments($userId);
     }
 
-    private function getFeeRateFromProductAndOrderAmount($product, $price)
+    public function getFeeRateFromProductAndOrderAmount($product, $price)
     {
         $result = null;
         $seller = $product->getUser();
