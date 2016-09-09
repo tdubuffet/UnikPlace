@@ -141,6 +141,13 @@ class Order
      */
     private $delivery;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tax", type="float", nullable=false)
+     */
+    private $tax = 20;
+
 
     /**
      * Get id
@@ -524,5 +531,21 @@ class Order
     public function getBillingAddress()
     {
         return $this->billingAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTax()
+    {
+        return $this->tax;
+    }
+
+    /**
+     * @param string $tax
+     */
+    public function setTax($tax)
+    {
+        $this->tax = $tax;
     }
 }
