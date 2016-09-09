@@ -59,6 +59,7 @@ class ModerationController extends Controller
         $productForm = $this->createForm(ProductType::class, $product);
         $productForm->handleRequest($request);
 
+        $filters = [];
         $customFields = (new AttributesProduct($this->get('twig')))->getAttributes($product, $filters);
 
         if ($productForm->isValid()) {
