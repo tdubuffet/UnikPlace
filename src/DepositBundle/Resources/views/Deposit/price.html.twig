@@ -56,12 +56,12 @@
               <p>Pour une vente classique, Unik Place prend une commission de:</p>
               <ul>
                 {% for fee_rate in fee_rates %}
-                {% if loop.first %}
-                <li>{{ fee_rate.rate }}% si montant du produit en vente &lt;{{ fee_rates[loop.index].min }}€</li>
+                {% if loop.first and fee_rates[loop.index] is defined %}
+                <li>{{ fee_rate.rate }}% si montant du produit en vente inférieur ou égal à {{ fee_rates[loop.index].min -1 }}€</li>
                 {% elseif loop.last %}
                 <li>{{ fee_rate.rate }}% si montant du produit supérieur à {{ fee_rate.min }}€</li>
                 {% else %}
-                <li>{{ fee_rate.rate }}% entre {{ fee_rate.min }} et {{ fee_rates[loop.index].min }}€</li>
+                <li>{{ fee_rate.rate }}% entre {{ fee_rate.min }} et {{ fee_rates[loop.index].min -1 }}€</li>
                 {% endif %}
                 {% endfor %}
               </ul>

@@ -239,8 +239,18 @@ class DepositController extends Controller
             return $this->redirectToRoute('sell_description');
         }
 
+        // Get fee rates based on the seller
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $feeRateType = $user->getPro() == 1 ? 'pro' : 'individual';
+        $feeRates = $em->getRepository('OrderBundle:FeeRate')->findBy(['type' => $feeRateType], ['minimum' => 'ASC']);
+        $feeRatesArray = [];
+        foreach ($feeRates as $feeRate) {
+            $feeRatesArray[] = ['rate' => $feeRate->getRate(), 'min' => $feeRate->getMinimum()];
+        }
+
         return [
-            'fee_rates' => $this->getParameter('mangopay.fee_rates'),
+            'fee_rates' => $feeRatesArray,
             'fixed_fee' => $this->getParameter('mangopay.fixed_fee'),
         ];
     }
