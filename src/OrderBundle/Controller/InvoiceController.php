@@ -17,7 +17,7 @@ class InvoiceController extends Controller
     /**
      * @Route("/facture/{id}", name="invoice")
      * @Template("OrderBundle:Invoice:index.html.twig")
-     * @Security("has_role('ROLE_USER') and (order.getProduct().getUser().getId())")
+     * @Security("has_role('ROLE_USER') and (order.getProduct().getUser().getId() == user.getId())")
      * @return array
      */
     public function indexAction(Request $request, Order $order)
