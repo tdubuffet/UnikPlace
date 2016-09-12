@@ -243,7 +243,8 @@ class OrderService
             $result = $this->mangopayService->validateOrder($order);
 
             $statusDone = $this->em->getRepository('OrderBundle:Status')->findOneBy(['name' => 'done']);
-            $order->setStatus($statusDone)->setMangopayTransferId($result->Id);
+            $feeRate = $this->mangopayService->getFeeRateFromProductAndOrderAmount($order->getProduct(), $order->getProductAmount());
+            $order->setStatus($statusDone)->setMangopayTransferId($result->Id)->setRate($feeRate);
 
             $this->em->persist($order);
             $this->em->flush();

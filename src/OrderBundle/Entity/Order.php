@@ -148,6 +148,13 @@ class Order
      */
     private $tax = 20;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rate", type="decimal", precision=8, scale=2, nullable=false)
+     */
+    private $rate = 0;
+
 
     /**
      * Get id
@@ -547,5 +554,29 @@ class Order
     public function setTax($tax)
     {
         $this->tax = $tax;
+    }
+
+    /**
+     * Set rate
+     *
+     * @param string $rate
+     *
+     * @return Order
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    /**
+     * Get rate
+     *
+     * @return string
+     */
+    public function getRate()
+    {
+        return $this->rate;
     }
 }

@@ -27,13 +27,7 @@ class InvoiceController extends Controller
             throw new NotFoundHttpException;
         }
 
-        $feesRate = $this->get('mangopay_service')
-            ->getFeeRateFromProductAndOrderAmount(
-                $order->getProduct(),
-                $order->getProductAmount()
-            );
-
-        $feesRate = $feesRate/100;
+        $feesRate = $order->getRate()/100;
 
         $fees = $this->getParameter('mangopay.fixed_fee');
 
