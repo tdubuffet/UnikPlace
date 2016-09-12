@@ -25,7 +25,7 @@ class FeeRate
     /**
      * @var integer
      *
-     * @ORM\Column(name="rate", type="integer")
+     * @ORM\Column(name="rate", type="decimal", precision=8, scale=2)
      */
     private $rate;
 
