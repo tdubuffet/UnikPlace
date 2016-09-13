@@ -71,6 +71,16 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/qualite-du-contenu", name="quality_content")
+     * @Template("AppBundle:default:quality.html.twig")
+     */
+    public function qualityAction(Request $request)
+    {
+
+        return [];
+    }
+
+    /**
      * @Route("/mentions-legales", name="legal_notice")
      * @Template("AppBundle:default:legalNotice.html.twig")
      */

@@ -10,6 +10,10 @@ about:
   title: "A propos de nous"
   description: ""
 
+quality_content:
+  title: "Qualité de contenu"
+  description: ""
+
 faq:
   title: "Foire aux questions"
   description: ""
