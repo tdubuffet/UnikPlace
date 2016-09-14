@@ -90,7 +90,6 @@ var Deposit = {
             dataType: 'json',
             previewMaxWidth: 550,
             previewMaxHeight: 413,
-            previewCrop: true,
             singleFileUploads: true,
             done: function (e, data) {
                 if (data.result.pic) {
@@ -129,7 +128,7 @@ var Deposit = {
 
                 var jpegUrl = file.preview.toDataURL("image/jpeg");
 
-                uploadPicPreview.append('<img class="upload-pic-img" src="'+jpegUrl+'" title="Glissez-déposez les photos pour en changer l\'ordre" width="100%" />');
+                uploadPicPreview.append('<img class="upload-pic-img" src="'+jpegUrl+'" title="Glissez-déposez les photos pour en changer l\'ordre" />');
                 uploadPicPreview.parent('.upload-pic').attr('data-upload-id', data.files[0].uploadId);
                 uploadPicPreview.find('.progress').show();
             }
