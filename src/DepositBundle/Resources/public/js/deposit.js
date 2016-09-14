@@ -285,7 +285,7 @@ var Deposit = {
             rules: descriptionRules,
             errorPlacement: function(error, element) {
                 if(element.hasClass('select-select2')) {
-                    error.insertAfter(".select2-container");
+                    error.insertAfter($(element).parent().find(".select2-container"));
                 } else if (element.hasClass('attribute-color')) {
                     error.insertAfter(".box-color-choice");
                 } else {
@@ -294,14 +294,14 @@ var Deposit = {
             },
             highlight: function(element, errorClass) {
                 if ($(element).hasClass('select-select2')) {
-                    $('.select2').addClass(errorClass);
+                    $(element).parent().find('.select2').addClass(errorClass);
                 } else {
                     $(element).addClass(errorClass);
                 }
             },
             unhighlight: function(element, errorClass) {
                 if ($(element).hasClass('select-select2')) {
-                    $('.select2').removeClass(errorClass);
+                    $(element).parent().find('.select2').removeClass(errorClass);
                 } else {
                     $(element).removeClass(errorClass);
                 }
