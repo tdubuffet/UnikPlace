@@ -14,7 +14,7 @@ use CommentBundle\Event\CommentEvents;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class DeleteService
@@ -30,12 +30,12 @@ class DeleteService
      * DeleteService constructor.
      * @param EntityManager $entityManager
      * @param AuthorizationChecker $checker
-     * @param TraceableEventDispatcher $dispatcher
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
         EntityManager $entityManager,
         AuthorizationChecker $checker,
-        TraceableEventDispatcher $dispatcher
+        EventDispatcherInterface $dispatcher
     ) {
         $this->em = $entityManager;
         $this->checker = $checker;
