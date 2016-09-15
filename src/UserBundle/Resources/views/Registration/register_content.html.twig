@@ -83,21 +83,16 @@
             {{ form_widget(form.company_name, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.company_name) }}
           </div>
+
+          {{ form_row(form.address.street) }}
           <div class="form-group">
-            <label class="required">Adresse de l'entreprise</label>
-            {{ form_widget(form.company_address, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_address) }}
+            <label class="control-label required" for="city_code">Ville de l'entreprise</label>
+            <select id="fos_user_registration_form_address_city" name="city_code" required="required"
+                    class="select-select2 autocomplete-city form-control">
+              <option value="">Sélectionnez un code postal</option>
+            </select>
           </div>
-          <div class="form-group">
-            <label class="required">Code postal de l'entreprise</label>
-            {{ form_widget(form.company_zipcode, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_zipcode) }}
-          </div>
-          <div class="form-group">
-            <label class="required">Ville de l'entreprise</label>
-            {{ form_widget(form.company_city, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_city) }}
-          </div>
+          {{ form_row(form.address.country) }}
         </div>
 
         {{ form_rest(form) }}

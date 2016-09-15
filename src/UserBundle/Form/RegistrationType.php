@@ -2,6 +2,8 @@
 
 namespace UserBundle\Form;
 
+use LocationBundle\Form\AddressProType;
+use LocationBundle\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Intl;
@@ -36,9 +38,10 @@ class RegistrationType extends AbstractType
         ));
         $builder->add('company_code');
         $builder->add('company_name');
-        $builder->add('company_address');
-        $builder->add('company_zipcode');
-        $builder->add('company_city');
+
+        $builder->add('address', AddressProType::class, [
+            'mapped' => false
+        ]);
     }
 
     public function getParent()

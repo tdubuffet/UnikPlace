@@ -36,13 +36,10 @@ var Signup = {
                 "fos_user_registration_form[company_name]": {
                     required: true,
                 },
-                "fos_user_registration_form[company_address]": {
+                "fos_user_registration_form[address][street]": {
                     required: true,
                 },
-                "fos_user_registration_form[company_zipcode]": {
-                    required: true,
-                },
-                "fos_user_registration_form[company_city]": {
+                "city_code": {
                     required: true,
                 }
             },
@@ -54,6 +51,8 @@ var Signup = {
                 }
             }
         });
+
+        Signup.initAutoCompleteCity();
     },
 
     initProFields: function() {
@@ -72,5 +71,32 @@ var Signup = {
         else {
             $('.pro-user-fields').hide();
         }
+    },
+
+    initAutoCompleteCity : function() {
+        $('#fos_user_registration_form_address_city').select2({
+            ajax: {
+                url: Routing.generate('ajax_search_city'),
+                dataType: 'json',
+                delay: 250,
+                method: 'post',
+                data: function (params) {
+                    return {
+                        q: params.term // search term
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data.cities, function(obj) {
+                            return { id: obj.id, text: obj.name+' ('+obj.zipcode+')' };
+                        })
+                    };
+                },
+                cache: true
+            },
+            dropdownAutoWidth: true,
+            minimumInputLength: 3,
+            width: "100%"
+        });
     }
 };

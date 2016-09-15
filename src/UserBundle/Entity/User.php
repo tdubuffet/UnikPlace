@@ -152,7 +152,7 @@ class User extends BaseUser implements ParticipantInterface
     private $proposals;
 
     /**
-     * @ORM\OneToMany(targetEntity="LocationBundle\Entity\Address", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="LocationBundle\Entity\Address", mappedBy="user", cascade={"persist"})
      */
     private $addresses;
 
