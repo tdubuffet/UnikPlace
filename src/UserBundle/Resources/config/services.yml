@@ -1,10 +1,7 @@
-parameters:
-    fos_user.resetting.email.template: FOSUserBundle:Resetting:email.txt.twig
-
 services:
     user.registration_listener:
         class: UserBundle\EventListener\RegistrationListener
-        arguments: ['@mangopay_service', '@doctrine.orm.entity_manager']
+        arguments: ['@mangopay_service', '@doctrine.orm.entity_manager', '@router']
         tags:
             - { name: kernel.event_subscriber }
 
