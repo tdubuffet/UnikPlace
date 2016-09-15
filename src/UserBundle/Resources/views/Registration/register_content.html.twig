@@ -11,15 +11,20 @@
 
       {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
         <div class="form-group">
-          <div class="radio-inline">
-            {{ form_widget(form.pro.0) }}
+          <div class="btn-group type-user" data-toggle="buttons">
+            <label class="btn btn-default btn-type-user">
+              {{ form_widget(form.pro.0, {'attr': {'class': 'radioTypeUser'}}) }}
+            </label>
+            <label class="btn btn-default btn-type-user">
+              {{ form_widget(form.pro.1, {'attr': {'class': 'radioTypeUser'}}) }}
+            </label>
           </div>
-          <div class="radio-inline">
-            {{ form_widget(form.pro.1) }}
-          </div>
+
           <div class="showErrorPro"></div>
           {{ form_errors(form.pro) }}
         </div>
+
+        <div class="data-user">
 
         {% if app.request.get('email_registration') %}
           {% set attrEmail = {'class': 'form-control', 'value': app.request.get('email_registration')} %}
@@ -93,6 +98,7 @@
             </select>
           </div>
           {{ form_row(form.address.country) }}
+        </div>
         </div>
 
         {{ form_rest(form) }}

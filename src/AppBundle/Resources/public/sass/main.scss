@@ -1424,6 +1424,17 @@ button.button span {
   background-color:#ececec;
   text-align:right;
 }
+
+.main-container .main-wrapper .account-login .type-user{
+  width: 100%;
+}
+
+.main-container .main-wrapper .account-login .btn-type-user{
+  width: 50%;
+  line-height: 45px;
+  min-height: 60px;
+}
+
 .main-container .main-wrapper .account-login .col-login{
   border-left: 1px solid #EEEEEE;
 }
