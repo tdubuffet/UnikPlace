@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use ProductBundle\Entity\Image;
 use ProductBundle\Entity\Product;
 use ProductBundle\Entity\AttributeValue;
+use ProductBundle\Entity\ReferentialValue;
 use LocationBundle\Entity\Address;
 use LocationBundle\Form\AddressType;
 use OrderBundle\Entity\Delivery;
@@ -158,6 +159,17 @@ class DepositController extends Controller
                             $viewName = sprintf('DepositBundle:DepositFilters:%s.html.twig', $filter['template']);
                             $params = isset($filter['viewVars']) ? $filter['viewVars'] : [];
                             $customFields[] = $this->renderView($viewName, $params);
+                        }
+                    }
+
+                    // Update designer list the dirty way
+                    foreach ($customFields as $customFieldsIdx => $customField) {
+                        if (strpos($customField, 'name="attribute-designer"') !== false) {
+                            $str_replace_first = function($from, $to, $subject) {
+                                $from = '/'.preg_quote($from, '/').'/';
+                                return preg_replace($from, $to, $subject, 1);
+                            };
+                            $customFields[$customFieldsIdx] = $str_replace_first('</option>', '</option><option value="self">Moi-même</option>', $customField);
                         }
                     }
 
@@ -668,6 +680,38 @@ class DepositController extends Controller
                 }
                 if (isset($attrValues['float_value'])) {
                     $attributeValue->setFloatValue($attrValues['float_value']);
+                }
+
+                // Special case for designer (self)
+                if (isset($attrValues['text_value']) && $attrValues['text_value'] == 'self') {
+                    $designerAttribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneById($attrId);
+                    if (isset($designerAttribute)) {
+                        $user = $this->getUser();
+                        $value = trim($user->getFirstname().' '.$user->getLastname());
+                        $designerReferentialValues = $designerAttribute->getReferential()->getReferentialValues();
+                        $flatdesignerReferentialValues = [];
+                        foreach ($designerReferentialValues as $designerReferentialValue) {
+                            $flatdesignerReferentialValues[] = $designerReferentialValue->getValue();
+                        }
+                        if (!in_array($value, $flatdesignerReferentialValues)) {
+                            // Add referential value
+                            $referentialValue = new ReferentialValue();
+                            $referentialValue->setValue($value);
+                            $referentialValue->addReferential($designerAttribute->getReferential());
+                            $this->getDoctrine()->getManager()->persist($referentialValue);
+                            $this->getDoctrine()->getManager()->flush();
+                        }
+                        else {
+                            // Set referential value
+                            foreach ($designerReferentialValues as $designerReferentialValue) {
+                                if ($designerReferentialValue->getValue() == $value) {
+                                    $referentialValue = $designerReferentialValue;
+                                }
+                            }
+                        }
+                        $attributeValue->setTextValue(null);
+                        $attributeValue->setReferentialValue($referentialValue);
+                    }
                 }
 
                 $this->getDoctrine()->getManager()->persist($attributeValue);
