@@ -51,6 +51,7 @@ class AppKernel extends Kernel
             new Admin2Bundle\Admin2Bundle(),
             new BlogBundle\BlogBundle(),
             new FOS2CommentBundle\FOS2CommentBundle(),
+            new ShopBundle\ShopBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

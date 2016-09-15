@@ -1,0 +1,210 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Boutique de {{ user.companyName }} {% endblock %}
+
+{% block description %}Boutique de {{ user.companyName }} sur {{ siteName }}{% endblock %}
+
+{% block javascript_include %}{{ jsinit(['search']) }}{% endblock javascript_include %}
+
+{% block body %}
+
+  <div class="main-wrapper">
+    <div class="container">
+
+      <h1 style="margin-bottom: 60px;">Boutique de {{ user.companyName }}</h1>
+      <input type="hidden" value="{% if app.request.query.get('user') %}{{ app.request.query.get('user') }}{% else %}{{ user.id }}{% endif %}" class="search-user"/>
+
+      <div class="main">
+
+        <div class="row show-grid">
+          <div class="col-lg-12">
+            <div class="site-preface"></div>
+          </div>
+        </div>
+
+        <div class="row show-grid">
+          <div class="col-lg-12"></div>
+        </div>
+
+        <div class="row show-grid">
+          <input id="search-category" type="hidden"
+                 value="{% if category is defined %}{{ category.getId() }}{% elseif app.request.get('cat') is defined %}{{ app.request.get('cat') }}{% endif %}"/>
+        </div>
+
+        <div class="row show-grid">
+          <div class="col-md-3 sidebar filter-sidebar">
+            <div class="col-left">
+              {% if category is defined %}
+              <div class="block block-layered-nav">
+                <div class="block-title hidden-xs hidden-sm">
+                  <strong><span>Catégories</span></strong>
+                </div>
+                <div class="block-title hidden-md hidden-lg" id="categories-action-collapse" data-toggle="collapse" data-target="#categoriesCollapse" href="#categoriesCollapse">
+                  <strong>
+                    <span>
+                      Afficher les catégories
+                    </span>
+                  </strong>
+                  <i class="mobile-button fa fa-plus"></i>
+                </div>
+                <div class="block-content block-content-categories hidden-xs hidden-sm">
+
+                    {% if category.getParent() is null %}
+                      {% set children = category.getChildren() %}
+                    {% else %}
+                      {% set children = category.getParent().getChildren() %}
+                    {% endif %}
+
+                    <ul>
+                      {% for subCat in children %}
+                        <li>
+                          <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.name }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                </div>
+                <div class="block-content collapse hidden-md hidden-lg" id="categoriesCollapse">
+                  {% if category.getParent() is null %}
+                    {% set children = category.getChildren() %}
+                  {% else %}
+                    {% set children = category.getParent().getChildren() %}
+                  {% endif %}
+
+                  <ul>
+                    {% for subCat in children %}
+                      <li>
+                        <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.name }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="block block-layered-nav">
+                <div class="block-title hidden-xs hidden-sm">
+                  <strong><span>Filtres</span></strong>
+                </div>
+                <div class="block-title hidden-md hidden-lg" id="filters-action-collapse" data-toggle="collapse" data-target="#filtersCollapse"  href="#filtersCollapse">
+                  <strong>
+                    <span>
+                      Afficher les filtres
+                    </span>
+                  </strong>
+                  <i class="mobile-button fa fa-plus"></i>
+                </div>
+                <div class="block-content block-content-filters hidden-xs hidden-sm">
+                  <div class="text-center">
+                    <i aria-hidden="true" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Chargement...</span>
+                  </div>
+                </div>
+                <div class="block-content block-content-filters collapse hidden-md hidden-lg" id="filtersCollapse">
+                  <!-- search filters go here -->
+                </div>
+              </div>
+
+
+            </div><!-- .col-left -->
+          </div><!-- .sidebar -->
+
+
+          <div class="col-md-9">
+            <div class="col-main">
+              {% if category is defined %}
+                <h1>{{ category.name }}</h1>
+              {% endif %}
+
+              <div class="category-products">
+                <div class="toolbar">
+                  <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="sorter_wrap">
+                            <div class="sort-by">
+
+                              <div class="select-new">
+                                <div class="select-inner">
+                                  <span>Tri par : </span>
+                                  <div class="overwrite-sortby" role="button" data-toggle="collapse" data-target="#sort_by"
+                                       aria-expanded="false"></div>
+                                  {% set sortModes = {new: 'Nouveauté', price: 'Prix'} %}
+                                  <script>sortModeLabels = {{ sortModes|json_encode|raw }};</script>
+                                  <ul id="sort_by" class="sort_by collapse">
+                                    {% for sortMode, sortModeLabel in sortModes %}
+                                      <li>
+                                        <button class="btn-link" type="button"
+                                                data-sort="{{ sortMode }}">{{ sortModeLabel }}</button>
+                                      </li>
+                                    {% endfor %}
+                                  </ul>
+                                  <input type="hidden"
+                                         value="{% if app.request.query.get('sort') is defined and app.request.query.get('sort') in sortModes|keys %}{{ app.request.query.get('sort') }}{% else %}new{% endif %}"
+                                         class="sort_by_value"/>
+                                </div>
+                              </div>
+
+                              <div class="direction-list">
+                                <button class="btn-link direction direction-up sort-direction" type="button">
+                                  <i class="fa"></i>
+                                </button>
+                                <input type="hidden"
+                                       value="{% if app.request.query.get('ord') is defined and app.request.query.get('ord') in ['asc', 'desc'] %}{{ app.request.query.get('ord') }}{% else %}desc{% endif %}"
+                                       class="ord_value"/>
+                              </div>
+
+                              <div class="limiter_wrap">
+                                <div class="limiter">
+                                  <div class="select-new">
+                                    <div class="select-inner">
+                                      <div class="overwrite-limiter" data-toggle="collapse" data-target="#limiter" aria-expanded="false"><span class="overwrite-limiter-value"></span>&nbsp;produits/page</div>
+                                      {% set availableLimits = [12, 24, 36] %}
+                                      <script>availableLimits = {{ availableLimits|json_encode|raw }};</script>
+                                      <ul id="limiter" class="limiter collapse">
+                                        {% for availableLimit in availableLimits %}
+                                        <li>
+                                          <button class="btn-link" type="button" data-limit="{{ availableLimit }}">{{ availableLimit }}</button>
+                                        </li>
+                                        {% endfor %}
+                                      </ul>
+                                      <input type="hidden"
+                                             value="{% if app.request.query.get('limit') is defined and app.request.query.get('limit') in availableLimits %}{{ app.request.query.get('limit') }}{% else %}12{% endif %}"
+                                             class="limiter_limit_value">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="category-products-loading text-center" style="display: none">
+                  <i aria-hidden="true" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                  <span class="sr-only">Chargement...</span>
+                </div>
+                <div class="category-products-container"><!-- category-products-container -->
+                  {% include 'ProductBundle:Search:product_grid.html.twig' %}
+                  <div><!-- .category-products-container -->
+
+                  </div><!-- .category-products -->
+
+                </div><!-- .col-main -->
+              </div><!-- col -->
+
+            </div><!-- .row -->
+          </div><!-- .main -->
+        </div><!-- .container -->
+      </div><!-- .main-wrapper -->
+    </div>
+  </div>
+{% endblock %}

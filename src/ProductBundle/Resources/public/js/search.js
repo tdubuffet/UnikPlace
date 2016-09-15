@@ -276,6 +276,7 @@ var Search = {
         Search.params.cat = $('#search-category').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
         Search.params.county = $(".search-county").val();
+        Search.params.user = $(".search-user").val();
 
         // Product attributes filters
         //range
