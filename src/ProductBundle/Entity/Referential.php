@@ -38,6 +38,7 @@ class Referential
 
     /**
      * @ORM\ManyToMany(targetEntity="ReferentialValue", inversedBy="referentials")
+     * @ORM\OrderBy({"value" = "ASC"})
      * @ORM\JoinTable(name="referentials_referential_values")
      */
     private $referentialValues;
