@@ -630,4 +630,19 @@ class AccountController extends Controller
         );
     }
 
+    /**
+     * @Route("/email/validation", name="email_validation")
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function sendEmailValidationAction(Request $request)
+    {
+
+        $this->get('fos_user.mailer.send')->sendConfirmationEmailMessage($this->getUser());
+
+
+        return $this->redirectToRoute('fos_user_profile_edit');
+
+    }
+
 }

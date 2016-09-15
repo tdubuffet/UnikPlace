@@ -170,6 +170,22 @@ class User extends BaseUser implements ParticipantInterface
      */
     private $orders;
 
+    /**
+     * @ORM\Column(name="email_validated", type="boolean", nullable=false)
+     */
+    private $emailValidated = false;
+
+    public function isEmailValidated()
+    {
+        return $this->emailValidated;
+    }
+
+    public function setEmailValidated($value)
+    {
+        $this->emailValidated = $value;
+
+        return $this;
+    }
 
     public function setEmail($email)
     {

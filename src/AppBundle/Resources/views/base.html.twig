@@ -356,6 +356,15 @@
     </nav>
 #}
 
+    {% if app.user and app.user.isEmailValidated() == false %}
+
+      <div class="alert alert-warning alert-dismissible alert-message-email text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        Vous n'avez pas confirmé votre adresse email. Merci de vérifier vos mails et de valider votre compte.<br /><a href="{{ path('email_validation') }}">Me renvoyer le mail de confirmation</a>
+      </div>
+
+    {% endif %}
+
     {% block wholebody %}
     <div class="main-container">
       {% block body %}{% endblock %}

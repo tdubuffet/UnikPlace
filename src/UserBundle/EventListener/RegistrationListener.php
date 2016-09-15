@@ -24,7 +24,8 @@ class RegistrationListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FOSUserEvents::REGISTRATION_COMPLETED => 'onUserRegistrationCompleted'
+            FOSUserEvents::REGISTRATION_COMPLETED => 'onUserRegistrationCompleted',
+            FOSUserEvents::REGISTRATION_CONFIRMED => 'onUserRegistrationConfirmed'
         );
     }
 
@@ -38,6 +39,10 @@ class RegistrationListener implements EventSubscriberInterface
         else {
             $mangopayUser = $this->mangopayService->createNaturalUser($user);
         }
+
+        //Enabled account
+        $user->setEnabled(true);
+
         // Also create wallets
         $wallets = $this->mangopayService->createWallets($mangopayUser->Id);
 
@@ -45,6 +50,16 @@ class RegistrationListener implements EventSubscriberInterface
         $user->setMangopayUserId($mangopayUser->Id);
         $user->setMangopayBlockedWalletId($wallets['blocked']->Id);
         $user->setMangopayFreeWalletId($wallets['free']->Id);
+
+        // Flush user
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+
+    public function onUserRegistrationConfirmed(FilterUserResponseEvent $event) {
+
+        $user = $event->getUser();
+        $user->setEmailValidated(true);
 
         // Flush user
         $this->em->persist($user);
