@@ -17,54 +17,69 @@
     {% endfor %}
   {% endfor %}
 
-  <div class="table-responsive">
+  <div class="category-products">
     {% if pager.currentPageResults|length > 0 %}
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th>Date de création</th>
-          <th>Titre</th>
-          <th>Statut</th>
-          <th>Prix</th>
-          <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for product in pager.currentPageResults %}
-          <tr id="row{{ product.id }}">
-            <td>le {{ product.createdAt|date("d/m/Y H:i:s") }}</td>
-            <td>
-              {% if product.status.name == "published" %}
-                <a href="{{ path("product_details", {'id': product.id, 'slug': product.slug}) }}">{{ product.name }}</a>
-              {% else %}
-                {{ product.name }}
-              {% endif %}
-            </td>
-            <td>
-              {% if product.status.name == "awaiting" %}
-                <span class="label label-info">{{ product.status.label }}</span>
-              {% elseif product.status.name == "published" %}
-                <span class="label label-success">{{ product.status.label }}</span>
-              {% elseif product.status.name == "refused" %}
-                <span class="label label-danger">{{ product.status.label }}</span>
-              {% endif %}
-            </td>
-            <td id="price{{ product.id }}">{{ product.price|currency_convert_format(product.currency.code) }}</td>
-            <td>
-              <button class="btn btn-primary btn-xs" data-id="{{ product.id }}" data-name="{{ product.name }}"
-                      data-price="{{ product.price }}" data-toggle="modal" data-target="#updateProductModal">
-                Modifier le prix
-              </button>
+         <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-3col show-grid">
+           <li class="item first hover-effect">
+             <a href="{{ path('sell_category') }}" style="display:block">
+               <div class="add-product">
+                 <div class="add-product-placeholder"></div>
+                 <div class="add-product-content">
+                   <i class="add-logo fa fa-plus"></i>
+                   <p>Ajouter un produit en vente</p>
+                 </div>
+                 <div class="add-product-placeholder2"></div>
+               </div>
+             </a>
+           </li>
+           {% for product in pager.currentPageResults %}
+              <li class="item first hover-effect" id="row{{ product.id }}">
+                <div class="item-inner">
+                  <div class="product-action">
+                      <button class="btn btn-primary btn-xs product-delete" data-id="{{ product.id }}" data-name="{{ product.name }}"
+                              data-toggle="modal" data-target="#deleteProductModal" title="Supprimer mon produit">
+                        <i class="fa fa-times"></i>
+                      </button>
+                    {% if product.getStatus() is not empty and product.getStatus().getName() == 'awaiting' %}
+                    <div class="product-awaiting-label">En cours de validation</div>
+                    {% endif %}
+                    <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}"
+                       title="{{ product.name }}" class="product-image">
+                      {% set images = product.getImages() %}
+                      <img class="img-responsive"
+                           src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}"
+                           alt="{{ product.name }}"/>
+                    </a>
+                  </div>
+                  <div class="product-content">
+                    <div class="product-name text-center"><a
+                              target="_blank"
+                              href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}"
+                              title="{{ product.name }}">{{ product.getName }}</a></div>
 
-              <button class="btn btn-danger btn-xs" data-id="{{ product.id }}" data-name="{{ product.name }}"
-                      data-toggle="modal" data-target="#deleteProductModal" title="Supprimer mon produit">
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                    <div class="price-box">
+                      {% if product.originalPrice is not null %}
+                        <p class="old-price">
+                          <span class="price-label">Ancien prix :</span>
+                          <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
+                        </p>
+                      {% endif %}
+
+                      <p class="special-price">
+                        <span class="price-label">Nouveau prix :</span>
+                        <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
+                      </p>
+                    </div>
+
+                    <div class="actions-box">
+                      <button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Modifier</button>
+                      <button class="btn btn-primary btn-sm"><i class="fa fa-copy"></i> Dupliquer</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
     {% else %}
       Aucun produit, vous pouvez <a href="{{ path('sell_category') }}">déposer un produit</a>
     {% endif %}
@@ -88,29 +103,6 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
           <button type="button" class="btn btn-primary" id="deleteProductModalConfirm">Confirmer</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-  <div class="modal fade" tabindex="-1" role="dialog" id="updateProductModal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title" id="updateProductModalTitle"></h4>
-        </div>
-        <div class="modal-body" id="updateProductModalBody">
-          <div class="form-group">
-            <label for="price">Nouveau prix :</label>
-            <input type="text" name="price" class="form-control" id="price">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-          <button type="submit" class="btn btn-primary" id="updateProductModalConfirm">Confirmer</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

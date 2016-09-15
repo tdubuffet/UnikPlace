@@ -28,7 +28,7 @@ var Products = {
                 type: 'POST',
                 data: {'product_id': Products.id, action: 'remove'},
                 success: function (result) {
-                    $("#row"+Products.id).hide();
+                    $("#row"+Products.id).remove();
                     $('#deleteProductModal').modal('hide');
                     $('.page-title').after("<div class='alert alert-success'>Le produit a bien été supprimé</div>");
                 },

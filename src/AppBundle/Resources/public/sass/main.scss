@@ -3587,6 +3587,17 @@ button.button span {
   font-size:10px;
   font-weight:400;
 }
+.category-products .products-grid .item .product-action .product-awaiting-label {
+  position:absolute;
+  top:10px;
+  left:10px;
+  padding:5px 12px;
+  text-transform:uppercase;
+  font-size:10px;
+  font-weight:400;
+  color:#eb4444;
+  border: 2px solid #eb4444;
+}
 .category-products .products-grid .item .product-action .product-new-label {
   position:absolute;
   top:10px;
@@ -3595,6 +3606,11 @@ button.button span {
   font-weight:400;
   text-transform:uppercase;
   font-size:10px;
+}
+.category-products .products-grid .item .product-action .product-delete {
+  position:absolute;
+  right:10px;
+  top:10px;
 }
 .category-products .products-grid .item .product-action .product-image {
   display:block;
@@ -3799,6 +3815,25 @@ button.button span {
   -webkit-transition:all 500ms ease;
   -o-transition:all 500ms ease;
   transition:all 500ms ease;
+}
+.category-products .products-grid .add-product {
+  border: 2px solid #dac551;
+}
+.category-products .products-grid .add-product .add-logo {
+  font-size: 70px;
+}
+.category-products .products-grid .add-product .add-product-placeholder {
+  height: 263px;
+  display: block;
+}
+.category-products .products-grid .add-product .add-product-placeholder2 {
+  height: 125px;
+}
+.category-products .products-grid .add-product .add-product-content {
+  bottom: 130px;
+  position: relative;
+  font-size: 20px;
+  height: 0px;
 }
 .category-products .products-grid .item:hover .actions {
   border-top:#eeeeee solid 2px;
