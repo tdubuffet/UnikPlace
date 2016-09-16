@@ -43,9 +43,9 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>
-                    Prix du produit neuf
+                    Prix d'origine
                     <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
-                       title="Indiquez le prix d'origine du produit si vous le connaissez"></i>
+                       title="Indiquez le prix d'origine du produit s'il est différent de votre prix de vente"></i>
                   </label>
                   <input type="number" name="original_price" class="form-control" min="1" placeholder="Indiquez le prix d'achat" value="{% if app.session.get('deposit').original_price is defined %}{{ app.session.get('deposit').original_price }}{% endif %}">
                 </div>
