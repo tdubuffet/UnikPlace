@@ -3835,6 +3835,9 @@ button.button span {
   font-size: 20px;
   height: 0px;
 }
+.category-products .products-grid .item-inner.item-selected {
+  border: 2px solid #eee;
+}
 .category-products .products-grid .item:hover .actions {
   border-top:#eeeeee solid 2px;
   border-bottom:#eeeeee solid 2px;
@@ -8480,4 +8483,5 @@ share-button{
   cursor: pointer;
   border-radius: 50%;
   z-index: 50;
+  border: 0px black solid;
 }

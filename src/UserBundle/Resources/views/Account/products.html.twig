@@ -34,7 +34,7 @@
            </li>
            {% for product in pager.currentPageResults %}
               <li class="item first hover-effect" id="row{{ product.id }}">
-                <div class="item-inner">
+                <div class="item-inner item-selected">
                   <div class="product-action">
                       <button class="btn btn-primary btn-xs product-delete product-delete-btn" data-id="{{ product.id }}" data-name="{{ product.name }}"
                               data-toggle="modal" data-target="#deleteProductModal" title="Supprimer mon produit">
@@ -50,7 +50,7 @@
                     {% endif%}
                       {% set images = product.getImages() %}
                       <img class="img-responsive"
-                           src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}"
+                           src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}"
                            alt="{{ product.name }}"/>
                     {% if product.getStatus.getName() == 'published' %}</a>{% else %}</div>{% endif %}
                   </div>
