@@ -1,6 +1,7 @@
 var Signup = {
 
     init: function() {
+        console.log('init signup');
         Signup.initProFields();
         $("#signup-form").validate({
             rules: {
@@ -41,7 +42,14 @@ var Signup = {
                 },
                 "city_code": {
                     required: true,
+                },
+                "fos_user_registration_form[phone]": {
+                    matches: "[0-9]+",
+                    minlength:10,
+                    maxlength:10,
+                    required: true
                 }
+
             },
             errorPlacement: function(error, element) {
                 if (element.attr("type") == "radio") {

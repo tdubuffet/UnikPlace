@@ -36,6 +36,7 @@ class RegistrationType extends AbstractType
         $builder->add('residential_country', CountryType::class, array(
             'preferred_choices' => array('FR'),
         ));
+        $builder->add('phone');
         $builder->add('company_code');
         $builder->add('company_name');
 
