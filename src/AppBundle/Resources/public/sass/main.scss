@@ -4607,6 +4607,11 @@ button.button span {
   line-height:22px;
   letter-spacing:0.025em;
 }
+
+.footer-wrapper .footer-bottom .custom-footer-content .social{
+  margin-top: 40px;
+}
+
 .footer-wrapper .footer-bottom .custom-footer-content .social .title-footer {
   font-size:18px;
   letter-spacing:0.1em;
@@ -4632,6 +4637,33 @@ button.button span {
   background-color:#ffffff;
   color:#181818;
   border:2px solid #ffffff;
+}
+
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 { padding-top:15px; }
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li {
+  float:left;
+  margin-right:20px;
+}
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li:last-child { margin-right:0; }
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li a {
+  border:2px solid #ffffff;
+  font-size:18px;
+  height:36px;
+  width:36px;
+  text-align:center;
+  line-height:36px;
+  display: block;
+  border-radius: 50%;
+}
+
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li.facebook a{ background: #3B5998;  }
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li.twitter a{ background: #1DA1F2;  }
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li.instagram a{ background: url(../bundles/app/images/instagram.jpg); background-size: cover}
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li.pinterest a{ background: #bd081c }
+
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li a span { display:none; }
+.footer-wrapper .footer-bottom .custom-footer-content .social ul.social-icons2 li a:hover {
+  color:#181818;
 }
 
 .item-info-li,

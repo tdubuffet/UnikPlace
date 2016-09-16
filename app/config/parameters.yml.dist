@@ -46,9 +46,11 @@ parameters:
             email: %mailer_contact_email%
             phone: "01 84 17 76 11"
         socialNetwork:
-            facebook: "http://facebook.com"
-            twitter: "http://facebook.com"
+            facebook: "https://www.facebook.com/unikplace/"
+            twitter: "https://twitter.com/unikplacedesign"
             google: "http://facebook.com"
+            instagram: "https://www.instagram.com/unikplacedesign/"
+            pinterest: "https://fr.pinterest.com/unikplace/"
         facebook_id: "%oauth.facebook.id%"
 
     # Crisp
