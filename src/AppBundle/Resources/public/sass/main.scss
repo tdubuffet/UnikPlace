@@ -8458,3 +8458,26 @@ share-button{
 .alert-message-email{
   margin-bottom: 0px;
 }
+
+.truncate {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate-center {
+  margin: auto;
+}
+
+.product-delete-btn {
+  position: absolute;
+  background: #eee;
+  color: #181818;
+  padding: 0px 4px 0 4px;
+  right: 30px;
+  top: 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 50;
+}

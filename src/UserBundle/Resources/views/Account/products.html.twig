@@ -36,27 +36,32 @@
               <li class="item first hover-effect" id="row{{ product.id }}">
                 <div class="item-inner">
                   <div class="product-action">
-                      <button class="btn btn-primary btn-xs product-delete" data-id="{{ product.id }}" data-name="{{ product.name }}"
+                      <button class="btn btn-primary btn-xs product-delete product-delete-btn" data-id="{{ product.id }}" data-name="{{ product.name }}"
                               data-toggle="modal" data-target="#deleteProductModal" title="Supprimer mon produit">
                         <i class="fa fa-times"></i>
                       </button>
                     {% if product.getStatus() is not empty and product.getStatus().getName() == 'awaiting' %}
                     <div class="product-awaiting-label">En cours de validation</div>
                     {% endif %}
-                    <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}"
-                       title="{{ product.name }}" class="product-image">
+                    {% if product.getStatus.getName() == 'published' %}
+                    <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
+                    {% else %}
+                    <div class="product-image" title="{{ product.name }}">
+                    {% endif%}
                       {% set images = product.getImages() %}
                       <img class="img-responsive"
                            src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275) }}{% endif %}"
                            alt="{{ product.name }}"/>
-                    </a>
+                    {% if product.getStatus.getName() == 'published' %}</a>{% else %}</div>{% endif %}
                   </div>
                   <div class="product-content">
-                    <div class="product-name text-center"><a
-                              target="_blank"
-                              href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}"
-                              title="{{ product.name }}">{{ product.getName }}</a></div>
-
+                    <div class="product-name text-center">
+                      {% if product.getStatus.getName() == 'published' %}
+                      <a class="truncate truncate-center" style="width: 150px;" target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a>
+                      {% else %}
+                      <div class="truncate truncate-center" style="width: 150px; line-height: 30px;" title="{{ product.name }}">{{ product.getName }}</div>
+                      {% endif%}
+                    </div>
                     <div class="price-box">
                       {% if product.originalPrice is not null %}
                         <p class="old-price">
