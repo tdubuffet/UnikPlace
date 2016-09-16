@@ -413,8 +413,8 @@ class AccountController extends Controller
         if ($user->getId() != $product->getUser()->getId()) {
             throw new NotFoundHttpException('Current user is not the product owner');
         }
-        if ($product->getStatus()->getName() != 'published') {
-            throw new AccessDeniedHttpException('Product must have status "published" in order to edit it');
+        if (!in_array($product->getStatus()->getName(), ['published', 'awaiting'])) {
+            throw new AccessDeniedHttpException('Product must have status "published" or "awaiting" in order to edit it');
         }
 
         // Copy ?
