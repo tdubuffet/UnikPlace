@@ -434,7 +434,7 @@ class AccountController extends Controller
             $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
             $this->container->get('session')->getFlashBag()->add('copy',
-                                                                 'Votre produit "'.$product->getName().'" a été copié avec succès. Vous pouvez modifier la copie ci-dessus');
+                                                                 'Votre produit "'.$product->getName().'" a été copié avec succès. Vous pouvez modifier la copie ci-dessous');
             return $this->redirectToRoute('user_account_products_edition', ['id' => $product->getId()]);
         }
 
