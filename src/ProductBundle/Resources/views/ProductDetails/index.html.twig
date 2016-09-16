@@ -151,6 +151,13 @@
                           </div>
                         </div>
                       </div><!-- .middle-product-detail -->
+                      {% if product.user.getPro() %}
+                      <div class="short-description-detail">
+                        <div class="short-description">
+                          <a href="{{ path('shop', {id : product.user.id}) }}" class="small">Voir la boutique du vendeur</a>
+                        </div>
+                      </div>
+                      {% endif %}
 
                       <div class="actions-wrapper">
                         <div class="add-to-cart">

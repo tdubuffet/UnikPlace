@@ -13,7 +13,7 @@ use UserBundle\Entity\User;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/boutique/{id}")
+     * @Route("/boutique/{id}", name="shop")
      * @ParamConverter("user", class="UserBundle:User")
      * @Template("ShopBundle:Default:index.html.twig")
      */
