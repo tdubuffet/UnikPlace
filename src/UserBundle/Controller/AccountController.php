@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,11 +21,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use UserBundle\Entity\User;
+use ProductBundle\Entity\Product;
+use ProductBundle\Entity\AttributeValue;
 use UserBundle\Form\PreferenceFormType;
 use UserBundle\Form\RatingType;
 use UserBundle\Form\MangopayKYCNaturalType;
 use UserBundle\Form\MangopayKYCLegalType;
+use ProductBundle\Form\ProductType;
+use Admin2Bundle\Model\AttributesProduct;
 
 /**
  * Class AccountController
@@ -390,6 +396,98 @@ class AccountController extends Controller
         }
 
         return ['pager' => $pagerfanta];
+    }
+
+    /**
+     * @Route("/produits/edition/{id}", name="user_account_products_edition")
+     * @ParamConverter("product", class="ProductBundle:Product")
+     * @Template("UserBundle:Account:product_edition.html.twig")
+     * @param Request $request
+     * @param Product $product
+     * @return array
+     */
+    public function productEditionAction(Request $request, Product $product)
+    {
+        // Make sure user is the owner of the product
+        $user = $this->getUser();
+        if ($user->getId() != $product->getUser()->getId()) {
+            throw new NotFoundHttpException('Current user is not the product owner');
+        }
+        if ($product->getStatus()->getName() != 'published') {
+            throw new AccessDeniedHttpException('Product must have status "published" in order to edit it');
+        }
+
+        // Copy ?
+        if ($request->query->has('copy')) {
+            $product = clone $product;
+            foreach ($product->getAttributeValues() as $attr) {
+                $attr = clone $attr;
+                $product->addAttributeValue($attr);
+                $attr->setProduct($product);
+                $this->getDoctrine()->getManager()->persist($attr);
+            }
+            foreach ($product->getImages() as $image) {
+                $image = clone $image;
+                $image->setProduct($product);
+                $this->getDoctrine()->getManager()->persist($image);
+            }
+            $this->getDoctrine()->getManager()->persist($product);
+            $this->getDoctrine()->getManager()->flush();
+            $this->container->get('session')->getFlashBag()->add('copy',
+                                                                 'Votre produit "'.$product->getName().'" a été copié avec succès. Vous pouvez modifier la copie ci-dessus');
+            return $this->redirectToRoute('user_account_products_edition', ['id' => $product->getId()]);
+        }
+
+        $productForm = $this->createForm(ProductType::class, $product);
+        $productForm->handleRequest($request);
+
+        $customFields = (new AttributesProduct($this->get('twig')))->getAttributes($product, $filters);
+
+        if ($productForm->isValid()) {
+            foreach ($product->getAttributeValues() as $attr) {
+                $this->getDoctrine()->getManager()->remove($attr);
+                $product->removeAttributeValue($attr);
+            }
+
+            foreach ($filters as $key => $filter) {
+                $value = $request->get('attribute-'.$key);
+
+                if ($request->get('attribute-'.$key)) {
+                    $attributeValue = new AttributeValue();
+                    $attributeValue->setProduct($product);
+
+                    $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
+                        ->find($value);
+                    $attributeValue->setReferentialValue($referentialValue);
+
+                    $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
+                    $attributeValue->setAttribute($attribute);
+                    $product->addAttributeValue($attributeValue);
+
+                    $this->getDoctrine()->getManager()->persist($attributeValue);
+                }
+            }
+
+            // Set status to awaiting
+            $product->setUser($user);
+            $awaitingStatus = $this->getDoctrine()
+                ->getRepository("ProductBundle:Status")
+                ->findOneByName('awaiting');
+            $product->setStatus($awaitingStatus);
+
+            $this->getDoctrine()->getManager()->persist($product);
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->container->get('session')->getFlashBag()->add('success',
+                                                                 'Votre produit "'.$product->getName().'" a été modifié avec succès. Il est en cours de validation par notre équipe.');
+            return $this->redirectToRoute('user_account_products');
+        }
+
+        return [
+            'product'       => $product,
+            'productForm'   => $productForm->createView(),
+            'customFields'  => $customFields
+        ];
     }
 
     /**

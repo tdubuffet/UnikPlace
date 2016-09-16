@@ -73,6 +73,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->orWhere("q.status = :status3")
             ->andWhere("q.user = :user")
             ->setParameters($params)
+            ->addOrderBy('q.updatedAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
