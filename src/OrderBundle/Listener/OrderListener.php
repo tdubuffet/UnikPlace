@@ -8,6 +8,7 @@
 
 namespace OrderBundle\Listener;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use OrderBundle\Entity\Order;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,6 +79,28 @@ class OrderListener
 
         if ($order->getProduct()->getUser() != $this->getConnectedUser() || $order->getStatus()->getName() != 'pending') {
             throw new NotFoundHttpException();
+        }
+
+        if ($request->get('keep_published', null)) {
+            $product = $order->getProduct();
+
+            $product->setProposals(new ArrayCollection());
+            $product->setProposalAccepted(null);
+
+            $product = clone $product;
+            foreach ($product->getAttributeValues() as $attr) {
+                $attr = clone $attr;
+                $product->addAttributeValue($attr);
+                $attr->setProduct($product);
+                $this->getDoctrine()->getManager()->persist($attr);
+            }
+            foreach ($product->getImages() as $image) {
+                $image = clone $image;
+                $image->setProduct($product);
+                $this->getDoctrine()->getManager()->persist($image);
+            }
+            $this->getDoctrine()->getManager()->persist($product);
+            $this->getDoctrine()->getManager()->flush();
         }
 
         $this->container->get('order_service')->validateOrder($order);
