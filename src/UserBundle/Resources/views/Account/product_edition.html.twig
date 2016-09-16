@@ -31,10 +31,6 @@
       {{ form_row(productForm.name) }}
       {{ form_row(productForm.description, { 'attr': { 'rows': 6}}) }}
 
-      {% if app.request.get('copy') %}
-      <input type="hidden" value="1" name="copy" />
-      {% endif %}
-
       <h3>Prix</h3>
       <div class="row">
         <div class="col-md-3">
@@ -84,16 +80,31 @@
       </div>
 
       <h3>Images</h3>
-      {% for image in product.images %}
-        <div class="row">
-          <div class="col-xs-2">
-            <img src="{{ loadpic(image, 250, 250, 'r3') }}" class="img-thumbnail">
+      <input type="file" id="fileupload" multiple style="display:none;">
+
+      <div class="row box-upload-pictures">
+        {% for i in 0..4 %}
+        <div class="col-sm-4">
+          <div class="upload-pic other-photo">
+            <div class="upload-pic-input" {% if product.images[i] is defined %}style="display: none"{% endif %}>
+            </div>
+            <div class="upload-pic-preview" {% if product.images[i] is defined %}style="display: block"{% endif %}>
+              <div class="progress">
+                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar" class="progress-bar progress-bar-striped active"></div>
+              </div>
+              <span title="Retirer la photo" class="upload-pic-delete"><i class="fa fa-times"></i></span>
+              {% if product.images[i] is defined %}
+              <img class="upload-pic-img" src="{{ loadpic(product.images[i], 250, 250, 'r3') }}" />
+              {% endif %}
+            </div>
+            <input type="hidden" value="{% if product.images[i] is defined %}{{ product.images[i].id }}{% endif %}" name="image{{ i }}" class="upload-pic-id">
           </div>
         </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
 
     </div>
-    <div class="box-footer">
+    <div class="box-footer" style="margin-top: 20px;">
       <button class="btn btn-primary" type="submit">
         Enregistrer
       </button>

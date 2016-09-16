@@ -468,6 +468,20 @@ class AccountController extends Controller
                 }
             }
 
+            // Handle images
+            foreach ($product->getImages() as $image) {
+                $product->removeImage($image);
+            }
+            for ($imageIdx = 0; $imageIdx < 5; $imageIdx++) {
+                $imageId = $request->request->get('image'.$imageIdx);
+                $image = $this->getDoctrine()->getRepository('ProductBundle:Image')->findOneById($imageId);
+                if (isset($image)) {
+                    $image->setProduct($product)->setSort($imageIdx);
+                    $this->getDoctrine()->getManager()->persist($image);
+                    $product->addImage($image);
+                }
+            }
+
             // Set status to awaiting
             $product->setUser($user);
             $awaitingStatus = $this->getDoctrine()
