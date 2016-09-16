@@ -3,6 +3,71 @@ var ProductEdition = {
     init: function() {
         $(".select-select2").select2({"placeholder": ""});
         ProductEdition.fileUpload();
+        ProductEdition.validateForm();
+    },
+
+    validateForm: function() {
+        var picErrorMessage = "Une photo du produit est obligatoire";
+        $('form[name="product"]').validate({
+            ignore: [],
+            errorPlacement: function(error, element) {
+                if(element.hasClass('select-select2')) {
+                    error.insertAfter($(element).parent().find(".select2-container"));
+                } else if (element.hasClass('attribute-color')) {
+                    error.insertAfter(".box-color-choice");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass) {
+                if ($(element).hasClass('select-select2')) {
+                    $(element).parent().find('.select2').addClass(errorClass);
+                } else {
+                    $(element).addClass(errorClass);
+                }
+            },
+            unhighlight: function(element, errorClass) {
+                if ($(element).hasClass('select-select2')) {
+                    $(element).parent().find('.select2').removeClass(errorClass);
+                } else {
+                    $(element).removeClass(errorClass);
+                }
+            },
+            rules: {
+                image0: {
+                    require_from_group: [1, ".upload-pic-id"]
+                },
+                image1: {
+                    require_from_group: [1, ".upload-pic-id"]
+                },
+                image2: {
+                    require_from_group: [1, ".upload-pic-id"]
+                },
+                image3: {
+                    require_from_group: [1, ".upload-pic-id"]
+                },
+                image4: {
+                    require_from_group: [1, ".upload-pic-id"]
+                }
+            },
+            messages: {
+                image0: {
+                    require_from_group: picErrorMessage
+                },
+                image1: {
+                    require_from_group: picErrorMessage
+                },
+                image2: {
+                    require_from_group: picErrorMessage
+                },
+                image3: {
+                    require_from_group: picErrorMessage
+                },
+                image4: {
+                    require_from_group: picErrorMessage
+                }
+            }
+        });
     },
 
     fileUpload: function () {

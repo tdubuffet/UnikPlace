@@ -97,7 +97,7 @@
               <img class="upload-pic-img" src="{{ loadpic(product.images[i], 250, 250, 'r3') }}" />
               {% endif %}
             </div>
-            <input type="hidden" value="{% if product.images[i] is defined %}{{ product.images[i].id }}{% endif %}" name="image{{ i }}" class="upload-pic-id">
+            <input type="hidden" value="{% if product.images[i] is defined %}{{ product.images[i].id }}{% endif %}" name="image{{ i }}" id="image{{ i }}" class="upload-pic-id">
           </div>
         </div>
         {% endfor %}
