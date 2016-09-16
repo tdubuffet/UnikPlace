@@ -342,7 +342,7 @@ class DepositController extends Controller
         }
 
         $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
-            ->findBy(['user' => $this->getUser()]);
+            ->findBy(['user' => $this->getUser()], ['id' => 'DESC']);
 
         return ['addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView(), 'shippingFormData' => $shippingFormData];
     }

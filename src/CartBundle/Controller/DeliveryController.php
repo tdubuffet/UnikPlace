@@ -40,7 +40,7 @@ class DeliveryController extends Controller
         $address = new Address;
         $addAddressForm = $this->createForm(AddressType::class, $address);
         $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
-            ->findBy(['user' => $this->getUser()]);
+            ->findBy(['user' => $this->getUser()], ['id' => 'DESC']);
         $selectAddressForm = $this->createForm(selectCartAddressType::class, null, ['addresses' => $addresses]);
 
         $cartDelivery = $session->get('cart_delivery', array());
