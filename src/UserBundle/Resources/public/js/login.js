@@ -19,11 +19,14 @@ var Login = {
 
 
         $("#signup-form").validate({
-            "email_registration": {
-                required: true,
-                email: true,
-                minlength: 3,
-                maxlength: 100,
+            rules: {
+                "email_registration": {
+                    required: true,
+                    email: true,
+                    minlength: 3,
+                    maxlength: 100,
+                    remote: Routing.generate('check_email')
+                }
             }
         });
     }
