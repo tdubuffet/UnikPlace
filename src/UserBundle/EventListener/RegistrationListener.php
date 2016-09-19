@@ -33,6 +33,7 @@ class RegistrationListener implements EventSubscriberInterface
         return array(
             FOSUserEvents::REGISTRATION_COMPLETED => 'onUserRegistrationCompleted',
             FOSUserEvents::REGISTRATION_CONFIRMED => 'onUserRegistrationConfirmed',
+            FOSUserEvents::REGISTRATION_CONFIRM => ['onUserRegistrationConfirm', -1],
             FOSUserEvents::REGISTRATION_SUCCESS => ['onUserRegistrationSuccess', -1]
         );
     }
@@ -117,5 +118,16 @@ class RegistrationListener implements EventSubscriberInterface
         // Flush user
         $this->em->persist($user);
         $this->em->flush();
+    }
+
+    public function onUserRegistrationConfirm(FormEvent $event)
+    {
+
+        $response = new RedirectResponse(
+            $this->router->generate('user_account_products')
+        );
+
+        $event->setResponse($response);
+
     }
 }
