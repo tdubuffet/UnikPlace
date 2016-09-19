@@ -2,8 +2,8 @@
 
 namespace Admin2Bundle\Controller;
 
+use FOS\JsRoutingBundle\Controller\Controller;
 use FOS\MessageBundle\Entity\Thread;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use ProductBundle\Entity\Product;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @Route(path = "/messages")
  */
-class MessageController extends BaseAdminController
+class MessageController extends \Symfony\Bundle\FrameworkBundle\Controller\Controller
 {
 
     /**

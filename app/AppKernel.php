@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             // External bundles
             new FOS\UserBundle\FOSUserBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
-            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
             new Lexik\Bundle\CurrencyBundle\LexikCurrencyBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),

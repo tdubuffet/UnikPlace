@@ -9,17 +9,17 @@
 namespace Admin2Bundle\Controller;
 
 use FOS\MessageBundle\FormType\ReplyMessageFormType;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use OrderBundle\Entity\Order;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route(path = "/admin/litiges")
  */
-class DisputeController extends BaseAdminController
+class DisputeController extends Controller
 {
 
     /**

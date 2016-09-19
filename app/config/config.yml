@@ -3,7 +3,6 @@ imports:
     - { resource: "@UserBundle/Resources/config/notification.yml" }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: admin.yml }
     - { resource: elasticsearch.yml }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@ProductBundle/Resources/config/services.yml" }
