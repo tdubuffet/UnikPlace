@@ -1,8 +1,9 @@
 var Signup = {
 
     init: function() {
-        console.log('init signup');
+
         Signup.initProFields();
+
         $("#signup-form").validate({
             rules: {
                 "fos_user_registration_form[email]": {
@@ -44,7 +45,7 @@ var Signup = {
                     required: true,
                 },
                 "fos_user_registration_form[phone]": {
-                    matches: "[0-9]+",
+                    number: true,
                     minlength:10,
                     maxlength:10,
                     required: true
