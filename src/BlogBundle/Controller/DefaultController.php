@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Vich\UploaderBundle\Adapter\ORM\DoctrineORMAdapter;
 
 /**
- * @Route("/blog")
+ * @Route("/journal")
  */
 class DefaultController extends Controller
 {
