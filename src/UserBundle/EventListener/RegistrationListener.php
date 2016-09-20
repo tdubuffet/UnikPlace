@@ -120,7 +120,7 @@ class RegistrationListener implements EventSubscriberInterface
         $this->em->flush();
     }
 
-    public function onUserRegistrationConfirm(FormEvent $event)
+    public function onUserRegistrationConfirm(GetResponseUserEvent $event)
     {
 
         $response = new RedirectResponse(
