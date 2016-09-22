@@ -280,7 +280,9 @@ kms_froala_editor:
     fileUploadPath: "/upload/blog"
     pluginsDisabled: ["save"]
 
-
+    fontFamily:
+        Montserrat: "Montserrat"
+    fontFamilySelection: true
 
 fos_comment:
     db_driver: orm

@@ -106,7 +106,7 @@ class BlogArticleController extends Controller
 
         }
 
-        return $this->render('Admin2Bundle:Article:add.html.twig', [
+        return $this->render('Admin2Bundle:Article:edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
