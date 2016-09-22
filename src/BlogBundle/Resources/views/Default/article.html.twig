@@ -31,7 +31,7 @@
   <div class="container">
     <div class="main">
 
-      <h1 class="blog-head-title">Le Journal</h1>
+      <div class="blog-head-title h1">#Designlovers</div>
 
       <ul class="blog-categories">
         <li><a href="{{ path('blog') }}">Tout</a></li>
@@ -49,9 +49,9 @@
         </div>
         <div class="col-sm-11 box-detail-article">
           <div class="blog-detail-article">
-            <div class="blog-detail-title">
+            <h1 class="blog-detail-title">
               {{ article.title }}
-            </div>
+            </h1>
             <div class="blog-detail-category"><span>Posté dans</span> <a href="{{ path('blog_category', {id: article.category.id }) }}">{{ article.category }}</a></div>
             <div class="blog-detail-content fr-view">{{ article.content|raw }}</div>
 
