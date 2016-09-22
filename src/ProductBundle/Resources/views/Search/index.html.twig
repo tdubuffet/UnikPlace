@@ -1,8 +1,8 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title %}{% if category is defined %}Catégorie {{ category.name }}{% else %}Résultats trouvés{% endif %}{% endblock %}
+{% block title %}{% if category is defined %}Catégorie {{ category.name }} & l'univers de l'ameublement design - {{ siteName }}{% else %}Résultats trouvés{% endif %}{% endblock %}
 
-{% block description %}Tous les produits premium sont sur {{ siteName }}{% endblock %}
+{% block description %}Retrouvez notre collection de Catégorie {{ category.name }} d'exception, design ou unique sur le site {{ siteName }}. Achat Vente de mobilier et objets de décoration pour la maison.{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['search']) }}{% endblock javascript_include %}
 

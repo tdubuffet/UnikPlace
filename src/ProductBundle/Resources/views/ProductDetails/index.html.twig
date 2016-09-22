@@ -1,7 +1,7 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title %}{{ product.name }}{% endblock %}
-{% block description %}{{ product.name }} sur {{ siteName }}{% endblock %}
+{% block title %}{{ product.name }} & l'univers de {{ product.category.name }} design - {{ siteName }}{% endblock %}
+{% block description %}{{ product.name }}. Découvrez aussi tous l'univers de {{ product.category.name }} sur Unik Place, site d'achat vente d'ameublement et décoration design.{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['product']) }}{% endblock javascript_include %}
 

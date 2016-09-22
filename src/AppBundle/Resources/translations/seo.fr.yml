@@ -3,28 +3,28 @@ default:
   description: "Des produits premium à votre portée sur %siteName%"
 
 homepage:
-  title: "Univers vintage et d'exception"
-  description: "Univers vintage et d'exception à votre portée"
+  title: "%siteName% : Dépôt vente de mobilier et déco design et unique"
+  description: "%siteName%, première plateforme de mobilier et décoration à caractère Unique ou Premium, neuf ou d'occasion. Acheter design n'a jamais été aussi facile !"
 
 about:
-  title: "A propos de nous"
-  description: ""
+  title: "A propos | %siteName%, mobilier et déco design et unique"
+  description: "Qui sommes-nous? %siteName% est une plateforme d'achat et vente de mobilier et objets de décoration pour la maison design et haut de gamme pour particuliers et pros."
 
 quality_content:
   title: "Qualité de contenu"
   description: ""
 
 faq:
-  title: "Foire aux questions"
-  description: ""
+  title: "Foire aux questions - %siteName%"
+  description: "Vous avez besoin d'aide sur notre plateforme %siteName%? Vous pouvez contacter notre équipe de support par e-mail ou par téléphone du lundi au vendredi."
 
 contact:
-  title: "Nous contacter"
-  description: ""
+  title: "Nous contacter - %siteName%"
+  description: "Pour toutes demandes d'informations sur le site, son fonctionnement service après vente, vous pouvez contacter notre équipe de support par e-mail ou par téléphone du lundi au vendredi."
 
 legal_notice:
-  title: "Mentions légales"
-  description: ""
+  title: "Mentions légales - %siteName%"
+  description: "Mentions légales %siteName% - Conditions générales d'utilisation et de vente. Pour tous renseignements sur le site, n'hésitez pas à nous contacter."
 
 cart:
   title: "Mon panier"

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>{% block title %}{{ (app.request.get('_route') ~ '.title')|trans({}, 'seo')  }} {% endblock %} {{ ('default.title'|trans({"%siteName%" :  siteName}, 'seo')) }}</title>
+    <title>{% block title %}{{ (app.request.get('_route') ~ '.title')|trans({"%siteName%" :  siteName}, 'seo')  }} {% endblock %}</title>
 
     {% set metaDescription =  (app.request.get('_route') ~ '.description')|trans({}, 'seo')  %}
 
