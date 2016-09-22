@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserAdminFormType extends AbstractType
 {
@@ -34,6 +36,14 @@ class UserAdminFormType extends AbstractType
         $builder->add('company_address');
         $builder->add('company_zipcode');
         $builder->add('company_city');
+        $builder->add('enabled');
+        $builder->add('email_validated', CheckboxType::class, ['required' => false]);
+        $builder->add('locked');
+        $builder->add('roles', ChoiceType::class, [
+            'multiple'=> true,
+            'expanded'=> true,
+            'choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ADMIN' => 'ROLE_ADMIN']
+            ]);
     }
 
     public function getName()
