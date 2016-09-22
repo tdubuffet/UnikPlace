@@ -3,7 +3,34 @@
 {% block title %}{{ product.name }} & l'univers de {{ product.category.name }} design - {{ siteName }}{% endblock %}
 {% block description %}{{ product.name }}. Découvrez aussi tous l'univers de {{ product.category.name }} sur Unik Place, site d'achat vente d'ameublement et décoration design.{% endblock %}
 
-{% block javascript_include %}{{ jsinit(['product']) }}{% endblock javascript_include %}
+{% block javascript_include %}
+
+  {{ jsinit(['product']) }}
+
+  <script>
+    new ShareButton({
+      networks: {
+        facebook: {
+          appId: "{{ website.facebook_id  }}"
+        }
+      },
+      ui: {
+        buttonText: 'Partager'
+      },
+      networks: {
+        reddit: {
+          enabled: false
+        },
+        linkedin: {
+          enabled: false
+        },
+        email: {
+          enabled: false
+        }
+      }
+    });
+  </script>
+{% endblock javascript_include %}
 
 {% block body %}
 
@@ -40,165 +67,119 @@
           <div class="col-main">
             <div class="product-view">
 
-              {% for key, flashs in app.session.getFlashBag.all() %}
+                <div class="col-md-9">
+                  {% for key, flashs in app.session.getFlashBag.all() %}
 
-                <div class="alert alert-{{ key }}">
-                  {% for message in flashs %}
-                    {{ message }}
+                    <div class="alert alert-{{ key }}">
+                      {% for message in flashs %}
+                        {{ message }}
+                      {% endfor %}
+                    </div>
+
                   {% endfor %}
-                </div>
 
-              {% endfor %}
-
-
-              <div class="product-essential show-grid">
-                <form action="#" method="post" id="product_addtocart_form">
-                  <div class="no-display col-lg-12">
-                    <input type="hidden" name="product" value="19"/>
-                    <input type="hidden" name="related_product" id="related-products-field" value=""/>
-                  </div>
-                  <div class="product-img-box col-md-6 col-sm-6">
-                    <div class="product-img-list">
-                      <div class="more-views-verticle">
-                        <a class="more-views-prev more-views-nav" href="javascript:void(0)" id="carousel-up" style="display: block;">
-                          <i aria-hidden="true" class="fa fa-long-arrow-up"></i>
-                        </a>
-                        <div class="media-list">
-                          {% set images = product.getImages() %}
-                          {% set imgType = "r3" %}
-                          <div id="more-slides" class="verticl-carousel product-image-thumbs">
-                            {% for k, image in images %}
-                              <a class="thumb-link" href="#" data-image-index="{{ k }}">
-                                <img class="img-responsive" src="{{ loadpic(image, 88, 88, imgType) }}" data-src="{{ loadpic(image, 700, 700, imgType) }}" alt="miniature {{ k }}" />
-                              </a>
-                            {% endfor %}
-                          </div>
-                        </div>
-                        <a class="more-views-next more-views-nav" href="javascript:void(0)" id="carousel-down" style="display: block;">
-                          <i aria-hidden="true" class="fa fa-long-arrow-down"></i>
-                        </a>
+                  <div class="product-essential show-grid clearfix">
+                    <form action="#" method="post" id="product_addtocart_form">
+                      <div class="no-display col-lg-12">
+                        <input type="hidden" name="product" value="19"/>
+                        <input type="hidden" name="related_product" id="related-products-field" value=""/>
                       </div>
+                      <div class="col-md-5 col-sm-5">
+                        <div class="product-img-box ">
+                          <div class="product-img-list">
+                            {% set images = product.getImages() %}
+                            {% set imgType = "r3" %}
 
-                      <div class="product-image product-image-zoom">
-                        <div class="product-image-gallery">
-                          <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
-                        </div>
-                      </div>
-
-                    </div><!-- .product-img-list -->
-                  </div><!-- .product-img-box -->
-
-                  <div class="product-shop col-md-6 col-sm-6">
-                    <div class="product-shop-wrapper">
-                      <div class="product-name top-product-detail">
-                        <h1 class="h2">{{ product.name }}</h1>
-                      </div>
-                      <div class="middle-product-detail">
-                        <!--<div class="review-product-details">
-                          <div class="ratings">
-                            <div class="rating-box">
-                              <div class="rating" style="width:100%"></div>
-                            </div>
-                            <p class="rating-links">
-                              <a href="#">0 avis(s)</a>
-                              <span class="separator">|</span>
-                              <a href="#">Noter ce produit</a>
-                            </p>
-                          </div>
-                        </div>-->
-
-                        <div class="review-product-details product-type-data">
-                          <p class="availability in-stock">
-                            {% set product_status = product.getStatus() %}
-                            {% if product_status == 'published' %}
-                              <span class="label label-success">{{ product_status.getLabel() }}</span>
-                            {% endif %}
-                            {% if product_status == 'sold' %}
-                              <span class="label label-primary">{{ product_status.getLabel() }}</span>
-                            {% endif %}
-                            {% if product_status == 'unavailable' %}
-                              <span class="label label-danger">{{ product_status.getLabel() }}</span>
-                            {% endif %}
-                          </p>
-                          <div class="price-box">
-                            <p class="special-price">
-                              <span class="price-label">Special Price</span>
-                              {% if proposal.status is not null and proposal.status.name == "accepted" %}
-                                <span class="price">
-                                  <s>{{ product.price|currency_format(product.getCurrency.getCode) }}</s>
-                                </span>
-                                Prix négocié :
-                                <span class="price">{{ proposal.amount|currency_format(product.getCurrency.getCode) }}</span>
-                              {% else %}
-                                <span class="price">{{ product.price|currency_format(product.getCurrency.getCode) }}</span>
-                              {% endif %}
-                            </p>
-                          </div>
-                          {% if product.originalPrice is not empty %}
-                            <div class="price-box">
-                              <p class="old-price">
-                                <span class="price-label">Ancien prix :</span>
-                                <span class="price">{{ product.originalPrice|currency_format(product.getCurrency.getCode) }}</span>
-                              </p>
-                            </div>
-                          {% endif %}
-                        </div>
-
-                        <div class="short-description-detail">
-                          <div class="short-description">
-                            <h2>Aperçu rapide</h2>
-                            <div class="std">{{ product.description|nl2br }}</div>
-                          </div>
-                        </div>
-                      </div><!-- .middle-product-detail -->
-                      {% if product.user.getPro() %}
-                      <div class="short-description-detail">
-                        <div class="short-description">
-                          <a href="{{ path('shop', {id : product.user.id}) }}" class="small">Voir la boutique du vendeur</a>
-                        </div>
-                      </div>
-                      {% endif %}
-
-                      <div class="actions-wrapper">
-                        <div class="add-to-cart">
-                          <div class="actions">
-                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user)%}
-                              <div class="action-list addtocart">
-                                <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}Ajouter au panier{% endif %}" class="btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
-                                  <span class="btn-cart-lbl">
-                                    <i class="fa fa-shopping-bag"></i>
-                                    <span class="btn-cart-txt">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}</span>
-                                  </span>
-                                </button>
+                            <div class="product-image product-image-zoom clearfix">
+                              <div class="product-image-gallery">
+                                <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
                               </div>
-                            {% endif %}
+                            </div>
 
-                            <div class="action-list wishlist">
-                              <ul class="add-to-links">
-                                <li class="first wishlist">
-                                  <button type="button" class="link-wishlist {% if isFavorite %}is-favorite{% endif %}" data-product-id="{{ product.getId() }}" data-action="{{ isFavorite ? 'remove' : 'add' }}">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                  </button>
+                            <div style="clear: both;"></div>
+
+                            <div class="owl-nav">
+                              <i class="fa fa-long-arrow-left owl-nav-left img-products-nav"></i>
+                              <i class="fa fa-long-arrow-right owl-nav-right img-products-nav"></i>
+                            </div>
+
+                            <div class="category-products">
+                              <ul class="products-grid owl-carousel" id="img-products">
+                                {% for k, image in images %}
+                                <li class="item hover-effect">
+                                  <a class="thumb-link" href="#" data-image-index="{{ k }}">
+                                    <img class="img-responsive" src="{{ loadpic(image, 88, 88, imgType) }}" data-src="{{ loadpic(image, 700, 700, imgType) }}" alt="miniature {{ k }}" />
+                                  </a>
                                 </li>
+                                {% endfor %}
                               </ul>
                             </div>
-                          </div><!-- .actions -->
-                          {% set isProposal = proposalForm is defined and proposalForm is not null %}
-                          {% set isPublishedAndOfferAllowed = product.status.name == "published" and product.allowOffer == true %}
-                          {% set offerPendingOrNoLimit = offLimit == false or (proposal.status is not null and proposal.status.name == "pending" )%}
-                          {% if app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
-                            <div class="actions"
-                                    {% if offerPendingOrNoLimit %}
-                                      data-toggle="modal" data-target="#orderProposalModal"
-                                    {% else %}
-                                      data-container="body" data-toggle="popover" data-placement="top"
-                                      data-content="Vous avez atteint la limite d'offres pour la journée. Cependant vous
-                                        pourrez refaire de nouvelles offres dès demain."
-                                    {% endif %}>
-                              <div class="action-list contact-seller">
-                                <button type="button" title="Faire une offre" class="btn-contact">
-                                  <span class="btn-contact-lbl">
-                                    <span class="btn-contact-txt">
+
+
+                          </div><!-- .product-img-list -->
+                        </div><!-- .product-img-box -->
+
+
+                        <!-- SHARE BUTTON -->
+
+                        <div class="share-social">
+                          <share-button></share-button>
+                        </div>
+
+
+                      </div>
+
+                      <div class="product-shop col-md-7 col-sm-7">
+                        <div class="product-shop-wrapper">
+                          <div class="product-name top-product-detail">
+                            <h1 class="h2">{{ product.name }}</h1>
+                          </div>
+                          <div class="middle-product-detail">
+
+                            <div class="review-product-details-price product-type-data">
+                              <div class="price-box">
+
+                                {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user)%}
+                                  <div class="action-list addtocart">
+                                    <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}Ajouter au panier{% endif %}" class="btn btn-default pull-right btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
+                                      <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                      {% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}
+                                    </button>
+                                  </div>
+                                {% endif %}
+
+                                <span class="price">{{ product.price|currency_format(product.getCurrency.getCode) }}</span>
+                                {% if product.originalPrice is not empty %}
+                                  <span class="price original-price">{{ product.originalPrice|currency_format(product.getCurrency.getCode) }}</span>
+                                {% endif %}
+
+                              </div>
+                            </div>
+                          </div><!-- .middle-product-detail -->
+
+                          <div class="middle-product-detail links-price">
+
+                            <div class="review-product-details-price product-type-data">
+                              <ul class="actions">
+                                <li>
+                                  <a class="btn btn-link link-wishlist {% if isFavorite %}is-favorite{% endif %}" data-product-id="{{ product.getId() }}" data-action="{{ isFavorite ? 'remove' : 'add' }}">
+                                    <i class="fa fa-heart" aria-hidden="true"></i> <span class="text">{% if isFavorite %}Retirer de ma Wishlist{% else %}Ajouter à ma Wishlist{% endif %}</span>
+                                  </a>
+                                </li>
+                                  {% set isProposal = proposalForm is defined and proposalForm is not null %}
+                                  {% set isPublishedAndOfferAllowed = product.status.name == "published" and product.allowOffer == true %}
+                                  {% set offerPendingOrNoLimit = offLimit == false or (proposal.status is not null and proposal.status.name == "pending" )%}
+                                  {% if app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
+                                    <li>
+                                        <a title="Faire une offre" class="btn btn-link"
+                                          {% if offerPendingOrNoLimit %}
+                                            data-toggle="modal" data-target="#orderProposalModal"
+                                          {% else %}
+                                            data-container="body" data-toggle="popover" data-placement="top"
+                                            data-content="Vous avez atteint la limite d'offres pour la journée. Cependant vous
+                                            pourrez refaire de nouvelles offres dès demain."
+                                          {% endif %}
+                                        ><i class="fa fa-money" aria-hidden="true"></i>
                                       {% if proposal.status is not null and proposal.status.name == "pending" %}
                                         Offre en cours
                                       {% elseif isProposal %}
@@ -208,242 +189,182 @@
                                       {% else %}
                                         Offre acceptée
                                       {% endif %}
-                                    </span>
-                                  </span>
-                                </button>
-                              </div>
-                            </div><!-- .actions -->
-                          {% endif %}
-                          {% if app.user is empty and isProposal and isPublishedAndOfferAllowed %}
-                            <div class="actions">
-                              {% set productURL = url('product_details', {'id' : product.id, 'slug': product.slug}) %}
-                              {% set redirectUrl = path('fos_user_security_login', {'redirectTo': productURL }) %}
-                              <div class="action-list contact-seller">
-                                <button type="button" title="Faire une offre" class="btn-contact"
-                                        onclick="window.location.href='{{ redirectUrl }}'">
-                                  <span class="btn-contact-lbl">
-                                    <span class="btn-contact-txt">Faire une offre</span>
-                                  </span>
-                                </button>
-                              </div>
-                            </div><!-- .actions -->
-                          {% endif %}
-                        </div>
-                      </div><!-- .actions-wrapper -->
-                      {% if offerPendingOrNoLimit and app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
-                        <div class="modal fade in" id="orderProposalModal" tabindex="-1" role="dialog">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
-                                  <span aria-hidden="true">×</span><span class="sr-only">Fermer</span>
-                                </button>
-                                <div class="h4 modal-title">
-                                  <span class="h4">
-                                  {{ isProposal ? "Faire une offre" : "Offre" }} pour le produit <i>{{ product.name }}</i>
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="modal-body text-center">
-                                <div class="row">
-                                  <div class="col-sm-6">
-                                    <div class="proposal-product">
-                                      <div class="proposal-price">
-                                        Prix du produit :
-                                        {{  product.price|currency_convert_format(product.getCurrency.getCode) }}
+                                        </a>
+                                    </li>
+                                  {% endif %}
+                                  {% if app.user is empty and isProposal and isPublishedAndOfferAllowed %}
+
+                                    {% set productURL = url('product_details', {'id' : product.id, 'slug': product.slug}) %}
+                                    {% set redirectUrl = path('fos_user_security_login', {'redirectTo': productURL }) %}
+                                    <li>
+                                      <a title="Faire une offre" class="btn btn-link"
+                                         onclick="window.location.href='{{ redirectUrl }}'">
+                                        <i class="fa fa-money" aria-hidden="true"></i>
+                                        Faire une offre
+                                      </a>
+                                    </li>
+                                  {% endif %}
+                              </ul>
+                            </div>
+                          </div><!-- .middle-product-detail -->
+
+                          <div class="middle-product-detail">
+
+                            <div class="review-product-details">
+                              <div class="short-description-detail">
+                                <div class="short-description">
+                                  <div class="std">
+                                    {% for code, attribute in productAttributes if attribute.deposit != "color" %}
+                                      <div class="row">
+                                        <div class="col-xs-4 col-sm-4">
+                                          <b>{{ attribute.name }}</b>
+                                        </div>
+                                        <div class="col-xs-8 col-sm-8">
+                                          {{ attribute.value }}
+                                        </div>
                                       </div>
-                                      <div>
-                                        {% set img = images[0] is defined ? loadpic(images[0], 275, 275, imgType) : "#" %}
-                                        <img class="img-responsive img-thumbnail"
-                                             src="{{ img }}" alt="{{ product.name }}" />
+                                    {% endfor %}
+                                    <div class="row">
+                                      <div class="col-xs-4 col-sm-4">
+                                        <b>Poids</b>
+                                      </div>
+                                      <div class="col-xs-8 col-sm-8">
+                                        {{ product.weight / 1000 }} Kg
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-xs-4 col-sm-4">
+                                        <b>Dimensions</b>
+                                      </div>
+                                      <div class="col-xs-8 col-sm-8">
+                                        Hauteur: {{ product.height * 100 }} cm / Largeur: {{ product.width * 100 }} cm / Profondeur: {{ product.length * 100 }} cm
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="col-sm-6">
-                                    <div class="proposal-right">
-                                      <div class="col-md-12 col-center-block">
-                                        {% if isProposal %}
-                                          {{ form_start(proposalForm) }}
-                                          {{ form_end(proposalForm) }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="middle-product-detail">
+
+                            <div class="review-product-details">
+                              <div class="short-description-detail">
+                                <div class="short-description">
+                                  <div class="std">
+
+                                    {% for delivery in product.deliveries.toArray %}
+
+                                      <div class="row">
+                                        <div class="col-xs-6 col-sm-6">
+                                          <b>
+                                            {{ delivery.deliveryMode.name }}
+                                            {% if delivery.deliveryMode.type == 'by_hand' %}<i>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</i>{% endif %}
+                                          </b>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6">
+                                          {% if delivery.fee == 0 %}
+                                            Gratuit
                                           {% else %}
-                                            <label class="control-label">Offre actuelle :</label>
-                                            <div class="form-control">
-                                              {{  proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
-                                            </div>
-                                        {% endif %}
-
-                                        <p>Pour en savoir plus,
-                                          <u>
-                                            <a class="pointer" data-dismiss="modal" data-toggle="modal"
-                                               data-target="#message-modal">posez une question</a>
-                                          </u> au vendeur
-                                        </p>
+                                            {{  delivery.fee|currency_convert_format(product.currency.code) }}
+                                          {% endif %}
+                                          {% if delivery.deliveryMode.description is not null %}
+                                            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
+                                               data-container="body" title="{{  delivery.deliveryMode.description }}"></i>
+                                          {% endif %}
+                                        </div>
                                       </div>
-                                    </div>
+                                    {% endfor %}
+
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      {% endif %}
 
+                          <div class="middle-product-detail">
 
-
-                    </div><!-- .product-shop-wrapper -->
-                  </div><!-- .product-shop -->
-
-                </form>
-
-              </div><!-- .product-essential -->
-
-              <div class="product-collateral">
-                <ul id="product-tab" class="nav nav-tabs" role="tablist">
-                  <li class=" active first">
-                    <a href="#product_tabs_comments" role="tab" data-toggle="tab">Commentaires</a>
-                  </li>
-                  <li>
-                    <a href="#product_tabs_customfields" role="tab" data-toggle="tab">Caractéristiques</a>
-                  </li>
-                  <li>
-                    <a href="#product_tabs_shipping" role="tab" data-toggle="tab">Frais de livraison</a>
-                  </li>
-                  {% if ratings %}
-                    <li>
-                      <a href="#product_tabs_ratings" role="tab" data-toggle="tab">Avis concernant le vendeur</a>
-                    </li>
-                  {% endif %}
-                </ul>
-
-                <div class="tab-content">
-                  <div class="tab-pane in active first" id="product_tabs_comments">
-                    <div class="product-tabs-content-inner clearfix">
-                      <div class="std">
-                        {% include 'CommentBundle:Default:index.html.twig' with comment %}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="tab-pane" id="product_tabs_customfields">
-                    <div class="product-tabs-content-inner clearfix">
-                      <div class="std">
-                        {% for code, attribute in productAttributes if attribute.deposit != "color" %}
-                          <div class="row">
-                            <div class="col-xs-4 col-sm-2">
-                              <b>{{ attribute.name }}</b>
-                            </div>
-                            <div class="col-xs-8 col-sm-10">
-                              {{ attribute.value }}
-                            </div>
-                          </div>
-                        {% endfor %}
-                        <div class="row">
-                          <div class="col-xs-4 col-sm-2">
-                            <b>Poids</b>
-                          </div>
-                          <div class="col-xs-8 col-sm-10">
-                            {{ product.weight / 1000 }} Kg
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-xs-4 col-sm-2">
-                            <b>Dimensions</b>
-                          </div>
-                          <div class="col-xs-8 col-sm-10">
-                            Hauteur: {{ product.height * 100 }} cm / Largeur: {{ product.width * 100 }} cm / Profondeur: {{ product.length * 100 }} cm
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="tab-pane" id="product_tabs_shipping">
-                    <div class="product-tabs-content-inner clearfix">
-                      <div class="widget-products-upsell">
-                        <div class="std text-left">
-                          Le vendeur propose les modes de livraison suivants :
-                          <br>
-                          {% for delivery in product.deliveries.toArray %}
-
-                            <div class="row">
-                              <div class="col-xs-6 col-sm-6">
-                                <b>
-                                  {{ delivery.deliveryMode.name }}
-                                  {% if delivery.deliveryMode.type == 'by_hand' %}<i>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</i>{% endif %}
-                                </b>
-                              </div>
-                              <div class="col-xs-6 col-sm-6">
-                                {% if delivery.fee == 0 %}
-                                  Gratuit
-                                {% else %}
-                                  {{  delivery.fee|currency_convert_format(product.currency.code) }}
-                                {% endif %}
-                                {% if delivery.deliveryMode.description is not null %}
-                                  <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
-                                     data-container="body" title="{{  delivery.deliveryMode.description }}"></i>
-                                {% endif %}
+                            <div class="review-product-details">
+                              <div class="short-description-detail">
+                                <div class="short-description">
+                                  <h2>Aperçu rapide</h2>
+                                  <div class="std">{{ product.description|nl2br }}</div>
+                                </div>
                               </div>
                             </div>
-                            <br>
-                          {% endfor %}
-                        </div>
-                      </div>
-                    </div>
+                          </div>
+
+
+
+                          {% if product.user.getPro() %}
+                            <div class="short-description-detail">
+                              <div class="short-description">
+                                <a href="{{ path('shop', {id : product.user.id}) }}" class="small">Voir la boutique du vendeur</a>
+                              </div>
+                            </div>
+                          {% endif %}
+
+
+                        </div><!-- .product-shop-wrapper -->
+                      </div><!-- .product-shop -->
+
+                    </form>
+
+                  </div><!-- .product-essential -->
+
+                  <div class="comments">
+
+                    <h3 class="product-title">Les commentaires du produit</h3>
+
+                    {% include 'CommentBundle:Default:index.html.twig' with comment %}
                   </div>
 
 
-                  {% if ratings %}
-                    <div class="tab-pane" id="product_tabs_ratings">
-                      <div class="product-tabs-content-inner clearfix">
-                        <div class="widget-products-upsell">
-                          <div class="std text-left">
+                </div>
 
-                            <div class="user-ratings-modal">
-                              <div class="text-left">
-                                {% for rating in ratings %}
-                                  <div class="row rating">
-                                    <div class="col-sm-12">
-                                      <div class="rate">
-                                        {% if rating.rate == 5 %}
-                                          <span class="badge green"> </span> Excellent
-                                        {% elseif rating.rate == 4 %}
-                                          <span class="badge green-light"> </span> Très bien
-                                        {% elseif rating.rate == 3 %}
-                                          <span class="badge yellow"> </span> Bien
-                                        {% elseif rating.rate == 2 %}
-                                          <span class="badge orange"> </span> Décevant
-                                        {% elseif rating.rate == 1 %}
-                                          <span class="badge red"> </span> A éviter
-                                        {% endif %}
-                                      </div>
-                                      {% if rating.message|length == 0 %}
-                                        <i>Aucun commentaire laissé</i>
-                                      {% else %}
-                                        {{ rating.message }}
-                                      {% endif %}
-                                      <div class="date">{{ rating.createdAt|date('d/m/Y') }}</div>
-                                    </div>
+                <div class="col-md-3">
 
-                                  </div>
-                                {% endfor %}
-                              </div>
-                            </div><!-- .user-ratings-modal -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  {% endif %}
+                  <div class="need-help">
 
-                </div><!-- .tab-content -->
-              </div><!-- .product-collateral -->
+                    <h4>Besoin d'aide ?</h4>
+
+                    <p>Vous avez besoin d'aide, vous pouvez contacter notre équipe de support.</p>
+
+                    <p>
+                      <a class="btn btn-primary btn-sm" title="Contacter le support" href="{{ path('contact') }}">Nous contacter</a>
+                    </p>
+
+                  </div>
+
+
+                  <div class="items-info">
+
+                    <h4>Nos engagements</h4>
+
+                    <span class="item-info-li"><i class="fa fa-lock"></i><span>Paiement en ligne <br />100% sécurisé</span></span>
+                    <span class="item-info-li"><i class="fa fa-user"></i>Service client <br />à votre disposition</span>
+                    <span class="item-info-li"><i class="fa fa-certificate"></i>Qualité du contenu <br />Produits sélectionnés </span>
+                  </div>
+
+                  <div class="items-info-contact">
+
+                      <h4>Service client</h4>
+
+                      <span class="item-info-li"><i class="fa fa-university"></i><span class="address">{{ website.contact.address }}</span> </span>
+                      <span class="item-info-li"><i class="fa fa-envelope-o"></i><a href="mailto:{{ website.contact.email }}" class="email">{{ website.contact.email }}</a> </span>
+                      <span class="item-info-li"><i class="fa fa-phone"></i><a href="tel:{{ website.contact.phone|replace({' ' : ''}) }}" class="phone">{{ website.contact.phone }}</a> </span>
+                      <span class="item-info-li"><i class="fa fa-comments"></i><span class="address">Par tchat <br /> 24h/24</span> </span>
+
+                  </div>
+
+                </div>
             </div><!-- .product-view -->
 
           </div><!-- .col-main -->
         </div><!-- .row show-grid -->
 
-        {% if similarProducts|length > 6 %}
+        {% if similarProducts|length > 4 %}
           <div class="widget-products-related">
             <h3 class="title-widget"><span>Produits similaires</span></h3>
 
@@ -518,4 +439,57 @@
   </div>
   <div class="loading"></div>
 </div>
+
+
+{% if offerPendingOrNoLimit and app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
+  <div class="modal fade in" id="orderProposalModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span><span class="sr-only">Fermer</span>
+          </button>
+          <div class="h4 modal-title">
+              <span class="h4">
+              {{ isProposal ? "Faire une offre" : "Offre" }} pour le produit <i>{{ product.name }}</i>
+              </span>
+          </div>
+        </div>
+        <div class="modal-body text-center">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="proposal-product">
+                <div class="proposal-price">
+                  Prix du produit :
+                  {{  product.price|currency_convert_format(product.getCurrency.getCode) }}
+                </div>
+                <div>
+                  {% set img = images[0] is defined ? loadpic(images[0], 275, 275, imgType) : "#" %}
+                  <img class="img-responsive img-thumbnail"
+                       src="{{ img }}" alt="{{ product.name }}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="proposal-right">
+                <div class="col-md-12 col-center-block">
+                  {% if isProposal %}
+                    {{ form_start(proposalForm) }}
+                    {{ form_end(proposalForm) }}
+                  {% else %}
+                    <label class="control-label">Offre actuelle :</label>
+                    <div class="form-control">
+                      {{  proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
 {% endblock %}
