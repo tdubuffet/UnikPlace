@@ -67,7 +67,7 @@
           <div class="col-main">
             <div class="product-view">
 
-                <div class="col-md-9">
+                <div class="col-lg-9 clearfix">
                   {% for key, flashs in app.session.getFlashBag.all() %}
 
                     <div class="alert alert-{{ key }}">
@@ -318,39 +318,50 @@
 
                 </div>
 
-                <div class="col-md-3">
-
-                  <div class="need-help">
-
-                    <h4>Besoin d'aide ?</h4>
-
-                    <p>Vous avez besoin d'aide, vous pouvez contacter notre équipe de support.</p>
-
-                    <p>
-                      <a class="btn btn-primary btn-sm" title="Contacter le support" href="{{ path('contact') }}">Nous contacter</a>
-                    </p>
-
-                  </div>
+                <div class="col-lg-3">
 
 
-                  <div class="items-info">
+                  <div class="row">
 
-                    <h4>Nos engagements</h4>
+                    <div class="col-lg-12 col-md-4 hidden-sm">
+                      <div class="need-help">
 
-                    <span class="item-info-li"><i class="fa fa-lock"></i><span>Paiement en ligne <br />100% sécurisé</span></span>
-                    <span class="item-info-li"><i class="fa fa-user"></i>Service client <br />à votre disposition</span>
-                    <span class="item-info-li"><i class="fa fa-certificate"></i>Qualité du contenu <br />Produits sélectionnés </span>
-                  </div>
+                        <h4>Besoin d'aide ?</h4>
 
-                  <div class="items-info-contact">
+                        <p>Vous avez besoin d'aide, vous pouvez contacter notre équipe de support.</p>
 
-                      <h4>Service client</h4>
+                        <p>
+                          <a class="btn btn-primary btn-sm" title="Contacter le support" href="{{ path('contact') }}">Nous contacter</a>
+                        </p>
 
-                      <span class="item-info-li"><i class="fa fa-university"></i><span class="address">{{ website.contact.address }}</span> </span>
-                      <span class="item-info-li"><i class="fa fa-envelope-o"></i><a href="mailto:{{ website.contact.email }}" class="email">{{ website.contact.email }}</a> </span>
-                      <span class="item-info-li"><i class="fa fa-phone"></i><a href="tel:{{ website.contact.phone|replace({' ' : ''}) }}" class="phone">{{ website.contact.phone }}</a> </span>
-                      <span class="item-info-li"><i class="fa fa-comments"></i><span class="address">Par tchat <br /> 24h/24</span> </span>
+                      </div>
+                    </div>
 
+
+                    <div class="col-lg-12 col-md-4 col-sm-6">
+                      <div class="items-info">
+
+                        <h4>Nos engagements</h4>
+
+                        <span class="item-info-li"><i class="fa fa-lock"></i><span>Paiement en ligne <br />100% sécurisé</span></span>
+                        <span class="item-info-li"><i class="fa fa-user"></i>Service client <br />à votre disposition</span>
+                        <span class="item-info-li"><i class="fa fa-certificate"></i>Qualité du contenu <br />Produits sélectionnés </span>
+                      </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-4 col-sm-6">
+                      <div class="items-info-contact">
+
+                          <h4>Service client</h4>
+
+                          <span class="item-info-li"><i class="fa fa-university"></i><span class="address">{{ website.contact.address }}</span> </span>
+                          <span class="item-info-li"><i class="fa fa-envelope-o"></i><a href="mailto:{{ website.contact.email }}" class="email">{{ website.contact.email }}</a> </span>
+                          <span class="item-info-li"><i class="fa fa-phone"></i><a href="tel:{{ website.contact.phone|replace({' ' : ''}) }}" class="phone">{{ website.contact.phone }}</a> </span>
+                          <span class="item-info-li"><i class="fa fa-comments"></i><span class="address">Par tchat <br /> 24h/24</span> </span>
+
+                      </div>
+                    </div>
                   </div>
 
                 </div>
