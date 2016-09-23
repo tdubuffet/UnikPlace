@@ -13,6 +13,7 @@ var Product = {
         Product.setMainPicture();
         Product.initCarousel();
         Product.initSimilarProductsCarousel();
+        Product.initUserProductsCarousel();
     },
 
     getZoomConfig: function() {
@@ -48,10 +49,10 @@ var Product = {
             responsiveClass:true,
             responsive:{
                 0:{
-                    items:1,
+                    items:3,
                 },
                 600:{
-                    items:2,
+                    items:3,
                 },
                 1000:{
                     items:3,
@@ -87,12 +88,40 @@ var Product = {
             }
 
         });
-        $(".owl-nav-left").click(function() {
+        $(".owl-nav-left.similar-products").click(function() {
             $("#similar-products").trigger('prev.owl.carousel');
         });
 
-        $(".owl-nav-right").click(function() {
+        $(".owl-nav-right.similar-products").click(function() {
             $("#similar-products").trigger('next.owl.carousel');
+        });
+    },
+
+    initUserProductsCarousel: function() {
+        $("#user-products").owlCarousel({
+            "autoPlay": false,
+            "items": 4,
+            "loop": true,
+            responsiveClass:true,
+            responsive:{
+                0:{
+                    items:1,
+                },
+                600:{
+                    items:3,
+                },
+                1000:{
+                    items:4,
+                }
+            }
+
+        });
+        $(".owl-nav-left.user-products").click(function() {
+            $("#user-products").trigger('prev.owl.carousel');
+        });
+
+        $(".owl-nav-right.user-products").click(function() {
+            $("#user-products").trigger('next.owl.carousel');
         });
     },
 
@@ -140,7 +169,7 @@ var Product = {
                     },
                     success: function(result) {
                         // Update add button
-                        $('.btn-cart-txt').text("Dans votre panier");
+                        $('.btn-cart-text').text("Dans votre panier");
                         $('.btn-cart').prop('title', "Ce produit est dans votre panier").addClass('is-added');
 
                         // Update header cart link

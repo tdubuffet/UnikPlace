@@ -47,6 +47,34 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * @param Product $product
+     * @param $limit
+     * @return array
+     */
+    public function findProductsByUser(Product $product, $limit = 8)
+    {
+
+        $results = $this->createQueryBuilder('p')
+            ->setMaxResults($limit)
+            ->where('p.id != :id')
+            ->andWhere('p.status = :status')
+            ->andWhere('p.user = :user')
+            ->setParameters([
+                'id' => $product->getId(),
+                'status' => 2,
+                'user' => $product->getUser()
+            ])
+            ->getQuery()
+            ->getResult();
+
+        if (count($results) > 0) {
+            shuffle($results);
+        }
+
+        return $results;
+    }
+
+    /**
+     * @param Product $product
      * @return int
      */
     public function countSimilarProducts($product)

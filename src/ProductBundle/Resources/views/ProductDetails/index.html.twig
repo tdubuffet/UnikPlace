@@ -143,7 +143,7 @@
                                   <div class="action-list addtocart">
                                     <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}Ajouter au panier{% endif %}" class="btn btn-default pull-right btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
                                       <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                      {% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}
+                                      <span class="btn-cart-text">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}</span>
                                     </button>
                                   </div>
                                 {% endif %}
@@ -161,6 +161,11 @@
 
                             <div class="review-product-details-price product-type-data">
                               <ul class="actions">
+                                {% if product.user.getPro() %}
+                                  <li>
+                                    <a href="{{ path('shop', {id : product.user.id}) }}" class="btn btn-link"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Voir la boutique du vendeur</a>
+                                  </li>
+                                {% endif %}
                                 <li>
                                   <a class="btn btn-link link-wishlist {% if isFavorite %}is-favorite{% endif %}" data-product-id="{{ product.getId() }}" data-action="{{ isFavorite ? 'remove' : 'add' }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> <span class="text">{% if isFavorite %}Retirer de ma Wishlist{% else %}Ajouter à ma Wishlist{% endif %}</span>
@@ -296,16 +301,6 @@
                           </div>
 
 
-
-                          {% if product.user.getPro() %}
-                            <div class="short-description-detail">
-                              <div class="short-description">
-                                <a href="{{ path('shop', {id : product.user.id}) }}" class="small">Voir la boutique du vendeur</a>
-                              </div>
-                            </div>
-                          {% endif %}
-
-
                         </div><!-- .product-shop-wrapper -->
                       </div><!-- .product-shop -->
 
@@ -370,7 +365,7 @@
 
             <p class="block-subtitle">Ces objets similaires sont suceptibles de vous intéresser.</p>
 
-            <div class="owl-nav">
+            <div class="owl-nav similar-products">
               <i class="fa fa-long-arrow-left owl-nav-left"></i>
               <i class="fa fa-long-arrow-right owl-nav-right"></i>
             </div>
@@ -378,6 +373,61 @@
             <div class="category-products">
               <ul class="products-grid owl-carousel" id="similar-products">
                 {% for product in similarProducts %}
+                  <li class="item hover-effect">
+                    <div class="item-inner">
+                      <div class="product-action">
+                        {% if date(product.getCreatedAt()) > date('-2weeks') and product.getStatus().getName() != 'sold' %}
+                          <div class="product-new-label">Nouveau</div>
+                        {% endif %}
+                        {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
+                          <div class="product-sale-label">Vendu</div>
+                        {% endif %}
+                        <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
+                          {% set images = product.getImages() %}
+                          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}" alt="{{ product.name }}" />
+                        </a>
+                      </div>
+                      <div class="product-content">
+                        <h3 class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></h3>
+
+                        <div class="price-box">
+                          {% if product.originalPrice is not null %}
+                            <p class="old-price">
+                              <span class="price-label">Ancien prix :</span>
+                              <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
+                            </p>
+                          {% endif %}
+
+                          <p class="special-price">
+                            <span class="price-label">Nouveau prix :</span>
+                            <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
+                          </p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+
+
+        {% if similarProductsUser|length > 4 %}
+          <div class="widget-products-related">
+            <h3 class="title-widget"><span>Produits du même vendeur</span></h3>
+
+            <p class="block-subtitle">Ces objets du même vendeur sont suceptibles de vous intéresser.</p>
+
+            <div class="owl-nav user-products">
+              <i class="fa fa-long-arrow-left owl-nav-left"></i>
+              <i class="fa fa-long-arrow-right owl-nav-right"></i>
+            </div>
+
+            <div class="category-products">
+              <ul class="products-grid owl-carousel" id="user-products">
+                {% for product in similarProductsUser %}
                   <li class="item hover-effect">
                     <div class="item-inner">
                       <div class="product-action">

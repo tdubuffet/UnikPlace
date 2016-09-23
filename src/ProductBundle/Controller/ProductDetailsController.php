@@ -39,7 +39,10 @@ class ProductDetailsController extends Controller
         }
 
         $similarProducts = $this->getDoctrine()->getRepository('ProductBundle:Product')
-            ->findSimilarProducts($product, 7);
+            ->findSimilarProducts($product, 8);
+
+        $similarProductsUser = $this->getDoctrine()->getRepository('ProductBundle:Product')
+            ->findProductsByUser($product, 8);
 
 
         /** * contact message */
@@ -106,6 +109,7 @@ class ProductDetailsController extends Controller
             'productAttributes' => $attributes,
             'isFavorite' => isset($favorite),
             'similarProducts' => $similarProducts,
+            'similarProductsUser' => $similarProductsUser,
             'thread' => (isset($existThread)) ? $existThread : false,
             'formMessage' => (isset($process) && $process !== true) ? $process->createView() : false,
             'proposalForm' => isset($proposalForm) ? $proposalForm->createView() : null,
