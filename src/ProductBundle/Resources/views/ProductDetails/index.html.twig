@@ -257,6 +257,18 @@
                             <div class="review-product-details">
                               <div class="short-description-detail">
                                 <div class="short-description">
+                                  <h2>Aperçu rapide</h2>
+                                  <div class="std">{{ product.description|nl2br }}</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="middle-product-detail">
+
+                            <div class="review-product-details">
+                              <div class="short-description-detail">
+                                <div class="short-description">
                                   <div class="std">
 
                                     {% for delivery in product.deliveries.toArray %}
@@ -282,19 +294,12 @@
                                       </div>
                                     {% endfor %}
 
+                                    <p class="info-delivery">
+                                      Modes et Frais de livraison : vous pourrez sélectionner votre mode de livraison une fois le produit ajouté au panier<br />
+                                      Délais de livraison : de 5 à 30 jours en France Métropolitaine
+                                    </p>
+
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="middle-product-detail">
-
-                            <div class="review-product-details">
-                              <div class="short-description-detail">
-                                <div class="short-description">
-                                  <h2>Aperçu rapide</h2>
-                                  <div class="std">{{ product.description|nl2br }}</div>
                                 </div>
                               </div>
                             </div>
@@ -370,7 +375,7 @@
           </div><!-- .col-main -->
         </div><!-- .row show-grid -->
 
-        {% if similarProducts|length > 4 %}
+        {% if similarProducts|length >= 4 %}
           <div class="widget-products-related">
             <h3 class="title-widget"><span>Produits similaires</span></h3>
 
@@ -425,7 +430,7 @@
         {% endif %}
 
 
-        {% if similarProductsUser|length > 4 %}
+        {% if similarProductsUser|length >= 4 %}
           <div class="widget-products-related">
             <h3 class="title-widget"><span>Produits du même vendeur</span></h3>
 
