@@ -93,15 +93,15 @@ doctrine:
         #     path:     "%database_path%"
 
     orm:
-        result_cache_driver: array
-        query_cache_driver: array
+        result_cache_driver: memcached
+        query_cache_driver: memcached
         second_level_cache:
             enabled: true
             log_enabled: true
-            region_cache_driver: array
+            region_cache_driver: memcached
             regions:
                 category_cache:
-                    cache_driver:  array
+                    cache_driver:  memcached
                     lifetime:   3600
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -113,7 +113,7 @@ doctrine_cache:
 
     providers:
         my_cache:
-            type: array
+            type: memcached
             namespace: my_cache_ns
             aliases:
                 - app_cache
