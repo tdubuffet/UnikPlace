@@ -146,6 +146,14 @@
                                       <span class="btn-cart-text">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}</span>
                                     </button>
                                   </div>
+                                {% elseif product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
+                                  <p class="availability in-stock pull-right">
+                                    <span class="label label-primary">{{ product.getStatus().getLabel() }}</span>
+                                  </p>
+                                {% elseif product.getStatus() is not empty and product.getStatus().getName() == 'unavailable' %}
+                                  <p class="availability in-stock pull-right">
+                                    <span class="label label-danger">{{ product.getStatus().getLabel() }}</span>
+                                  </p>
                                 {% endif %}
 
                                 <span class="price">{{ product.price|currency_format(product.getCurrency.getCode) }}</span>
