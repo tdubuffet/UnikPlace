@@ -247,10 +247,10 @@ class ProductSearchService
             $priceRange = array_filter(explode('-', $params['price']));
             $rangeFilter = new \Elastica\Query\Range();
             $range = array();
-            if (isset($priceRange[0])) {
+            if (isset($priceRange[0]) && preg_match('/^[0-9]+$/', $priceRange[0])) {
                 $range['from'] = $priceRange[0];
             }
-            if (isset($priceRange[1])) {
+            if (isset($priceRange[1]) && preg_match('/^[0-9]+$/', $priceRange[1])) {
                 $range['to'] = $priceRange[1];
             }
             if (!empty($range)) {
