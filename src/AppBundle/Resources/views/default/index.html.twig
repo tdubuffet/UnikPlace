@@ -8,15 +8,15 @@
   <section class="main-container col1-layout">
     <div class="main-wrapper">
       <div class="main">
+        <div class="container">
         <div class="site-preface">
           <div class="hidden-xs hidden-sm" id="block-slide-home">
             <div class="slide-home owl-carousel owl-theme">
               <div class="slide-content">
-                <a class="slide_link" href="#">
-                  <img class="img-responsive" alt="" src="{{ jpegoptim('bundles/app/images/homepage/slide/slide1.jpg', { 'output' : 'images/slide_1.jpg'}) }}"/>
-                </a>
-                <div class="slide-inner-content">
-                  <div class="container">
+
+                <div class="row">
+
+                  <div class="col-md-6 slider-text">
                     <h3>Un meuble design <br />vous encombre ?</h3>
                     <span class="text">
                       <span class="text-inner">Unik Place vous met à disposition sa plateforme 100 % sécurisée pour
@@ -26,14 +26,20 @@
                     </span>
                     <span class="button"><a href="{{ path('sell_category') }}">Je souhaite vendre</a> </span>
                   </div>
+
+                  <div class="col-md-6">
+                    <img src="{{ jpegoptim('bundles/app/images/homepage/slide/slide1.jpg', { 'output' : 'images/slide_1.jpg'}) }}" class="img-responsive" />
+                  </div>
+
                 </div>
+
+
               </div>
               <div class="slide-content">
-                <a class="slide_link" href="#">
-                  <img class="img-responsive" alt="" src="{{ jpegoptim('bundles/app/images/homepage/slide/slide2.jpg', { 'output' : 'images/slide_2.jpg'}) }}"/>
-                </a>
-                <div class="slide-inner-content">
-                  <div class="container">
+
+                <div class="row">
+
+                  <div class="col-md-6 slider-text">
                     <h3>Des sélections de produits<br />à portée de clic</h3>
                     <span class="text">
                       <span class="text-inner">Créées une ambiance, un univers déco chez soi, c'est parfois compliqué.
@@ -41,10 +47,17 @@
                         pour vous aider dans vos changements de design. Faites confiance à Unik Place,<br />
                         et créez des atmosphères chaleureuses avec du mobilier de qualité à moindre coût.</span>
                     </span>
-                    <span class="button">
+                    <!--<span class="button">
                       <a href="{{ path('collections') }}">Découvrez les tendances déco du moment</a>
-                    </span>
+                    </span>-->
                   </div>
+
+
+                  <div class="col-md-6">
+                    <img src="{{ jpegoptim('bundles/app/images/homepage/slide/slide2.jpg', { 'output' : 'images/slide_2.jpg'}) }}" class="img-responsive" />
+                  </div>
+
+
                 </div>
               </div>
               {#<div class="slide-content"><a class="slide_link" href="#"><img class="img-responsive" alt="" src="{{ asset('bundles/app/images/homepage/slide/slide3.jpg') }}"/></a>
@@ -65,6 +78,7 @@
             <a class="btn" href="{{ path('sell_category') }}">Je souhaite vendre</a>
 
           </div>
+        </div>
         </div>
 
         {% if collections is not null and collections is not empty %}

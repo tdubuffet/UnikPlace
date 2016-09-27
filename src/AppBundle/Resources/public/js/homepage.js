@@ -15,7 +15,9 @@ var Homepage = {
             "lazyEffect":false,
             "addClassActive":true,
             "navigation":false,
+            "animateOut": 'fadeOut',
             "navigationText":[null,null]});
     }
+
 
 };

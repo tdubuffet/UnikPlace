@@ -33,7 +33,7 @@ class DefaultController extends Controller
             $boolQuery->addMust($fieldTerm);
 
             $fieldTerm = new \Elastica\Query\Terms();
-            $fieldTerm->setTerms('status', ['sold', 'published']);
+            $fieldTerm->setTerms('status', ['published']);
             $boolQuery->addMust($fieldTerm);
 
             $query = new \Elastica\Query($boolQuery);
