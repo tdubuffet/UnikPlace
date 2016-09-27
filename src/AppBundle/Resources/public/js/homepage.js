@@ -16,7 +16,11 @@ var Homepage = {
             "addClassActive":true,
             "navigation":false,
             "animateOut": 'fadeOut',
-            "navigationText":[null,null]});
+            "navigationText":[null,null],
+            "mouseDrag": false,
+            "touchDrag": false
+        }
+        )
     }
 
 
