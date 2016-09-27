@@ -6,9 +6,11 @@ var Product = {
 
         Product.initFavoriteButton();
         Product.initCartButton();
-
-        // Initialize inner zoom on main picture
-        $('#image-main').elevateZoom(Product.getZoomConfig());
+        
+        if ($(window).width() >= 750) {
+            // Initialize inner zoom on main picture
+            $('#image-main').elevateZoom(Product.getZoomConfig());
+        }
 
         Product.setMainPicture();
         Product.initCarousel();
@@ -17,7 +19,16 @@ var Product = {
     },
 
     getZoomConfig: function() {
-        return {cursor: 'crosshair', zoomType: "inner"};
+        return {
+            cursor: 'crosshair',
+            zoomWindowFadeIn: 500,
+            zoomWindowFadeOut: 500,
+            lensFadeIn: 500,
+            lensFadeOut: 500,
+            zoomWindowWidth: 500,
+            zoomWindowHeight: 500,
+            borderSize: 0
+        };
     },
 
     setMainPicture: function() {

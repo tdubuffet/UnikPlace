@@ -92,7 +92,7 @@
 
                             <div class="product-image product-image-zoom clearfix">
                               <div class="product-image-gallery">
-                                <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
+                                <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 1000, 1000, imgType) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
                               </div>
                             </div>
 
@@ -108,7 +108,7 @@
                                 {% for k, image in images %}
                                 <li class="item hover-effect">
                                   <a class="thumb-link" href="#" data-image-index="{{ k }}">
-                                    <img class="img-responsive" src="{{ loadpic(image, 88, 88, imgType) }}" data-src="{{ loadpic(image, 700, 700, imgType) }}" alt="miniature {{ k }}" />
+                                    <img class="img-responsive" src="{{ loadpic(image, 88, 88, imgType) }}" data-src="{{ loadpic(image, 1000, 1000, imgType) }}" alt="miniature {{ k }}" />
                                   </a>
                                 </li>
                                 {% endfor %}
@@ -379,7 +379,7 @@
           <div class="widget-products-related">
             <h3 class="title-widget"><span>Produits similaires</span></h3>
 
-            <p class="block-subtitle">Ces objets similaires sont suceptibles de vous intéresser.</p>
+            <p class="block-subtitle">Ces objets similaires sont susceptibles de vous intéresser.</p>
 
             <div class="owl-nav similar-products">
               <i class="fa fa-long-arrow-left owl-nav-left"></i>
