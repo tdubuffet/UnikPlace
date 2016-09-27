@@ -44,10 +44,17 @@ class DefaultController extends Controller
             $productsByCategory[$category->getSlug()] = $results;
         }
 
+
+        $articles = $this->getDoctrine()->getRepository('BlogBundle:Article')->findBy([
+            'published' => true,
+        ], ['createdAt' => 'desc'], 3);
+
+
         return [
             "collections" => $collections,
             "categories" => $categories,
-            'productsByCategory' => $productsByCategory
+            'productsByCategory' => $productsByCategory,
+            'articles' => $articles
         ];
     }
 

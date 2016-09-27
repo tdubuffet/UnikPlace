@@ -188,54 +188,83 @@
             </div><!-- .row -->
           </div>
 
+            <div class="row">
+                <div class="block-container">
+                    <div class="col-sm-12">
+                        <h3 class="category-product title-widget"><span>Nos valeurs</span></h3>
+                    </div>
+                    <div class="col-sm-3 col-advantage">
+                        <div class="text-center">
+                            <img src="{{ optipng('bundles/app/images/about/quality.png', { 'output' : 'images/about_quality.png'}) }}" class="img-circle" alt="qualité">
+                            <h5 class="one-value-title">Qualité du contenu</h5>
+                        </div>
+                        <div class="text">
+                            Description des produits et retouche des photos pour une meilleure mise en avant des produits tout en bénéficiant d'un dépôt d'annonce très détaillée.
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-advantage">
+                        <div class="text-center">
+                            <img src="{{ optipng('bundles/app/images/about/sell_key.png', { 'output' : 'images/about_sell.png'}) }}" class="img-circle" alt="certifié">
+                            <h5 class="one-value-title">Vente clef en main</h5>
+                        </div>
+                        <div class="text">
+                            Vous pouvez confier à Unik Place un produit à vendre. Vous n'aurez plus à vous soucier de votre
+                            annonce, de la livraison et de la transaction.
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-advantage">
+                        <div class="text-center">
+                            <img src="{{ optipng('bundles/app/images/about/security.png', { 'output' : 'images/about_security.png'}) }}" class="img-circle" alt="sécurité">
+                            <h5 class="one-value-title">100% sécurisé</h5>
+                        </div>
+                        <div class="text">
+                            Achetez ou vendez des produits d'occasion en toute sécurité !
+                            Vous êtes assuré de recevoir l'argent des ventes ou de recevoir votre achat.
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-advantage">
+                        <div class="text-center">
+                            <img src="{{ optipng('bundles/app/images/about/confidential.png', { 'output' : 'images/about_confidential.png'}) }}" class="img-circle"
+                                 alt="confidentialité">
+                            <h5 class="one-value-title">Confidentialité</h5>
+                        </div>
+                        <div class="text">
+                            Par sécurité, les données des utilisateurs sont confidentielles. L'évaluation des
+                            profils favorise une démarche d'achat ou de vente.
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .row -->
 
           <div class="row">
             <div class="block-container">
               <div class="col-sm-12">
-                <h3 class="category-product title-widget"><span>Nos valeurs</span></h3>
+                <h3 class="category-product title-widget"><span>#DESIGNLOVERS - le journal du design</span></h3>
               </div>
-              <div class="col-sm-3 col-advantage">
-                <div class="text-center">
-                  <img src="{{ optipng('bundles/app/images/about/quality.png', { 'output' : 'images/about_quality.png'}) }}" class="img-circle" alt="qualité">
-                  <h5 class="one-value-title">Qualité du contenu</h5>
+
+              {% for article in articles %}
+
+                <div class="col-sm-4">
+                  <div class="box-blog-article">
+                    <a href="{{ path('blog_article', {slug: article.slug }) }}" title="Lire l'article">
+                      <img class="img-responsive" src="{{ loadpic(article.image, 400, 275, 'r', 'articles') }}" alt="">
+                    </a>
+                    <h2 class="blog-article-title"><a href="{{ path('blog_article', {slug: article.slug }) }}">{{ article.title }}</a></h2>
+                    <ul class="blog-article-infos">
+                      <li>{{ article.author.firstname }} {{ article.author.lastname }}</li>
+                      <li>{{ article.createdAt|date('d/m/Y H:i') }}</li>
+                    </ul>
+                    <p>
+                      {{ article.description|raw }}
+                    </p>
+                  </div>
                 </div>
-                <div class="text">
-                  Description des produits et retouche des photos pour une meilleure mise en avant des produits tout en bénéficiant d'un dépôt d'annonce très détaillée.
-                </div>
-              </div>
-              <div class="col-sm-3 col-advantage">
-                <div class="text-center">
-                  <img src="{{ optipng('bundles/app/images/about/sell_key.png', { 'output' : 'images/about_sell.png'}) }}" class="img-circle" alt="certifié">
-                  <h5 class="one-value-title">Vente clef en main</h5>
-                </div>
-                <div class="text">
-                  Vous pouvez confier à Unik Place un produit à vendre. Vous n'aurez plus à vous soucier de votre
-                  annonce, de la livraison et de la transaction.
-                </div>
-              </div>
-              <div class="col-sm-3 col-advantage">
-                <div class="text-center">
-                  <img src="{{ optipng('bundles/app/images/about/security.png', { 'output' : 'images/about_security.png'}) }}" class="img-circle" alt="sécurité">
-                  <h5 class="one-value-title">100% sécurisé</h5>
-                </div>
-                <div class="text">
-                  Achetez ou vendez des produits d'occasion en toute sécurité !
-                  Vous êtes assuré de recevoir l'argent des ventes ou de recevoir votre achat.
-                </div>
-              </div>
-              <div class="col-sm-3 col-advantage">
-                <div class="text-center">
-                  <img src="{{ optipng('bundles/app/images/about/confidential.png', { 'output' : 'images/about_confidential.png'}) }}" class="img-circle"
-                       alt="confidentialité">
-                  <h5 class="one-value-title">Confidentialité</h5>
-                </div>
-                <div class="text">
-                  Par sécurité, les données des utilisateurs sont confidentielles. L'évaluation des
-                  profils favorise une démarche d'achat ou de vente.
-                </div>
-              </div>
-            </div>
-          </div><!-- .row -->
+
+
+              {% endfor %}
+
+              </div><!-- .row -->
+          </div>
         </div><!-- .container -->
 
         <div class="container container-category-product category-products">
