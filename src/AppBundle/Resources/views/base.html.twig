@@ -13,7 +13,7 @@
       {% set metaDescription = 'default.description'|trans({"%siteName%" :  siteName}, 'seo') %}
     {% endif %}
 
-    <meta name="description" content="{% block description %}{{ metaDescription }}{% endblock %}">
+    <meta name="description" content="{% block description %}{{ metaDescription|trans({"%siteName%" :  siteName}) }}{% endblock %}">
 
     {% block meta %}{% endblock %}
 
