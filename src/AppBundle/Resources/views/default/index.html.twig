@@ -129,8 +129,10 @@
                               </a>
                             </span>
                     </div>
+                    {% if categories[0].image %}
                     <img class="img-responsive" alt="{{ categories[0].name }}"
                          src="{{ loadpic(categories[0].image, 500, 500, "f", "categories") }}"/>
+                    {% endif %}
                   </div>
                 {% endif %}
               </div>
@@ -144,8 +146,10 @@
                               </a>
                             </span>
                     </div>
+                    {% if categories[1].image %}
                     <img class="img-responsive" alt="{{ categories[1].name }}"
                          src="{{ loadpic(categories[1].image, 500, 235, "f", "categories") }}"/>
+                    {% endif %}
                   </div>
                 {% endif %}
                 {% if categories[2] is defined %}
@@ -157,8 +161,10 @@
                               </a>
                             </span>
                     </div>
+                    {% if categories[2].image %}
                     <img class="img-responsive" alt="{{ categories[2].name }}"
                          src="{{ loadpic(categories[2].image, 500, 235, "f", "categories") }}"/>
+                    {% endif %}
                   </div>
                 {% endif %}
               </div>
@@ -172,8 +178,10 @@
                               </a>
                             </span>
                     </div>
+                    {% if categories[3].image %}
                     <img class="img-responsive" alt="{{ categories[3].name }}"
                          src="{{ loadpic(categories[3].image, 500, 500, "f", "categories") }}"/>
+                    {% endif %}
                   </div>
                 {% endif %}
               </div>
