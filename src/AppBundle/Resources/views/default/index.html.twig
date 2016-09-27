@@ -42,7 +42,7 @@
                   <div class="col-md-6 slider-text">
                     <h3>Des sélections de produits<br />à portée de clic</h3>
                     <span class="text">
-                      <span class="text-inner">Créées une ambiance, un univers déco chez soi, c'est parfois compliqué.
+                      <span class="text-inner">Créer une ambiance, un univers déco chez soi, c'est parfois compliqué.
                         <br />Avec Unik Place, des sélections de produits déco sont créés chaque jour<br />
                         pour vous aider dans vos changements de design. Faites confiance à Unik Place,<br />
                         et créez des atmosphères chaleureuses avec du mobilier de qualité à moindre coût.</span>
@@ -114,7 +114,73 @@
           </div>
         {% endif %}
 
-        <div class="container hidden-xs">
+        <div class="container hidden-xs ">
+
+          <div class="block-container">
+            <h1 class="category-product title-widget"><span>Unik Place, l'univers de l'ameublement design</span></h1>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                {% if categories[0] is defined %}
+                  <div class="banner_top">
+                    <div class="overlay">
+                            <span class="button">
+                              <a href="{{ path('category', {'path' : categories[0].slug}) }}">
+                                {{ categories[0].name }}
+                              </a>
+                            </span>
+                    </div>
+                    <img class="img-responsive" alt="{{ categories[0].name }}"
+                         src="{{ loadpic(categories[0].image, 500, 500, "f", "categories") }}"/>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                {% if categories[1] is defined %}
+                  <div class="banner_top">
+                    <div class="overlay">
+                            <span class="button">
+                              <a href="{{ path('category', {'path' : categories[1].slug}) }}">
+                                {{ categories[1].name }}
+                              </a>
+                            </span>
+                    </div>
+                    <img class="img-responsive" alt="{{ categories[1].name }}"
+                         src="{{ loadpic(categories[1].image, 500, 235, "f", "categories") }}"/>
+                  </div>
+                {% endif %}
+                {% if categories[2] is defined %}
+                  <div class="banner_top">
+                    <div class="overlay">
+                            <span class="button">
+                              <a href="{{ path('category', {'path' : categories[2].slug}) }}">
+                                {{ categories[2].name }}
+                              </a>
+                            </span>
+                    </div>
+                    <img class="img-responsive" alt="{{ categories[2].name }}"
+                         src="{{ loadpic(categories[2].image, 500, 235, "f", "categories") }}"/>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                {% if categories[3] is defined %}
+                  <div class="banner_top">
+                    <div class="overlay">
+                            <span class="button">
+                              <a href="{{ path('category', {'path' : categories[3].slug}) }}">
+                                {{ categories[3].name }}
+                              </a>
+                            </span>
+                    </div>
+                    <img class="img-responsive" alt="{{ categories[3].name }}"
+                         src="{{ loadpic(categories[3].image, 500, 500, "f", "categories") }}"/>
+                  </div>
+                {% endif %}
+              </div>
+            </div><!-- .row -->
+          </div>
+
+
           <div class="row">
             <div class="block-container">
               <div class="col-sm-12">
