@@ -18,81 +18,77 @@
   {% endfor %}
 
   <div class="category-products">
-    {% if pager.currentPageResults|length > 0 %}
-         <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-3col show-grid">
-           <li class="item first hover-effect">
-             <a href="{{ path('sell_category') }}" style="display:block">
-               <div class="add-product">
-                 <div class="add-product-placeholder"></div>
-                 <div class="add-product-content">
-                   <i class="add-logo fa fa-plus"></i>
-                   <p>Ajouter un produit en vente</p>
-                 </div>
-                 <div class="add-product-placeholder2"></div>
-               </div>
-             </a>
-           </li>
-           {% for product in pager.currentPageResults %}
-              <li class="item first hover-effect" id="row{{ product.id }}">
-                <div class="item-inner item-selected">
-                  <div class="product-action">
-                      <button class="btn btn-primary btn-xs product-delete product-delete-btn" data-id="{{ product.id }}" data-name="{{ product.name }}"
-                              data-toggle="modal" data-target="#deleteProductModal" title="Supprimer mon produit">
-                        <i class="fa fa-times"></i>
-                      </button>
-                    {% if product.getStatus() is not empty and product.getStatus().getName() == 'awaiting' %}
-                    <div class="product-awaiting-label">En cours de validation</div>
-                    {% endif %}
-                    {% if product.getStatus.getName() == 'published' %}
-                    <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
-                    {% else %}
-                    <div class="product-image" title="{{ product.name }}">
-                    {% endif%}
-                      {% set images = product.getImages() %}
-                      <img class="img-responsive"
-                           src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}"
-                           alt="{{ product.name }}"/>
-                    {% if product.getStatus.getName() == 'published' %}</a>{% else %}</div>{% endif %}
-                  </div>
-                  <div class="product-content">
-                    <div class="product-name text-center">
-                      {% if product.getStatus.getName() == 'published' %}
-                      <a class="truncate truncate-center" style="width: 150px;" target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a>
-                      {% else %}
-                      <div class="truncate truncate-center" style="width: 150px; line-height: 30px;" title="{{ product.name }}">{{ product.getName }}</div>
-                      {% endif%}
-                    </div>
-                    <div class="price-box">
-                      {% if product.originalPrice is not null %}
-                        <p class="old-price">
-                          <span class="price-label">Ancien prix :</span>
-                          <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
-                        </p>
-                      {% endif %}
-
-                      <p class="special-price">
-                        <span class="price-label">Nouveau prix :</span>
-                        <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
-                      </p>
-                    </div>
-
-                    <div class="actions-box">
-                      {% if product.getStatus.getName() == 'published' or product.getStatus.getName() == 'awaiting' %}
-                      <a href="{{ path('user_account_products_edition', {id: product.id}) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Modifier</a>
-                      <a href="{{ path('user_account_products_edition', {id: product.id, copy: 1}) }}" class="btn btn-primary btn-sm"><i class="fa fa-copy"></i> Dupliquer</a>
-                      {% else %}
-                      <button class="btn btn-primary btn-sm" disabled="disabled"><i class="fa fa-edit"></i> Modifier</button>
-                      <button class="btn btn-primary btn-sm" disabled="disabled"><i class="fa fa-copy"></i> Dupliquer</button>
-                      {% endif %}
-                    </div>
-                  </div>
+     <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-3col show-grid">
+       <li class="item first hover-effect">
+         <a href="{{ path('sell_category') }}" style="display:block">
+           <div class="add-product">
+             <div class="add-product-placeholder"></div>
+             <div class="add-product-content">
+               <i class="add-logo fa fa-plus"></i>
+               <p>Ajouter un produit en vente</p>
+             </div>
+             <div class="add-product-placeholder2"></div>
+           </div>
+         </a>
+       </li>
+       {% for product in pager.currentPageResults %}
+          <li class="item first hover-effect" id="row{{ product.id }}">
+            <div class="item-inner item-selected">
+              <div class="product-action">
+                  <button class="btn btn-primary btn-xs product-delete product-delete-btn" data-id="{{ product.id }}" data-name="{{ product.name }}"
+                          data-toggle="modal" data-target="#deleteProductModal" title="Supprimer mon produit">
+                    <i class="fa fa-times"></i>
+                  </button>
+                {% if product.getStatus() is not empty and product.getStatus().getName() == 'awaiting' %}
+                <div class="product-awaiting-label">En cours de validation</div>
+                {% endif %}
+                {% if product.getStatus.getName() == 'published' %}
+                <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
+                {% else %}
+                <div class="product-image" title="{{ product.name }}">
+                {% endif%}
+                  {% set images = product.getImages() %}
+                  <img class="img-responsive"
+                       src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}"
+                       alt="{{ product.name }}"/>
+                {% if product.getStatus.getName() == 'published' %}</a>{% else %}</div>{% endif %}
+              </div>
+              <div class="product-content">
+                <div class="product-name text-center">
+                  {% if product.getStatus.getName() == 'published' %}
+                  <a class="truncate truncate-center" style="width: 150px;" target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a>
+                  {% else %}
+                  <div class="truncate truncate-center" style="width: 150px; line-height: 30px;" title="{{ product.name }}">{{ product.getName }}</div>
+                  {% endif%}
                 </div>
-              </li>
-            {% endfor %}
-          </ul>
-    {% else %}
-      Aucun produit, vous pouvez <a href="{{ path('sell_category') }}">déposer un produit</a>
-    {% endif %}
+                <div class="price-box">
+                  {% if product.originalPrice is not null %}
+                    <p class="old-price">
+                      <span class="price-label">Ancien prix :</span>
+                      <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
+                    </p>
+                  {% endif %}
+
+                  <p class="special-price">
+                    <span class="price-label">Nouveau prix :</span>
+                    <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
+                  </p>
+                </div>
+
+                <div class="actions-box">
+                  {% if product.getStatus.getName() == 'published' or product.getStatus.getName() == 'awaiting' %}
+                  <a href="{{ path('user_account_products_edition', {id: product.id}) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Modifier</a>
+                  <a href="{{ path('user_account_products_edition', {id: product.id, copy: 1}) }}" class="btn btn-primary btn-sm"><i class="fa fa-copy"></i> Dupliquer</a>
+                  {% else %}
+                  <button class="btn btn-primary btn-sm" disabled="disabled"><i class="fa fa-edit"></i> Modifier</button>
+                  <button class="btn btn-primary btn-sm" disabled="disabled"><i class="fa fa-copy"></i> Dupliquer</button>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
   </div>
 
   {% if pager.getNbPages() > 1 %}
