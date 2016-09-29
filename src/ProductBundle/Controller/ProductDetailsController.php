@@ -29,6 +29,15 @@ class ProductDetailsController extends Controller
         if (!in_array($product->getStatus()->getName(), ['published', 'sold', 'unavailable'])) {
             throw new NotFoundHttpException("Product status is not valid");
         }
+
+        $delivery = $this->get('delivery.emc');
+
+        $deliveries = $delivery->findDeliveryByProduct(
+            $this->getUser(),
+            $request->getClientIp(),
+            $product
+        );
+
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
         $attributes = $productAttributeService->getAttributesFromProduct($product);
         $routeparams = ['id' => $product->getId(), 'slug' => $product->getSlug()];
@@ -116,7 +125,8 @@ class ProductDetailsController extends Controller
             'proposal'  => $proposal,
             'offLimit'  => $offLimit,
             'ratings'   => $ratings,
-            'comment'   => $comment
+            'comment'   => $comment,
+            'deliveries' => $deliveries
         ];
     }
 }

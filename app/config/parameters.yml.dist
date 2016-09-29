@@ -58,3 +58,22 @@ parameters:
 
     # Asset version
     assets_version: v000
+
+    emc:
+        mode: "test"
+        user: "tdubuffet"
+        pass: "Bonjour1"
+        key: "ow2gwhkv"
+        carriers:
+          - CHRPChronoInternationalClassic
+          - DHLEDomesticExpress
+          - DHLEEconomySelect
+          - DHLEExpressWorldwide
+          - FEDXInternationalEconomy
+          - FEDXInternationalPriorityCC
+          - UPSEExpressSaver
+          - UPSEStandard
+          - POFRColissimoAccess
+          - POFRColissimoExpert
+          - SODXExpressStandardInterColisMarch
+          - TNTEEconomyExpressInternational
