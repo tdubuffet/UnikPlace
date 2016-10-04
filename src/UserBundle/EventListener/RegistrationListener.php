@@ -84,7 +84,7 @@ class RegistrationListener implements EventSubscriberInterface
             $street = $event->getRequest()->request->get('fos_user_registration_form')['address']['street'];
 
             $address = new Address();
-            $address->setName($user->getCompanyCode());
+            $address->setName($user->getCompanyName());
             $address->setStreet($street);
             $address->setCity($city);
             $address->setUser($user);
