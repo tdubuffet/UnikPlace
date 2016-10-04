@@ -6,6 +6,8 @@ use LocationBundle\Form\AddressAdminType;
 use LocationBundle\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,6 +33,14 @@ class ProductType extends AbstractType
             ->add('category', null, ['label' => 'Catégorie'])
             ->add('currency', null, ['label' => 'Devise'])
             ->add('status', null, ['label' => 'Statut'])
+            ->add('customDeliveryFee', NumberType::class, ['label' => 'Mes frais de port en France métropolitaine',
+                                                           'mapped' => false,
+                                                           'required' => false,
+                                                           'data' => $this->getCustomDeliveryFee($builder->getData())])
+            ->add('byHandDelivery', CheckboxType::class, ['label' => 'J\'accepte la remise en main propre',
+                                                          'mapped' => false,
+                                                          'required' => false,
+                                                          'data' => $this->isByHandDeliveryEnabled($builder->getData())])
             ->add('address', AddressAdminType::class, ['label' => 'Adresse'])
         ;
 
@@ -68,5 +78,32 @@ class ProductType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'ProductBundle\Entity\Product'
         ));
+    }
+
+    private function getCustomDeliveryFee($product)
+    {
+        $code = 'seller_custom';
+        $deliveries = $product->getDeliveries();
+        if (isset($deliveries)) {
+            foreach ($deliveries as $delivery) {
+                if ($delivery->getDeliveryMode()->getCode() == $code) {
+                    return $delivery->getFee();
+                }
+            }
+        }
+        return null;
+    }
+
+    private function isByHandDeliveryEnabled($product) {
+        $code = 'by_hand';
+        $deliveries = $product->getDeliveries();
+        if (isset($deliveries)) {
+            foreach ($deliveries as $delivery) {
+                if ($delivery->getDeliveryMode()->getCode() == $code) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
