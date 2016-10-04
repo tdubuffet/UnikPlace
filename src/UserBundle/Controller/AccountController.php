@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use UserBundle\Entity\User;
 use ProductBundle\Entity\Product;
 use ProductBundle\Entity\AttributeValue;
+use OrderBundle\Entity\Delivery;
 use UserBundle\Form\PreferenceFormType;
 use UserBundle\Form\RatingType;
 use UserBundle\Form\MangopayKYCNaturalType;
@@ -454,22 +455,24 @@ class AccountController extends Controller
                 $product->removeAttributeValue($attr);
             }
 
-            foreach ($filters as $key => $filter) {
-                $value = $request->get('attribute-'.$key);
+            if (isset($filters)) {
+                foreach ($filters as $key => $filter) {
+                    $value = $request->get('attribute-'.$key);
 
-                if ($request->get('attribute-'.$key)) {
-                    $attributeValue = new AttributeValue();
-                    $attributeValue->setProduct($product);
+                    if ($request->get('attribute-'.$key)) {
+                        $attributeValue = new AttributeValue();
+                        $attributeValue->setProduct($product);
 
-                    $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
-                        ->find($value);
-                    $attributeValue->setReferentialValue($referentialValue);
+                        $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
+                                          ->find($value);
+                        $attributeValue->setReferentialValue($referentialValue);
 
-                    $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
-                    $attributeValue->setAttribute($attribute);
-                    $product->addAttributeValue($attributeValue);
+                        $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
+                        $attributeValue->setAttribute($attribute);
+                        $product->addAttributeValue($attributeValue);
 
-                    $this->getDoctrine()->getManager()->persist($attributeValue);
+                        $this->getDoctrine()->getManager()->persist($attributeValue);
+                    }
                 }
             }
 
@@ -484,6 +487,40 @@ class AccountController extends Controller
                     $image->setProduct($product)->setSort($imageIdx);
                     $this->getDoctrine()->getManager()->persist($image);
                     $product->addImage($image);
+                }
+            }
+
+            // Handle deliveries
+            // Colissimo delivery
+            $colissimoDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('colissimo_parcel');
+            if (isset($colissimoDeliveryMode)) {
+                $infos = [
+                    'weight' => $product->getWeight(),
+                    'length' => $product->getLength(),
+                    'width' => $product->getWidth(),
+                    'height' => $product->getHeight(),
+                ];
+                $deliveryCalculator = $this->get('order.delivery_calculator');
+                $colissimoDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product,
+                                                                                                             'deliveryMode' => $colissimoDeliveryMode]);
+                try {
+                    $fee = $deliveryCalculator->getFeeFromProductAndDeliveryModeCode($colissimoDeliveryMode->getCode(), $infos);
+                    // Update colissimo delivery fee
+                    if (!isset($colissimoDelivery)) {
+                        $colissimoDelivery = new Delivery();
+                        $colissimoDelivery->setProduct($product);
+                        $colissimoDelivery->setDeliveryMode($colissimoDeliveryMode);
+                    }
+                    $colissimoDelivery->setFee($fee);
+                    $this->getDoctrine()->getManager()->persist($colissimoDelivery);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+                catch(\Exception $e) {
+                    // weight length width or height are out of range for colissimo delivery
+                    if (isset($colissimoDelivery)) {
+                        $this->getDoctrine()->getManager()->remove($colissimoDelivery);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
                 }
             }
 
