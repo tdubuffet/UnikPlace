@@ -99,6 +99,11 @@ class OrderListener
                 $image->setProduct($product);
                 $this->getDoctrine()->getManager()->persist($image);
             }
+            foreach ($product->getDeliveries() as $delivery) {
+                $delivery = clone $delivery;
+                $delivery->setProduct($product);
+                $this->getDoctrine()->getManager()->persist($delivery);
+            }
             $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
         }
