@@ -5,19 +5,19 @@
 {% block javascript_include %}{{ jsinit(['cart']) }}{% endblock javascript_include %}
 
 {% block body %}
-  <div class="main-wrapper">
+  <div class="main-wrapper cart-select-delivery">
     <div class="container">
       <div class="main">
 
         <div class="page-steps row">
           <div class="col-sm-3">
-            <div class="page-step active">Mon Panier</div>
+            <div class="page-step">Mon Panier</div>
           </div>
           <div class="col-sm-3">
             <div class="page-step">Mon adresse</div>
           </div>
           <div class="col-sm-3">
-            <div class="page-step">Mode de livraison</div>
+            <div class="page-step active">Mode de livraison</div>
           </div>
           <div class="col-sm-3">
             <div class="page-step">Paiement</div>
@@ -40,9 +40,7 @@
                 <tr>
                   <th>Produit</th>
                   <th>Nom</th>
-                  <th>Ville</th>
-                  <th></th>
-                  <th>Prix</th>
+                  <th>Mode de livraison</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -59,33 +57,27 @@
                     <td><a target="_blank"
                            href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a>
                     </td>
-                    <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
-                    <td style="max-width: 5%;">
-                      <button title="Retirer de mon panier" type="button" class="btn btn-link btn-remove"
-                              data-id="{{ product.id }}"><i
-                                class="fa fa-trash"></i></button>
+                    <td style="width: 50%;">
+
+                      {% set deliveries = deliveriesByProduct[product.id] %}
+                      <table class="table table-delivery">
+                        {% for delivery in deliveries|slice(0, 5) %}
+                          <tr>
+                            <td class="logo" style="width: 10%;"><input type="radio" value="{{ delivery.operator.code  }}{{ delivery.service.code  }}" name="deliveryMode[{{ product.id }}]" {% if loop.first %}checked{% endif %}/></td>
+                            <td>
+                              {{ delivery.service.label }}
+                              <br /><small>{{ delivery.delivery.label }}, prévue le {{ delivery.delivery.date }}</small>
+                            </td>
+                            <td class="price" style="width: 25%;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+
+
                     </td>
-                    <td class="text-right">
-                      {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
-                      {% if product.getCurrency.getCode != 'EUR' %}
-                        ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
-                      {% endif %}
-                    </td>
-                  </tr>
-                {% else %}
-                  <tr>
-                    <td colspan="5" class="text-center">Aucun produit dans le panier</td>
                   </tr>
                 {% endfor %}
                 </tbody>
-                <tfoot class="text-right">
-                <tr>
-                  <td colspan="4" class="text-right label-table">Total</td>
-                  <td colspan="1"><span class="totalProduct"
-                                        data-total="{{ productsTotalPrice }}">{{ productsTotalPrice|currency_format('EUR') }}</span>
-                  </td>
-                </tr>
-                </tfoot>
               </table>
             </div>
 

@@ -5,19 +5,28 @@
 
 {% block javascript_include %}{{ jsinit(['addAddress']) }}{% endblock javascript_include %}
 
+{%- block choice_widget -%}
+  {% spaceless %}
+    <label  for="{{ id }}">qsqdqdq<input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />{{ label|trans }}</label>
+  {% endspaceless %}
+{%- endblock choice_widget -%}
+
 {% block body %}
 <div class="main-wrapper">
   <div class="container">
     <div class="main">
 
       <div class="page-steps row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <div class="page-step">Mon Panier</div>
         </div>
-        <div class="col-sm-4">
-          <div class="page-step active">Livraison et Facturation</div>
+        <div class="col-sm-3">
+          <div class="page-step active">Mon adresse</div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
+          <div class="page-step">Mode de livraison</div>
+        </div>
+        <div class="col-sm-3">
           <div class="page-step">Paiement</div>
         </div>
       </div>
@@ -26,11 +35,6 @@
       <div class="alert alert-success">{{ flashMessage }}</div>
       {% endfor %}
 
-      {% if by_hand_only %}
-      <p>Une adresse de facturation est nécessaire dans le cas d'une remise en main propre.</p>
-      {% else %}
-      <p>Merci de sélectionner une adresse de livraison parmis vos addresses enregistrées. Nous supportons actuellement uniquement la livraison en France métropolitaine.</p>
-      {% endif %}
 
       {% if addresses is empty %}
       <p>Vous n'avez actuellement aucune adresse associée à votre compte. Vous pouvez en ajouter une en cliquant sur le bouton suivant :</p>
@@ -38,16 +42,35 @@
         Ajouter une adresse à mon compte
       </button>
       {% else %}
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addAddressModal">
-          Ajouter une autre adresse à mon compte
-        </button>
       </p>
 
+
       {{ form_start(selectAddressForm) }}
-      {% if by_hand_only %}
-      {% do selectAddressForm.delivery_address.setRendered %}
-      {% endif %}
-      {{ form_widget(selectAddressForm) }}
+
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Adresse de livraison</h4>
+            {{ form_widget(selectAddressForm.delivery_address) }}
+
+            <button type="button" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#addAddressModal">
+              Ajouter une nouvelle adresse
+            </button>
+          </div>
+          <div class="col-md-6">
+            <h4>Adresse de facturation</h4>
+
+            {{ form_widget(selectAddressForm.billing_address) }}
+
+
+            <button type="button" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#addAddressModal">
+              Ajouter une nouvelle adresse
+            </button>
+          </div>
+        </div>
+
+        <div class="pull-right" style="margin-top: 25px;">
+          {{ form_widget(selectAddressForm.save, { 'attr': { 'class': 'btn btn-primary'}}) }}
+        </div>
       {{ form_end(selectAddressForm) }}
 
       {% endif %}
@@ -79,7 +102,7 @@
         {{ form_row(addAddressForm.country) }}
       </div>
       <div class="modal-footer">
-        {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary btn-lg'}}) }}
+        {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary btn-sm'}}) }}
       </div>
       {{ form_end(addAddressForm) }}
     </div>

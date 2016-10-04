@@ -15,16 +15,7 @@ var Cart = {
         });
     },
 
-    calculateDeliveryFee: function(fee) {
-        var totalDeliveryFee = 0;
-        $('.cartDeliverySelection').each(function(index, elem) {
-            totalDeliveryFee += parseFloat($(elem).find(':selected').data('fee'));
-        });
-        $('.totalDelivery').text("€"+totalDeliveryFee.toFixed(2));
-        var totalProduct = parseFloat($('.totalProduct').data('total'));
-        var total = totalDeliveryFee+totalProduct;
-        $('.totalOrder').text("€"+total.toFixed(2));
-    },
+    calculateDeliveryFee: function(fee) {},
 
     cartAction: function () {
         $("td .btn-remove").click(function () {

@@ -49,6 +49,12 @@ class Delivery
     }
 
 
+    /**
+     * Find location with IP USER
+     *
+     * @param $ip
+     * @return mixed
+     */
     public function findCityZipCodeByIp($ip)
     {
 
@@ -60,7 +66,15 @@ class Delivery
 
         return json_decode($location);
     }
-    
+
+    /**
+     * Find deliveries at EMC for product & User (Or IP)
+     *
+     * @param User $user
+     * @param $ip
+     * @param Product $product
+     * @return array
+     */
     public function findDeliveryByProduct(User $user, $ip, Product $product)
     {
 
@@ -124,16 +138,29 @@ class Delivery
         $lib = new Quotation();
         $lib->getQuotation($from, $to, $parcels, $additionalParams);
 
-        if ($lib->resp_error) {
-            echo "Invalid request: ";
-            foreach ($lib->resp_errors_list as $m => $message) {
-                echo "<br />".$message["message"];
-            }
-        } elseif ($lib->curl_error) {
-            echo "Unable to send the request: ".$lib->curl_error_text;
-        }
+
+        $this->handlerError($lib);
+
 
         return $lib->offers;
+    }
+
+    public function handlerError($lib)
+    {
+
+        if ($lib->resp_error) {
+            $error = '';
+
+            foreach ($lib->resp_errors_list as $m => $message) {
+                $error .= $message["message"];
+            }
+
+            throw new \Exception($error);
+
+        } elseif ($lib->curl_error) {
+            throw new \Exception("Unable to send the request: ".$lib->curl_error_text);
+        }
+
     }
 
 }

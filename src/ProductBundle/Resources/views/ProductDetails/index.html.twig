@@ -346,15 +346,34 @@
                                               </div>
                                               <div class="modal-body">
                                                 <div style="max-height: 450px; overflow: auto;">
-                                                <table class="table table-delivery">
-                                                  {% for delivery in deliveries %}
-                                                    <tr>
-                                                      <td class="logo"><img src="{{ delivery.operator.logo }}" /></td>
-                                                      <td>{{ delivery.service.label }}</td>
-                                                      <td class="price">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
-                                                    </tr>
-                                                  {% endfor %}
-                                                </table>
+                                                  <table class="table table-delivery">
+                                                    {% for delivery in deliveries|slice(0, 3) %}
+                                                      <tr>
+                                                        <td class="logo"><img src="{{ delivery.operator.logo }}" /></td>
+                                                        <td>{{ delivery.service.label }}
+                                                          {% if delivery.characteristics[1] is defined or delivery.characteristics[3] is defined %}
+
+                                                            {% set description = '' %}
+
+                                                            {% if delivery.characteristics[1] is defined %}
+                                                              {% set description = description ~ delivery.characteristics[1] %}
+                                                            {% endif %}
+
+                                                            {% if delivery.characteristics[3] is defined %}
+                                                              {% set description = description ~ ' - ' ~delivery.characteristics[3] %}
+                                                            {% endif %}
+
+                                                            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" data-container="body" title="{{ description|striptags|raw }}"></i>
+                                                          {% endif %}
+
+                                                          {% if delivery.characteristics[3] is defined %}
+                                                            <br /><small>{{ delivery.characteristics[3]|striptags }}</small>
+                                                          {% endif %}
+                                                        </td>
+                                                        <td class="price">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
+                                                      </tr>
+                                                    {% endfor %}
+                                                  </table>
                                                 </div>
                                               </div>
                                               <div class="modal-footer">
