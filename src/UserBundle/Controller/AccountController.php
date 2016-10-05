@@ -562,7 +562,7 @@ class AccountController extends Controller
                         $this->getDoctrine()->getManager()->flush();
                     }
                 }
-                else {
+                else if (isset($byHandDelivery)) {
                     $this->getDoctrine()->getManager()->remove($byHandDelivery);
                     $this->getDoctrine()->getManager()->flush();
                 }
