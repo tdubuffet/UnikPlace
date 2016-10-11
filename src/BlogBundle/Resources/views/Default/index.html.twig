@@ -42,7 +42,6 @@
                 <h2 class="blog-article-title"><a href="{{ path('blog_article', {slug: article.slug }) }}">{{ article.title }}</a></h2>
                 <ul class="blog-article-infos">
                   <li>{{ article.author.firstname }} {{ article.author.lastname }}</li>
-                  <li>{{ article.createdAt|date('d/m/Y H:i') }}</li>
                 </ul>
                 <p>
                   {{ article.description|raw }}

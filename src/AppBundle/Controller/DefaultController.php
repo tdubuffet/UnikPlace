@@ -37,6 +37,8 @@ class DefaultController extends Controller
             $boolQuery->addMust($fieldTerm);
 
             $query = new \Elastica\Query($boolQuery);
+            $query->addSort(['updated_at' => ['order' => 'desc']]);
+
             $results = $this->get('fos_elastica.finder.noname.product')->findPaginated($query);
             $results->setMaxPerPage(3);
             $results->setCurrentPage(1);

@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use UserBundle\Entity\User;
 use ProductBundle\Entity\Product;
 use ProductBundle\Entity\AttributeValue;
+use OrderBundle\Entity\Delivery;
 use UserBundle\Form\PreferenceFormType;
 use UserBundle\Form\RatingType;
 use UserBundle\Form\MangopayKYCNaturalType;
@@ -431,6 +432,11 @@ class AccountController extends Controller
                 $image->setProduct($product);
                 $this->getDoctrine()->getManager()->persist($image);
             }
+            foreach ($product->getDeliveries() as $delivery) {
+                $delivery = clone $delivery;
+                $delivery->setProduct($product);
+                $this->getDoctrine()->getManager()->persist($delivery);
+            }
             $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
             $this->container->get('session')->getFlashBag()->add('copy',
@@ -449,22 +455,24 @@ class AccountController extends Controller
                 $product->removeAttributeValue($attr);
             }
 
-            foreach ($filters as $key => $filter) {
-                $value = $request->get('attribute-'.$key);
+            if (isset($filters)) {
+                foreach ($filters as $key => $filter) {
+                    $value = $request->get('attribute-'.$key);
 
-                if ($request->get('attribute-'.$key)) {
-                    $attributeValue = new AttributeValue();
-                    $attributeValue->setProduct($product);
+                    if ($request->get('attribute-'.$key)) {
+                        $attributeValue = new AttributeValue();
+                        $attributeValue->setProduct($product);
 
-                    $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
-                        ->find($value);
-                    $attributeValue->setReferentialValue($referentialValue);
+                        $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
+                                          ->find($value);
+                        $attributeValue->setReferentialValue($referentialValue);
 
-                    $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
-                    $attributeValue->setAttribute($attribute);
-                    $product->addAttributeValue($attributeValue);
+                        $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
+                        $attributeValue->setAttribute($attribute);
+                        $product->addAttributeValue($attributeValue);
 
-                    $this->getDoctrine()->getManager()->persist($attributeValue);
+                        $this->getDoctrine()->getManager()->persist($attributeValue);
+                    }
                 }
             }
 
@@ -479,6 +487,84 @@ class AccountController extends Controller
                     $image->setProduct($product)->setSort($imageIdx);
                     $this->getDoctrine()->getManager()->persist($image);
                     $product->addImage($image);
+                }
+            }
+
+            // Handle deliveries
+            // Colissimo delivery
+            $colissimoDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('colissimo_parcel');
+            if (isset($colissimoDeliveryMode)) {
+                $infos = [
+                    'weight' => $product->getWeight(),
+                    'length' => $product->getLength(),
+                    'width' => $product->getWidth(),
+                    'height' => $product->getHeight(),
+                ];
+                $deliveryCalculator = $this->get('order.delivery_calculator');
+                $colissimoDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product,
+                                                                                                             'deliveryMode' => $colissimoDeliveryMode]);
+                try {
+                    $fee = $deliveryCalculator->getFeeFromProductAndDeliveryModeCode($colissimoDeliveryMode->getCode(), $infos);
+                    // Update colissimo delivery fee
+                    if (!isset($colissimoDelivery)) {
+                        $colissimoDelivery = new Delivery();
+                        $colissimoDelivery->setProduct($product);
+                        $colissimoDelivery->setDeliveryMode($colissimoDeliveryMode);
+                    }
+                    $colissimoDelivery->setFee($fee);
+                    $this->getDoctrine()->getManager()->persist($colissimoDelivery);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+                catch(\Exception $e) {
+                    // weight length width or height are out of range for colissimo delivery
+                    if (isset($colissimoDelivery)) {
+                        $this->getDoctrine()->getManager()->remove($colissimoDelivery);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
+                }
+            }
+            // Custom delivery
+            $customDeliveryFee = $productForm->get('customDeliveryFee')->getData();
+            $customDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('seller_custom');
+            if (isset($customDeliveryMode)) {
+                $customDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product,
+                                                                                                          'deliveryMode' => $customDeliveryMode]);
+                if (isset($customDeliveryFee)) {
+                    if (!isset($customDelivery)) {
+                        $customDelivery = new Delivery();
+                        $customDelivery->setProduct($product);
+                        $customDelivery->setDeliveryMode($customDeliveryMode);
+                    }
+                    $customDelivery->setFee($customDeliveryFee);
+                    $this->getDoctrine()->getManager()->persist($customDelivery);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+                else {
+                    if (isset($customDelivery)) {
+                        $this->getDoctrine()->getManager()->remove($customDelivery);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
+                }
+            }
+            // By hand delivery
+            $byHandDeliveryEnabled = $productForm->get('byHandDelivery')->getData();
+            $byHandDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('by_hand');
+            if (isset($byHandDeliveryMode)) {
+                $byHandDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product,
+                                                                                                          'deliveryMode' => $byHandDeliveryMode]);
+                if ($byHandDeliveryEnabled) {
+                    if (!isset($byHandDelivery)) {
+                        $byHandDelivery = new Delivery();
+                        $byHandDelivery->setProduct($product);
+                        $byHandDelivery->setDeliveryMode($byHandDeliveryMode);
+                        $byHandDelivery->setFee(0);
+                        $this->getDoctrine()->getManager()->persist($byHandDelivery);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
+                }
+                else if (isset($byHandDelivery)) {
+                    $this->getDoctrine()->getManager()->remove($byHandDelivery);
+                    $this->getDoctrine()->getManager()->flush();
                 }
             }
 
