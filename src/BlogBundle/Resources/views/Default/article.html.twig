@@ -44,8 +44,8 @@
         <img class="blog-detail-mainpic img-responsive" src="{{ loadpic(article.image, 1200, 500, 'f', 'articles') }}" alt="" />
 
         <div class="col-sm-1 blog-detail-date">
-          <span class="day">{{ article.createdAt|date('d') }}</span>
-          <span class="month">{{ article.createdAt|date('M') }}<br />{{ article.createdAt|date('Y') }}</span>
+          <span class="day">{{ article.updatedAt|date('d') }}</span>
+          <span class="month">{{ article.updatedAt|date('M') }}<br />{{ article.updatedAt|date('Y') }}</span>
         </div>
         <div class="col-sm-11 box-detail-article">
           <div class="blog-detail-article">
