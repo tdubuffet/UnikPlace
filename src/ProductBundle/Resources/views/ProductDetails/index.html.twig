@@ -208,7 +208,7 @@
                                   {% if app.user is empty and isProposal and isPublishedAndOfferAllowed %}
 
                                     {% set productURL = url('product_details', {'id' : product.id, 'slug': product.slug}) %}
-                                    {% set redirectUrl = path('fos_user_security_login', {'redirectTo': productURL }) %}
+                                    {% set redirectUrl = path('fos_user_security_login', {'redirect_to': productURL }) %}
                                     <li>
                                       <a title="Faire une offre" class="btn btn-link"
                                          onclick="window.location.href='{{ redirectUrl }}'">
