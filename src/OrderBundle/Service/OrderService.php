@@ -6,8 +6,10 @@ use AppBundle\Service\MangoPayService;
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\CurrencyBundle\Currency\Converter;
 use MangoPay\Libraries\Exception;
+use OrderBundle\Entity\Delivery;
 use OrderBundle\Entity\OrderProposal;
 use OrderBundle\Event\OrderProposalEvent;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use OrderBundle\Entity\Order;
 use OrderBundle\Event\OrderEvents;
@@ -75,6 +77,7 @@ class OrderService
             ->findOneByName('accepted');
 
 
+
         foreach ($cart as $productId) {
             $product = $this->em->getRepository('ProductBundle:Product')->findOneById($productId);
 
@@ -103,18 +106,43 @@ class OrderService
             if (!isset($cartDelivery[$productId])) {
                 throw new \Exception('Not found delivery type');
             }
+
             $deliveryModeCode = $cartDelivery[$product->getId()];
             $deliveryMode = $this->em->getRepository('OrderBundle:DeliveryMode')->findOneByCode($deliveryModeCode);
             if (!isset($deliveryMode)) {
                 throw new \Exception('Delivery mode not found.');
             }
-            $delivery = $this->em->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
-            $deliveryAmount = $this->currencyConverter->convert(
-                $delivery->getFee(),
-                'EUR',
-                true,
-                $product->getCurrency()->getCode()
-            );
+
+            if ($deliveryMode->isEmc()) {
+
+                $deliveryEmc    = $session->get('cart_delivery_emc')[$product->getId()][$deliveryMode->getCode()];
+
+
+                $delivery = new Delivery();
+                $delivery->setProduct($product);
+                $delivery->setDeliveryMode($deliveryMode);
+                $delivery->setFee($deliveryEmc['price']['tax-inclusive']);
+
+                $this->em->persist($delivery);
+                $this->em->flush();
+
+                $deliveryAmount = $this->currencyConverter->convert(
+                    $delivery->getFee(),
+                    'EUR',
+                    true,
+                    $product->getCurrency()->getCode()
+                );
+
+
+            } else {
+                $delivery = $this->em->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
+                $deliveryAmount = $this->currencyConverter->convert(
+                    $delivery->getFee(),
+                    'EUR',
+                    true,
+                    $product->getCurrency()->getCode()
+                );
+            }
 
             $order = new Order();
             $order->setProductAmount($productAmount);
@@ -209,8 +237,22 @@ class OrderService
     /**
      * @param Order $order
      */
-    public function validateOrder(Order $order)
+    public function validateOrder(Order $order, Request $request, \DeliveryBundle\Service\Delivery $deliveryService)
     {
+        if ($order->getDelivery()->getDeliveryMode()->isEmc()) {
+
+
+            $emcValues= $request->get('emc');
+
+            $emc = $deliveryService->makeOrder($order, $emcValues);
+
+            var_dump($emc);
+
+        }
+
+        die ("test");
+        
+        
         $amount = $order->getMangopayPreauthorizationId();
         $totalAmount = $this->em->getRepository('OrderBundle:Order')->getTotalAmount($amount);
         $payInId = $this->mangopayService->createPayIn($order->getUser(), $order, $totalAmount);

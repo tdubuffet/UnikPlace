@@ -61,9 +61,12 @@
 
                       {% set deliveries = deliveriesByProduct[product.id] %}
                       <table class="table table-delivery">
-                        {% for delivery in deliveries|slice(0, 5) %}
+                        {% for delivery in deliveries %}
                           <tr>
                             <td class="logo" style="width: 10%;"><input type="radio" value="{{ delivery.operator.code  }}{{ delivery.service.code  }}" name="deliveryMode[{{ product.id }}]" {% if loop.first %}checked{% endif %}/></td>
+                            <td class="logo" style="width: 20%; text-align: center;">
+                              <img src="{{ delivery.operator.logo }}" class="img-responsive" />
+                            </td>
                             <td>
                               {{ delivery.service.label }}
                               <br /><small>{{ delivery.delivery.label }}, prévue le {{ delivery.delivery.date }}</small>

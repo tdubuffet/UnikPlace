@@ -108,7 +108,7 @@ class OrderListener
             $this->getDoctrine()->getManager()->flush();
         }
 
-        $this->container->get('order_service')->validateOrder($order);
+        $this->container->get('order_service')->validateOrder($order, $request, $this->container->get('delivery.emc'));
     }
 
     /**

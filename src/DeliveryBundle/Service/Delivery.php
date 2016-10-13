@@ -2,6 +2,7 @@
 
 namespace DeliveryBundle\Service;
 use DeliveryBundle\Emc\Quotation;
+use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,7 +100,7 @@ class Delivery
             }
 
             $to = array(
-                'pays'          => 'FR', //Bouchon not international
+                'pays'          => 'FR',
                 'ville'         => $data->city,
                 'type'          => 'particulier',
                 'adresse'       => '',
@@ -120,7 +121,7 @@ class Delivery
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
-            //'offers' => $this->carriersEnabled
+            'offers' => $this->carriersEnabled
         );
 
         $parcels = array(
@@ -141,8 +142,176 @@ class Delivery
 
         $this->handlerError($lib);
 
+        $deliveries = [];
 
-        return $lib->offers;
+        foreach ($lib->offers as $offer) {
+            $deliveries[$offer['operator']['code'] . $offer['service']['code']] = $offer;
+        }
+
+        return $deliveries;
+    }
+
+    /**
+     * Find deliveries at EMC for product & User (Or IP)
+     *
+     * @param User $user
+     * @param $ip
+     * @param Product $product
+     * @return array
+     */
+    public function prepareDeliveryByOrder(Order $order)
+    {
+
+        $deliveryCode = $order->getDelivery()->getDeliveryMode()->getCode();
+
+        $user = $order->getUser();
+        
+        if ($user && $user->getAddresses()->count() > 0) {
+
+            $addressTo = $user->getAddresses()->first();
+
+            $to = array(
+                'pays'          => 'FR', //Bouchon not international
+                'ville'         => $addressTo->getCity()->getName(),
+                'type'          => ($user->getPro()) ? 'entreprise' : 'particulier',
+                'adresse'       => $addressTo->getStreet(),
+                'code_postal'   => $addressTo->getCity()->getZipcode()
+            );
+
+        }
+
+
+
+        $product = $order->getProduct();
+
+        $from = array(
+            'pays'          => 'FR',
+            'code_postal'   => $product->getAddress()->getCity()->getZipcode(),
+            'ville'         => $product->getAddress()->getCity()->getName(),
+            'type'          => ($order->getProduct()->getUser()->getPro()) ? 'entreprise' : 'particulier',
+            'adresse'       => $product->getAddress()->getStreet()
+        );
+
+
+        $additionalParams = array(
+            'collecte' => date("Y-m-d"),
+            'delay' => 'aucun',
+            'offers' => $this->carriersEnabled
+        );
+
+        $parcels = array(
+            'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+            'dimensions' => array(
+                1 => array(
+                    'poids' => $product->getWeight() / 1000,
+                    'longueur' => $product->getLength() * 100,
+                    'largeur' => $product->getWidth() * 100,
+                    'hauteur' => $product->getHeight() * 100
+                )
+            )
+        );
+
+        $lib = new Quotation();
+        $lib->getQuotation($from, $to, $parcels, $additionalParams);
+
+
+        $this->handlerError($lib);
+
+        foreach ($lib->offers as $offer) {
+            if ($deliveryCode == $offer['operator']['code'] . $offer['service']['code']) {
+                return $offer;
+            }
+        }
+
+        return false;
+    }
+
+    public function makeOrder(Order $order, $emcValues)
+    {
+        $delivery = $this->prepareDeliveryByOrder($order);
+
+
+        $from = array(
+            'pays'          => 'FR',  // must be an ISO code, set get_country example on how to get codes
+            'code_postal'   => $order->getProduct()->getAddress()->getCity()->getZipcode(),
+            'ville'         => $order->getProduct()->getAddress()->getCity()->getName(),
+            'type'          => 'entreprise', // accepted values are "particulier" or "entreprise"
+            'adresse'       => $order->getProduct()->getAddress()->getStreet(),
+            'civilite'      => 'M', // accepted values are "M" (sir) or "Mme" (madam)
+            'prenom'        => $order->getProduct()->getUser()->getLastname(),
+            'nom'           => $order->getProduct()->getUser()->getFirstname(),
+            'societe'       => $order->getProduct()->getUser()->getCompanyName() . 'ThibaultTEST',
+            'email'         => $order->getProduct()->getUser()->getEmail(),
+            'tel'           => $order->getProduct()->getUser()->getPhone() . '0602030405',
+            'infos'         => $order->getProduct()->getAddress()->getAdditional()
+        );
+
+        $to = array(
+            'pays'          => 'FR',  // must be an ISO code, set get_country example on how to get codes @todo INTERNATIONAL
+            'code_postal'   => $order->getDeliveryAddress()->getCity()->getZipcode(),
+            'ville'         =>  $order->getDeliveryAddress()->getCity()->getName(),
+            'type'          => 'particulier', // accepted values are "particulier" or "entreprise"
+            'adresse'       => $order->getDeliveryAddress()->getStreet(),
+            'civilite'      => 'M', // accepted values are "M" (sir) or "Mme" (madam) //@todo Fix civilité
+            'prenom'        => $order->getUser()->getLastname(),
+            'nom'           => $order->getUser()->getFirstname(),
+            'email'         => $order->getUser()->getEmail(),
+            'tel'           => $order->getUser()->getPhone() . '0602030405', //@todo FIX PHONE REQUIRED
+            'infos'         => $order->getDeliveryAddress()->getAdditional()
+        );
+
+        $parcels = array(
+            'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+            'dimensions' => array(
+                1 => array(
+                    'poids'     => $order->getProduct()->getWeight() / 1000,
+                    'longueur'  => $order->getProduct()->getLength() * 100,
+                    'largeur'   => $order->getProduct()->getWidth() * 100,
+                    'hauteur'   => $order->getProduct()->getHeight() * 100
+                )
+            )
+        );
+
+        $paramsAdds = [
+            'collecte' => date('Y-m-d'),
+            'delai' => "aucun",
+            'assurance.selection' => false,
+            'content_code' => $order->getId(),
+            'valeur' => $order->getProductAmount(),
+            'operator' => $delivery['operator']['code'],
+            'service' => $delivery['service']['code'],
+            'raison' => 'sale',
+            'content_code' => 40110,
+        ];
+
+        foreach ($delivery['mandatory'] as $key => $manda) {
+
+
+            switch($key) {
+
+                case 'colis.description':
+                    $paramsAdds['colis.description'] = $emcValues['colis.description'];
+                    break;
+
+                case 'disponibilite.HDE':
+                    $paramsAdds['disponibilite.HDE'] = $emcValues['disponibilite.HDE'];
+                    break;
+
+                case 'disponibilite.HLE':
+                    $paramsAdds['disponibilite.HLE'] = $emcValues['disponibilite.HLE'];
+                    break;
+
+
+            }
+
+        }
+
+        $lib = new Quotation();
+        $lib->makeOrder($from, $to, $parcels, $paramsAdds);
+
+        $this->handlerError($lib);
+
+        return $lib->order;
     }
 
     public function handlerError($lib)
@@ -154,6 +323,8 @@ class Delivery
             foreach ($lib->resp_errors_list as $m => $message) {
                 $error .= $message["message"];
             }
+
+            var_dump($error);
 
             throw new \Exception($error);
 

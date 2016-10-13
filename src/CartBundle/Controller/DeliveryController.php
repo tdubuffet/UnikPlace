@@ -25,7 +25,7 @@ class DeliveryController extends Controller
 
     /**
      * @Route("/livraison", name="cart_delivery_emc")
-     * @Method({"GET"})
+     * @Method({"GET", "POST"})
      * @Template("CartBundle:Delivery:deliveryEmc.html.twig")
      */
     public function deliveryAction(Request $request)
@@ -37,50 +37,64 @@ class DeliveryController extends Controller
         $products = array();
         $productsTotalPrice = 0;
 
-        $deliveries = [];
-
         /**
          * generate hash delivery cache
          */
 
-        $hash               = md5(implode('-', $cart));
+        $hash               = md5(implode('-', $cart)) . '-cart-user-' . $this->getUser()->getId();
 
-        if ($deliveriesCache = $this->get('app_cache')->fetch($hash)){
-            $deliveries = $deliveriesCache;
-        }
+        $deliveries         = $this->get('app_cache')->fetch($hash);
 
-        foreach ($cart as $productId) {
-            $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+        $modes = $request->get('deliveryMode', []);
 
-            $orderProposal = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')->findOneBy([
-                'product' => $product,
-                'user' => $this->getUser(),
-                'status' => 'accepted'
-            ]);
+        if (!$deliveries){
 
-            if($orderProposal) {
-                $product->setPrice($orderProposal->getAmount());
-            }
 
-            $products[] = $product;
-            $productsTotalPrice += $this->get('lexik_currency.converter')
-                ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+            $deliveries = [];
 
-            $delivery = $this->get('delivery.emc');
+            foreach ($cart as $productId) {
+                $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
 
-            if(!$deliveriesCache) {
+                $orderProposal = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')->findOneBy([
+                    'product' => $product,
+                    'user' => $this->getUser(),
+                    'status' => 'accepted'
+                ]);
+
+                if($orderProposal) {
+                    $product->setPrice($orderProposal->getAmount());
+                }
+
+                $products[] = $product;
+                $productsTotalPrice += $this->get('lexik_currency.converter')
+                    ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+
+                $delivery = $this->get('delivery.emc');
+
                 $deliveries[$product->getId()] = $delivery->findDeliveryByProduct(
                     $this->getUser(),
                     $request->getClientIp(),
                     $product
                 );
+
             }
 
-
+            $this->get('app_cache')->save($hash, $deliveries);
         }
 
-        if (!$deliveriesCache) {
-            $this->get('app_cache')->save($hash, $deliveries);
+        if ($modes) {
+
+            foreach( $modes as $key => $mode ) {
+
+                if (!isset($deliveries[$key][$mode])) {
+                    return $this->redirectToRoute('cart_delivery_emc');
+                }
+            }
+
+            $this->get('session')->set('cart_delivery_emc', $deliveries);
+            $this->get('session')->set('cart_delivery', $modes);
+
+            return $this->redirectToRoute('cart_payment');
         }
 
 
@@ -139,7 +153,7 @@ class DeliveryController extends Controller
     }
 
     /**
-     * @Route("/adresse")
+     * @Route("/addresse")
      * @Method({"POST"})
      */
     public function addressProcessAction(Request $request)
@@ -153,11 +167,11 @@ class DeliveryController extends Controller
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneById(
+                $city = $this->getDoctrine()->getRepository('LocationBundle:City')->find(
                     $request->request->get('address')['city']
                 );
 
-                if ($city) {
+                if (!$city) {
                     throw new \Exception('Cannot find city.');
                 }
 
@@ -192,20 +206,21 @@ class DeliveryController extends Controller
                     
                     $address = $this->getDoctrine()
                         ->getRepository('LocationBundle:Address')
-                        ->findOne(
+                        ->findOneBy(
                             [
                                 'id' => $address,
                                 'user' => $this->getUser()
                             ]
                         );
 
-                    if ($address) {
+                    if (!$address) {
                         throw new \Exception('Address ' . $address . ' cannot be found.');
                     }
                 }
             }
             $session = new Session();
             $session->set('cart_addresses', $addresses);
+
             return $this->redirectToRoute('cart_delivery_emc');
         }
         return $this->redirectToRoute('cart_delivery');

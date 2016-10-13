@@ -16,6 +16,7 @@ imports:
     - { resource: "@Admin2Bundle/Resources/config/services.yml" }
     - { resource: "@BlogBundle/Resources/config/services.yml" }
     - { resource: "@ShopBundle/Resources/config/services.yml" }
+    - { resource: "@DeliveryBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -238,17 +239,18 @@ assetic:
       enabled:  %kernel.debug%
       profiler: false
   bundles: ~
-  node: /usr/bin/nodejs
+  node: /usr/local/bin//node
   filters:
       uglifyjs2:
           # the path to the uglifyjs executable
           bin: /usr/local/bin/uglifyjs
 
       jpegoptim:
-          bin: /usr/bin/jpegtran
+          bin: /usr/local/bin/jpegoptim
           max: 70
 
       optipng:
+          bin: /usr/local/bin/optipng
           level: 3
   twig:
       functions:

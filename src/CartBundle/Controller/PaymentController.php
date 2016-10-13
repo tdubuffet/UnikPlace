@@ -39,8 +39,10 @@ class PaymentController extends Controller
         $productsTotalPrice     = 0; // in EUR
         $deliveryFee            = 0; // in EUR
 
-        $cartDelivery = $session->get('cart_delivery');
-        $cartAddresses = $session->get('cart_addresses');
+        $cartDelivery   = $session->get('cart_delivery');
+        $deliveries     = $session->get('cart_delivery_emc');
+        $selectedDeliveryEmc = [];
+        $cartAddresses  = $session->get('cart_addresses');
         $cartDeliveryFinal = [];
 
         foreach ($cart as $productId) {
@@ -72,19 +74,43 @@ class PaymentController extends Controller
             if (!isset($cartDelivery[$productId])) {
                 throw new \Exception('Not found delivery type');
             }
+
+
+            if (isset($deliveries[$product->getId()])) {
+                $deliveryEmc = $deliveries[$product->getId()][$cartDelivery[$product->getId()]];
+                $selectedDeliveryEmc[$product->getId()] = $deliveryEmc;
+            }
+
             $deliveryModeCode = $cartDelivery[$product->getId()];
-            $deliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneBy(['code' => $deliveryModeCode]);
-            $cartDeliveryFinal[$product->getId()] = $deliveryMode->getName();
+            $deliveryMode                           = $this->getDoctrine()
+                ->getRepository('OrderBundle:DeliveryMode')
+                ->findOneBy([
+                    'code' => $deliveryModeCode
+                ]);
+
+            $cartDeliveryFinal[$product->getId()]   = $deliveryMode;
+
             if (!isset($deliveryMode)) {
                 throw new \Exception('Delivery mode not found.');
             }
-            $delivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
-            $deliveryFee += $this->get('lexik_currency.converter')->convert(
-                $delivery->getFee(),
-                'EUR',
-                true,
-                $product->getCurrency()->getCode()
-            );
+
+            if (!isset($deliveryEmc)) {
+                $delivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
+                $deliveryFee += $this->get('lexik_currency.converter')->convert(
+                    $delivery->getFee(),
+                    'EUR',
+                    true,
+                    $product->getCurrency()->getCode()
+                );
+            } else {
+                $deliveryFee += $this->get('lexik_currency.converter')->convert(
+                    $deliveryEmc['price']['tax-inclusive'],
+                    $deliveryEmc['price']['currency'],
+                    true,
+                    $product->getCurrency()->getCode()
+                );
+            }
+
         }
 
 
@@ -140,7 +166,8 @@ class PaymentController extends Controller
             'deliveryFee' => $deliveryFee,
             'deliveryModes' => $cartDeliveryFinal,
             'addresses' => $addresses,
-            'cardRegistration' => $cardRegistration
+            'cardRegistration' => $cardRegistration,
+            'selectedDeliveryEmc' => $selectedDeliveryEmc
         ];
     }
 
@@ -205,12 +232,15 @@ class PaymentController extends Controller
     {
         // Process after the validation from 3D secure
         // 3d secure preauthorizationid
-        $session = new Session();
+        $session = $this->get('session');
         $get = $request->query->all();
         $mangopayService = $this->get('mangopay_service');
+
         if (isset($get['preAuthorizationId'])) {
             $preAuth = $mangopayService->getCardPreAuthorization($get['preAuthorizationId']);
+
             if ($preAuth->Status == 'SUCCEEDED' && $preAuth->AuthorId == $this->getUser()->getMangopayUserId()) {
+
                 // Success - Create order and redirect to confirmation page
                 $orderService = $this->get('order_service');
                 $orders = $orderService->createOrdersFromCartSession(

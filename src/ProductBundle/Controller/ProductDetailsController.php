@@ -26,17 +26,11 @@ class ProductDetailsController extends Controller
      */
     public function indexAction(Request $request, Product $product)
     {
-        if (!in_array($product->getStatus()->getName(), ['published', 'sold', 'unavailable'])) {
+        if (!in_array($product->getStatus()->getName(), [
+            'published', 'sold', 'unavailable'
+        ])) {
             throw new NotFoundHttpException("Product status is not valid");
         }
-
-        $delivery = $this->get('delivery.emc');
-
-        $deliveries = $delivery->findDeliveryByProduct(
-            $this->getUser(),
-            $request->getClientIp(),
-            $product
-        );
 
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
         $attributes = $productAttributeService->getAttributesFromProduct($product);
@@ -125,8 +119,7 @@ class ProductDetailsController extends Controller
             'proposal'  => $proposal,
             'offLimit'  => $offLimit,
             'ratings'   => $ratings,
-            'comment'   => $comment,
-            'deliveries' => $deliveries
+            'comment'   => $comment
         ];
     }
 }

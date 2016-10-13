@@ -143,7 +143,10 @@ class AccountController extends Controller
 
         $currentPage    = $request->get('page', 1);
         $pagination     = new \MangoPay\Pagination($currentPage, 10);
-        $transactions   = $this->get('mangopay_service')->getFreeWalletTransactions($this->getUser()->getMangopayFreeWalletId(), $pagination);
+        $transactions   = $this->get('mangopay_service')->getFreeWalletTransactions(
+            $this->getUser()->getMangopayFreeWalletId(),
+            $pagination
+        );
 
         return [
             'transactions' => $transactions,
@@ -282,7 +285,7 @@ class AccountController extends Controller
             $this->get('session')->getFlashBag()->add('kyc_errors',
               "Vous avez atteint la limite de " .  $this->container->getParameter('mangopay.max_input') . "€ de crédit ou " . $this->container->getParameter('mangopay.max_output') . "€ de retrait vers votre compte. Afin de valider votre commande ou votre retrait, vous devez renseigner les informations suivantes pour valider votre identité bancaire. Une fois les éléments transmis à notre organisme bancaire, vous pourrez de nouveau valider vos commandes et demander des retraits sur votre compte."
             );
-            return $this->redirectToRoute('user_account_wallet_kyc');
+            //return $this->redirectToRoute('user_account_wallet_kyc');
         }
 
         $this->get('order_listener')
@@ -361,6 +364,9 @@ class AccountController extends Controller
             }
         }
 
+        if ($order->getDelivery()->getDeliveryMode()->isEmc()) {
+            $delivery = $this->get('delivery.emc')->prepareDeliveryByOrder($order);
+        }
 
         return [
             'order'         => $order,
@@ -368,7 +374,8 @@ class AccountController extends Controller
             'thread'        => $thread,
             'formMessage'   => (isset($form)) ? $form->createView() : null,
             'disputeMessage'   => (isset($form)) ? $form->createView() : null,
-            'formRating'    => (isset($formRating)) ? $formRating->createView() : null
+            'formRating'    => (isset($formRating)) ? $formRating->createView() : null,
+            'delivery' => (isset($delivery)) ? $delivery : null
         ];
 
     }

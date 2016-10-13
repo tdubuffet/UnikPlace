@@ -32,53 +32,101 @@
         <div>
 
           <div class="row">
-            <div class="col-md-12" style="margin: 20px 0 30px 0;">
-              <p>Vous ne serez pas prélevé tant que le vendeur n'aura pas accepté la vente.
-                Une fois la vente acceptée, le vendeur ne recevra pas votre argent tant que vous n'aurez pas confirmé
-                la bonne réception de {{ products|length() > 1 ? "vos produits": "votre produit" }}.</p>
-              <p>Le paiement est sécurisé, vous allez être redirigé vers le site de votre banque pour confirmer le
-                paiement (3D Secure).</p>
-
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
               <h2 class="h3">Récapitulatif</h2>
+              <div  class="row">
+                <div class="col-md-6">
+                  <h5>Adresse de livraison</h5>
+                  {% if addresses.delivery_address is defined %}
+                    {% set deliveryAddress = addresses.delivery_address %}
+                    {{ deliveryAddress.getName() }}<br/>{{ deliveryAddress.getStreet() }}{% if deliveryAddress.getAdditional() %} {{ deliveryAddress.getAdditional() }}{% endif %} <br/>{{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
+                  {% endif %}
+                </div>
+                <div class="col-md-6">
+                  <h5>Adresse de facturation</h5>
+                  {% if addresses.billing_address is defined %}
+                    {% set billingAddress = addresses.billing_address %}
+                    {{ billingAddress.getName() }}<br />{{ billingAddress.getStreet() }}{% if billingAddress.getAdditional() %} {{ billingAddress.getAdditional() }}{% endif %} <br/>{{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}
+                    <br/>
+                  {% endif %}
+                </div>
 
-              <ul>
-                {% for product in products %}
-                  <li>{{ product.name }} - {{ deliveryModes[product.getId()] }}</li>
-                {% endfor %}
-              </ul>
-
-              <div>
-                {% if addresses.delivery_address is defined %}
-                {% set deliveryAddress = addresses.delivery_address %}
-                Adresse de livraison
-                : {{ deliveryAddress.getName() }} {{ deliveryAddress.getStreet() }}{% if deliveryAddress.getAdditional() %} {{ deliveryAddress.getAdditional() }}{% endif %} {{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
-                {% endif %}
-                <br/>
-                {% if addresses.billing_address is defined %}
-                  {% set billingAddress = addresses.billing_address %}
-                  Adresse de facturation : {{ billingAddress.getName() }} {{ billingAddress.getStreet() }}{% if billingAddress.getAdditional() %} {{ billingAddress.getAdditional() }}{% endif %} {{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}
-                  <br/>
-                {% endif %}
               </div>
 
-              <b>TOTAL: {{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</b>
+              <br /><br />
 
-              <h2 class="h3">Paiement</h2>
+              <div class="table-responsive">
+                <table class="table table-carts">
+                  <thead>
+                  <tr>
+                    <th>Produit</th>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Total</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for product in products %}
+                    <tr>
+                      <td rowspan="2">
+                        <a target="_blank"
+                           href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                          {% if product.getImages()[0] is defined %}<img
+                            src="{{ loadpic(product.getImages()[0], 50, 50, "r3") }}"
+                            alt="{{ product.name }} " />{% endif %}
+                        </a>
+                      </td>
+                      <td style="width: 40%">
+                        <a target="_blank"
+                             href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                          {{ product.name }}
+                        </a>
+                      </td>
+                      <td class="text-center">
+                        {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                        {% if product.getCurrency.getCode != 'EUR' %}
+                          ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                        {% endif %}
+                      </td>
+                      <td rowspan="2" class="text-right">
+                        {{ (product.price+selectedDeliveryEmc[product.id]['price']['tax-inclusive'])|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Livré par {{ deliveryModes[product.getId()] }}
+                      </td>
 
-              <i class="fa fa-lock"></i>&nbsp;Paiement Sécurisé SSL
-              <ul class="cards">
-                <li class="visa">Visa</li>
-                <li class="visa_electron">Visa Electron</li>
-                <li class="mastercard">MasterCard</li>
-                <li class="maestro">Maestro</li>
-              </ul>
-              <img src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'images/mangopay.png'}) }}" alt="mangopay" height="26">
+                      <td class="text-center">
+                        {% if deliveryModes[product.id].type == 'parcel_carrier' %}
+                          {{ selectedDeliveryEmc[product.id]['price']['tax-inclusive']|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }}
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                  <tfoot class="text-right">
+                    <tr>
+                      <td colspan="3" class="text-right label-table">Total</td>
+                      <td colspan="1">{{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6 col-md-offset-1">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
+
+                  <h2 class="h3">Paiement</h2>
+
+                  <p>Vous ne serez pas prélevé tant que le vendeur n'aura pas accepté la vente.
+                    Une fois la vente acceptée, le vendeur ne recevra pas votre argent tant que vous n'aurez pas confirmé
+                    la bonne réception de {{ products|length() > 1 ? "vos produits": "votre produit" }}.</p>
+                  <p>Le paiement est sécurisé, vous allez être redirigé vers le site de votre banque pour confirmer le
+                    paiement (3D Secure).</p>
+
+
                   <form method="post" action="{{ cardRegistration.CardRegistrationURL }}" id="payment-form">
                     <input type="hidden" name="data" value="{{ cardRegistration.PreregistrationData }}"/>
                     <input type="hidden" name="accessKeyRef" value="{{ cardRegistration.AccessKey }}"/>
@@ -116,6 +164,18 @@
                         <span class="help-block small">Le CCV est le code de vérification à 3 chiffres situé au verso de la carte</span>
                       </div>
                       <div class="form-group">
+
+                        <i class="fa fa-lock"></i>&nbsp;Paiement Sécurisé SSL
+                        <ul class="cards">
+                          <li class="visa">Visa</li>
+                          <li class="visa_electron">Visa Electron</li>
+                          <li class="mastercard">MasterCard</li>
+                          <li class="maestro">Maestro</li>
+                        </ul>
+                        <img src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'images/mangopay.png'}) }}" alt="mangopay" height="26">
+
+
+
                         <p class="cgu small" style="margin: 10px 0 25px;">En cliquant sur valider le paiement vous
                           acceptez les
                           <a target="_blank" href="{{ path('legal_notice') }}">conditions générales d'utilisation de
