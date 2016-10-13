@@ -2,6 +2,7 @@
 
 namespace CartBundle\Controller;
 
+use OrderBundle\Entity\DeliveryMode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -87,6 +88,23 @@ class PaymentController extends Controller
                 ->findOneBy([
                     'code' => $deliveryModeCode
                 ]);
+
+            if (!$deliveryMode && isset($deliveryEmc)){
+
+
+                $deliveryMode = new DeliveryMode();
+                $deliveryMode->setEmc(true);
+                $deliveryMode->setCode($cartDelivery[$product->getId()]);
+                $deliveryMode->setName($deliveryEmc['operator']['label'] . ' - ' . $deliveryEmc['service']['label']);
+                $deliveryMode->setDescription($deliveryEmc['operator']['label'] . ' - ' . $deliveryEmc['service']['label']);
+
+                $deliveryMode->setType('parcel_carrier');
+
+                $this->getDoctrine()->getManager()->persist($deliveryMode);
+                $this->getDoctrine()->getManager()->flush();
+
+
+            }
 
             $cartDeliveryFinal[$product->getId()]   = $deliveryMode;
 
