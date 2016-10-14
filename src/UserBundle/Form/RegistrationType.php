@@ -26,6 +26,7 @@ class RegistrationType extends AbstractType
             'expanded' => true,
             'multiple' => false,
         ));
+        $builder->add('phone');
         $builder->add('birthday', DateType::class, array(
             'format'      => \IntlDateFormatter::LONG,
             'years' => range(date('Y'), date('Y')-90)
@@ -36,7 +37,6 @@ class RegistrationType extends AbstractType
         $builder->add('residential_country', CountryType::class, array(
             'preferred_choices' => array('FR'),
         ));
-        $builder->add('phone');
         $builder->add('company_code');
         $builder->add('company_name');
 
