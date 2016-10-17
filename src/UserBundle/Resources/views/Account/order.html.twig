@@ -105,7 +105,7 @@
                     <li>Convenez rapidement d'un rendez-vous avec l'acheteur.</li>
                     <li>Vous recevrez le paiement de votre vente une fois que l'acheteur aura validé la remise du produit.</li>
                 </ol>
-            {% elseif order.delivery.deliveryMode.code != 'by_hand' %}
+            {% elseif order.delivery.deliveryMode.code == 'seller_custom' %}
                 <ol class="order-instructions">
                     <li>Préparez votre colis avec le produit commandé à l'intérieur et envoyez le à l'adresse suivante:</li>
                     <address>
@@ -117,6 +117,10 @@
                     <li>Contactez l'acheteur via le formulaire ci-dessous pour l'informer de l'expédition.</li>
                     <li>Une fois que l'acheteur confirmera la bonne reception du produit, votre paiement arrivera.</li>
                 </ol>
+            {% elseif order.emc %}
+
+
+
             {% endif %}
         </div>
     {% elseif order.status == 'disputed' %}

@@ -176,6 +176,8 @@ class Order
      */
     private $emcDate;
 
+    private $emcOrderInfos;
+
 
     /**
      * Get id
@@ -647,5 +649,21 @@ class Order
     public function setEmcDate($emcDate)
     {
         $this->emcDate = $emcDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmcOrderInfos()
+    {
+        return $this->emcOrderInfos;
+    }
+
+    /**
+     * @param mixed $emcOrderInfos
+     */
+    public function setEmcOrderInfos($emcOrderInfos)
+    {
+        $this->emcOrderInfos = $emcOrderInfos;
     }
 }

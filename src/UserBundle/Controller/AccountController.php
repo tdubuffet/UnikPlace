@@ -364,18 +364,25 @@ class AccountController extends Controller
             }
         }
 
-        if ($order->getDelivery()->getDeliveryMode()->isEmc()) {
+        if ($order->getDelivery()->getDeliveryMode()->isEmc() && $order->getStatus()->getName() == 'pending') {
             $delivery = $this->get('delivery.emc')->prepareDeliveryByOrder($order);
         }
 
+        if ($order->getEmc() === true) {
+
+            $orderInfos = $this->get('delivery.emc')->orderStatus($order);
+            $order->setEmcOrderInfos($orderInfos);
+
+        }
+
         return [
-            'order'         => $order,
-            'sale'          => $sale,
-            'thread'        => $thread,
-            'formMessage'   => (isset($form)) ? $form->createView() : null,
-            'disputeMessage'   => (isset($form)) ? $form->createView() : null,
-            'formRating'    => (isset($formRating)) ? $formRating->createView() : null,
-            'delivery' => (isset($delivery)) ? $delivery : null
+            'order'             => $order,
+            'sale'              => $sale,
+            'thread'            => $thread,
+            'formMessage'       => (isset($form)) ? $form->createView() : null,
+            'disputeMessage'    => (isset($form)) ? $form->createView() : null,
+            'formRating'        => (isset($formRating)) ? $formRating->createView() : null,
+            'delivery'          => (isset($delivery)) ? $delivery : null
         ];
 
     }

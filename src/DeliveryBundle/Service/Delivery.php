@@ -1,6 +1,7 @@
 <?php
 
 namespace DeliveryBundle\Service;
+use DeliveryBundle\Emc\OrderStatus;
 use DeliveryBundle\Emc\Quotation;
 use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
@@ -329,6 +330,20 @@ class Delivery
         $this->handlerError($lib);
 
         return $lib->order;
+    }
+
+    public function orderStatus(Order $order)
+    {
+
+        $lib = new OrderStatus();
+
+        $lib->getOrderInformations($order->getEmcRef());
+
+
+        $this->handlerError($lib);
+
+        return $lib->order_info;
+
     }
 
     public function handlerError($lib)
