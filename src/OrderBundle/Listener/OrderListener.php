@@ -77,6 +77,8 @@ class OrderListener
     public function validateOrder(Request $request, Order $order)
     {
 
+        $doctrine = $this->container->get('doctrine');
+
         if ($order->getProduct()->getUser() != $this->getConnectedUser() || $order->getStatus()->getName() != 'pending') {
             throw new NotFoundHttpException();
         }
@@ -92,20 +94,20 @@ class OrderListener
                 $attr = clone $attr;
                 $product->addAttributeValue($attr);
                 $attr->setProduct($product);
-                $this->getDoctrine()->getManager()->persist($attr);
+                $doctrine->getManager()->persist($attr);
             }
             foreach ($product->getImages() as $image) {
                 $image = clone $image;
                 $image->setProduct($product);
-                $this->getDoctrine()->getManager()->persist($image);
+                $doctrine->getManager()->persist($image);
             }
             foreach ($product->getDeliveries() as $delivery) {
                 $delivery = clone $delivery;
                 $delivery->setProduct($product);
-                $this->getDoctrine()->getManager()->persist($delivery);
+                $doctrine->getManager()->persist($delivery);
             }
-            $this->getDoctrine()->getManager()->persist($product);
-            $this->getDoctrine()->getManager()->flush();
+            $doctrine->getManager()->persist($product);
+            $doctrine->getManager()->flush();
         }
 
         $this->container->get('order_service')->validateOrder($order, $request, $this->container->get('delivery.emc'));

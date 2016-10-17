@@ -233,23 +233,33 @@
                                 <div class="alert alert-warning" role="alert">
 
                                     {{ delivery.alert|replace({'.' : '.<br />'})|raw }}
-
-                                    {% if delivery.characteristics[1] is defined %}
-                                        <br /><br />
-                                        {{ delivery.characteristics[1] }}
-                                    {% endif %}
                                 </div>
+
+                                {% if delivery.mandatory['disponibilite.HDE'] is defined %}
+                                    <div class="form-group">
+                                        <label class="col-md-5 control-label" for="date-order">Jour de début de disponibilité pour l'enlèvement</label>
+                                        <div class="col-md-6">
+                                            <select name="emc[date-order]" id="date-order" value=""  class="form-control" required >
+                                                <option value="{{ 'now'|date('d/m/Y') }}">A partir d'aujourd'hui</option>
+                                                <option value="{{ 'now'|date_modify('+1 day')|date('d/m/Y') }}">A partir de demain</option>
+                                                <option value="{{ 'now'|date_modify('+2 days')|date('d/m/Y') }}">Après demain</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                {% endif %}
 
                                 {% for key, mandatory in delivery.mandatory %}
 
-                                    {% if key in ['colis.description', 'disponibilite.HDE', 'disponibilite.HLE'] %}
+
+
+                                    {% if key in ['disponibilite.HDE', 'disponibilite.HLE'] %}
                                         {% if mandatory.type == 'string' %}
                                         <div class="form-group">
                                             <label class="col-md-5 control-label" for="{{ key }}">{{ mandatory.label|capitalize }}</label>
                                             <div class="col-md-6">
                                             {% if key in ['disponibilite.HDE', 'disponibilite.HLE'] %}
                                                 <select name="emc[{{ key }}]" id="{{ key }}" value=""  class="form-control" required >
-                                                    {% for hour in 7..21 %}
+                                                    {% for hour in 9..19 %}
                                                         <option value="{{ hour }}H">{% if key == 'disponibilite.HDE' %}A partir de {% else %}Avant {% endif %}{{ hour }}H</option>
                                                     {% endfor %}
                                                 </select>

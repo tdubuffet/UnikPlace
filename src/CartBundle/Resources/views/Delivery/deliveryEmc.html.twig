@@ -69,7 +69,7 @@
                             </td>
                             <td>
                               {{ delivery.service.label }}
-                              <br /><small>{{ delivery.delivery.label }}, prévue le {{ delivery.delivery.date }}</small>
+                              <br /><small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
                             </td>
                             <td class="price" style="width: 25%;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
                           </tr>

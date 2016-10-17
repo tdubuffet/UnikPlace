@@ -155,6 +155,27 @@ class Order
      */
     private $rate = 0;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_enabled", type="boolean")
+     */
+    private $emc = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_ref", type="string", nullable=true)
+     */
+    private $emcRef;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_date", type="string", nullable=true)
+     */
+    private $emcDate;
+
 
     /**
      * Get id
@@ -578,5 +599,53 @@ class Order
     public function getRate()
     {
         return $this->rate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmc()
+    {
+        return $this->emc;
+    }
+
+    /**
+     * @param string $emc
+     */
+    public function setEmc($emc)
+    {
+        $this->emc = $emc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcRef()
+    {
+        return $this->emcRef;
+    }
+
+    /**
+     * @param string $emcRef
+     */
+    public function setEmcRef($emcRef)
+    {
+        $this->emcRef = $emcRef;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcDate()
+    {
+        return $this->emcDate;
+    }
+
+    /**
+     * @param string $emcDate
+     */
+    public function setEmcDate($emcDate)
+    {
+        $this->emcDate = $emcDate;
     }
 }

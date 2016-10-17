@@ -6,6 +6,7 @@ use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 use UserBundle\Entity\User;
 
 /**
@@ -196,7 +197,9 @@ class Delivery
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
-            'offers' => $this->carriersEnabled
+            'offers' => $this->carriersEnabled,
+
+            'assurance.selection' => false,
         );
 
         $parcels = array(
@@ -226,6 +229,12 @@ class Delivery
         return false;
     }
 
+    public function validateDate($date)
+    {
+        $d = \DateTime::createFromFormat('d/m/Y', $date);
+        return $d && $d->format('d/m/Y') === $date;
+    }
+
     public function makeOrder(Order $order, $emcValues)
     {
         $delivery = $this->prepareDeliveryByOrder($order);
@@ -241,7 +250,7 @@ class Delivery
             'prenom'        => $order->getProduct()->getUser()->getLastname(),
             'nom'           => $order->getProduct()->getUser()->getFirstname(),
             'societe'       => $order->getProduct()->getUser()->getCompanyName() . 'ThibaultTEST',
-            'email'         => $order->getProduct()->getUser()->getEmail(),
+            'email'         => 'dubuffet.thibault@gmail.com', //@todo bouchon
             'tel'           => $order->getProduct()->getUser()->getPhone() . '0602030405',
             'infos'         => $order->getProduct()->getAddress()->getAdditional()
         );
@@ -255,7 +264,7 @@ class Delivery
             'civilite'      => 'M', // accepted values are "M" (sir) or "Mme" (madam) //@todo Fix civilité
             'prenom'        => $order->getUser()->getLastname(),
             'nom'           => $order->getUser()->getFirstname(),
-            'email'         => $order->getUser()->getEmail(),
+            'email'         => 'dubuffet.thibault@gmail.com', //@todo bouchon
             'tel'           => $order->getUser()->getPhone() . '0602030405', //@todo FIX PHONE REQUIRED
             'infos'         => $order->getDeliveryAddress()->getAdditional()
         );
@@ -273,16 +282,24 @@ class Delivery
         );
 
         $paramsAdds = [
-            'collecte' => date('Y-m-d'),
-            'delai' => "aucun",
-            'assurance.selection' => false,
-            'content_code' => $order->getId(),
-            'valeur' => $order->getProductAmount(),
-            'operator' => $delivery['operator']['code'],
-            'service' => $delivery['service']['code'],
-            'raison' => 'sale',
-            'content_code' => 40110,
+            'collecte'              => date('Y-m-d'),
+            'delai'                 => "aucun",
+            'assurance.selection'   => false,
+            'content_code'          => $order->getId(),
+            'valeur'                => $order->getProductAmount(),
+            'operator'              => $delivery['operator']['code'],
+            'service'               => $delivery['service']['code'],
+            'raison'                => 'sale',
+            'content_code'          => 40110,//@todo fix content code delivery
         ];
+
+        if (isset($emcValues['date-order']) && $this->validateDate($emcValues['date-order'])) {
+
+            $d = \DateTime::createFromFormat('d/m/Y', $emcValues['date-order']);
+
+            $paramsAdds['collecte'] = $d->format('Y-m-d');
+
+        }
 
         foreach ($delivery['mandatory'] as $key => $manda) {
 
@@ -290,7 +307,7 @@ class Delivery
             switch($key) {
 
                 case 'colis.description':
-                    $paramsAdds['colis.description'] = $emcValues['colis.description'];
+                    $paramsAdds['colis.description'] = $order->getProduct()->getName();
                     break;
 
                 case 'disponibilite.HDE':
