@@ -80,6 +80,12 @@ class Address
      */
     public function getLastname()
     {
+        if (empty($this->lastname)) {
+            $this->lastname = $this->getUser()->getLastname();
+            $this->firstname = $this->getUser()->getFirstname();
+            //@todo Fix empty value - Update delivery
+        }
+
         return $this->lastname;
     }
 
@@ -96,6 +102,12 @@ class Address
      */
     public function getFirstname()
     {
+        if (empty($this->firstname)) {
+            $this->lastname = $this->getUser()->getLastname();
+            $this->firstname = $this->getUser()->getFirstname();
+            //@todo Fix empty value - Update delivery
+        }
+
         return $this->firstname;
     }
 
