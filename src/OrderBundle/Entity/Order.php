@@ -176,7 +176,12 @@ class Order
      */
     private $emcDate;
 
-    private $emcOrderInfos;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_infos", type="array", nullable=true)
+     */
+    private $emcInfos;
 
 
     /**
@@ -652,18 +657,20 @@ class Order
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEmcOrderInfos()
+    public function getEmcInfos()
     {
-        return $this->emcOrderInfos;
+        return $this->emcInfos;
     }
 
     /**
-     * @param mixed $emcOrderInfos
+     * @param string $emcInfos
      */
-    public function setEmcOrderInfos($emcOrderInfos)
+    public function setEmcInfos($emcInfos)
     {
-        $this->emcOrderInfos = $emcOrderInfos;
+        $this->emcInfos = $emcInfos;
     }
+
+    
 }

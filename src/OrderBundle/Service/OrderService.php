@@ -248,10 +248,10 @@ class OrderService
             $emc = $deliveryService->makeOrder($order, $emcValues);
 
             if ($emc) {
-
                 $order->setEmc(true);
                 $order->setEmcDate($emc['date']);
                 $order->setEmcRef($emc['ref']);
+                $order->setEmcInfos($emc);
             }
 
         }

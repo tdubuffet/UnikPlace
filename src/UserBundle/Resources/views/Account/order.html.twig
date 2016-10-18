@@ -11,13 +11,13 @@
 
     <h2>
 
-        {% if sale %}Vente{% else %}Achat{% endif %} n°{{ order.id }}
+        {% if sale %}Vente{% else %}Commande{% endif %}: n°{{ order.id }}
 
 
         <div class="order-status">
-            <span class="order-status-label">Statut :</span>
+            <span class="order-status-label">Etat :</span>
             {% if order.status == 'pending' %}
-                <span class="label label-success">En attente de confirmation</span>
+                <span class="label label-success">En attente</span>
             {% endif %}
             {% if order.status == 'accepted' %}
                 <span class="label label-success">Confirmé</span>
@@ -26,7 +26,7 @@
                 <span class="label label-danger">Annulé</span>
             {% endif %}
             {% if order.status == 'disputed' %}
-                <span class="label label-success">Litige en cours</span>
+                <span class="label label-success">Litige</span>
             {% endif %}
             {% if order.status == 'done' %}
                 <span class="label label-success">Terminé</span>
@@ -38,7 +38,6 @@
 
     </h2>
 
-
     {% for key, flashs in app.session.getFlashBag.all() %}
 
         <div class="alert alert-{{ key }}">
@@ -49,6 +48,149 @@
 
     {% endfor %}
 
+    <div class="product-data">
+
+        <div class="row">
+            <div class="col-md-2">
+                {% set images = order.product.getImages() %}
+                <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 300, 300) }}{% endif %}"
+                     alt="{{ order.product.name }}"/>
+            </div>
+
+            <div class="col-md-5">
+                <div class="box-order-infos">
+                    <div class="order-infos-head">
+                        <strong>A propos de {% if sale %}la vente{% else %}l'achat{% endif %}</strong>
+                    </div>
+                    <div class="order-infos-body">
+                        <ul>
+                            <li>
+                                <span>Produit</span><br /><a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a>
+                            </li>
+                            <li><span>Prix</span>{{ order.productAmount|number_format(2, '.', ' ') }} €</li>
+                            <li>
+                                <span>Etat</span>
+                                {% if order.status == 'pending' %}
+                                    En attente
+                                {% endif %}
+                                {% if order.status == 'accepted' %}
+                                    Confirmé
+                                {% endif %}
+                                {% if order.status == 'canceled' %}
+                                    Annulé
+                                {% endif %}
+                                {% if order.status == 'disputed' %}
+                                    Litige
+                                {% endif %}
+                                {% if order.status == 'done' %}
+                                    Terminé
+                                {% endif %}
+                                {% if order.status == 'error' %}
+                                    Erreur
+                                {% endif %}
+                            </li>
+                            <li>
+                                <span>Commandé</span>
+                                {{ order.createdAt|date('d M') }}.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="box-order-infos">
+                    <div class="order-infos-head">
+                        <strong>A propos de l'envoi</strong>
+                    </div>
+                    <div class="order-infos-body">
+                        <ul>
+                            <li>
+                                <span>Type</span>{{ order.delivery.deliveryMode.name }}
+                            </li>
+                            {% if order.delivery.deliveryMode.code != "by_hand" %}
+                                {% if order.delivery.deliveryMode.code =='customer' %}
+                                <li>
+                                    <span>Frais de port</span>{{ order.delivery.fee }} €
+                                </li>
+                                {% endif %}
+                                {% if order.deliveryAddress is defined %}
+                                    <li>
+                                        <span>Livraison</span><br />{{ order.deliveryAddress }}
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% if order.status != 'canceled' and order.status != 'disputed' and order.status != 'error' %}
+    <div class="timeline-product">
+
+        {% if order.status == 'pending' %}
+            {% set width = '2' %}
+        {% endif %}
+        {% if order.status == 'accepted' %}
+            {% set width = '25' %}
+        {% endif %}
+        {% if order.status == 'done' %}
+            {% set width = '100' %}
+        {% endif %}
+
+
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ width }}%;"></div>
+        </div>
+
+        <div class="info date-start-order">
+            Commandé<br />
+            <div class="small">
+                {{ order.createdAt|date('d M') }}.
+            </div>
+        </div>
+
+        <div class="info date-confirmed-order">
+            Confirmé<br />
+            <div class="small">
+                {{ order.mangopayPayinDate|date('d M') }}.
+            </div>
+        </div>
+
+        <div class="info date-send-order">
+            Expédié<br />
+            <div class="small">
+                {% if order.emc %}
+                    {{ order.emcInfos.collection.date|date('d M') }}.
+                {% else %}
+                    {{ order.mangopayPayinDate|date('d M') }}.
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="info date-arrival-order">
+            Livraison<br />
+            <div class="small">
+                {% if order.emc  %}
+                    {{ order.emcInfos.delivery.date|date('d M') }}.
+                {% else %}
+                    {{ order.mangopayPayinDate|date('d M') }}.
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="info date-end-order">
+            Terminé
+        </div>
+    </div>
+    {% endif %}
+
+
+
     {% if order.status == 'pending' %}
         {% if sale %}
 
@@ -58,7 +200,7 @@
                 {% if order.delivery.deliveryMode.code == 'tracked_letter' or order.delivery.deliveryMode.code == 'parcel' %}
                     <p>Les frais de port sont remboursés par {{ siteName }}.</p>
                 {% endif %}
-                <p>Tous les détails de la vente sont disponibles ci-dessous.</p>
+                <p>Tous les détails de la vente sont disponibles ci-dessus.</p>
             </div>
 
         {% else %}
@@ -99,7 +241,7 @@
         </div>
     {% elseif order.status == 'accepted' and sale == true %}
         <div class="order-summary">
-            <h3 class="order-summary-title">Commande confirmée</h3>
+            <h3 class="order-summary-title">Commande confirmée & livraison</h3>
             {% if order.delivery.deliveryMode.code == 'by_hand' %}
                 <ol class="order-instructions">
                     <li>Convenez rapidement d'un rendez-vous avec l'acheteur.</li>
@@ -109,7 +251,7 @@
                 <ol class="order-instructions">
                     <li>Préparez votre colis avec le produit commandé à l'intérieur et envoyez le à l'adresse suivante:</li>
                     <address>
-                        {{ order.deliveryAddress.name }}<br/>
+                        {{ order.deliveryAddress.firstname }} {{ order.deliveryAddress.lastname }}<br/>
                         {{ order.deliveryAddress.street }}{% if order.deliveryAddress.additional %} - {{ order.deliveryAddress.additional }}{% endif %}<br/>
                         {{ order.deliveryAddress.city.zipcode }} {{ order.deliveryAddress.city.name }} France
                     </address>
@@ -119,7 +261,23 @@
                 </ol>
             {% elseif order.emc %}
 
+                L'acheteur a choisit de se faire livrer son produit par <b>{{ order.delivery.deliveryMode.name }}</b>.<br /><br />
 
+                <b>Instruction sur l'expédition du produit</b><br />
+                {% if order.emcInfos.collection.code == "POST_OFFICE" %}
+                    Vous devez déposer votre colis en bureau de poste avant le
+                {% elseif order.emcInfos.collection.code == "COMPANY" %}
+                    Le transporteur enlèvera votre colis directement dans votre entreprise à partir du
+                {% elseif order.emcInfos.collection.code == "HOME" %}
+                    Le transporteur enlèvera votre colis chez vous à partir du
+                {% endif %}
+
+                <b>{{ order.emcInfos.collection.date|date('d/m/Y') }}</b>.<br /><br />
+
+                <ul>
+                    <li>Votre colis doit être prêt avant le <b>{{ order.emcInfos.collection.date|date('d/m/Y') }}</b></li>
+                    <li>{{ order.emcInfos.alerts[0]|replace({"Avant de passer commande, assurez-vous que l'expéditeur pourra imprimer": 'Vous devez imprimer et coller sur le colis'})|replace({'.' : '.</li><li>'})|raw }}</li>
+                </ul>
 
             {% endif %}
         </div>
@@ -152,50 +310,6 @@
     {% endif %}
 
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="box-order-infos">
-                <div class="order-infos-head">
-                    <strong>A propos de {% if sale %}la vente{% else %}l'achat{% endif %}</strong>
-                </div>
-                <div class="order-infos-body">
-                    <ul>
-                        <li>
-                            <span>Produit</span><a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a>
-                        </li>
-                        <li><span>Prix de la commande</span>{{ order.amount|number_format(2, '.', ' ') }} €</li>
-                        <li><span>Prix du produit</span>{{ order.productAmount|number_format(2, '.', ' ') }} €</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="box-order-infos">
-                <div class="order-infos-head">
-                    <strong>A propos de l'envoi</strong>
-                </div>
-                <div class="order-infos-body">
-                    <ul>
-                        <li>
-                            <span>Type</span>{{ order.delivery.deliveryMode.name }}
-                        </li>
-                        {% if order.delivery.deliveryMode.code != 'by_hand' %}
-                            <li>
-                                <span>Frais de port</span>{{ order.delivery.fee }} €
-                            </li>
-                            {% if order.deliveryAddress is defined %}
-                                <li>
-                                    <span>Livraison</span>{{ order.deliveryAddress.name }} - {{ order.deliveryAddress.street }}{% if order.deliveryAddress.additional %} - {{ order.deliveryAddress.additional }}{% endif %} {{ order.deliveryAddress.city }}
-                                </li>
-                            {% endif %}
-                        {% endif %}
-
-                    </ul>
-
-                </div>
-            </div>
-        </div>
-    </div>
 
     {% if order.status == 'pending' and sale %}
         <div class="order-summary">
@@ -258,20 +372,20 @@
 
                                     {% if key in ['disponibilite.HDE', 'disponibilite.HLE'] %}
                                         {% if mandatory.type == 'string' %}
-                                        <div class="form-group">
-                                            <label class="col-md-5 control-label" for="{{ key }}">{{ mandatory.label|capitalize }}</label>
-                                            <div class="col-md-6">
-                                            {% if key in ['disponibilite.HDE', 'disponibilite.HLE'] %}
-                                                <select name="emc[{{ key }}]" id="{{ key }}" value=""  class="form-control" required >
-                                                    {% for hour in 9..19 %}
-                                                        <option value="{{ hour }}H">{% if key == 'disponibilite.HDE' %}A partir de {% else %}Avant {% endif %}{{ hour }}H</option>
-                                                    {% endfor %}
-                                                </select>
-                                            {% else %}
-                                                <input type="text" name="emc[{{ key }}]" id="{{ key }}" value="" placeholder="" required class="form-control" />
-                                            {% endif %}
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label" for="{{ key }}">{{ mandatory.label|capitalize }}</label>
+                                                <div class="col-md-6">
+                                                    {% if key in ['disponibilite.HDE', 'disponibilite.HLE'] %}
+                                                        <select name="emc[{{ key }}]" id="{{ key }}" value=""  class="form-control" required >
+                                                            {% for hour in 9..19 %}
+                                                                <option value="{{ hour }}H">{% if key == 'disponibilite.HDE' %}A partir de {% else %}Avant {% endif %}{{ hour }}H</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    {% else %}
+                                                        <input type="text" name="emc[{{ key }}]" id="{{ key }}" value="" placeholder="" required class="form-control" />
+                                                    {% endif %}
+                                                </div>
                                             </div>
-                                        </div>
                                         {% endif %}
                                     {% endif %}
 

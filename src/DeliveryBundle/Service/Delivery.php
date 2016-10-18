@@ -325,7 +325,7 @@ class Delivery
         }
 
         $lib = new Quotation();
-        $lib->makeOrder($from, $to, $parcels, $paramsAdds);
+        $lib->makeOrder($from, $to, $parcels, $paramsAdds, true);
 
         $this->handlerError($lib);
 
