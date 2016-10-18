@@ -1,4 +1,4 @@
 services:
     delivery.emc:
         class: DeliveryBundle\Service\Delivery
-        arguments: ['%emc%']
+        arguments: ['%emc%', '@router']

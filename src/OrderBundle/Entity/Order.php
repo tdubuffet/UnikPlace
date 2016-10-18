@@ -183,6 +183,19 @@ class Order
      */
     private $emcInfos;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_tracking", type="array", nullable=true)
+     */
+    private $emcTracking;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_status", type="array", nullable=true)
+     */
+    private $emcStatus;
 
     /**
      * Get id
@@ -672,5 +685,36 @@ class Order
         $this->emcInfos = $emcInfos;
     }
 
+    /**
+     * @return string
+     */
+    public function getEmcTracking()
+    {
+        return $this->emcTracking;
+    }
+
+    /**
+     * @param string $emcTracking
+     */
+    public function setEmcTracking($emcTracking)
+    {
+        $this->emcTracking = $emcTracking;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcStatus()
+    {
+        return $this->emcStatus;
+    }
+
+    /**
+     * @param string $emcStatus
+     */
+    public function setEmcStatus($emcStatus)
+    {
+        $this->emcStatus = $emcStatus;
+    }
     
 }

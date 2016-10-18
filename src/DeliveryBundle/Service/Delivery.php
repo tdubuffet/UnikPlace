@@ -7,6 +7,7 @@ use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\Constraints\DateTime;
 use UserBundle\Entity\User;
 
@@ -21,7 +22,9 @@ class Delivery
 
     private $carriersEnabled;
 
-    public function __construct($parameters)
+    private $router;
+
+    public function __construct($parameters, Router $router)
     {
 
         if (!isset($parameters['mode']) || !isset($parameters['user']) || !isset($parameters['pass']) || !isset($parameters['key']) || !isset($parameters['carriers'])){
@@ -31,6 +34,8 @@ class Delivery
         }
 
         $this->carriersEnabled = $parameters['carriers'];
+
+        $this->router = $router;
 
         define("EMC_MODE", $parameters['mode']);
         define("EMC_USER", $parameters['user']);
@@ -291,7 +296,11 @@ class Delivery
             'operator'              => $delivery['operator']['code'],
             'service'               => $delivery['service']['code'],
             'raison'                => 'sale',
-            'content_code'          => 40110,//@todo fix content code delivery
+            'content_code'          => 40110,
+            'url_push'              => $this->router->generate('emc_tracking', [
+                'order' => $order->getId(),
+                'key' => md5('emc_delivery')
+            ])//@todo fix content code delivery
         ];
 
         if (isset($emcValues['date-order']) && $this->validateDate($emcValues['date-order'])) {
