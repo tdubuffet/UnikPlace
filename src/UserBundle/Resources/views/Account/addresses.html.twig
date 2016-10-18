@@ -4,7 +4,10 @@
 
 {% block description %}{% endblock %}
 
-{% block javascript_include %}{{ jsinit(['addAddress', 'addresses']) }}{% endblock javascript_include %}
+{% block javascript_include %}
+  <script src="http://maps.google.com/maps/api/js?signed_in=true&libraries=places&language=fr-FR&key=AIzaSyAL1vLUAUrxtm8Rrbzh4bRPJwrjfCf7Ycw" type="text/javascript"></script>
+  {{ jsinit(['addAddress', 'addresses']) }}
+{% endblock javascript_include %}
 
 {% block account_content %}
   <h2 class="page-title title-h2">Mes adresses</h2>
@@ -26,7 +29,7 @@
       <table class="table table-addresses">
         <thead>
         <tr>
-          <th>Nom Prénom</th>
+          <th>Nom/Prénom</th>
           <th>Rue</th>
           <th>Ville</th>
           <th>Code postal</th>
@@ -36,13 +39,12 @@
         <tbody>
         {% for address in addresses %}
           <tr>
-            <td>{{ address.name }}</td>
+            <td>{{ address.firstname }}  {{ address.lastname }}</td>
             <td>{{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %}</td>
             <td>{{ address.city.name }}</td>
             <td>{{ address.city.zipcode }}</td>
             <td>
-              {% set formated = "#{address.name} - #{address.street} #{address.city.zipcode} #{address.city.name}" %}
-              <button class="btn btn-danger btn-xs" data-id="{{ address.id }}" data-name="{{ formated }}"
+              <button class="btn btn-danger btn-xs" data-id="{{ address.id }}" data-name="{{ address }}"
                       title="Supprimer mon adresse">
                 <i class="fa fa-trash"></i>
               </button>
@@ -57,36 +59,8 @@
   {% else %}
     <p>Vous n'avez aucune adresse d'associée à votre compte pour le moment</p>
   {% endif %}
-  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalTitle">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                    aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="addAddressModalTitle">Ajouter une adresse à mon compte</h4>
-        </div>
-        {{ form_start(addAddressForm, {'attr': {'id': 'add-address-form'}}) }}
-        <div class="modal-body">
-          {{ form_row(addAddressForm.name) }}
-          {{ form_row(addAddressForm.street) }}
-          {{ form_row(addAddressForm.additional) }}
-          <div class="form-group">
-            <label class="control-label required" for="address_city">Ville</label>
-            <select id="address_city" name="address[city]" required="required"
-                    class="select-select2 autocomplete-city form-control">
-              <option value="">Sélectionnez un code postal</option>
-            </select>
-          </div>
-          {{ form_row(addAddressForm.country) }}
-        </div>
-        <div class="modal-footer">
-          {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
-        </div>
-        {{ form_end(addAddressForm) }}
-      </div>
-    </div>
-  </div>
 
 
+  {% include 'UserBundle:Account:FormAddress.html.twig' with { 'addAddressForm' : addAddressForm} %}
 {% endblock %}
 

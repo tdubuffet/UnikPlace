@@ -3,6 +3,7 @@
 namespace LocationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,12 +15,33 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'Nom du destinataire', 'required' => true])
-            ->add('street', TextType::class, ['label' => 'Adresse', 'required' => true])
-            ->add('additional', TextType::class, ['label' => 'Complément d\'adresse', 'required' => false])
-            ->add('country', TextType::class, ['mapped' => false, 'label' => 'Pays', 'disabled' => true, 'data' => 'FRANCE'])
-            ->add('save', SubmitType::class, ['label' => 'Ajouter cette adresse'])
-            ;
+            ->add('firstname', TextType::class, [
+                'label' => 'Nom du destinataire',
+                'required' => true
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Prénom du destinataire',
+                'required' => true
+            ])
+            ->add('street', TextType::class, [
+                'label' => 'Votre adresse',
+                'required' => true,
+                'attr' => [
+                ]
+            ])
+            ->add('additional', TextType::class, [
+                'label' => 'Complément d\'adresse',
+                'required' => false
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Ajouter cette adresse'
+            ])
+            ->add('street_number', HiddenType::class)
+            ->add('locality', HiddenType::class)
+            ->add('route', HiddenType::class)
+            ->add('administrative_area_level_1', HiddenType::class)
+            ->add('postal_code', HiddenType::class)
+            ->add('country', HiddenType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -315,10 +315,11 @@ class DepositController extends Controller
 
     /**
      * @Route("/etape-5", name="sell_shipping")
+     * @Method({"GET"})
      * @Template("DepositBundle:Deposit:shipping.html.twig")
      * @return array|RedirectResponse
      */
-    public function shippingAction()
+    public function shippingAction(Request $request)
     {
         $deposit = $this->get('session')->get('deposit');
         if (!$deposit || !isset($deposit['price'])) {
@@ -326,8 +327,11 @@ class DepositController extends Controller
             return $this->redirectToRoute('sell_price');
         }
 
-        $address = new Address();
-        $addAddressForm = $this->createForm(AddressType::class, $address);
+        $addressForm = $this->get('user.address_form')->getForm(
+            $request,
+            $this->getUser(),
+            true
+        );
 
         // Load previous entered data in shipping form
         $shippingFormData = [];
@@ -344,11 +348,15 @@ class DepositController extends Controller
         $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
             ->findBy(['user' => $this->getUser()], ['id' => 'DESC']);
 
-        return ['addresses' => $addresses, 'addAddressForm' => $addAddressForm->createView(), 'shippingFormData' => $shippingFormData];
+        return [
+            'addresses' => $addresses,
+            'addAddressForm' => $addressForm->createView(),
+            'shippingFormData' => $shippingFormData
+        ];
     }
 
     /**
-     * @Route("/deposit_postshipping", name="deposit_postshipping")
+     * @Route("/etape-5", name="deposit_postshipping")
      * @Method({"POST"})
      * @param Request $request
      * @throws \Exception
@@ -360,21 +368,14 @@ class DepositController extends Controller
             $deposit = $this->get('session')->get('deposit');
 
             if ($request->request->has('address')) {
-                $address = new Address();
-                $form = $this->createForm(AddressType::class, $address);
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $cityId = $request->request->get('address')['city'];
-                    $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneBy(['id' => $cityId]);
-                    if (!$city) {
-                        throw new \Exception('Cannot find city.');
-                    }
-                    $address->setCity($city)->setUser($this->getUser());
-                    $this->getUser()->setPhone($request->request->get('phone'));
-                    $this->getDoctrine()->getManager()->persist($address);
-                    $this->getDoctrine()->getManager()->persist($this->getUser());
-                    $this->getDoctrine()->getManager()->flush();
 
+                $addressForm = $this->get('user.address_form')->getForm(
+                    $request,
+                    $this->getUser(),
+                    true
+                );
+
+                if ($addressForm === true) {
                     // Store user phone in session
                     $deposit['phone'] = $request->request->get('phone');
                     $this->get('session')->set('deposit', $deposit);

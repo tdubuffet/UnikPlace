@@ -1,4 +1,8 @@
 services:
+    user.address_form:
+        class: UserBundle\Service\AddressForm
+        arguments: ['@form.factory', '@doctrine.orm.entity_manager']
+
     user.registration_listener:
         class: UserBundle\EventListener\RegistrationListener
         arguments: ['@mangopay_service', '@doctrine.orm.entity_manager', '@router']

@@ -112,15 +112,18 @@ class DeliveryController extends Controller
      */
     public function addressAction(Request $request)
     {
-        $session = new Session();
+        $session = $this->get('session');
         $cart = $session->get('cart', array());
         if (empty($cart)) {
             // Redirect to homepage if cart is empty
             return $this->redirectToRoute('homepage');
         }
 
-        $address = new Address;
-        $addAddressForm = $this->createForm(AddressType::class, $address);
+        $addressForm = $this->get('user.address_form')->getForm(
+            $request,
+            $this->getUser(),
+            true
+        );
         
         $addresses = $this->getDoctrine()
             ->getRepository("LocationBundle:Address")
@@ -145,7 +148,7 @@ class DeliveryController extends Controller
         }
 
         return [
-            'addAddressForm' => $addAddressForm->createView(),
+            'addAddressForm' => $addressForm->createView(),
             'selectAddressForm' => $selectAddressForm->createView(),
             'addresses' => $addresses,
             'by_hand_only' => $byHandOnly
@@ -160,32 +163,14 @@ class DeliveryController extends Controller
     {
         if ($request->request->has('address')) {
 
-            $address    = new Address;
-            $form       = $this->createForm(AddressType::class, $address);
+            $addressForm = $this->get('user.address_form')->getForm(
+                $request,
+                $this->getUser(),
+                true
+            );
 
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                $city = $this->getDoctrine()->getRepository('LocationBundle:City')->find(
-                    $request->request->get('address')['city']
-                );
-
-                if (!$city) {
-                    throw new \Exception('Cannot find city.');
-                }
-
-                $address->setCity($city);
-                $address->setUser(
-                    $this->getUser()
-                );
-
-                $this->getDoctrine()->getManager()->persist($address);
-                $this->getDoctrine()->getManager()->flush();
-
-                $this->get('session')
-                    ->getFlashBag()
-                    ->add('notice', 'Adresse ajoutée avec succès.');
+            if ($addressForm === true) {
+                $this->addFlash('success', 'L\'adresse a bien été ajoutée');
             }
         } else if ($request->request->has('select_cart_address')) {
 

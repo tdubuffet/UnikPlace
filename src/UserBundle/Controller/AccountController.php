@@ -753,47 +753,27 @@ class AccountController extends Controller
      */
     public function addressesAction(Request $request)
     {
-        $address = new Address();
-        $addAddressForm = $this->createForm(AddressType::class, $address);
-        $addAddressForm->handleRequest($request);
 
-        $addresses = $this->getDoctrine()
+        $addressForm = $this->get('user.address_form')->getForm(
+            $request,
+            $this->getUser(),
+            true
+        );
+
+        if ($addressForm === true) {
+            $this->addFlash('success', 'L\'adresse a bien été ajoutée');
+
+            return $this->redirectToRoute('user_addresses');
+        }
+
+        $addresses =
+            $this->getDoctrine()
             ->getRepository("LocationBundle:Address")
             ->findBy(['user' => $this->getUser()]);
 
-        if ($addAddressForm->isValid() && $addAddressForm->isSubmitted()) {
-
-            $city = $request->request
-                ->get('address')['city'];
-
-            $city = $this->getDoctrine()
-                ->getRepository('LocationBundle:City')
-                ->findOneBy(['id' => $city]);
-
-            if (!$city) {
-                throw new \Exception('Cannot find city.');
-            }
-
-            $address->setCity($city)
-                    ->setUser($this->getUser());
-
-            $this->getDoctrine()
-                ->getManager()
-                ->persist($address);
-
-            $this->getDoctrine()
-                ->getManager()
-                ->flush();
-
-            $this->addFlash('success', 'L\'adresse a bien été ajoutée');
-
-            return $this->redirectToRoute("user_addresses");
-        }
-
-
         return [
             'addresses' => $addresses,
-            'addAddressForm' => $addAddressForm->createView()
+            'addAddressForm' => $addressForm->createView()
         ];
     }
 

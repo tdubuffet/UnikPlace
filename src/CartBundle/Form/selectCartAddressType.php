@@ -14,7 +14,7 @@ class SelectCartAddressType extends AbstractType
     {
         $choices = [];
         foreach ($options['addresses'] as $address) {
-            $choices[$address->getName(). ' ' .$address->getStreet().' '.$address->getCity()->getZipcode().' '.$address->getCity()->getName()] = $address->getId();
+            $choices[(string) $address] = $address->getId();
         }
 
         $builder

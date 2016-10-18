@@ -3,7 +3,10 @@
 {% block title %}{{ 'cart.title'|trans({}, 'seo') }}{% endblock %}
 {% block description %}{{ 'cart.description'|trans({ '%siteName%': siteName }, 'seo') }}{% endblock %}
 
-{% block javascript_include %}{{ jsinit(['addAddress']) }}{% endblock javascript_include %}
+{% block javascript_include %}
+  <script src="http://maps.google.com/maps/api/js?signed_in=true&libraries=places&language=fr-FR&key=AIzaSyAL1vLUAUrxtm8Rrbzh4bRPJwrjfCf7Ycw" type="text/javascript"></script>
+  {{ jsinit(['addAddress']) }}
+{% endblock javascript_include %}
 
 {%- block choice_widget -%}
   {% spaceless %}
@@ -80,33 +83,6 @@
 </div><!-- .main-wrapper -->
 
 
-<!-- Add address Modal -->
-<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalTitle">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="addAddressModalTitle">Ajouter une adresse à mon compte</h4>
-      </div>
-      {{ form_start(addAddressForm) }}
-      <div class="modal-body">
-        {{ form_row(addAddressForm.name) }}
-        {{ form_row(addAddressForm.street) }}
-        {{ form_row(addAddressForm.additional) }}
-        <div class="form-group">
-          <label class="control-label required" for="address_city">Ville</label>
-          <select id="address_city" name="address[city]" required="required" class="autocomplete-city form-control">
-            <option value="" selected="selected">Sélectionnez un code postal</option>
-          </select>
-        </div>
-        {{ form_row(addAddressForm.country) }}
-      </div>
-      <div class="modal-footer">
-        {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary btn-sm'}}) }}
-      </div>
-      {{ form_end(addAddressForm) }}
-    </div>
-  </div>
-</div>
+{% include 'UserBundle:Account:FormAddress.html.twig' with { 'addAddressForm' : addAddressForm} %}
 
 {% endblock %}

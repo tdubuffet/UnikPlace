@@ -27,9 +27,16 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255)
      */
-    private $name;
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastname", type="string", length=255)
+     */
+    private $lastname;
 
     /**
      * @var string
@@ -66,6 +73,38 @@ class Address
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
     }
 
     /**
@@ -140,32 +179,8 @@ class Address
         return $this->user;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Address
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
     public function __toString() {
-        return $this->name.' - '.$this->street.(!is_null($this->additional) ? '- '.$this->additional : '').' ('.$this->getCity()->getZipcode().' '.$this->getCity()->getName().')';
+        return $this->firstname.' ' . $this->lastname . ' - '.$this->street.(!is_null($this->additional) ? '- '.$this->additional : '').' ('.$this->getCity()->getZipcode().' '.$this->getCity()->getName().')';
     }
 
     /**
