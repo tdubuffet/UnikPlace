@@ -119,6 +119,19 @@
                                         <span>Livraison</span><br />{{ order.deliveryAddress }}
                                     </li>
                                 {% endif %}
+                                {% if order.emcTracking['etat'] is defined and order.emcTracking['etat'] == 'ENV' %}
+                                    <li>
+                                        <span>Localisation du colis</span> {{ order.emcTracking['localisation'] }}
+                                    </li>
+                                {% endif %}
+
+
+                                {% if order.emcTracking['etat'] is defined and order.emcTracking['etat'] == 'LIV' %}
+                                    <li>
+                                        <span>Localisation du colis</span> Livré
+                                    </li>
+                                {% endif %}
+
                             {% endif %}
 
                         </ul>
@@ -136,7 +149,16 @@
             {% set width = '2' %}
         {% endif %}
         {% if order.status == 'accepted' %}
-            {% set width = '25' %}
+            {% if order.emcTracking['etat'] is not defined %}
+                {% set width = '25' %}
+            {% elseif order.emcTracking['etat'] == 'ENV' %}
+                {% set width = '50' %}
+            {% elseif order.emcTracking['etat'] == 'CMD' %}
+                {% set width = '25' %}
+            {% elseif order.emcTracking['etat'] == 'LIV' %}
+                {% set width = '75' %}
+            {% endif %}
+
         {% endif %}
         {% if order.status == 'done' %}
             {% set width = '100' %}
@@ -173,7 +195,7 @@
         </div>
 
         <div class="info date-arrival-order">
-            Livraison<br />
+        {% if order.emcTracking['etat'] is defined and order.emcTracking['etat'] == 'LIV' %}Livré{% else %}Livraison{% endif %}<br />
             <div class="small">
                 {% if order.emc  %}
                     {{ order.emcInfos.delivery.date|date('d M') }}.
@@ -277,6 +299,7 @@
                 <ul>
                     <li>Votre colis doit être prêt avant le <b>{{ order.emcInfos.collection.date|date('d/m/Y') }}</b></li>
                     <li>{{ order.emcInfos.alerts[0]|replace({"Avant de passer commande, assurez-vous que l'expéditeur pourra imprimer": 'Vous devez imprimer et coller sur le colis'})|replace({'.' : '.</li><li>'})|raw }}</li>
+                    <li><br /><a href="" class="btn btn-primary">Télécharger le bordereau d'expédition</a></li>
                 </ul>
 
             {% endif %}
