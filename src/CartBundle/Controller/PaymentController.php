@@ -2,6 +2,7 @@
 
 namespace CartBundle\Controller;
 
+use MangoPay\Libraries\Exception;
 use OrderBundle\Entity\DeliveryMode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -43,6 +44,7 @@ class PaymentController extends Controller
         $cartDelivery   = $session->get('cart_delivery');
         $deliveries     = $session->get('cart_delivery_emc');
         $selectedDeliveryEmc = [];
+        $selectStandardDeliveries = [];
         $cartAddresses  = $session->get('cart_addresses');
         $cartDeliveryFinal = [];
 
@@ -76,10 +78,29 @@ class PaymentController extends Controller
                 throw new \Exception('Not found delivery type');
             }
 
+            $standardDeliveries = [];
+            foreach ($product->getDeliveries() as $d) {
+                $standardDeliveries[$d->getDeliveryMode()->getCode()] = $d;
+            }
+
+
 
             if (isset($deliveries[$product->getId()])) {
-                $deliveryEmc = $deliveries[$product->getId()][$cartDelivery[$product->getId()]];
-                $selectedDeliveryEmc[$product->getId()] = $deliveryEmc;
+
+                if (isset($deliveries[$product->getId()][$cartDelivery[$product->getId()]])){
+                    $deliveryEmc = $deliveries[$product->getId()][$cartDelivery[$product->getId()]];
+                    $selectedDeliveryEmc[$product->getId()] = $deliveryEmc;
+
+                } elseif(isset($standardDeliveries[$cartDelivery[$product->getId()]])) {
+
+                    $selectStandardDeliveries[$product->getId()] = $standardDeliveries[$cartDelivery[$product->getId()]];
+
+                } else {
+                    throw new \Exception('Not valid delivery');
+                }
+
+            } else {
+                throw new \Exception('Not valid delivery');
             }
 
             $deliveryModeCode = $cartDelivery[$product->getId()];
@@ -185,7 +206,8 @@ class PaymentController extends Controller
             'deliveryModes' => $cartDeliveryFinal,
             'addresses' => $addresses,
             'cardRegistration' => $cardRegistration,
-            'selectedDeliveryEmc' => $selectedDeliveryEmc
+            'selectedDeliveryEmc' => $selectedDeliveryEmc,
+            'standardDeliveries' => $selectStandardDeliveries
         ];
     }
 

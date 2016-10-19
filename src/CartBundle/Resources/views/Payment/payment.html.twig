@@ -6,195 +6,200 @@
 {% block javascript_include %}{{ jsinit(['payment']) }}{% endblock javascript_include %}
 
 {% block body %}
-  <div class="main-wrapper">
-    <div class="container">
-      <div class="main">
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="main">
 
-        <div class="page-steps row">
-          <div class="col-sm-3">
-            <div class="page-step">Mon Panier</div>
-          </div>
-          <div class="col-sm-3">
-            <div class="page-step">Mon adresse</div>
-          </div>
-          <div class="col-sm-3">
-            <div class="page-step">Mode de livraison</div>
-          </div>
-          <div class="col-sm-3">
-            <div class="page-step active">Paiement</div>
-          </div>
-        </div>
-
-        {% for flashMessage in app.session.flashbag.get('error') %}
-          <div class="alert alert-danger">{{ flashMessage }}</div>
-        {% endfor %}
-
-        <div>
-
-          <div class="row">
-            <div class="col-md-5">
-              <h2 class="h3">Récapitulatif</h2>
-              <div  class="row">
-                <div class="col-md-6">
-                  <h5>Adresse de livraison</h5>
-                  {% if addresses.delivery_address is defined %}
-                    {% set deliveryAddress = addresses.delivery_address %}
-                    {{ deliveryAddress.getName() }}<br/>{{ deliveryAddress.getStreet() }}{% if deliveryAddress.getAdditional() %} {{ deliveryAddress.getAdditional() }}{% endif %} <br/>{{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
-                  {% endif %}
-                </div>
-                <div class="col-md-6">
-                  <h5>Adresse de facturation</h5>
-                  {% if addresses.billing_address is defined %}
-                    {% set billingAddress = addresses.billing_address %}
-                    {{ billingAddress.getName() }}<br />{{ billingAddress.getStreet() }}{% if billingAddress.getAdditional() %} {{ billingAddress.getAdditional() }}{% endif %} <br/>{{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}
-                    <br/>
-                  {% endif %}
-                </div>
-
-              </div>
-
-              <br /><br />
-
-              <div class="table-responsive">
-                <table class="table table-carts">
-                  <thead>
-                  <tr>
-                    <th>Produit</th>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Total</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  {% for product in products %}
-                    <tr>
-                      <td rowspan="2">
-                        <a target="_blank"
-                           href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
-                          {% if product.getImages()[0] is defined %}<img
-                            src="{{ loadpic(product.getImages()[0], 50, 50, "r3") }}"
-                            alt="{{ product.name }} " />{% endif %}
-                        </a>
-                      </td>
-                      <td style="width: 40%">
-                        <a target="_blank"
-                             href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
-                          {{ product.name }}
-                        </a>
-                      </td>
-                      <td class="text-center">
-                        {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
-                        {% if product.getCurrency.getCode != 'EUR' %}
-                          ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
-                        {% endif %}
-                      </td>
-                      <td rowspan="2" class="text-right">
-                        {{ (product.price+selectedDeliveryEmc[product.id]['price']['tax-inclusive'])|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Livré par {{ deliveryModes[product.getId()] }}
-                      </td>
-
-                      <td class="text-center">
-                        {% if deliveryModes[product.id].type == 'parcel_carrier' %}
-                          {{ selectedDeliveryEmc[product.id]['price']['tax-inclusive']|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }}
-                        {% endif %}
-                      </td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                  <tfoot class="text-right">
-                    <tr>
-                      <td colspan="3" class="text-right label-table">Total</td>
-                      <td colspan="1">{{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-            <div class="col-md-6 col-md-offset-1">
-              <div class="row">
-                <div class="col-md-12">
-
-                  <h2 class="h3">Paiement</h2>
-
-                  <p>Vous ne serez pas prélevé tant que le vendeur n'aura pas accepté la vente.
-                    Une fois la vente acceptée, le vendeur ne recevra pas votre argent tant que vous n'aurez pas confirmé
-                    la bonne réception de {{ products|length() > 1 ? "vos produits": "votre produit" }}.</p>
-                  <p>Le paiement est sécurisé, vous allez être redirigé vers le site de votre banque pour confirmer le
-                    paiement (3D Secure).</p>
-
-
-                  <form method="post" action="{{ cardRegistration.CardRegistrationURL }}" id="payment-form">
-                    <input type="hidden" name="data" value="{{ cardRegistration.PreregistrationData }}"/>
-                    <input type="hidden" name="accessKeyRef" value="{{ cardRegistration.AccessKey }}"/>
-                    <input type="hidden" name="returnURL" value="{{ url('cart_payment_validation') }}"/>
-                    <div class="form-group">
-                      <div class="form-group">
-                        <label for="cc_number">N° de carte</label>
-                        <input class="form-control" type="text" id="cc_number" placeholder="____ ____ ____ ____"
-                               autocomplete="off" required/>
-                        <input type="hidden" name="cardNumber" id="cardNumber"/>
-                      </div>
-                      <div class="form-group">
-                        <label for="cc_month">Date d'expiration</label>
-                        <div class="row">
-                          <div class="col-md-3">
-                            <input class="form-control" type="text" id="cc_month" placeholder="__" autocomplete="off"
-                                   maxlength="2" required/>
-                          </div>
-                          <div class="col-md-1" style="font-size: 1.8em">
-                            /
-                          </div>
-                          <div class="col-md-3">
-                            <input class="form-control" type="text" id="cc_year" placeholder="__" autocomplete="off"
-                                   maxlength="2" required/>
-                          </div>
-                        </div>
-                        <span class="help-block small">Renseignez le mois (2 chiffres) dans le premier champ et l'année
-                        (2 chiffres) dans le second champ</span>
-                        <input type="hidden" name="cardExpirationDate" id="cardExpirationDate"/>
-                      </div>
-                      <div class="form-group">
-                        <label for="cardCvx">CCV</label>
-                        <input class="form-control" type="text" name="cardCvx" id="cardCvx" placeholder="___"
-                               autocomplete="off" maxlength="3" required/>
-                        <span class="help-block small">Le CCV est le code de vérification à 3 chiffres situé au verso de la carte</span>
-                      </div>
-                      <div class="form-group">
-
-                        <i class="fa fa-lock"></i>&nbsp;Paiement Sécurisé SSL
-                        <ul class="cards">
-                          <li class="visa">Visa</li>
-                          <li class="visa_electron">Visa Electron</li>
-                          <li class="mastercard">MasterCard</li>
-                          <li class="maestro">Maestro</li>
-                        </ul>
-                        <img src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'images/mangopay.png'}) }}" alt="mangopay" height="26">
-
-
-
-                        <p class="cgu small" style="margin: 10px 0 25px;">En cliquant sur valider le paiement vous
-                          acceptez les
-                          <a target="_blank" href="{{ path('legal_notice') }}">conditions générales d'utilisation de
-                            mangopay</a>
-                        </p>
-                        <input class="btn btn-primary" id="validateP" type="submit"
-                               value="Valider le paiement" data-loading-text="Validation en cours..."/>
-                      </div>
+                <div class="page-steps row">
+                    <div class="col-sm-3">
+                        <div class="page-step">Mon Panier</div>
                     </div>
-                  </form>
+                    <div class="col-sm-3">
+                        <div class="page-step">Mon adresse</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step">Mode de livraison</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step active">Paiement</div>
+                    </div>
                 </div>
-              </div>
 
-            </div>
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger">{{ flashMessage }}</div>
+                {% endfor %}
 
-          </div>
+                <div>
 
-        </div><!-- .main -->
-      </div><!-- .container -->
-    </div><!-- .main-wrapper -->
-  </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h2 class="h3">Récapitulatif</h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Adresse de livraison</h5>
+                                    {% if addresses.delivery_address is defined %}
+                                        {% set deliveryAddress = addresses.delivery_address %}
+                                        {{ deliveryAddress.getFirstname() }} {{ deliveryAddress.getLastname() }}<br/>{{ deliveryAddress.getStreet() }}{% if deliveryAddress.getAdditional() %} {{ deliveryAddress.getAdditional() }}{% endif %} <br/>{{ deliveryAddress.getCity().getZipcode() }} {{ deliveryAddress.getCity().getName() }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Adresse de facturation</h5>
+                                    {% if addresses.billing_address is defined %}
+                                        {% set billingAddress = addresses.billing_address %}
+                                        {{ deliveryAddress.getFirstname() }} {{ deliveryAddress.getLastname() }}<br/>{{ billingAddress.getStreet() }}{% if billingAddress.getAdditional() %} {{ billingAddress.getAdditional() }}{% endif %} <br/>{{ billingAddress.getCity().getZipcode() }} {{ billingAddress.getCity().getName() }}
+                                        <br/>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                            <br/><br/>
+
+                            <div class="table-responsive">
+                                <table class="table table-carts">
+                                    <thead>
+                                    <tr>
+                                        <th>Produit</th>
+                                        <th>Nom</th>
+                                        <th>Prix</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for product in products %}
+                                        <tr>
+                                            <td rowspan="2">
+                                                <a target="_blank"
+                                                   href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                                                    {% if product.getImages()[0] is defined %}<img
+                                                        src="{{ loadpic(product.getImages()[0], 50, 50, "r3") }}"
+                                                        alt="{{ product.name }} " />{% endif %}
+                                                </a>
+                                            </td>
+                                            <td style="width: 40%">
+                                                <a target="_blank"
+                                                   href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                                                    {{ product.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                                                {% if product.getCurrency.getCode != 'EUR' %}
+                                                    ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                                                {% endif %}
+                                            </td>
+                                            <td rowspan="2" class="text-right">
+                                                {% if selectedDeliveryEmc[product.id] is defined %}
+                                                    {{ (product.price+selectedDeliveryEmc[product.id]['price']['tax-inclusive'])|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                                                {% else %}
+                                                    {{ (product.price+standardDeliveries[product.id].fee)|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Livré par {{ deliveryModes[product.getId()] }}
+                                            </td>
+
+                                            <td class="text-center">
+                                                {% if deliveryModes[product.id].type == 'parcel_carrier' %}
+                                                    {{ selectedDeliveryEmc[product.id]['price']['tax-inclusive']|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }}
+                                                {% else %}
+                                                    {{ standardDeliveries[product.id].fee|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    <tfoot class="text-right">
+                                    <tr>
+                                        <td colspan="3" class="text-right label-table">Total</td>
+                                        <td colspan="1">{{ (productsTotalPrice+deliveryFee)|currency_format('EUR') }}</td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <h2 class="h3">Paiement</h2>
+
+                                    <p>Vous ne serez pas prélevé tant que le vendeur n'aura pas accepté la vente.
+                                        Une fois la vente acceptée, le vendeur ne recevra pas votre argent tant que vous n'aurez pas confirmé
+                                        la bonne réception de {{ products|length() > 1 ? "vos produits": "votre produit" }}.</p>
+                                    <p>Le paiement est sécurisé, vous allez être redirigé vers le site de votre banque pour confirmer le
+                                        paiement (3D Secure).</p>
+
+
+                                    <form method="post" action="{{ cardRegistration.CardRegistrationURL }}" id="payment-form">
+                                        <input type="hidden" name="data" value="{{ cardRegistration.PreregistrationData }}"/>
+                                        <input type="hidden" name="accessKeyRef" value="{{ cardRegistration.AccessKey }}"/>
+                                        <input type="hidden" name="returnURL" value="{{ url('cart_payment_validation') }}"/>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="cc_number">N° de carte</label>
+                                                <input class="form-control" type="text" id="cc_number" placeholder="____ ____ ____ ____"
+                                                       autocomplete="off" required/>
+                                                <input type="hidden" name="cardNumber" id="cardNumber"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cc_month">Date d'expiration</label>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <input class="form-control" type="text" id="cc_month" placeholder="__" autocomplete="off"
+                                                               maxlength="2" required/>
+                                                    </div>
+                                                    <div class="col-md-1" style="font-size: 1.8em">
+                                                        /
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input class="form-control" type="text" id="cc_year" placeholder="__" autocomplete="off"
+                                                               maxlength="2" required/>
+                                                    </div>
+                                                </div>
+                                                <span class="help-block small">Renseignez le mois (2 chiffres) dans le premier champ et l'année
+                        (2 chiffres) dans le second champ</span>
+                                                <input type="hidden" name="cardExpirationDate" id="cardExpirationDate"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cardCvx">CCV</label>
+                                                <input class="form-control" type="text" name="cardCvx" id="cardCvx" placeholder="___"
+                                                       autocomplete="off" maxlength="3" required/>
+                                                <span class="help-block small">Le CCV est le code de vérification à 3 chiffres situé au verso de la carte</span>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <i class="fa fa-lock"></i>&nbsp;Paiement Sécurisé SSL
+                                                <ul class="cards">
+                                                    <li class="visa">Visa</li>
+                                                    <li class="visa_electron">Visa Electron</li>
+                                                    <li class="mastercard">MasterCard</li>
+                                                    <li class="maestro">Maestro</li>
+                                                </ul>
+                                                <img src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'images/mangopay.png'}) }}" alt="mangopay" height="26">
+
+
+                                                <p class="cgu small" style="margin: 10px 0 25px;">En cliquant sur valider le paiement vous
+                                                    acceptez les
+                                                    <a target="_blank" href="{{ path('legal_notice') }}">conditions générales d'utilisation de
+                                                        mangopay</a>
+                                                </p>
+                                                <input class="btn btn-primary" id="validateP" type="submit"
+                                                       value="Valider le paiement" data-loading-text="Validation en cours..."/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div><!-- .main -->
+            </div><!-- .container -->
+        </div><!-- .main-wrapper -->
+    </div>
 {% endblock %}

@@ -71,8 +71,21 @@
                               {{ delivery.service.label }}
                               <br /><small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
                             </td>
-                            <td class="price" style="width: 25%;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
+                            <td class="price" style="width: 25%; text-align: right;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
                           </tr>
+                        {% endfor %}
+
+                        {% for deliv in product.deliveries %}
+
+                          <tr>
+                            <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code  }}" name="deliveryMode[{{ product.id }}]"/></td>
+                            <td colspan="2">
+                              {{ deliv.deliveryMode.name }}
+                              <br /><small>{{ deliv.deliveryMode.description }}</small>
+                            </td>
+                            <td class="price" style="width: 25%; text-align: right;">{{ deliv.fee }} €</td>
+                          </tr>
+
                         {% endfor %}
                       </table>
 

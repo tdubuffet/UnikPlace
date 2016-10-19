@@ -3,6 +3,7 @@
 namespace CartBundle\Controller;
 
 use CartBundle\Form\SelectCartAddressType;
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -44,6 +45,7 @@ class DeliveryController extends Controller
         $hash               = md5(implode('-', $cart)) . '-cart-user-' . $this->getUser()->getId();
 
         $deliveries         = $this->get('app_cache')->fetch($hash);
+        $deliveries = false;
 
         $modes = $request->get('deliveryMode', []);
 
@@ -76,7 +78,6 @@ class DeliveryController extends Controller
                     $request->getClientIp(),
                     $product
                 );
-
             }
 
             $this->get('app_cache')->save($hash, $deliveries);
@@ -86,7 +87,7 @@ class DeliveryController extends Controller
 
             foreach( $modes as $key => $mode ) {
 
-                if (!isset($deliveries[$key][$mode])) {
+                if ($mode != 'by_hand' && $mode != 'seller_custom' && !isset($deliveries[$key][$mode])) {
                     return $this->redirectToRoute('cart_delivery_emc');
                 }
             }
