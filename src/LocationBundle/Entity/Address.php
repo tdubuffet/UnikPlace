@@ -27,6 +27,13 @@ class Address
     /**
      * @var string
      *
+     * @ORM\Column(name="civility", type="string", length=3)
+     */
+    private $civility = 'mr';
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="firstname", type="string", length=255)
      */
     private $firstname;
@@ -217,5 +224,25 @@ class Address
     public function getAdditional()
     {
         return $this->additional;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCivility()
+    {
+        if (empty($this->civility)) {
+            $this->civility = 'mr';
+        }
+
+        return $this->civility;
+    }
+
+    /**
+     * @param string $civility
+     */
+    public function setCivility(string $civility)
+    {
+        $this->civility = $civility;
     }
 }

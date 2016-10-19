@@ -251,16 +251,19 @@ class Delivery
             'pays'          => 'FR',  // must be an ISO code, set get_country example on how to get codes
             'code_postal'   => $order->getProduct()->getAddress()->getCity()->getZipcode(),
             'ville'         => $order->getProduct()->getAddress()->getCity()->getName(),
-            'type'          => 'entreprise', // accepted values are "particulier" or "entreprise"
+            'type'          => ($order->getProduct()->getUser()->getPro()) ? 'entreprise' : 'particulier', // accepted values are "particulier" or "entreprise"
             'adresse'       => $order->getProduct()->getAddress()->getStreet(),
-            'civilite'      => 'M', // accepted values are "M" (sir) or "Mme" (madam)
+            'civilite'      => ($order->getProduct()->getAddress()->getCivility() == 'mr') ? 'M': 'Mme',
             'prenom'        => $order->getProduct()->getUser()->getLastname(),
             'nom'           => $order->getProduct()->getUser()->getFirstname(),
-            'societe'       => $order->getProduct()->getUser()->getCompanyName() . 'ThibaultTEST',
             'email'         => 'dubuffet.thibault@gmail.com', //@todo bouchon
-            'tel'           => $order->getProduct()->getUser()->getPhone() . '0602030405',
+            'tel'           => $order->getProduct()->getUser()->getPhone(),
             'infos'         => $order->getProduct()->getAddress()->getAdditional()
         );
+
+        if ($order->getProduct()->getUser()->getPro()) {
+            $from['societe']  = $order->getProduct()->getUser()->getCompanyName();
+        }
 
         $to = array(
             'pays'          => 'FR',  // must be an ISO code, set get_country example on how to get codes @todo INTERNATIONAL
@@ -268,11 +271,11 @@ class Delivery
             'ville'         =>  $order->getDeliveryAddress()->getCity()->getName(),
             'type'          => 'particulier', // accepted values are "particulier" or "entreprise"
             'adresse'       => $order->getDeliveryAddress()->getStreet(),
-            'civilite'      => 'M', // accepted values are "M" (sir) or "Mme" (madam) //@todo Fix civilité
+            'civilite'      => ($order->getDeliveryAddress()->getCivility() == 'mr') ? 'M' : 'Mme',
             'prenom'        => $order->getUser()->getLastname(),
             'nom'           => $order->getUser()->getFirstname(),
             'email'         => 'dubuffet.thibault@gmail.com', //@todo bouchon
-            'tel'           => $order->getUser()->getPhone() . '0602030405', //@todo FIX PHONE REQUIRED
+            'tel'           => $order->getUser()->getPhone(),
             'infos'         => $order->getDeliveryAddress()->getAdditional()
         );
 

@@ -25,10 +25,13 @@
             {{ form_start(addAddressForm, {'attr': {'id': 'add-address-form'}}) }}
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        {{ form_row(addAddressForm.civility) }}
+                    </div>
+                    <div class="col-md-4">
                         {{ form_row(addAddressForm.firstname) }}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         {{ form_row(addAddressForm.lastname) }}
                     </div>
                 </div>
