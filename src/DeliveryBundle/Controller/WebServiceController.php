@@ -52,6 +52,34 @@ class WebServiceController extends Controller
                 'date'          => $request->get('date')
             ];
 
+            $values = $order->getEmcTracking();
+
+            if (!isset($values['etat']) || (isset($values['etat']) && $values['etat'] != $dump['etat'])) {
+
+                switch ($values['etat']) {
+
+                    case 'CMD':
+                        //@todo commande validé: Envoyer un mail ?
+                        break;
+
+                    case 'ENV':
+                        //@todo Colis en transit: On envoie un mail ?
+
+                        break;
+
+                    case 'ANL':
+
+                        //@todo commande annulé: Envoyer un mail ?
+                        break;
+
+                    case 'LIV':
+                        //@todo Colis livré: Envoyer un mail ?
+                        break;
+
+                }
+
+            }
+
             $order->setEmcTracking($dump);
 
         } else {
