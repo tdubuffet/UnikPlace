@@ -142,7 +142,7 @@
         </div>
 
     </div>
-    {% if order.status != 'canceled' and order.status != 'disputed' and order.status != 'error' %}
+    {% if order.status != 'canceled' and order.status != 'disputed' and order.status != 'error' and order.delivery.deliveryMode.type =="parcel_carrier" %}
     <div class="timeline-product">
 
         {% if order.status == 'pending' %}
