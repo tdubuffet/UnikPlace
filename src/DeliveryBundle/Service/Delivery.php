@@ -7,6 +7,7 @@ use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\Constraints\DateTime;
 use UserBundle\Entity\User;
@@ -299,7 +300,8 @@ class Delivery
             'content_code'          => 40110,
             'url_push'              => $this->router->generate('emc_tracking', [
                 'order' => $order->getId(),
-                'key' => md5('emc_delivery')
+                'key' => md5('emc_delivery'),
+                UrlGeneratorInterface::ABSOLUTE_URL
             ])//@todo fix content code delivery
         ];
 
