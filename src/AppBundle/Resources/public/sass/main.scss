@@ -72,9 +72,7 @@ input.error, input:focus.error, textarea.error, textarea:focus.error, select.err
 }
 
 .form-control, textarea, input.qty {
-  border: 1px solid #e5e5e5;
-  border-radius: 2px;
-  box-shadow: 0 0 5px 0 #eaeaea inset;
+  border-radius: 0px;
   margin-bottom:5px;
 }
 
@@ -1404,6 +1402,18 @@ button.button span {
   padding:15px;
   background:none repeat scroll 0 0 #f2f2f2;
 }
+
+.main-container .main-wrapper .account-login label{
+  color: #181818;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 0.9em;
+
+  &.error{
+    color: #E74F4A;
+  }
+}
+
 .main-container .main-wrapper .account-login .content h2 {
   background-position:0 1px;
   background-repeat:no-repeat;
@@ -1433,6 +1443,7 @@ button.button span {
   width: 50%;
   line-height: 45px;
   min-height: 60px;
+  font-size: 1.2em;
 }
 
 .main-container .main-wrapper .account-login .col-login{

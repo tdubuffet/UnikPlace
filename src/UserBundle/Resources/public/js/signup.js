@@ -4,6 +4,67 @@ var Signup = {
 
         Signup.initProFields();
 
+        // Address jQuery Validator
+        function AddressValidator(value, element, paras) {
+
+            if (!$.trim($('#fos_user_registration_form_route').val()).length) {
+                return false;
+            }
+
+            if (!$.trim($('#fos_user_registration_form_locality').val()).length) {
+                return false;
+            }
+
+            if (!$.trim($('#fos_user_registration_form_administrative_area_level_1').val()).length) {
+                return false;
+            }
+
+            if (!$.trim($('#fos_user_registration_form_country').val()).length) {
+                return false;
+            }
+
+            if (!$.trim($('#fos_user_registration_form_postal_code').val()).length) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // Define a new jQuery Validator method
+        $.validator.addMethod("fulladdress", AddressValidator);
+
+        var placeSearch, autocomplete;
+        var componentForm = {
+            street_number: 'short_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            country: 'long_name',
+            postal_code: 'short_name'
+        };
+
+        autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('fos_user_registration_form_street')),
+            {types: ['geocode']});
+
+        autocomplete.addListener('place_changed', fillInAddress);
+
+        function fillInAddress() {
+            // Get the place details from the autocomplete object.
+            var place = autocomplete.getPlace();
+            for (var component in componentForm) {
+                document.getElementById('fos_user_registration_form_' + component).value = '';
+            }
+
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressType = place.address_components[i].types[0];
+                if (componentForm[addressType]) {
+                    var val = place.address_components[i][componentForm[addressType]];
+                    document.getElementById('fos_user_registration_form_' + addressType).value = val;
+                }
+            }
+        }
+
         $("#signup-form").validate({
             rules: {
                 "fos_user_registration_form[email]": {
@@ -38,10 +99,8 @@ var Signup = {
                 "fos_user_registration_form[company_name]": {
                     required: true,
                 },
-                "fos_user_registration_form[address][street]": {
-                    required: true,
-                },
-                "city_code": {
+                "fos_user_registration_form[street]": {
+                    fulladdress: true,
                     required: true,
                 },
                 "fos_user_registration_form[phone]": {
@@ -51,6 +110,10 @@ var Signup = {
                     required: true
                 }
 
+            },messages: {
+                'fos_user_registration_form[street]': {
+                    fulladdress: "Cette adresse n'est pas valide. Si le problème persiste, merci de nous contacter."
+                }
             },
             errorPlacement: function(error, element) {
                 if (element.attr("type") == "radio") {
@@ -60,8 +123,6 @@ var Signup = {
                 }
             }
         });
-
-        Signup.initAutoCompleteCity();
     },
 
     initProFields: function() {
@@ -80,32 +141,5 @@ var Signup = {
         else {
             $('.pro-user-fields').hide();
         }
-    },
-
-    initAutoCompleteCity : function() {
-        $('#fos_user_registration_form_address_city').select2({
-            ajax: {
-                url: Routing.generate('ajax_search_city'),
-                dataType: 'json',
-                delay: 250,
-                method: 'post',
-                data: function (params) {
-                    return {
-                        q: params.term // search term
-                    };
-                },
-                processResults: function (data, params) {
-                    return {
-                        results: $.map(data.cities, function(obj) {
-                            return { id: obj.id, text: obj.name+' ('+obj.zipcode+')' };
-                        })
-                    };
-                },
-                cache: true
-            },
-            dropdownAutoWidth: true,
-            minimumInputLength: 3,
-            width: "100%"
-        });
     }
 };

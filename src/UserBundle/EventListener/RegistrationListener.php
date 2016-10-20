@@ -72,24 +72,40 @@ class RegistrationListener implements EventSubscriberInterface
         $user = $event->getForm()->getData();
 
         if ($user->getPro()) {
+            $street = $event->getRequest()->request->get('fos_user_registration_form');
 
-            $city = $this->em->getRepository('LocationBundle:City')->find(
-                $event->getRequest()->request->get('city_code')
-            );
+
+            $cityName = $street['locality'];
+            $cityZipCode = $street['postal_code'];
+
+            $city = $this->em
+                ->getRepository('LocationBundle:City')
+                ->findOneBy(['name' => $cityName, 'zipcode' => $cityZipCode]);
 
             if (!$city) {
-                throw new NotFoundHttpException();
+
+                $county = $this->em->getRepository('LocationBundle:County')->findOneBy(['code' =>  substr($cityZipCode, 0, 2)]);
+                if (!$county) {
+                    throw new Exception('County not found');
+                }
+
+                $city = new City();
+                $city->setCounty($county);
+                $city->setName($cityName);
+                $city->setZipcode($cityZipCode);
+
+                $this->em->persist($city);
+                $this->em->flush();
             }
 
-            $street = $event->getRequest()->request->get('fos_user_registration_form')['address']['street'];
-
             $address = new Address();
-            $address->setName($user->getCompanyName());
-            $address->setStreet($street);
+            $address->setFirstname($user->getFirstname());
+            $address->setLastname($user->getLastname());
+            $address->setStreet($street['street_number'] . ' ' . $street['route']);
             $address->setCity($city);
             $address->setUser($user);
 
-            $user->setCompanyAddress($street);
+            $user->setCompanyAddress($street['street_number'] . ' ' . $street['route']);
             $user->setCompanyZipcode($city->getZipcode());
             $user->setCompanyCity($city->getName());
             $user->addAddress($address);

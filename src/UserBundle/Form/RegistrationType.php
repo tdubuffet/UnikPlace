@@ -2,9 +2,11 @@
 
 namespace UserBundle\Form;
 
+use Doctrine\DBAL\Types\TextType;
 use LocationBundle\Form\AddressProType;
 use LocationBundle\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -39,10 +41,29 @@ class RegistrationType extends AbstractType
         ));
         $builder->add('company_code');
         $builder->add('company_name');
-
-        $builder->add('address', AddressProType::class, [
+        $builder->add('civility', ChoiceType::class, [
+            'label' => 'Civilité',
+            'choices' => [
+                'Monsieur' => 'mr',
+                'Madame' => 'mrs'
+            ],
+            'required' => true,
             'mapped' => false
         ]);
+
+        $builder->add('street', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+            'label' => 'Adresse de l\'entreprise',
+            'required' => true,
+            'mapped' => false,
+            'attr' => [
+            ]
+        ])
+            ->add('street_number', HiddenType::class ,['mapped' => false])
+            ->add('locality', HiddenType::class ,['mapped' => false])
+            ->add('route', HiddenType::class ,['mapped' => false])
+            ->add('administrative_area_level_1', HiddenType::class ,['mapped' => false])
+            ->add('postal_code', HiddenType::class ,['mapped' => false])
+            ->add('country', HiddenType::class ,['mapped' => false]);
     }
 
     public function getParent()

@@ -32,29 +32,53 @@
                         {% set attrEmail = {'class': 'form-control'} %}
                     {% endif %}
 
-                    <div class="form-group">
-                        <label class="required">{{ 'form.email'|trans }}</label>
-                        {{ form_widget(form.email, {'attr': attrEmail}) }}
-                        {{ form_errors(form.email) }}
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Prénom</label>
-                        {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.firstname) }}
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Nom</label>
-                        {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.lastname) }}
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Date de naissance</label>
-                        <div class="clearfix">
-                            {{ form_widget(form.birthday.day, {'attr': {'class': 'form-control birthday'}}) }}
-                            {{ form_widget(form.birthday.month, {'attr': {'class': 'form-control birthday'}}) }}
-                            {{ form_widget(form.birthday.year, {'attr': {'class': 'form-control birthday'}}) }}
+                    <div class="row clearfix">
+                        <div class="col-md-4 form-group">
+                            {{ form_label(form.civility, 'Civilité', {"label_attr:": { 'class': 'required'}}) }}
+                            {{ form_widget(form.civility, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.civility) }}
                         </div>
-                        {{ form_errors(form.birthday) }}
+                        <div class="col-md-4 form-group">
+                            {{ form_label(form.firstname, 'Nom', {"label_attr:": { 'class': 'required'}}) }}
+                            {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.firstname) }}
+                        </div>
+                        <div class="col-md-4 form-group">
+                            {{ form_label(form.lastname, 'Prénom', {"label_attr:": { 'class': 'required'}}) }}
+                            {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.lastname) }}
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="required">{{ 'form.email'|trans }}</label>
+                                {{ form_widget(form.email, {'attr': attrEmail}) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="required">Date de naissance</label>
+                                <div class="clearfix">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.birthday.day, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.birthday.month, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.birthday.year, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_errors(form.birthday) }}
+                            </div>
+                        </div>
                     </div>
 
 
@@ -97,15 +121,9 @@
                             {{ form_errors(form.company_name) }}
                         </div>
 
-                        {{ form_row(form.address.street) }}
                         <div class="form-group">
-                            <label class="control-label required" for="city_code">Ville de l'entreprise</label>
-                            <select id="fos_user_registration_form_address_city" name="city_code" required="required"
-                                    class="select-select2 autocomplete-city form-control">
-                                <option value="">Sélectionnez un code postal</option>
-                            </select>
+                            {{ form_row(form.street) }}
                         </div>
-                        {{ form_row(form.address.country) }}
                     </div>
                 </div>
 
