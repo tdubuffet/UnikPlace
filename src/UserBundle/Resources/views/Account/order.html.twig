@@ -299,7 +299,7 @@
                 <ul>
                     <li>Votre colis doit être prêt avant le <b>{{ order.emcInfos.collection.date|date('d/m/Y') }}</b></li>
                     <li>{{ order.emcInfos.alerts[0]|replace({"Avant de passer commande, assurez-vous que l'expéditeur pourra imprimer": 'Vous devez imprimer et coller sur le colis'})|replace({'.' : '.</li><li>'})|raw }}</li>
-                    <li><br /><a href="" class="btn btn-primary">Télécharger le bordereau d'expédition</a></li>
+                    <li><br /><a href="{{ path('emc_document_download', { 'id': order.id }) }}" class="btn btn-primary">Télécharger le bordereau d'expédition</a></li>
                 </ul>
 
             {% endif %}

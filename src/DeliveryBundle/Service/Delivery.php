@@ -360,6 +360,26 @@ class Delivery
 
     }
 
+    public function downloadBordereau($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: ' . base64_encode(EMC_USER . ':' . EMC_PASS) . ''
+        ]);
+
+        $result = curl_exec($ch);
+
+        // We now display the pdf
+        header('Content-type: application/pdf');
+        header('Content-Disposition: attachment; filename="document.pdf"');
+        echo $result;
+        die();
+    }
+
     public function handlerError($lib)
     {
 

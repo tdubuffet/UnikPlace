@@ -10,6 +10,7 @@ namespace DeliveryBundle\Controller;
 
 
 use AppBundle\Form\ContactForm;
+use OrderBundle\Entity\Order;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,6 +20,26 @@ use Symfony\Component\HttpFoundation\Request;
 
 class WebServiceController extends Controller
 {
+
+    /**
+     * @Route("/emc/document/{id}", name="emc_document_download")
+     * @param Request $request
+     */
+    public function emcDocAction(Request $request, Order $order)
+    {
+
+        if ($order->getEmc()) {
+
+            if (isset($order->getEmcInfos()['labels']) && isset($order->getEmcInfos()['labels'][0])) {
+                $this->get('delivery.emc')->downloadBordereau($order->getEmcInfos()['labels'][0]);
+            }
+
+        }
+
+        throw new \Exception('Not found order');
+
+    }
+
     /**
      * @Route("/emc/webservice", name="emc_tracking")
      * @param Request $request
