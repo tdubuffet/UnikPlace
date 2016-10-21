@@ -4,147 +4,250 @@
 {% block page_subtitle %}{% endblock %}
 
 {% block page_content %}
-  {% set code = order.product.currency.code %}
-  {% set labelEmpty = '<span class="label label-default">Aucun(e)</span>' %}
-  <div class="form-horizontal">
-    <div class="form-group">
-      <label class="col-sm-2 control-label">ID</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.id }}</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Produit</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          <a href="{{ path('ad2_product_edit', {'id' : order.product.id}) }}">{{ order.product.name }}</a>
+    {% set code = order.product.currency.code %}
+    {% set labelEmpty = '<span class="label label-default">Aucun(e)</span>' %}
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ID</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.id }}</div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Montant total</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.amount|currency_convert_format(code) }}</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Prix du produit</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.productAmount|currency_convert_format(code) }}</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Frais de port</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.deliveryAmount|currency_convert_format(code) }}</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Statut</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.status.name }}</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Acheteur</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          <a href="{{ path('ad2_user_show', {'id' : order.user.id}) }}">{{ order.user.username }}</a>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Produit</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    <a href="{{ path('ad2_product_edit', {'id' : order.product.id}) }}">{{ order.product.name }}</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Vendeur</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          <a href="{{ path('ad2_user_show', {'id' : order.product.user.id}) }}">{{ order.product.user.username }}</a>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Montant total</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.amount|currency_convert_format(code) }}</div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Adresse de livraison</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          {{ (order.deliveryAddress is not null ? order.deliveryAddress.__toString() : labelEmpty)|raw }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Prix du produit</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.productAmount|currency_convert_format(code) }}</div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Adresse de facturation</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          {{ ( order.billingAddress is not null ? order.billingAddress.__toString() : labelEmpty)|raw }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Frais de port</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.deliveryAmount|currency_convert_format(code) }}</div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Date de création</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.createdAt|date() }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Statut</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.status.name }}</div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Date de mise à jour</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.updatedAt|date() }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Acheteur</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    <a href="{{ path('ad2_user_show', {'id' : order.user.id}) }}">{{ order.user.username }}</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">mangopayPreauthorizationId</label>
-      <div class="col-sm-10">
-        <div class="form-control">{{ order.mangopayPreauthorizationId }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Vendeur</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    <a href="{{ path('ad2_user_show', {'id' : order.product.user.id}) }}">{{ order.product.user.username }}</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">mangopayPayinId</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          {{ (order.mangopayPayinId is not null ? order.mangopayPayinId : labelEmpty)|raw }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Adresse de livraison</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ (order.deliveryAddress is not null ? order.deliveryAddress.__toString() : labelEmpty)|raw }}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">mangopayPayinDate</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          {{ (order.mangopayPayinDate is not null ? order.mangopayPayinDate|date() : labelEmpty)|raw }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Adresse de facturation</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ ( order.billingAddress is not null ? order.billingAddress.__toString() : labelEmpty)|raw }}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">mangopayRefundId</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          {{ (order.mangopayRefundId is not null ? order.mangopayRefundId : labelEmpty)|raw }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Date de création</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.createdAt|date() }}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">mangopayTransferId</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          {{ (order.mangopayTransferId is not null ? order.mangopayTransferId : labelEmpty)|raw }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Date de mise à jour</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.updatedAt|date() }}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">mangopayRefundDate</label>
-      <div class="col-sm-10">
-        <div class="form-control">
-          {{ (order.mangopayRefundDate is not null ? order.mangopayRefundDate|date() : labelEmpty)|raw }}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">mangopayPreauthorizationId</label>
+            <div class="col-sm-10">
+                <div class="form-control">{{ order.mangopayPreauthorizationId }}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">mangopayPayinId</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ (order.mangopayPayinId is not null ? order.mangopayPayinId : labelEmpty)|raw }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">mangopayPayinDate</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ (order.mangopayPayinDate is not null ? order.mangopayPayinDate|date() : labelEmpty)|raw }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">mangopayRefundId</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ (order.mangopayRefundId is not null ? order.mangopayRefundId : labelEmpty)|raw }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">mangopayTransferId</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ (order.mangopayTransferId is not null ? order.mangopayTransferId : labelEmpty)|raw }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">mangopayRefundDate</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ (order.mangopayRefundDate is not null ? order.mangopayRefundDate|date() : labelEmpty)|raw }}
+                </div>
+            </div>
+        </div>
 
-    <div class="form-group">
-      <div class="col-sm-10 col-sm-offset-2">
-        <a class="btn btn-link" href="{{ path('ad2_orders_list') }}">Retour à la liste</a>
-      </div>
-    </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Envoi moins cher ?</label>
+            <div class="col-sm-10">
+                <div class="form-control">
+                    {{ (order.emc ? 'Oui' : 'Non') }}
+                </div>
+            </div>
+        </div>
 
-  </div>
+        {% if order.emc %}
+
+            <h4>Informations commande Envoi moins cher</h4>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">EMC - Référence de la commande</label>
+                <div class="col-sm-10">
+                    <div class="form-control">
+                        {{ (order.emcRef) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">EMC - Date de la commande</label>
+                <div class="col-sm-10">
+                    <div class="form-control">
+                        {{ (order.emcDate) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">EMC - Service</label>
+                <div class="col-sm-10">
+                    <div class="form-control">
+                        {{ order.emcInfos['offer']['operator']['label'] }} - {{ order.emcInfos['service']['label'] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">EMC - Prix</label>
+                <div class="col-sm-10">
+                    <div class="form-control">
+                    {{ order.emcInfos['price']['tax-inclusive'] }} €
+                    </div>
+                </div>
+            </div>
+
+            {% if order.emcInfos['labels'][0] is defined %}
+            <div class="form-group">
+                <label class="col-sm-2 control-label">EMC - Bordereau d'expédition</label>
+                <div class="col-sm-10">
+                    <div class="form-control">
+                        {{ order.emcInfos['labels'][0] }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">EMC - Informations</label>
+                <div class="col-sm-10">
+                        <ul>
+                            <li>{{ order.emcInfos['collection']['label'] }}</li>
+                            <li>{{ order.emcInfos['delivery']['label'] }}</li>
+                        </ul>
+                </div>
+            </div>
+
+            {% if order.emcTracking is iterable %}
+
+                <h5>Informations technique EMC - Tracking</h5>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">EMC - Informations</label>
+                    <div class="col-sm-10">
+                        {% for key, value in order.emcTracking %}
+                        <ul>
+                            <li><b>{{ key }} :</b> {{ value }}</li>
+                        </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if order.emcStatus is iterable %}
+
+                <h5>Informations technique EMC - Status</h5>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">EMC - Informations</label>
+                    <div class="col-sm-10">
+                        {% for key, value in order.emcStatus %}
+                            <ul>
+                                <li><b>{{ key }} :</b> {{ value }}</li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                <a class="btn btn-link" href="{{ path('ad2_orders_list') }}">Retour à la liste</a>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
 

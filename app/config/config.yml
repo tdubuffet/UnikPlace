@@ -239,18 +239,18 @@ assetic:
       enabled:  %kernel.debug%
       profiler: false
   bundles: ~
-  node: /usr/local/bin//node
+  node: /usr/bin/nodejs
   filters:
       uglifyjs2:
           # the path to the uglifyjs executable
           bin: /usr/local/bin/uglifyjs
 
       jpegoptim:
-          bin: /usr/local/bin/jpegoptim
+          bin: /usr/bin/jpegoptim
           max: 70
 
       optipng:
-          bin: /usr/local/bin/optipng
+          bin: /usr/bin/optipng
           level: 3
   twig:
       functions:
