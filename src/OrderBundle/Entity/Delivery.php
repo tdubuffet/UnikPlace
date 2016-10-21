@@ -27,7 +27,7 @@ class Delivery
      *
      * @ORM\Column(name="fee", type="decimal", precision=8, scale=2, nullable=true)
      */
-    private $fee;
+    private $fee = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductBundle\Entity\Product", inversedBy="deliveries")

@@ -173,6 +173,13 @@ class Product
      */
     private $height;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc", type="boolean")
+     */
+    private $emc = false;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
@@ -841,5 +848,21 @@ class Product
     public function removeProposal(\OrderBundle\Entity\OrderProposal $proposal)
     {
         $this->proposals->removeElement($proposal);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmc(): string
+    {
+        return $this->emc;
+    }
+
+    /**
+     * @param string $emc
+     */
+    public function setEmc(string $emc)
+    {
+        $this->emc = $emc;
     }
 }

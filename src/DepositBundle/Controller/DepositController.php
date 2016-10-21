@@ -193,21 +193,36 @@ class DepositController extends Controller
             $deposit = $this->get('session')->get('deposit');
 
             $errors = $listAttributes = [];
-            foreach (['name' => "nom", 'description' => "description"] as $field => $fieldName) {
-                if (!$request->request->has($field) || empty($request->request->get($field))) {
+
+
+            $fields = [
+                'name' => "nom",
+                'description' => "description",
+                'width' => 'Largeur',
+                'length' => 'Longueur',
+                'height' => 'Hauteur',
+                'weight' => 'Poids'
+            ];
+
+            foreach ($fields as $field => $fieldName) {
+                if ($request->request->get($field, false) == false) {
                     $errors[] = sprintf("Le champ %s doit être renseigné.", $fieldName);
                 } else {
-                    $deposit[$field] = $request->request->get($field);
+                    $deposit[$field] = $request->request->get($field, 0);
                 }
             }
+
             foreach ($request->request->all() as $field => $value) {
                 if (strpos($field, 'attribute-') === 0 && $value !== '') {
                     list(, $fieldName) = explode('-', $field, 2);
                     $listAttributes[$fieldName] = $value;
                 }
             }
-            $category = $this->getDoctrine()->getRepository('ProductBundle:Category')
+            $category = $this->getDoctrine()
+                ->getRepository('ProductBundle:Category')
                 ->findOneBy(['id' => $deposit['category_id']]);
+
+
             if ($category) {
                 $attributes = $category->getAttributes();
                 foreach ($attributes as $attribute) {
@@ -376,60 +391,50 @@ class DepositController extends Controller
                 );
 
                 if ($addressForm === true) {
-                    // Store user phone in session
-                    $deposit['phone'] = $request->request->get('phone');
                     $this->get('session')->set('deposit', $deposit);
                     $this->addFlash('notice', 'Adresse ajoutée avec succès.');
 
-                    // Save previous entered shipping data in session
                     $this->get('session')->set('deposit_shipping_form_data', $request->request->get('shipping-form-data'));
 
                     return $this->redirectToRoute('sell_shipping');
                 }
             } else {
-                $shippings = $request->request->has('shipping_fees') && !empty($request->request->get('shipping_fees'));
                 $fields = [
-                    'weight' => "poids",
-                    'address_id' => "adresse",
-                    'length' => 'longueur',
-                    'width' => 'largeur',
-                    'height' => 'hauteur',
+                    'address_id' => "adresse"
                 ];
+
 
                 $errors = [];
                 foreach ($fields as $field => $label) {
                     if (!$request->request->has($field) || empty($request->request->get($field))) {
                         $errors[] = sprintf("Le champ %s doit être renseigné.", $label);
-                    } else {
-                        $fieldVal = $request->request->get($field);
-                        $length = $request->request->get('length', 0);
-                        $dim = $length + $request->request->get('width', 0) + $request->request->get('height');
-                        if ($field == 'weight') {
-                            $deposit['delivery'][$field] = ($fieldVal * 1000); // transform Kg to g
-                            if ($fieldVal < 0) {
-                                throw new \Exception('Weight cannot be lower than 0 kg');
-                            }
-                            if ($fieldVal < 30 && $dim <= 150 && $length <= 100) {
-                                $deposit['delivery']['codes'][] = 'colissimo_parcel'; // By default colissimo
-                            } elseif (($fieldVal >= 30 || $dim > 150 || $length > 100) && !$shippings) {
-                                $errors[] = "Le champ frais de port doit être renseigné.";
-                            }
-                        } elseif ($field == 'shipping_fees') {
-                            if ($fieldVal < 1) {
-                                throw new \Exception('Shipping fees cannot be lower than 1.00');
-                            }
-                        } else {
-                            $deposit['delivery'][$field] = $fieldVal;
-                        }
+                        continue;
                     }
+
+
+                    $fieldVal = $request->request->get($field);
+                    $deposit['delivery'][$field] = $fieldVal;
                 }
 
-                if ($request->request->has('by_hand')) {
+
+                $deliveryModes = $request->get('deliveryMode');
+
+                if (count($request->get('deliveryMode')) == 0) {
+                    $errors[] = "Aucun mode de livraison";
+                }
+
+
+                if (in_array('by_hand', $deliveryModes)) {
                     $deposit['delivery']['codes'][] = 'by_hand';
                 }
 
-                if ($shippings) {
+                if (in_array('custom_seller', $deliveryModes)) {
+                    $deposit['delivery']['codes'][] = 'seller_custom';
                     $deposit['delivery']['shipping_fees'] = $request->request->get('shipping_fees');
+                }
+
+                if (in_array('carrier_unik', $deliveryModes)) {
+                    $deposit['delivery']['emc'] = true;
                 }
 
                 if (count($errors) > 0) {
@@ -456,69 +461,74 @@ class DepositController extends Controller
      */
     private function saveAction($deposit)
     {
+
+
         $product = new Product();
         $product
             ->setName($deposit['name'])
             ->setDescription($deposit['description'])
             ->setPrice($deposit['price'])
             ->setAllowOffer($deposit['allow_offer'])
-            ->setWeight($deposit['delivery']['weight'])
-            ->setLength($deposit['delivery']['length'] / 100)
-            ->setWidth($deposit['delivery']['width'] / 100)
-            ->setHeight($deposit['delivery']['height'] / 100)
+            ->setWeight($deposit['weight']*1000)
+            ->setLength($deposit['length'] / 100)
+            ->setWidth($deposit['width'] / 100)
+            ->setHeight($deposit['height'] / 100)
             ->setUser($this->getUser());
 
         if (isset($deposit['original_price'])) {
             $product->setOriginalPrice($deposit['original_price']);
         }
 
-        $currency = $this->getDoctrine()->getRepository('ProductBundle:Currency')->findOneBy(['code' => 'EUR']);
+        $currency = $this->getDoctrine()
+            ->getRepository('ProductBundle:Currency')
+            ->findOneBy(['code' => 'EUR']);
         if ($currency) {
             $product->setCurrency($currency);
         }
 
-        $category = $this->getDoctrine()->getRepository('ProductBundle:Category')
+        $category = $this->getDoctrine()
+            ->getRepository('ProductBundle:Category')
             ->findOneBy(['id' => $deposit['category_id']]);
+
         if ($category) {
             $product->setCategory($category);
         }
 
-        $status = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneBy(['name' => 'awaiting']);
+        $status = $this->getDoctrine()
+            ->getRepository('ProductBundle:Status')
+            ->findOneBy(['name' => 'awaiting']);
+
         if ($status) {
             $product->setStatus($status);
         }
 
-        $address = $this->getDoctrine()->getRepository('LocationBundle:Address')
+        $address = $this->getDoctrine()
+            ->getRepository('LocationBundle:Address')
             ->findOneBy(['id' => $deposit['delivery']['address_id']]);
+
         if ($address) {
             $product->setAddress($address);
         }
 
-        if (isset($deposit['delivery']['shipping_fees'])) {
-            $deposit['delivery']['codes'][] = 'seller_custom'; // Custom fees
-        }
-
         if (isset($deposit['delivery']['codes']) && count($deposit['delivery']['codes']) > 0) {
-            $deliveryModes = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')
+
+            $deliveryModes = $this->getDoctrine()
+                ->getRepository('OrderBundle:DeliveryMode')
                 ->findBy(['code' => $deposit['delivery']['codes']]);
+
             foreach ($deliveryModes as $deliveryMode) {
                 $delivery = new Delivery();
                 if ($deliveryMode->getCode() == 'seller_custom') {
                     $delivery->setFee($deposit['delivery']['shipping_fees']);
-                } else {
-                    $infos = [
-                        'weight' => $product->getWeight(),
-                        'length' => $product->getLength(),
-                        'width' => $product->getWidth(),
-                        'height' => $product->getHeight(),
-                    ];
-                    $service = $this->get('order.delivery_calculator');
-                    $delivery->setFee($service->getFeeFromProductAndDeliveryModeCode($deliveryMode->getCode(), $infos));
                 }
                 $delivery->setDeliveryMode($deliveryMode);
                 $product->addDelivery($delivery);
                 $this->getDoctrine()->getManager()->persist($delivery);
             }
+        }
+
+        if (isset($deposit['delivery']['emc'])) {
+            $product->setEmc(true);
         }
 
         // Associate product to every image

@@ -29,7 +29,6 @@ var Deposit = {
         Deposit.loadPriceStep();
 
         Deposit.loadShippingValidation();
-        Deposit.saveShippingForm();
     },
 
     loadSubCategories: function () {
@@ -255,6 +254,23 @@ var Deposit = {
                 minlength: 20,
                 maxlength: 2000,
             },
+            "weight": {
+                required: true,
+                number: true,
+                min: 0.01
+            },
+            "length": {
+                required: true,
+                number: true,
+            },
+            "width": {
+                required: true,
+                number: true,
+            },
+            "height": {
+                required: true,
+                number: true,
+            },
         };
 
         $('.attribute-field').each(function(k, v) {
@@ -363,100 +379,48 @@ var Deposit = {
 
     loadShippingValidation: function () {
 
+
+
         $("#shipping-form").validate({
+            errorPlacement: function(error, element) {
+
+                if (typeof element[0] != 'undefined' && element[0].name == 'deliveryMode[]') {
+                    $('.error-delivery').append(error);
+                } else {
+                    error.insertBefore(element);
+                }
+            },
             rules: {
-                "weight": {
-                    required: true,
-                    number: true,
-                    min: 0.01
-                },
-                "length": {
-                    required: true,
-                    number: true,
-                },
-                "width": {
-                    required: true,
-                    number: true,
-                },
-                "height": {
-                    required: true,
-                    number: true,
-                },
                 "shipping_fees": {
                     number: true,
 
+                },
+                "deliveryMode[]": {
+                    required: true,
+                    minlength: 1
                 }
             },
             messages: {
 
                 "shipping_fees": {
-                    required: "Votre colis ne peut être pris en charge par Colissimo compte tenu de son poids et dimensions. Vous avez la possibilité de choisir votre propre transporteur et de renseigner son tarif de livraison."
-                }
+                    required: "Vous avez choisis d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison."
+                },
+                "deliveryMode[]": "Vous devez sélectionner au moins un mode de livraison."
             }
         });
 
 
-        $('#product-length, #product-width, #product-height, #product-weight').blur(function() {
+        $('#delivery_custom_seller').click(function() {
 
-            var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
-
-            if ($('#product-weight').val() >= 30 || dim >= 150) {
-                $('input[name="shipping_fees"]').rules("add", "required");
+            console.log($(this).is(":checked"))
+            if ($(this).is(":checked")) {
+                $('#shipping_fees').rules("add", "required");
+                $('.input-delivery-shipping-fees').show();
             } else {
-                $('input[name="shipping_fees"]').rules("remove", "required");
+                $('#shipping_fees').rules("remove", "required");
+                $('.input-delivery-shipping-fees').hide();
             }
         });
-
-        $("#add-address-form").validate({
-            rules: {
-                "name": {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 100,
-                },
-                "street": {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 250,
-                },
-                "city": {
-                    required: true,
-                },
-                "phone": {
-                    required: true,
-                    minlength: 10,
-                    maxlength: 20,
-                }
-            },
-            errorPlacement: function(error, element) {
-                if(element.hasClass('select-select2')) {
-                    error.insertAfter(".select2-container");
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            highlight: function(element, errorClass) {
-                if ($(element).hasClass('select-select2')) {
-                    $('.select2').addClass(errorClass);
-                } else {
-                    $(element).addClass(errorClass);
-                }
-            },
-            unhighlight: function(element, errorClass) {
-                if ($(element).hasClass('select-select2')) {
-                    $('.select2').removeClass(errorClass);
-                } else {
-                    $(element).removeClass(errorClass);
-                }
-            }
-        });
-    },
-
-    saveShippingForm: function() {
-        $('#addAddressModal').on('shown.bs.modal', function() {
-            // Save previous entered data in shipping form when an address is added
-            $('#shipping-form-data').val($("#shipping-form").serialize());
-        })
     }
 
 };

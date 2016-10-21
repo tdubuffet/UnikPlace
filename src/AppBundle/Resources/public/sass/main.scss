@@ -7982,6 +7982,50 @@ body { background-color:rgba(0,0,0,0); }
   color: #181818;
 }
 
+.deposit{
+  h4{
+    margin: 10px 0px 15px 0px;
+
+    color: #d99f25;
+    text-transform: uppercase;
+    font-size: 1.3em;
+
+    &.title-description-technique{
+      margin-top: 50px;
+    }
+  }
+
+  label{
+    color: #181818;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 0.9em;
+
+    &.error{
+      color: #E74F4A;
+    }
+  }
+
+  .table-delivery{
+    td{
+      vertical-align: middle;
+    }
+    .name{
+      width: 30%;
+      text-align: center;
+      color: #181818;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+
+    .description{
+      font-weight: normal;
+      text-align: justify;
+      font-size: 0.9em;
+    }
+  }
+}
+
 .deposit .sortable-placeholder {
   border: 2px dashed #ccc;
 }

@@ -5,107 +5,114 @@
 {% block javascript_include %}{{ jsinit(['cart']) }}{% endblock javascript_include %}
 
 {% block body %}
-  <div class="main-wrapper cart-select-delivery">
-    <div class="container">
-      <div class="main">
+    <div class="main-wrapper cart-select-delivery">
+        <div class="container">
+            <div class="main">
 
-        <div class="page-steps row">
-          <div class="col-sm-3">
-            <div class="page-step">Mon Panier</div>
-          </div>
-          <div class="col-sm-3">
-            <div class="page-step">Mon adresse</div>
-          </div>
-          <div class="col-sm-3">
-            <div class="page-step active">Mode de livraison</div>
-          </div>
-          <div class="col-sm-3">
-            <div class="page-step">Paiement</div>
-          </div>
-        </div>
-
-
-        {% for flashMessage in app.session.flashbag.get('notice') %}
-          <div class="alert alert-warning">{{ flashMessage }}</div>
-        {% endfor %}
+                <div class="page-steps row">
+                    <div class="col-sm-3">
+                        <div class="page-step">Mon Panier</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step">Mon adresse</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step active">Mode de livraison</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step">Paiement</div>
+                    </div>
+                </div>
 
 
-        {% if products is empty %}
-          <p>Votre panier est vide.</p>
-        {% else %}
-          <form action="{{ path(app.request.attributes.get('_route')) }}" method="post" id="form-carts">
-            <div class="table-responsive">
-              <table class="table table-carts">
-                <thead>
-                <tr>
-                  <th>Produit</th>
-                  <th>Nom</th>
-                  <th>Mode de livraison</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for product in products %}
-                  <tr>
-                    <td>
-                      <a target="_blank"
-                         href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
-                        {% if product.getImages()[0] is defined %}<img
-                          src="{{ loadpic(product.getImages()[0], 88, 88, "r3") }}"
-                          alt="{{ product.name }} " />{% endif %}
-                      </a>
-                    </td>
-                    <td><a target="_blank"
-                           href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a>
-                    </td>
-                    <td style="width: 50%;">
-
-                      {% set deliveries = deliveriesByProduct[product.id] %}
-                      <table class="table table-delivery">
-                        {% for delivery in deliveries %}
-                          <tr>
-                            <td class="logo" style="width: 10%;"><input type="radio" value="{{ delivery.operator.code  }}{{ delivery.service.code  }}" name="deliveryMode[{{ product.id }}]" {% if loop.first %}checked{% endif %}/></td>
-                            <td class="logo" style="width: 20%; text-align: center;">
-                              <img src="{{ delivery.operator.logo }}" class="img-responsive" />
-                            </td>
-                            <td>
-                              {{ delivery.service.label }}
-                              <br /><small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
-                            </td>
-                            <td class="price" style="width: 25%; text-align: right;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
-                          </tr>
-                        {% endfor %}
-
-                        {% for deliv in product.deliveries %}
-
-                          <tr>
-                            <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code  }}" name="deliveryMode[{{ product.id }}]"/></td>
-                            <td colspan="2">
-                              {{ deliv.deliveryMode.name }}
-                              <br /><small>{{ deliv.deliveryMode.description }}</small>
-                            </td>
-                            <td class="price" style="width: 25%; text-align: right;">{{ deliv.fee }} €</td>
-                          </tr>
-
-                        {% endfor %}
-                      </table>
-
-
-                    </td>
-                  </tr>
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-warning">{{ flashMessage }}</div>
                 {% endfor %}
-                </tbody>
-              </table>
-            </div>
 
-            <div class="text-right">
-              <input class="btn btn-primary" type="submit" value="Finaliser ma commande">
-            </div>
-          </form>
 
-        {% endif %}
+                {% if products is empty %}
+                    <p>Votre panier est vide.</p>
+                {% else %}
+                    <form action="{{ path(app.request.attributes.get('_route')) }}" method="post" id="form-carts">
+                        <div class="table-responsive">
+                            <table class="table table-carts">
+                                <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Nom</th>
+                                    <th>Mode de livraison</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for product in products %}
+                                    <tr>
+                                        <td>
+                                            <a target="_blank"
+                                               href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                                                {% if product.getImages()[0] is defined %}<img
+                                                    src="{{ loadpic(product.getImages()[0], 88, 88, "r3") }}"
+                                                    alt="{{ product.name }} " />{% endif %}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
+                                                {{ product.name }}
+                                            </a>
+                                        </td>
+                                        <td style="width: 50%;">
 
-      </div><!-- .main -->
-    </div><!-- .container -->
-  </div><!-- .main-wrapper -->
+                                            {% set deliveries = deliveriesByProduct[product.id] %}
+                                            <table class="table table-delivery">
+                                                {% if product.emc %}
+                                                {% for delivery in deliveries %}
+                                                    <tr>
+                                                        <td class="logo" style="width: 10%;"><input type="radio"  id="deliveryMode[{{ product.id }}]" value="{{ delivery.operator.code }}{{ delivery.service.code }}" name="deliveryMode[{{ product.id }}]" {% if loop.first %}checked{% endif %}/></td>
+                                                        <td class="logo" style="width: 20%; text-align: center;">
+                                                            <img src="{{ delivery.operator.logo }}" class="img-responsive" style="85%; margin: 0 auto;"/>
+                                                        </td>
+                                                        <td>
+                                                            {{ delivery.service.label }}
+                                                            <br/>
+                                                            <small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
+                                                        </td>
+                                                        <td class="price" style="width: 25%; text-align: right;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                {% endif %}
+
+                                                {% for deliv in product.deliveries %}
+
+                                                    <tr>
+                                                        <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code }}" id="deliveryMode[{{ product.id }}]" name="deliveryMode[{{ product.id }}]"/></td>
+                                                        <td></td>
+                                                        <td colspan="1">
+                                                            {{ deliv.deliveryMode.name }}
+                                                            <br/>
+                                                            <small>{{ deliv.deliveryMode.description }}</small>
+                                                        </td>
+                                                        <td class="price" style="width: 25%; text-align: right;">{{ deliv.fee }} €</td>
+                                                    </tr>
+
+                                                {% endfor %}
+                                            </table>
+
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="text-right">
+                            <input class="btn btn-primary" type="submit" value="Finaliser ma commande">
+                        </div>
+                    </form>
+
+                {% endif %}
+
+            </div><!-- .main -->
+        </div><!-- .container -->
+    </div><!-- .main-wrapper -->
 
 {% endblock %}

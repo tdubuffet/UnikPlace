@@ -3,59 +3,102 @@
 {% block javascript_include %}{{ jsinit(['deposit']) }}{% endblock javascript_include %}
 
 {% block body %}
-<div class="main-wrapper">
-  <div class="container">
-    <div class="main deposit">
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="main deposit">
 
-      <div class="page-steps row">
-        <div class="col-sm-3">
-          <div class="page-step">Photos</div>
-        </div>
-        <div class="col-sm-3">
-          <div class="page-step active">Description</div>
-        </div>
-        <div class="col-sm-3">
-          <div class="page-step">Prix</div>
-        </div>
-        <div class="col-sm-3">
-          <div class="page-step">Livraison</div>
-        </div>
-      </div>
+                <div class="page-steps row">
+                    <div class="col-sm-3">
+                        <div class="page-step">Photos</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step active">Description</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step">Prix</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="page-step">Livraison</div>
+                    </div>
+                </div>
 
-      <div class="row">
-        <div class="col-sm-8 col-center-block">
-          {% for flash_message in app.session.flashBag.get('error') %}
-            {% for error in flash_message %}
-              <div class="alert alert-danger">
-                {{ error }}
-              </div>
-            {% endfor %}
-          {% endfor %}
+                <div class="row">
+                    <div class="col-sm-8 col-center-block">
 
-          <form method="post" action="{{ path('deposit_postdescription') }}" id="description-form">
-            <div class="form-group">
-              <label class="required">Titre</label>
-              <input type="text" name="name" class="form-control" placeholder="Rédigez le titre de votre produit" value="{% if app.session.get('deposit').name is defined %}{{ app.session.get('deposit').name }}{% endif %}">
-            </div>
-            <div class="form-group">
-              <label class="required">Description</label>
-              <textarea name="description" class="form-control" rows="3" placeholder="Expliquez l'histoire de votre produit, son état et détaillez ses caractéristiques">{% if app.session.get('deposit').description is defined %}{{ app.session.get('deposit').description }}{% endif %}</textarea>
-            </div>
+                        <h4>Description de mon produit</h4>
 
-            {% for customField in customFields %}
-              {{ customField|raw }}
-            {% endfor %}
+                        {% for flash_message in app.session.flashBag.get('error') %}
+                            {% for error in flash_message %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
 
-            <div class="text-center">
-              <input type="submit" class="btn btn-default" value="Etape suivante" />
-            </div>
+                        <form method="post" action="{{ path('deposit_postdescription') }}" id="description-form">
+                            <div class="form-group">
+                                <label class="required">Titre</label>
+                                <input type="text" name="name" class="form-control" placeholder="Rédigez le titre de votre produit" value="{% if app.session.get('deposit').name is defined %}{{ app.session.get('deposit').name }}{% endif %}">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Description</label>
+                                <textarea name="description" class="form-control" rows="3" placeholder="Expliquez l'histoire de votre produit, son état et détaillez ses caractéristiques">{% if app.session.get('deposit').description is defined %}{{ app.session.get('deposit').description }}{% endif %}</textarea>
+                            </div>
 
-          </form>
-        </div><!-- col -->
-      </div><!-- .row -->
+                            {% for customField in customFields %}
+                                {{ customField|raw }}
+                            {% endfor %}
 
-    </div><!-- .main -->
-  </div><!-- .container -->
-</div><!-- .main-wrapper -->
+
+                            <h4 class="title-description-technique">Informations techniques de mon produit</h4>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="required">Largeur en cm</label>
+                                        <input type="number" name="width" id="product-width" class="form-control" min="1"
+                                               placeholder="Largeur du produit en cm" value="{{ shippingFormData.width is defined ? shippingFormData.width : app.request.get('width') }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="required">Longueur en cm</label>
+                                        <input type="number" name="length" id="product-length" class="form-control" min="1"
+                                               placeholder="Longueur du produit en cm" value="{{ shippingFormData.length is defined ? shippingFormData.length : app.request.get('length') }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="required">Hauteur en cm</label>
+                                        <input type="number" name="height" id="product-height" class="form-control" min="1"
+                                               placeholder="Hauteur du produit en cm" value="{{ shippingFormData.height is defined ? shippingFormData.height : app.request.get('height') }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="required">Poids en kg</label>
+                                        <input type="number" name="weight" id="product-weight" class="form-control" min="1"
+                                               placeholder="Poids du produit en kg" value="{{ shippingFormData.weight is defined ? shippingFormData.weight : app.request.get('weight') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="text-center">
+                                <br />
+                                <input type="submit" class="btn btn-default" value="Etape suivante"/>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div><!-- .row -->
+
+            </div><!-- .main -->
+        </div><!-- .container -->
+    </div><!-- .main-wrapper -->
 
 {% endblock %}
