@@ -278,13 +278,13 @@
 
                                                                             {% if delivery.deliveryMode.type == 'by_hand' %}
                                                                                 <li>- Remise en main propre</li>
-                                                                            {% elseif delivery.deliveryMode.type == 'seller_custom'  %}
+                                                                            {% elseif delivery.deliveryMode.type == 'shipping'  %}
                                                                                 <li>- Livraison en France</li>
                                                                             {% endif %}
                                                                         {% endfor %}
 
                                                                         {% if product.emc %}
-                                                                            <li>- Livraison à l'international</li>
+                                                                            <li>- Livraison en France et à l'international</li>
                                                                         {% endif %}
 
                                                                         </ul>
