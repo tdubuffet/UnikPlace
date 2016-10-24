@@ -390,10 +390,15 @@ class MangoPayService
         $Transfer->DebitedFunds->Currency   = 'EUR';
         $Transfer->DebitedFunds->Amount     = $order->getAmount() * 100;
 
+        $debitedSupplEmc = 0;
+        if ($order->getEmc()) {
+            $debitedSupplEmc = $order->getDeliveryAmount();
+        }
+
         $Transfer->Fees = new \MangoPay\Money();
         $Transfer->Fees->Currency       = "EUR";
         $feeRate = $this->getFeeRateFromProductAndOrderAmount($order->getProduct(), $order->getProductAmount());
-        $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($feeRate/100) + $this->config['fixed_fee']*100);
+        $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($feeRate/100) + $this->config['fixed_fee']*100 + $debitedSupplEmc*100);
 
         $Transfer->DebitedWalletID      = $order->getUser()->getMangopayBlockedWalletId();
         $Transfer->CreditedWalletId     = $order->getProduct()->getUser()->getMangopayFreeWalletId();
