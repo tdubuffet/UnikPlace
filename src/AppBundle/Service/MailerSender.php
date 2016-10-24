@@ -347,4 +347,68 @@ class MailerSender
         ];
         $this->sendMessage($template, $context, $this->parameters['from_email'], $proposal->getUser()->getEmail());
     }
+
+    public function sendValidatedEmcToSeller(Order $order)
+    {
+
+        $template = 'OrderBundle:emc:seller_validated.email.twig';
+        $product = $order->getProduct();
+        $seller = $product->getUser();
+
+        $orderUrl = $this->router->generate('user_account_sale', [
+            'id' => $order->getId()
+        ], UrlGeneratorInterface::ABSOLUTE_URL );
+
+        $context = [
+            'order' => $order,
+            'product' => $product,
+            'user' => $seller,
+            'orderUrl' => $orderUrl
+        ];
+
+        $this->get('mailer')->s($template, $context, $this->parameters['from_email'], $seller->getEmail());
+    }
+
+    public function sendTransitEmcToBuyer(Order $order)
+    {
+
+        $template = 'OrderBundle:emc:buyer_transit.email.twig';
+        $product = $order->getProduct();
+        $buyer = $order->getUser();
+
+        $orderUrl = $this->router->generate('user_account_sale', [
+            'id' => $order->getId()
+        ], UrlGeneratorInterface::ABSOLUTE_URL );
+
+        $context = [
+            'order' => $order,
+            'product' => $product,
+            'user' => $buyer,
+            'orderUrl' => $orderUrl
+        ];
+
+        $this->get('mailer')->s($template, $context, $this->parameters['from_email'], $buyer->getEmail());
+    }
+
+
+    public function sendArrivalEmcToBuyer(Order $order)
+    {
+
+        $template = 'OrderBundle:emc:buyer_arrival.email.twig';
+        $product = $order->getProduct();
+        $buyer = $order->getUser();
+
+        $orderUrl = $this->router->generate('user_account_sale', [
+            'id' => $order->getId()
+        ], UrlGeneratorInterface::ABSOLUTE_URL );
+
+        $context = [
+            'order' => $order,
+            'product' => $product,
+            'user' => $buyer,
+            'orderUrl' => $orderUrl
+        ];
+
+        $this->get('mailer')->s($template, $context, $this->parameters['from_email'], $buyer->getEmail());
+    }
 }

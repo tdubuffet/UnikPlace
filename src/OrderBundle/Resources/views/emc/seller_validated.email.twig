@@ -1,0 +1,17 @@
+{% block subject %}Informations de livraison{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        Bonjour {{ user.firstname }} !
+
+        La livraison pour l'achat {{ product.name }} a été confirmé par le transporteur.
+        Vous pouvez voir les instructions de livraison sur la page de commande: {{ orderUrl }}
+
+        A bientôt,
+        L'équipe
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% include 'seller_validated.html.twig' %}
+{% endblock %}

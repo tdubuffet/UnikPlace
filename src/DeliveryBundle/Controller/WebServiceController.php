@@ -80,12 +80,11 @@ class WebServiceController extends Controller
                 switch ($values['etat']) {
 
                     case 'CMD':
-                        //@todo commande validé: Envoyer un mail ?
+                        $this->get('mailer_sender')->sendValidatedEmcToSeller($order);
                         break;
 
                     case 'ENV':
-                        //@todo Colis en transit: On envoie un mail ?
-
+                        $this->get('mailer_sender')->sendValidatedEmcToSeller($order);
                         break;
 
                     case 'ANL':
@@ -94,7 +93,7 @@ class WebServiceController extends Controller
                         break;
 
                     case 'LIV':
-                        //@todo Colis livré: Envoyer un mail ?
+                        $this->get('mailer_sender')->sendArrivalEmcToBuyer($order);
                         break;
 
                 }

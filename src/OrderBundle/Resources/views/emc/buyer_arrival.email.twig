@@ -1,0 +1,18 @@
+{% block subject %}Informations de livraison{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        Bonjour {{ user.firstname }} !
+
+        Le colis concernant l'achat {{ product.name }} est arrivé chez vous.
+        Si le produit receptionné correspond bien à votre achat , vous pouvez confirmer la vente et noter le vendeur sur la page de commande: {{ orderUrl }}
+        Dans le cas contraire, il vous est possible d'ouvrir un litige sur cette même page.
+
+        A bientôt,
+        L'équipe
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% include 'buyer_arrival.html.twig' %}
+{% endblock %}

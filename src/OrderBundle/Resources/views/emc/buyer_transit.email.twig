@@ -1,0 +1,17 @@
+{% block subject %}Informations de livraison{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        Bonjour {{ user.firstname }} !
+
+        Le colis concernant l'achat {{ product.name }} est actuellement en transit chez le transporteur.<br />
+        Vous pouvez suivre votre colis sur la page de commande: {{ orderUrl }}
+
+        A bientôt,
+        L'équipe
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% include 'buyer_transit.html.twig' %}
+{% endblock %}
