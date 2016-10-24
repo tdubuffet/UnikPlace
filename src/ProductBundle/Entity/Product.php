@@ -853,7 +853,7 @@ class Product
     /**
      * @return string
      */
-    public function getEmc(): string
+    public function getEmc()
     {
         return $this->emc;
     }
@@ -861,7 +861,7 @@ class Product
     /**
      * @param string $emc
      */
-    public function setEmc(string $emc)
+    public function setEmc($emc)
     {
         $this->emc = $emc;
     }
