@@ -3,6 +3,7 @@
 namespace DeliveryBundle\Service;
 use DeliveryBundle\Emc\OrderStatus;
 use DeliveryBundle\Emc\Quotation;
+use Doctrine\ORM\EntityManager;
 use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -25,7 +26,9 @@ class Delivery
 
     private $router;
 
-    public function __construct($parameters, Router $router)
+    private $em;
+
+    public function __construct($parameters, Router $router, EntityManager $em)
     {
 
         if (!isset($parameters['mode']) || !isset($parameters['user']) || !isset($parameters['pass']) || !isset($parameters['key']) || !isset($parameters['carriers'])){
@@ -37,6 +40,8 @@ class Delivery
         $this->carriersEnabled = $parameters['carriers'];
 
         $this->router = $router;
+
+        $this->em = $em;
 
         define("EMC_MODE", $parameters['mode']);
         define("EMC_USER", $parameters['user']);
@@ -242,7 +247,7 @@ class Delivery
         return $d && $d->format('d/m/Y') === $date;
     }
 
-    public function makeOrder(Order $order, $emcValues)
+    public function makeOrder(Order &$order, $emcValues)
     {
         $delivery = $this->prepareDeliveryByOrder($order);
 
@@ -341,7 +346,26 @@ class Delivery
         $lib = new Quotation();
         $lib->makeOrder($from, $to, $parcels, $paramsAdds, true);
 
-        $this->handlerError($lib);
+        try{
+            $this->handlerError($lib);
+        } catch(\Exception $e) {
+
+            $statusError = $this->em->getRepository('OrderBundle:Status')->findByName('error');
+
+            $order->setStatus($statusError);
+            $order->setErrorMessage($e->getMessage());
+
+            return false;
+        }
+
+        if (!$lib->order) {
+            $statusError = $this->em->getRepository('OrderBundle:Status')->findByName('error');
+
+            $order->setStatus($statusError);
+            $order->setErrorMessage('EMC - No delivery found for this order');
+
+            return false;
+        }
 
         return $lib->order;
     }
@@ -393,8 +417,6 @@ class Delivery
             foreach ($lib->resp_errors_list as $m => $message) {
                 $error .= $message["message"];
             }
-
-            var_dump($error);
 
             throw new \Exception($error);
 

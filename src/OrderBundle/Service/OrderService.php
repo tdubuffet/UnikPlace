@@ -240,23 +240,6 @@ class OrderService
     public function validateOrder(Order $order, Request $request, \DeliveryBundle\Service\Delivery $deliveryService)
     {
 
-        if ($order->getDelivery()->getDeliveryMode()->isEmc()) {
-
-
-            $emcValues= $request->get('emc');
-
-            $emc = $deliveryService->makeOrder($order, $emcValues);
-
-            if ($emc) {
-                $order->setEmc(true);
-                $order->setEmcDate($emc['date']);
-                $order->setEmcRef($emc['ref']);
-                $order->setEmcInfos($emc);
-            }
-
-        }
-        
-        
         $amount = $order->getMangopayPreauthorizationId();
         $totalAmount = $this->em->getRepository('OrderBundle:Order')->getTotalAmount($amount);
         $payInId = $this->mangopayService->createPayIn($order->getUser(), $order, $totalAmount);
@@ -269,6 +252,22 @@ class OrderService
 
             $statusAccepted = $this->em->getRepository('OrderBundle:Status')->findOneBy(['name' => 'accepted']);
             $order->setStatus($statusAccepted);
+
+            if ($order->getDelivery()->getDeliveryMode()->isEmc()) {
+
+
+                $emcValues= $request->get('emc');
+
+                $emc = $deliveryService->makeOrder($order, $emcValues);
+
+                if ($emc) {
+                    $order->setEmc(true);
+                    $order->setEmcDate($emc['date']);
+                    $order->setEmcRef($emc['ref']);
+                    $order->setEmcInfos($emc);
+                }
+
+            }
 
             $this->em->persist($product);
 
