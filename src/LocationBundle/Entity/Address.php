@@ -241,7 +241,7 @@ class Address
     /**
      * @param string $civility
      */
-    public function setCivility(string $civility)
+    public function setCivility($civility)
     {
         $this->civility = $civility;
     }
