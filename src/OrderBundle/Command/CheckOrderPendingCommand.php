@@ -50,7 +50,7 @@ class CheckOrderPendingCommand extends ContainerAwareCommand
         }
         $orders = $manager->getRepository("OrderBundle:Order")->findBy(['status' => 2]);
         foreach ($orders as $order) {
-            if ($order->getCreatedAt() < new \DateTime("-15days") && $order->getEmc() == false) {
+            if ($order->getCreatedAt() < new \DateTime("-30days") && $order->getEmc() == false) {
                 $this->getContainer()->get('order_service')->disputeOrder($order);
                 $logger->addNotice(sprintf("Order %s validated from cron %s", $order->getId(), __CLASS__));
             }
