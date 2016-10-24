@@ -256,7 +256,7 @@ class Delivery
             'civilite'      => ($order->getProduct()->getAddress()->getCivility() == 'mr') ? 'M': 'Mme',
             'prenom'        => $order->getProduct()->getUser()->getLastname(),
             'nom'           => $order->getProduct()->getUser()->getFirstname(),
-            'email'         => 'dubuffet.thibault@gmail.com', //@todo bouchon
+            'email'         => $order->getProduct()->getUser()->getEmail(),
             'tel'           => $order->getProduct()->getUser()->getPhone(),
             'infos'         => $order->getProduct()->getAddress()->getAdditional()
         );
@@ -269,12 +269,12 @@ class Delivery
             'pays'          => 'FR',  // must be an ISO code, set get_country example on how to get codes @todo INTERNATIONAL
             'code_postal'   => $order->getDeliveryAddress()->getCity()->getZipcode(),
             'ville'         =>  $order->getDeliveryAddress()->getCity()->getName(),
-            'type'          => 'particulier', // accepted values are "particulier" or "entreprise"
+            'type'          => ($order->getUser()->getPro()) ? 'entreprise' : 'particulier',
             'adresse'       => $order->getDeliveryAddress()->getStreet(),
             'civilite'      => ($order->getDeliveryAddress()->getCivility() == 'mr') ? 'M' : 'Mme',
             'prenom'        => $order->getUser()->getLastname(),
             'nom'           => $order->getUser()->getFirstname(),
-            'email'         => 'dubuffet.thibault@gmail.com', //@todo bouchon
+            'email'         => $order->getUser()->getEmail(),
             'tel'           => $order->getUser()->getPhone(),
             'infos'         => $order->getDeliveryAddress()->getAdditional()
         );
@@ -300,7 +300,7 @@ class Delivery
             'operator'              => $delivery['operator']['code'],
             'service'               => $delivery['service']['code'],
             'raison'                => 'sale',
-            'content_code'          => 40110,
+            'content_code'          => 60100,
             'url_push'              => $this->router->generate('emc_tracking', [
                 'order' => $order->getId(),
                 'key' => md5('emc_delivery'),
