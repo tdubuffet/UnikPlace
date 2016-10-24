@@ -198,6 +198,13 @@ class Order
     private $emcStatus;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="error_message", type="text")
+     */
+    private $errorMessage;
+
+    /**
      * Get id
      *
      * @return int
@@ -715,6 +722,22 @@ class Order
     public function setEmcStatus($emcStatus)
     {
         $this->emcStatus = $emcStatus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage(): string
+    {
+        return $this->errorMessage;
+    }
+
+    /**
+     * @param string $errorMessage
+     */
+    public function setErrorMessage(string $errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
     }
     
 }

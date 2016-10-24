@@ -50,9 +50,15 @@ class CheckOrderPendingCommand extends ContainerAwareCommand
         }
         $orders = $manager->getRepository("OrderBundle:Order")->findBy(['status' => 2]);
         foreach ($orders as $order) {
-            if ($order->getCreatedAt() < new \DateTime("-15days")) {
-                $this->getContainer()->get('order_service')->cancelOrder($order);
-                $logger->addNotice(sprintf("Order %s canceled from cron %s", $order->getId(), __CLASS__));
+            if ($order->getCreatedAt() < new \DateTime("-15days") && $order->getEmc() == false) {
+                $this->getContainer()->get('order_service')->disputeOrder($order);
+                $logger->addNotice(sprintf("Order %s validated from cron %s", $order->getId(), __CLASS__));
+            }
+
+            $track = $order->getEmcTracking();
+            if ($order->getEmc() == true && isset($track['etat']) && $track['etat'] == "LIV" && $order->getCreatedAt() < new \DateTime("-15days")) {
+                $this->getContainer()->get('order_service')->validateOrder($order);
+                $logger->addNotice(sprintf("Order %s validated EMC from cron %s", $order->getId(), __CLASS__));
             }
         }
 
