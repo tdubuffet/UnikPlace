@@ -371,6 +371,12 @@ class Delivery
             'Authorization: ' . base64_encode(EMC_USER . ':' . EMC_PASS) . ''
         ]);
 
+        var_dump(dirname(__FILE__).'/../Emc/ca/ca-bundle.crt'); die;
+
+        curl_setopt($ch, CURLOPT_CAINFO , dirname(__FILE__).'/../Emc/ca/ca-bundle.crt');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+
         $result = curl_exec($ch);
 
         // We now display the pdf

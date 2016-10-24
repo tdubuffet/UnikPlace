@@ -375,7 +375,7 @@ class WebService
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYHOST => $this->ssl_check['host'],
             CURLOPT_URL => $this->server . $options['action'] . $this->get_params,
-            CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt',
+            CURLOPT_CAINFO => dirname(__FILE__).'/../Emc/ca/ca-bundle.crt',
             CURLOPT_HEADER =>
                 'Content-type: application/xml'
         );
@@ -420,7 +420,7 @@ class WebService
                     'access_key : ' . $this->auth['key'] . '',
                     'Accept-Language: '.$this->lang_code,
                     'Api-Version: '.$this->api_version),
-                CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt')
+                CURLOPT_CAINFO => dirname(__FILE__).'/../Emc/ca/ca-bundle.crt')
                + ( ($this->timeout != null) ? array(CURLOPT_TIMEOUT_MS => $this->timeout) : array());
         }
     }
