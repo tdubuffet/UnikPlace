@@ -55,8 +55,8 @@ var Product = {
     initCarousel: function() {
         $("#img-products").owlCarousel({
             "autoPlay": false,
-            "items": 4,
-            "loop": true,
+            "items": 3,
+            "loop": false,
             responsiveClass:true,
             responsive:{
                 0:{

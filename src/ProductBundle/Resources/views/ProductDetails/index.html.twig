@@ -98,17 +98,19 @@
 
                                                         <div style="clear: both;"></div>
 
+                                                        {% if images|length > 3 %}
                                                         <div class="owl-nav">
                                                             <i class="fa fa-long-arrow-left owl-nav-left img-products-nav"></i>
                                                             <i class="fa fa-long-arrow-right owl-nav-right img-products-nav"></i>
                                                         </div>
+                                                        {% endif %}
 
                                                         <div class="category-products">
                                                             <ul class="products-grid owl-carousel" id="img-products">
                                                                 {% for k, image in images %}
                                                                     <li class="item hover-effect">
                                                                         <a class="thumb-link" href="#" data-image-index="{{ k }}">
-                                                                            <img class="img-responsive" src="{{ loadpic(image, 88, 88, imgType) }}" data-src="{{ loadpic(image, 1000, 1000, imgType) }}" alt="miniature {{ k }}"/>
+                                                                            <img class="img-responsive" src="{{ loadpic(image, 100, 100, imgType) }}" data-src="{{ loadpic(image, 1000, 1000, imgType) }}" alt="miniature {{ k }}"/>
                                                                         </a>
                                                                     </li>
                                                                 {% endfor %}
