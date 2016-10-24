@@ -727,7 +727,7 @@ class Order
     /**
      * @return string
      */
-    public function getErrorMessage(): string
+    public function getErrorMessage()
     {
         return $this->errorMessage;
     }
@@ -735,7 +735,7 @@ class Order
     /**
      * @param string $errorMessage
      */
-    public function setErrorMessage(string $errorMessage)
+    public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
     }
