@@ -1,4 +1,4 @@
 services:
     delivery.emc:
         class: DeliveryBundle\Service\Delivery
-        arguments: ['%emc%', '@router']
+        arguments: ['%emc%', '@router', '@doctrine.orm.entity_manager']
