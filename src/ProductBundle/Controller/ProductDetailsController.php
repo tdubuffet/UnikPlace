@@ -29,7 +29,9 @@ class ProductDetailsController extends Controller
         if (!in_array($product->getStatus()->getName(), [
             'published', 'sold', 'unavailable'
         ])) {
-            throw new NotFoundHttpException("Product status is not valid");
+            return $this->redirectToRoute('category', [
+                'path' => $product->getCategory()->getPath()
+            ], 301);
         }
 
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
