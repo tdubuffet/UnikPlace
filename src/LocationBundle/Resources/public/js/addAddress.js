@@ -7,7 +7,7 @@ var AddAddress = {
         // Address jQuery Validator
         function AddressValidator(value, element, paras) {
 
-            if (!$.trim($('#address_route').val()).length) {
+            if (!$.trim($('#address_route').val()).length && !$.trim($('#address_sublocality_level_1').val()).length) {
                 return false;
             }
 
@@ -38,6 +38,7 @@ var AddAddress = {
             var placeSearch, autocomplete;
             var componentForm = {
                 street_number: 'short_name',
+                sublocality_level_1: 'long_name',
                 route: 'long_name',
                 locality: 'long_name',
                 administrative_area_level_1: 'short_name',

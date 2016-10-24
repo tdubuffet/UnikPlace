@@ -71,7 +71,7 @@ class AddressForm
             $address->setFirstname($values['firstname']);
             $address->setLastname($values['lastname']);
 
-            $address->setStreet($values['street_number'] . ' ' . $values['route']);
+            $address->setStreet($values['street_number'] . ' ' . $values['route'] . ' ' . $values['sublocality_level_1']);
             $address->setAdditional($values['additional']);
 
             $this->em->persist($address);

@@ -101,11 +101,11 @@ class RegistrationListener implements EventSubscriberInterface
             $address = new Address();
             $address->setFirstname($user->getFirstname());
             $address->setLastname($user->getLastname());
-            $address->setStreet($street['street_number'] . ' ' . $street['route']);
+            $address->setStreet($street['street_number'] . ' ' . $street['route']. ' ' . $street['sublocality_level_1']);
             $address->setCity($city);
             $address->setUser($user);
 
-            $user->setCompanyAddress($street['street_number'] . ' ' . $street['route']);
+            $user->setCompanyAddress($street['street_number'] . ' ' . $street['route']. ' ' . $street['sublocality_level_1']);
             $user->setCompanyZipcode($city->getZipcode());
             $user->setCompanyCity($city->getName());
             $user->addAddress($address);

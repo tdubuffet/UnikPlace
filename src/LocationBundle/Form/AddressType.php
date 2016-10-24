@@ -45,6 +45,7 @@ class AddressType extends AbstractType
                 'label' => 'Ajouter cette adresse'
             ])
             ->add('street_number', HiddenType::class)
+            ->add('sublocality_level_1', HiddenType::class)
             ->add('locality', HiddenType::class)
             ->add('route', HiddenType::class)
             ->add('administrative_area_level_1', HiddenType::class)
