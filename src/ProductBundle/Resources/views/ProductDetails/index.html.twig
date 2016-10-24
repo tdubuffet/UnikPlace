@@ -266,6 +266,42 @@
                                                     </div>
 
 
+                                                    <div class="middle-product-detail">
+
+                                                        <div class="review-product-details">
+                                                            <div class="short-description-detail">
+                                                                <div class="short-description">
+                                                                    <div class="std">
+                                                                        <b>Les modes de livraison: </b>
+                                                                        <ul>
+                                                                        {% for delivery in product.deliveries.toArray %}
+
+                                                                            {% if delivery.deliveryMode.type == 'by_hand' %}
+                                                                                <li>- Remise en main propre</li>
+                                                                            {% elseif delivery.deliveryMode.type == 'seller_custom'  %}
+                                                                                <li>- Livraison en France</li>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+
+                                                                        {% if product.emc %}
+                                                                            <li>- Livraison à l'international</li>
+                                                                        {% endif %}
+
+                                                                        </ul>
+
+                                                                        <p class="info-delivery">
+                                                                            Modes et Frais de livraison : vous pourrez sélectionner votre mode de livraison une fois le produit ajouté au panier<br />
+                                                                            Délais de livraison : de 5 à 30 jours en France Métropolitaine
+                                                                        </p>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
                                                 </div><!-- .product-shop-wrapper -->
                                             </div><!-- .product-shop -->
 
