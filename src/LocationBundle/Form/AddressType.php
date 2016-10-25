@@ -24,11 +24,11 @@ class AddressType extends AbstractType
                 'required' => true
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Nom du destinataire',
+                'label' => 'Nom',
                 'required' => true
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Prénom du destinataire',
+                'label' => 'Prénom',
                 'required' => true
             ])
             ->add('street', TextType::class, [
