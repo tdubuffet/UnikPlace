@@ -115,7 +115,7 @@ class Delivery
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
-            'offers' => $this->carriersEnabled,
+            //'offers' => $this->carriersEnabled,
             'content_code'          => $product->getCategory()->getEmcCode()
         );
 
@@ -186,7 +186,7 @@ class Delivery
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
-            'offers' => $this->carriersEnabled,
+            //'offers' => $this->carriersEnabled,
             'content_code' => $product->getCategory()->getEmcCode(),
             'assurance.selection' => false,
         );
