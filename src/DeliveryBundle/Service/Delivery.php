@@ -116,7 +116,7 @@ class Delivery
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             'offers' => $this->carriersEnabled,
-            'content_code'          => $product->getCategory()->getEmcCode()
+            'content_code'          => 200
         );
 
         $parcels = array(
@@ -187,7 +187,7 @@ class Delivery
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             'offers' => $this->carriersEnabled,
-            'content_code' => $product->getCategory()->getEmcCode(),
+            'content_code' => 200,
             'assurance.selection' => false,
         );
 
@@ -282,7 +282,7 @@ class Delivery
             'operator'              => $delivery['operator']['code'],
             'service'               => $delivery['service']['code'],
             'raison'                => 'sale',
-            'content_code'          => $order->getProduct()->getCategory()->getEmcCode(),
+            'content_code'          => 200,
             'url_push'              => $this->router->generate('emc_tracking', [
                 'order' => $order->getId(),
                 'key' => md5('emc_delivery'),
