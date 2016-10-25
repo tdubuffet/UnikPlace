@@ -200,7 +200,7 @@ class Order
     /**
      * @var string
      *
-     * @ORM\Column(name="error_message", type="text")
+     * @ORM\Column(name="error_message", type="text", nullable=true)
      */
     private $errorMessage;
 
