@@ -68,7 +68,7 @@
                                                     <tr>
                                                         <td class="logo" style="width: 10%;"><input type="radio"  id="deliveryMode[{{ product.id }}]" value="{{ delivery.operator.code }}{{ delivery.service.code }}" name="deliveryMode[{{ product.id }}]" {% if loop.first %}checked{% endif %}/></td>
                                                         <td class="logo" style="width: 20%; text-align: center;">
-                                                            <img src="{{ delivery.operator.logo }}" class="img-responsive" style="85%; margin: 0 auto;"/>
+                                                            <img src="{{ delivery.operator.logo|replace({'http://': '//'}) }}" class="img-responsive" style="85%; margin: 0 auto;"/>
                                                         </td>
                                                         <td>
                                                             {{ delivery.service.label }}
