@@ -14,6 +14,7 @@ use ProductBundle\Entity\Category;
 use ProductBundle\Form\CategoryImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -78,6 +79,16 @@ class CreateCategoryForm extends AbstractType
                 CategoryImageType::class,
                 ['label' => 'Image', 'required' => $options['img_req'], 'label_attr' => ['class' => 'hidden']]
             )
+
+            ->add(
+                "emcCode",
+                ChoiceType::class,
+                [
+                    'label' => 'Catégorie envoi moins cher',
+                    'required' => true,
+                    'choices' => $options['emcCategories']
+                ]
+            )
             ->add('save', SubmitType::class, ['label' => 'Sauvegarder la catégorie']);
     }
 
@@ -86,7 +97,7 @@ class CreateCategoryForm extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'ProductBundle\Entity\Category', 'img_req' => true]);
+        $resolver->setDefaults(['data_class' => 'ProductBundle\Entity\Category', 'img_req' => true, 'emcCategories' => []]);
     }
 
 }

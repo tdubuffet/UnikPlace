@@ -1,6 +1,7 @@
 <?php
 
 namespace DeliveryBundle\Service;
+use DeliveryBundle\Emc\ContentCategory;
 use DeliveryBundle\Emc\OrderStatus;
 use DeliveryBundle\Emc\Quotation;
 use Doctrine\ORM\EntityManager;
@@ -134,11 +135,12 @@ class Delivery
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
-            'offers' => $this->carriersEnabled
+            'offers' => $this->carriersEnabled,
+            'content_code'          => 60100
         );
 
         $parcels = array(
-            'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+            'type' => 'encombrant', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
             'dimensions' => array(
                 1 => array(
                     'poids' => $product->getWeight() / 1000,
@@ -210,7 +212,7 @@ class Delivery
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             'offers' => $this->carriersEnabled,
-
+            'content_code'          => 60100,
             'assurance.selection' => false,
         );
 
@@ -310,7 +312,7 @@ class Delivery
                 'order' => $order->getId(),
                 'key' => md5('emc_delivery'),
                 UrlGeneratorInterface::ABSOLUTE_URL
-            ])//@todo fix content code delivery
+            ])
         ];
 
         if (isset($emcValues['date-order']) && $this->validateDate($emcValues['date-order'])) {
@@ -343,29 +345,9 @@ class Delivery
 
         }
 
+
         $lib = new Quotation();
         $lib->makeOrder($from, $to, $parcels, $paramsAdds, true);
-
-        try{
-            $this->handlerError($lib);
-        } catch(\Exception $e) {
-
-            $statusError = $this->em->getRepository('OrderBundle:Status')->findOneByName('error');
-
-            $order->setStatus($statusError);
-            $order->setErrorMessage($e->getMessage());
-
-            return false;
-        }
-
-        if (!$lib->order) {
-            $statusError = $this->em->getRepository('OrderBundle:Status')->findOneByName('error');
-
-            $order->setStatus($statusError);
-            $order->setErrorMessage('EMC - No delivery found for this order');
-
-            return false;
-        }
 
         return $lib->order;
     }
@@ -424,6 +406,31 @@ class Delivery
             throw new \Exception("Unable to send the request: ".$lib->curl_error_text);
         }
 
+    }
+
+    public function getCategories()
+    {
+        $lib = new ContentCategory();
+
+        $lib->getCategories();
+        $lib->getContents();
+
+
+        $array = [];
+
+        foreach ($lib->categories as $cat) {
+
+            $array[$cat['label']] = [];
+
+            foreach ($lib->contents[$cat['code']] as $cont) {
+
+                $array[$cat['label']][$cont['label']] = $cont['code'];
+
+            }
+
+        }
+
+        return $array;
     }
 
 }

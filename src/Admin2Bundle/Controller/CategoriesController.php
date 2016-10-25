@@ -42,9 +42,14 @@ class CategoriesController extends Controller
             $parent = $this->getDoctrine()->getRepository('ProductBundle:Category')->findOneBy(['id' => $id]);
             $category = new Category();
             $category->setParent($parent);
-            $form = $this->createForm(CreateCategoryForm::class, $category, ['img_req' => false]);
+            $form = $this->createForm(CreateCategoryForm::class, $category, [
+                'img_req' => false,
+                'emcCategories' => $this->get('delivery.emc')->getCategories()
+            ]);
         } else {
-            $form = $this->createForm(CreateCategoryForm::class, null, ['img_req' => false]);
+            $form = $this->createForm(CreateCategoryForm::class, null, ['img_req' => false,
+                'emcCategories' => $this->get('delivery.emc')->getCategories()
+            ]);
         }
 
         $form->handleRequest($request);
@@ -71,7 +76,9 @@ class CategoriesController extends Controller
     public function editCategoryAction(Request $request, Category $category)
     {
         $twigArray['category'] = $category;
-        $form = $this->createForm(CreateCategoryForm::class, $category, ['img_req' => false]);
+        $form = $this->createForm(CreateCategoryForm::class, $category, ['img_req' => false,
+            'emcCategories' => $this->get('delivery.emc')->getCategories()
+        ]);
         $form->handleRequest($request);
         $twigArray['form'] = $form->createView();
 
