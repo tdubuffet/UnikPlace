@@ -30,9 +30,15 @@ cart:
   title: "Mon panier"
   description: "Mon panier sur %siteName%"
 
+cart_delivery:
+  title: "Mon adresse - Mon panier"
+
 cart_delivery_emc:
-  title: "Choix de la livraison - Mon panier"
+  title: "Mode de livraison - Mon panier"
   description: "Mon panier sur %siteName%"
+
+cart_payment:
+  title: "Paiement - Mon panier"
 
 
 sell_category:
