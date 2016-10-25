@@ -277,7 +277,7 @@
                                                                         {% for delivery in product.deliveries.toArray %}
 
                                                                             {% if delivery.deliveryMode.type == 'by_hand' %}
-                                                                                <li>- Remise en main propre</li>
+                                                                                <li>- Retrait chez le vendeur</li>
                                                                             {% elseif delivery.deliveryMode.type == 'shipping'  %}
                                                                                 <li>- Livraison en France</li>
                                                                             {% endif %}
