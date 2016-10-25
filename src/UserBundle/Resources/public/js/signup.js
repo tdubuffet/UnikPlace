@@ -7,7 +7,7 @@ var Signup = {
         // Address jQuery Validator
         function AddressValidator(value, element, paras) {
 
-            if (!$.trim($('#fos_user_registration_form_route').val()).length) {
+            if (!$.trim($('#fos_user_registration_form_route').val()).length && !$.trim($('#fos_user_registration_form_sublocality_level_1').val()).length) {
                 return false;
             }
 
@@ -66,6 +66,7 @@ var Signup = {
         }
 
         $("#signup-form").validate({
+            onkeyup: true,
             rules: {
                 "fos_user_registration_form[email]": {
                     required: true,

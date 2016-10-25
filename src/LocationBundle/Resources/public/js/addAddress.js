@@ -72,7 +72,9 @@ var AddAddress = {
             if ($('#add-address-form')) {
 
                 // Enable jQuery Validation for the form
-                $('#add-address-form').validate({onkeyup: false});
+                $('#add-address-form').validate({
+                    onkeyup: true
+                });
 
                 // Add validation rules to the Address field
                 $("#address_street").rules("add", {
@@ -82,28 +84,6 @@ var AddAddress = {
                         fulladdress: "Cette adresse n'est pas valide. Si le problème persiste, merci de nous contacter."
                     }
                 });
-
-                // This function will be executed when the form is submitted
-                function FormSubmit() {
-                    $.submitForm = true;
-                    if (!$('#add-address-form').valid()) {
-                        return false;
-                    } else {
-                        if ($("#address_street").data("IsChecking") == true) {
-                            $("#address_street").data("SubmitForm", true);
-                            return false;
-                        }
-                        return true;   // Uncomment to submit the form.
-                    }
-                }
-
-                // Attach the FormSubmit function to the Submit button
-                if ($('#address_save')) {
-                    $("#address_save").click(FormSubmit);
-                }
-
-                // Execute the ForumSubmit function when the form is submitted
-                $('#add-address-form').submit(FormSubmit);
             }
 
         });
