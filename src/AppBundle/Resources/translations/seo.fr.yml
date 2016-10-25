@@ -40,6 +40,9 @@ cart_delivery_emc:
 cart_payment:
   title: "Paiement - Mon panier"
 
+cart_confirmation:
+  title: "Confirmation de ma commande"
+
 
 sell_category:
   title: "Choix de la catégorie"
