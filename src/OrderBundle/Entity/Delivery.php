@@ -38,7 +38,6 @@ class Delivery
     /**
      * @ORM\ManyToOne(targetEntity="DeliveryMode")
      * @ORM\JoinColumn(name="delivery_mode_id", referencedColumnName="id")
-     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      **/
     private $deliveryMode;
 
