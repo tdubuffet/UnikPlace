@@ -5,6 +5,7 @@ use DeliveryBundle\Emc\ContentCategory;
 use DeliveryBundle\Emc\OrderStatus;
 use DeliveryBundle\Emc\Quotation;
 use Doctrine\ORM\EntityManager;
+use LocationBundle\Entity\Address;
 use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -90,45 +91,24 @@ class Delivery
      * @param Product $product
      * @return array
      */
-    public function findDeliveryByProduct(User $user, $ip, Product $product)
+    public function findDeliveryByProduct(User $user, Address $address, $ip, Product $product)
     {
 
-        if ($user && $user->getAddresses()->count() > 0) {
 
-            $addressTo = $user->getAddresses()->first();
-
-            $to = array(
-                'pays'          => 'FR', //Bouchon not international
-                'ville'         => $addressTo->getCity()->getName(),
-                'type'          => 'particulier',
-                'adresse'       => $addressTo->getStreet(),
-                'code_postal'   => $addressTo->getCity()->getZipcode()
-            );
-
-        } else {
-
-            $data = $this->findCityZipCodeByIp($ip);
-
-            if (!isset($data->postal) || !isset($data->postal)) {
-                return [];
-            }
-
-            $to = array(
-                'pays'          => 'FR',
-                'ville'         => $data->city,
-                'type'          => 'particulier',
-                'adresse'       => '',
-                'code_postal'   => $data->postal
-            );
-        }
-
+        $to = array(
+            'pays'          => 'FR', //Bouchon not international
+            'ville'         => $address->getCity()->getName(),
+            'type'          => ($user->getPro()) ? 'entreprise' : 'particulier',
+            'adresse'       => $address->getStreet(),
+            'code_postal'   => $address->getCity()->getZipcode()
+        );
 
         $from = array(
             'pays'          => 'FR',
             'code_postal'   => $product->getAddress()->getCity()->getZipcode(),
             'ville'         => $product->getAddress()->getCity()->getName(),
-            'type'          => 'entreprise',
-            'adresse'       => ''
+            'type'          => ($product->getUser()->getPro()) ? 'entreprise' : 'particulier',
+            'adresse'       => $product->getAddress()->getStreet()
         );
 
 
@@ -136,7 +116,7 @@ class Delivery
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             'offers' => $this->carriersEnabled,
-            'content_code'          => 60100
+            'content_code'          => $product->getCategory()->getEmcCode()
         );
 
         $parcels = array(
@@ -180,21 +160,16 @@ class Delivery
         $deliveryCode = $order->getDelivery()->getDeliveryMode()->getCode();
 
         $user = $order->getUser();
-        
-        if ($user && $user->getAddresses()->count() > 0) {
 
-            $addressTo = $user->getAddresses()->first();
+        $addressTo = $order->getDeliveryAddress();
 
-            $to = array(
-                'pays'          => 'FR', //Bouchon not international
-                'ville'         => $addressTo->getCity()->getName(),
-                'type'          => ($user->getPro()) ? 'entreprise' : 'particulier',
-                'adresse'       => $addressTo->getStreet(),
-                'code_postal'   => $addressTo->getCity()->getZipcode()
-            );
-
-        }
-
+        $to = array(
+            'pays'          => 'FR', //Bouchon not international
+            'ville'         => $addressTo->getCity()->getName(),
+            'type'          => ($user->getPro()) ? 'entreprise' : 'particulier',
+            'adresse'       => $addressTo->getStreet(),
+            'code_postal'   => $addressTo->getCity()->getZipcode()
+        );
 
 
         $product = $order->getProduct();
@@ -212,7 +187,7 @@ class Delivery
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             'offers' => $this->carriersEnabled,
-            'content_code'          => 60100,
+            'content_code' => $product->getCategory()->getEmcCode(),
             'assurance.selection' => false,
         );
 
@@ -307,7 +282,7 @@ class Delivery
             'operator'              => $delivery['operator']['code'],
             'service'               => $delivery['service']['code'],
             'raison'                => 'sale',
-            'content_code'          => 60100,
+            'content_code'          => $order->getProduct()->getCategory()->getEmcCode(),
             'url_push'              => $this->router->generate('emc_tracking', [
                 'order' => $order->getId(),
                 'key' => md5('emc_delivery'),

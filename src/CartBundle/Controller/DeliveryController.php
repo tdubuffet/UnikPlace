@@ -73,8 +73,17 @@ class DeliveryController extends Controller
 
                 $delivery = $this->get('delivery.emc');
 
+                $addresses      = $this->get('session')->get('cart_addresses');
+
+                if (isset($addresses['delivery_address'])) {
+                    $deliveryAddress = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById(
+                        $addresses['delivery_address']
+                    );
+                }
+
                 $deliveries[$product->getId()] = $delivery->findDeliveryByProduct(
                     $this->getUser(),
+                    $deliveryAddress,
                     $request->getClientIp(),
                     $product
                 );

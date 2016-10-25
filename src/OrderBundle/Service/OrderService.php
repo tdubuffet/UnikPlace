@@ -76,7 +76,11 @@ class OrderService
             ->getRepository('OrderBundle:Status')
             ->findOneByName('accepted');
 
-
+        if (isset($addresses['delivery_address'])) {
+            $deliveryAddress = $this->em->getRepository('LocationBundle:Address')->findOneById(
+                $addresses['delivery_address']
+            );
+        }
 
         foreach ($cart as $productId) {
             $product = $this->em->getRepository('ProductBundle:Product')->findOneById($productId);
@@ -154,9 +158,6 @@ class OrderService
 
             $order->setDeliveryAddress(null);
             if (isset($addresses['delivery_address'])) {
-                $deliveryAddress = $this->em->getRepository('LocationBundle:Address')->findOneById(
-                    $addresses['delivery_address']
-                );
                 $order->setDeliveryAddress($deliveryAddress);
             }
 
