@@ -350,7 +350,7 @@ class Delivery
             $this->handlerError($lib);
         } catch(\Exception $e) {
 
-            $statusError = $this->em->getRepository('OrderBundle:Status')->findByName('error');
+            $statusError = $this->em->getRepository('OrderBundle:Status')->findOneByName('error');
 
             $order->setStatus($statusError);
             $order->setErrorMessage($e->getMessage());
@@ -359,7 +359,7 @@ class Delivery
         }
 
         if (!$lib->order) {
-            $statusError = $this->em->getRepository('OrderBundle:Status')->findByName('error');
+            $statusError = $this->em->getRepository('OrderBundle:Status')->findOneByName('error');
 
             $order->setStatus($statusError);
             $order->setErrorMessage('EMC - No delivery found for this order');
