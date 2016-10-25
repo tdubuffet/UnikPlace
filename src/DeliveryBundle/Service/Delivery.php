@@ -120,7 +120,7 @@ class Delivery
         );
 
         $parcels = array(
-            'type' => 'encombrant', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+            'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
             'dimensions' => array(
                 1 => array(
                     'poids' => $product->getWeight() / 1000,
