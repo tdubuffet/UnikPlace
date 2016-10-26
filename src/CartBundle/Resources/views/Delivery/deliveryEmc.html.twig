@@ -39,27 +39,25 @@
                                 <thead>
                                 <tr>
                                     <th>Produit</th>
-                                    <th>Nom</th>
                                     <th>Mode de livraison</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for product in products %}
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             <a target="_blank"
                                                href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
                                                 {% if product.getImages()[0] is defined %}<img
-                                                    src="{{ loadpic(product.getImages()[0], 88, 88, "r3") }}"
+                                                    src="{{ loadpic(product.getImages()[0], 150, 150, "r3") }}"
                                                     alt="{{ product.name }} " />{% endif %}
-                                            </a>
-                                        </td>
-                                        <td>
+                                            </a><br />
                                             <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
                                                 {{ product.name }}
-                                            </a>
+                                            </a><br />
+                                            Localisation du produit: <b>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</b>
                                         </td>
-                                        <td style="width: 50%;">
+                                        <td style="width: 60%;">
 
                                             {% set deliveries = deliveriesByProduct[product.id] %}
                                             <table class="table table-delivery">
@@ -68,11 +66,15 @@
                                                     {% if deliv.deliveryMode.code == "by_hand" %}
                                                         <tr>
                                                             <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code }}" id="deliveryMode[{{ product.id }}]" name="deliveryMode[{{ product.id }}]"/></td>
-                                                            <td></td>
+                                                            <td class="logo">
+                                                                <img src="{{ asset('bundles/cart/images/by_hand.svg') }}" class="img-responsive" style="width: 50%; margin: 0 auto;"/>
+                                                            </td>
                                                             <td colspan="1">
                                                                 {{ deliv.deliveryMode.name }}
                                                                 <br/>
-                                                                <small>{{ deliv.deliveryMode.description }}</small>
+                                                                <small>{{ deliv.deliveryMode.description }}</small><br /><br />
+
+                                                                Localisation du produit: <b>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</b>
                                                             </td>
                                                             <td class="price" style="width: 25%; text-align: right;">{{ deliv.fee }} EUR</td>
                                                         </tr>
@@ -102,7 +104,9 @@
                                                     {% if deliv.deliveryMode.code != "by_hand" %}
                                                     <tr>
                                                         <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code }}" id="deliveryMode[{{ product.id }}]" name="deliveryMode[{{ product.id }}]"/></td>
-                                                        <td></td>
+                                                        <td class="logo" style="width: 20%; text-align: center;">
+                                                            <img src="{{ asset('bundles/cart/images/custom_seller.svg') }}" class="img-responsive" style="width: 50%; margin: 0 auto;"/>
+                                                        </td>
                                                         <td colspan="1">
                                                             {{ deliv.deliveryMode.name }}
                                                             <br/>
