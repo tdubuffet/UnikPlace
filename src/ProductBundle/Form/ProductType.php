@@ -33,16 +33,24 @@ class ProductType extends AbstractType
             ->add('category', null, ['label' => 'Catégorie'])
             ->add('currency', null, ['label' => 'Devise'])
             ->add('status', null, ['label' => 'Statut'])
-            ->add('customDeliveryFee', NumberType::class, ['label' => 'Mes frais de port en France métropolitaine',
-                                                           'mapped' => false,
-                                                           'required' => false,
-                                                           'data' => $this->getCustomDeliveryFee($builder->getData())])
-            ->add('byHandDelivery', CheckboxType::class, ['label' => 'J\'accepte la remise en main propre',
-                                                          'mapped' => false,
-                                                          'required' => false,
-                                                          'data' => $this->isByHandDeliveryEnabled($builder->getData())])
-            ->add('address', AddressAdminType::class, ['label' => 'Adresse'])
-        ;
+            ->add('customDeliveryFee', NumberType::class, [
+                'label' => 'Mes frais de port en France métropolitaine',
+                'mapped' => false,
+                'required' => false,
+                'data' => $this->getCustomDeliveryFee($builder->getData())
+            ])
+            ->add('byHandDelivery', CheckboxType::class, [
+                'label' => 'J\'accepte la remise en main propre',
+                'mapped' => false,
+                'required' => false,
+                'data' => $this->isByHandDeliveryEnabled($builder->getData())
+            ])
+            ->add('emc', CheckboxType::class, [
+                'label' => 'Le service livraison Unik Place',
+                'mapped' => true,
+                'required' => false
+            ])
+            ->add('address', AddressAdminType::class, ['label' => 'Adresse']);
 
         // Transform weight in grams / kilograms
         $builder->get('weight')
@@ -94,7 +102,8 @@ class ProductType extends AbstractType
         return null;
     }
 
-    private function isByHandDeliveryEnabled($product) {
+    private function isByHandDeliveryEnabled($product)
+    {
         $code = 'by_hand';
         $deliveries = $product->getDeliveries();
         if (isset($deliveries)) {

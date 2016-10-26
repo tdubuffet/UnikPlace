@@ -68,6 +68,26 @@ var ProductEdition = {
                 }
             }
         });
+
+
+
+        $(".checkBox-delivery").rules("add", {
+            required: function(elem)
+            {
+                return $("input.checkBox-delivery:checked").length > 0;
+            }
+        });
+
+        $('#delivery_custom_seller').click(function() {
+
+            if ($(this).is(":checked")) {
+                $('#shipping_fees').rules("add", "required");
+                $('.input-delivery-shipping-fees').show();
+            } else {
+                $('#shipping_fees').rules("remove", "required");
+                $('.input-delivery-shipping-fees').hide();
+            }
+        });
     },
 
     fileUpload: function () {

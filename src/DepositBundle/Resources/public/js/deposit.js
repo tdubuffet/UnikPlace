@@ -412,7 +412,6 @@ var Deposit = {
 
         $('#delivery_custom_seller').click(function() {
 
-            console.log($(this).is(":checked"))
             if ($(this).is(":checked")) {
                 $('#shipping_fees').rules("add", "required");
                 $('.input-delivery-shipping-fees').show();

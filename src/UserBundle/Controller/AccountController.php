@@ -98,7 +98,7 @@ class AccountController extends Controller
 
         try {
             $pagerfanta->setCurrentPage($request->get('page', 1));
-        } catch(NotValidCurrentPageException $e) {
+        } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
 
@@ -122,7 +122,7 @@ class AccountController extends Controller
 
         try {
             $pagerfanta->setCurrentPage($request->get('page', 1));
-        } catch(NotValidCurrentPageException $e) {
+        } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
 
@@ -141,9 +141,9 @@ class AccountController extends Controller
     {
 
 
-        $currentPage    = $request->get('page', 1);
-        $pagination     = new \MangoPay\Pagination($currentPage, 10);
-        $transactions   = $this->get('mangopay_service')->getFreeWalletTransactions(
+        $currentPage = $request->get('page', 1);
+        $pagination = new \MangoPay\Pagination($currentPage, 10);
+        $transactions = $this->get('mangopay_service')->getFreeWalletTransactions(
             $this->getUser()->getMangopayFreeWalletId(),
             $pagination
         );
@@ -164,17 +164,17 @@ class AccountController extends Controller
 
         $user = $this->getUser();
 
-        if ( count($this->get('mangopay_service')->getIbanBank($user->getMangopayUserId())) == 0) {
+        if (count($this->get('mangopay_service')->getIbanBank($user->getMangopayUserId())) == 0) {
             return $this->redirectToRoute('user_account_bank');
         }
 
         if ($this->get('mangopay_service')->validateWalletToTransferBank($user->getMangopayFreeWalletId()) == false) {
-            return $this->redirectToRoute('user_account_wallet', [ 'transfer' => 'failed_payout_exist' ]);
+            return $this->redirectToRoute('user_account_wallet', ['transfer' => 'failed_payout_exist']);
         }
 
         $this->get('mangopay_service')->freeWalletToTransferBank($user);
 
-        return $this->redirectToRoute('user_account_wallet', [ 'transfer' => 'ok' ]);
+        return $this->redirectToRoute('user_account_wallet', ['transfer' => 'ok']);
     }
 
     /**
@@ -186,9 +186,9 @@ class AccountController extends Controller
     public function accountBankAction(Request $request)
     {
 
-        $data       = [];
-        $user       = $this->getUser();
-        $ibanBank   = $this->get('mangopay_service')->getIbanBank(
+        $data = [];
+        $user = $this->getUser();
+        $ibanBank = $this->get('mangopay_service')->getIbanBank(
             $user->getMangopayUserId()
         );
 
@@ -196,12 +196,12 @@ class AccountController extends Controller
 
             $data = [
                 'iban' => $ibanBank->Details->IBAN,
-                'bic'  => $ibanBank->Details->BIC,
-                'name'  => $ibanBank->OwnerName,
-                'address_street'  => $ibanBank->OwnerAddress->AddressLine1,
-                'address_postal_code'  => $ibanBank->OwnerAddress->PostalCode,
-                'address_city'  => $ibanBank->OwnerAddress->City,
-                'address_country'  => $ibanBank->OwnerAddress->Country
+                'bic' => $ibanBank->Details->BIC,
+                'name' => $ibanBank->OwnerName,
+                'address_street' => $ibanBank->OwnerAddress->AddressLine1,
+                'address_postal_code' => $ibanBank->OwnerAddress->PostalCode,
+                'address_city' => $ibanBank->OwnerAddress->City,
+                'address_country' => $ibanBank->OwnerAddress->Country
             ];
         }
 
@@ -349,10 +349,10 @@ class AccountController extends Controller
 
                     $rating = $formRating->getData();
 
-                    $rating->setRatedUser(($sale) ? $order->getUser(): $order->getProduct()->getUser());
-                    $rating->setAuthorUser((!$sale) ? $order->getUser(): $order->getProduct()->getUser());
+                    $rating->setRatedUser(($sale) ? $order->getUser() : $order->getProduct()->getUser());
+                    $rating->setAuthorUser((!$sale) ? $order->getUser() : $order->getProduct()->getUser());
 
-                    $rating->setType(($sale) ? 'buyer': 'seller');
+                    $rating->setType(($sale) ? 'buyer' : 'seller');
                     $rating->setOrder($order);
 
                     $this->getDoctrine()->getManager()->persist($rating);
@@ -370,13 +370,13 @@ class AccountController extends Controller
 
 
         return [
-            'order'             => $order,
-            'sale'              => $sale,
-            'thread'            => $thread,
-            'formMessage'       => (isset($form)) ? $form->createView() : null,
-            'disputeMessage'    => (isset($form)) ? $form->createView() : null,
-            'formRating'        => (isset($formRating)) ? $formRating->createView() : null,
-            'delivery'          => (isset($delivery)) ? $delivery : null
+            'order' => $order,
+            'sale' => $sale,
+            'thread' => $thread,
+            'formMessage' => (isset($form)) ? $form->createView() : null,
+            'disputeMessage' => (isset($form)) ? $form->createView() : null,
+            'formRating' => (isset($formRating)) ? $formRating->createView() : null,
+            'delivery' => (isset($delivery)) ? $delivery : null
         ];
 
     }
@@ -391,7 +391,11 @@ class AccountController extends Controller
     {
         $status = $this->getDoctrine()
             ->getRepository("ProductBundle:Status")
-            ->findByName(['awaiting', 'published', 'refused']);
+            ->findByName([
+                'awaiting',
+                'published',
+                'refused'
+            ]);
 
         $repo = $this->getDoctrine()
             ->getRepository("ProductBundle:Product");
@@ -422,7 +426,11 @@ class AccountController extends Controller
         if ($user->getId() != $product->getUser()->getId()) {
             throw new NotFoundHttpException('Current user is not the product owner');
         }
-        if (!in_array($product->getStatus()->getName(), ['published', 'awaiting'])) {
+        if (!in_array($product->getStatus()->getName(), [
+            'published',
+            'awaiting'
+        ])
+        ) {
             throw new AccessDeniedHttpException('Product must have status "published" or "awaiting" in order to edit it');
         }
 
@@ -441,14 +449,17 @@ class AccountController extends Controller
                 $this->getDoctrine()->getManager()->persist($image);
             }
             foreach ($product->getDeliveries() as $delivery) {
-                $delivery = clone $delivery;
-                $delivery->setProduct($product);
-                $this->getDoctrine()->getManager()->persist($delivery);
+
+                if ($delivery->getDeliveryMode()->getType() == 'by_hand' || $delivery->getDeliveryMode()->getType() == 'shipping') {
+                    $delivery = clone $delivery;
+                    $delivery->setProduct($product);
+                    $this->getDoctrine()->getManager()->persist($delivery);
+                }
             }
             $this->getDoctrine()->getManager()->persist($product);
             $this->getDoctrine()->getManager()->flush();
             $this->container->get('session')->getFlashBag()->add('copy',
-                                                                 'Votre produit "'.$product->getName().'" a été copié avec succès. Vous pouvez modifier la copie ci-dessous');
+                'Votre produit "' . $product->getName() . '" a été copié avec succès. Vous pouvez modifier la copie ci-dessous');
             return $this->redirectToRoute('user_account_products_edition', ['id' => $product->getId()]);
         }
 
@@ -465,14 +476,14 @@ class AccountController extends Controller
 
             if (isset($filters)) {
                 foreach ($filters as $key => $filter) {
-                    $value = $request->get('attribute-'.$key);
+                    $value = $request->get('attribute-' . $key);
 
-                    if ($request->get('attribute-'.$key)) {
+                    if ($request->get('attribute-' . $key)) {
                         $attributeValue = new AttributeValue();
                         $attributeValue->setProduct($product);
 
                         $referentialValue = $this->getDoctrine()->getRepository('ProductBundle:ReferentialValue')
-                                          ->find($value);
+                            ->find($value);
                         $attributeValue->setReferentialValue($referentialValue);
 
                         $attribute = $this->getDoctrine()->getRepository('ProductBundle:Attribute')->findOneByCode($key);
@@ -489,7 +500,7 @@ class AccountController extends Controller
                 $product->removeImage($image);
             }
             for ($imageIdx = 0; $imageIdx < 5; $imageIdx++) {
-                $imageId = $request->request->get('image'.$imageIdx);
+                $imageId = $request->request->get('image' . $imageIdx);
                 $image = $this->getDoctrine()->getRepository('ProductBundle:Image')->findOneById($imageId);
                 if (isset($image)) {
                     $image->setProduct($product)->setSort($imageIdx);
@@ -498,45 +509,14 @@ class AccountController extends Controller
                 }
             }
 
-            // Handle deliveries
-            // Colissimo delivery
-            $colissimoDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('colissimo_parcel');
-            if (isset($colissimoDeliveryMode)) {
-                $infos = [
-                    'weight' => $product->getWeight(),
-                    'length' => $product->getLength(),
-                    'width' => $product->getWidth(),
-                    'height' => $product->getHeight(),
-                ];
-                $deliveryCalculator = $this->get('order.delivery_calculator');
-                $colissimoDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product,
-                                                                                                             'deliveryMode' => $colissimoDeliveryMode]);
-                try {
-                    $fee = $deliveryCalculator->getFeeFromProductAndDeliveryModeCode($colissimoDeliveryMode->getCode(), $infos);
-                    // Update colissimo delivery fee
-                    if (!isset($colissimoDelivery)) {
-                        $colissimoDelivery = new Delivery();
-                        $colissimoDelivery->setProduct($product);
-                        $colissimoDelivery->setDeliveryMode($colissimoDeliveryMode);
-                    }
-                    $colissimoDelivery->setFee($fee);
-                    $this->getDoctrine()->getManager()->persist($colissimoDelivery);
-                    $this->getDoctrine()->getManager()->flush();
-                }
-                catch(\Exception $e) {
-                    // weight length width or height are out of range for colissimo delivery
-                    if (isset($colissimoDelivery)) {
-                        $this->getDoctrine()->getManager()->remove($colissimoDelivery);
-                        $this->getDoctrine()->getManager()->flush();
-                    }
-                }
-            }
             // Custom delivery
             $customDeliveryFee = $productForm->get('customDeliveryFee')->getData();
             $customDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('seller_custom');
             if (isset($customDeliveryMode)) {
-                $customDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product,
-                                                                                                          'deliveryMode' => $customDeliveryMode]);
+                $customDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy([
+                    'product' => $product,
+                    'deliveryMode' => $customDeliveryMode
+                ]);
                 if (isset($customDeliveryFee)) {
                     if (!isset($customDelivery)) {
                         $customDelivery = new Delivery();
@@ -546,8 +526,7 @@ class AccountController extends Controller
                     $customDelivery->setFee($customDeliveryFee);
                     $this->getDoctrine()->getManager()->persist($customDelivery);
                     $this->getDoctrine()->getManager()->flush();
-                }
-                else {
+                } else {
                     if (isset($customDelivery)) {
                         $this->getDoctrine()->getManager()->remove($customDelivery);
                         $this->getDoctrine()->getManager()->flush();
@@ -558,8 +537,10 @@ class AccountController extends Controller
             $byHandDeliveryEnabled = $productForm->get('byHandDelivery')->getData();
             $byHandDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('by_hand');
             if (isset($byHandDeliveryMode)) {
-                $byHandDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product,
-                                                                                                          'deliveryMode' => $byHandDeliveryMode]);
+                $byHandDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy([
+                    'product' => $product,
+                    'deliveryMode' => $byHandDeliveryMode
+                ]);
                 if ($byHandDeliveryEnabled) {
                     if (!isset($byHandDelivery)) {
                         $byHandDelivery = new Delivery();
@@ -569,8 +550,7 @@ class AccountController extends Controller
                         $this->getDoctrine()->getManager()->persist($byHandDelivery);
                         $this->getDoctrine()->getManager()->flush();
                     }
-                }
-                else if (isset($byHandDelivery)) {
+                } else if (isset($byHandDelivery)) {
                     $this->getDoctrine()->getManager()->remove($byHandDelivery);
                     $this->getDoctrine()->getManager()->flush();
                 }
@@ -587,14 +567,14 @@ class AccountController extends Controller
             $this->getDoctrine()->getManager()->flush();
 
             $this->container->get('session')->getFlashBag()->add('success',
-                                                                 'Votre produit "'.$product->getName().'" a été modifié avec succès. Il est en cours de validation par notre équipe.');
+                'Votre produit "' . $product->getName() . '" a été modifié avec succès. Il est en cours de validation par notre équipe.');
             return $this->redirectToRoute('user_account_products');
         }
 
         return [
-            'product'       => $product,
-            'productForm'   => $productForm->createView(),
-            'customFields'  => $customFields
+            'product' => $product,
+            'productForm' => $productForm->createView(),
+            'customFields' => $customFields
         ];
     }
 
@@ -612,7 +592,10 @@ class AccountController extends Controller
         if (!$request->request->has("product_id")) {
             return new JsonResponse(['message' => 'A product id (product_id) must be specified.'], 409);
         }
-        $actions = ['remove', 'update'];
+        $actions = [
+            'remove',
+            'update'
+        ];
         if (!$request->request->has("action") || !in_array($action = $request->request->get('action'), $actions)) {
             return new JsonResponse(['message' => 'An action must be specified.'], 409);
         }
@@ -622,7 +605,12 @@ class AccountController extends Controller
         if (!$product || $product->getUser() != $this->getUser()) {
             return new JsonResponse(['message' => 'Product not found.'], 404);
         }
-        if (!in_array($product->getStatus()->getName(), ["awaiting", "published", "refused"])) {
+        if (!in_array($product->getStatus()->getName(), [
+            "awaiting",
+            "published",
+            "refused"
+        ])
+        ) {
             return new JsonResponse(['message' => 'The product can not be removed.'], 409);
         }
         if ($action == 'remove') {
@@ -636,7 +624,7 @@ class AccountController extends Controller
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse(['message' => 'Product deleted']);
-        }elseif ($action == 'update') {
+        } elseif ($action == 'update') {
             if (!$request->request->has("field")) {
                 return new JsonResponse(['message' => 'A field to update must be specified.'], 409);
             }
@@ -651,8 +639,11 @@ class AccountController extends Controller
                 $service = $this->get('lexik_currency.formatter');
                 $price = $service->format($product->getPrice(), $product->getCurrency()->getCode());
 
-                return new JsonResponse(['message' => 'Product updated', 'price' => $price]);
-            }else {
+                return new JsonResponse([
+                    'message' => 'Product updated',
+                    'price' => $price
+                ]);
+            } else {
                 return new JsonResponse(['message' => 'A price must be specified.'], 409);
             }
         }
@@ -670,16 +661,14 @@ class AccountController extends Controller
     {
         $mangopayService = $this->get('mangopay_service');
         $mangopayUser = $mangopayService->getMangoPayUser($this->getUser()->getMangopayUserId());
-        if ($mangopayUser->KYCLevel == "REGULAR"){
+        if ($mangopayUser->KYCLevel == "REGULAR") {
             return $this->redirectToRoute('user_account_wallet');
         }
         if ($mangopayUser->PersonType == 'NATURAL') {
             $form = $this->createForm(MangoPayKYCNaturalType::class);
-        }
-        else if ($mangopayUser->PersonType == 'LEGAL') {
+        } else if ($mangopayUser->PersonType == 'LEGAL') {
             $form = $this->createForm(MangoPayKYCLegalType::class);
-        }
-        else {
+        } else {
             throw new \Exception('Bad person type for current mangopay user.');
         }
 
@@ -692,19 +681,21 @@ class AccountController extends Controller
                     $mangopayUser,
                     $form->getData()
                 );
-            }
-            else if ($mangopayUser->PersonType == 'LEGAL') {
+            } else if ($mangopayUser->PersonType == 'LEGAL') {
                 $mangopayService->sendKYCRegularLegalUser(
                     $mangopayUser,
                     $form->getData()
                 );
             }
             $this->get('session')->getFlashBag()->add('kyc_success',
-                                                      "Vos informations ont bien été transmises, vous receverez par email une réponse dans un délai de 24 à 72 heures maximum");
+                "Vos informations ont bien été transmises, vous receverez par email une réponse dans un délai de 24 à 72 heures maximum");
             return $this->redirectToRoute('user_account_wallet_kyc');
         }
 
-        return ['form' => $form->createView(), 'documents' => $documents];
+        return [
+            'form' => $form->createView(),
+            'documents' => $documents
+        ];
     }
 
     /**
@@ -722,7 +713,7 @@ class AccountController extends Controller
             ->getRepository('ProductBundle:Status')
             ->findOneByName('deleted');
 
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $product->setStatus($status);
 
             $this->getDoctrine()->getManager()->persist($product);
@@ -762,8 +753,8 @@ class AccountController extends Controller
 
         $addresses =
             $this->getDoctrine()
-            ->getRepository("LocationBundle:Address")
-            ->findBy(['user' => $this->getUser()]);
+                ->getRepository("LocationBundle:Address")
+                ->findBy(['user' => $this->getUser()]);
 
         return [
             'addresses' => $addresses,

@@ -9,120 +9,215 @@
 
 {% block account_content %}
 
+    <h2>{{ product.name }}</h2>
 
-  {% for flashMessage in app.session.flashbag.get('copy') %}
-  <div class="alert alert-info">{{ flashMessage }}</div>
-  {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('copy') %}
+        <div class="alert alert-info">{{ flashMessage }}</div>
+    {% endfor %}
 
 
-  {{ form_start(productForm) }}
+    {{ form_start(productForm) }}
 
-  <div class="box">
-    <!-- /.box-header -->
-    <div class="box-body">
-
-      {% if app.request.get('copy') %}
-      <div class="alert alert-info">
-        Vous êtes sur le point de créer un nouveau produit à partir de votre produit <i>{{ product.name }}</i>.<br />
-      </div>
-      {% endif %}
-
-      <h3>Informations</h3>
-      {{ form_row(productForm.name) }}
-      {{ form_row(productForm.description, { 'attr': { 'rows': 6}}) }}
-
-      <h3>Prix</h3>
-      <div class="row">
-        <div class="col-md-3">
-          {{ form_row(productForm.price) }}
+    {% if app.request.get('copy') %}
+        <div class="alert alert-info">
+            Vous êtes sur le point de créer un nouveau produit à partir de votre produit <i>{{ product.name }}</i>.<br/>
         </div>
+    {% endif %}
 
-        <div class="col-md-3">
-          {{ form_row(productForm.originalPrice) }}
-        </div>
 
-        <div class="col-md-3">
-          {{ form_row(productForm.allowOffer) }}
-        </div>
-      </div>
+    <div id="exTab2" class="deposit product-edit">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#1" data-toggle="tab">Description</a>
+            </li>
+            <li>
+                <a href="#2" data-toggle="tab">Prix</a>
+            </li>
+            <li>
+                <a href="#3" data-toggle="tab">Livraison</a>
+            </li>
+            <li>
+                <a href="#4" data-toggle="tab">Photos</a>
+            </li>
+        </ul>
 
-      <h3>Poids et dimensions du produit</h3>
-      <div class="row">
-        <div class="col-md-3">
-          {{ form_row(productForm.weight) }}
-        </div>
-        <div class="col-md-3">
-          {{ form_row(productForm.width) }}
-        </div>
+        <div class="tab-content ">
+            <div class="tab-pane active" id="1">
+                {{ form_row(productForm.name) }}
+                {{ form_row(productForm.description, { 'attr': { 'rows': 6}}) }}
 
-        <div class="col-md-3">
-          {{ form_row(productForm.length) }}
-        </div>
+                <div class="row">
+                    <div class="col-md-12">
 
-        <div class="col-md-3">
-          {{ form_row(productForm.height) }}
-        </div>
-      </div>
+                        {% for customField in customFields %}
+                            {{ customField|raw }}
+                        {% endfor %}
 
-      <h3>Livraison</h3>
-      <div class="row">
-        <div class="col-md-4">
-          {{ form_row(productForm.customDeliveryFee) }}
-        </div>
-      </div>
-      <div class="row">
-	<div class="col-md-6">
-          {{ form_row(productForm.byHandDelivery) }}
-	</div>
-      </div>
+                    </div>
+                </div>
 
-      <h3>Compléments</h3>
-      <div class="row">
-        <div class="col-md-12">
+                <h3>Poids et dimensions du produit</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(productForm.weight) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(productForm.width) }}
+                    </div>
 
-          {% for customField in customFields %}
-            {{ customField|raw }}
-          {% endfor %}
+                    <div class="col-md-6">
+                        {{ form_row(productForm.length) }}
+                    </div>
 
-        </div>
-      </div>
-
-      <div style="display: none">
-      {{ form_rest(productForm) }}
-      </div>
-
-      <h3>Images</h3>
-      <input type="file" id="fileupload" multiple style="display:none;">
-
-      <div class="row box-upload-pictures">
-        {% for i in 0..4 %}
-        <div class="col-sm-4">
-          <div class="upload-pic other-photo">
-            <div class="upload-pic-input" {% if product.images[i] is defined %}style="display: none"{% endif %}>
+                    <div class="col-md-6">
+                        {{ form_row(productForm.height) }}
+                    </div>
+                </div>
             </div>
-            <div class="upload-pic-preview" {% if product.images[i] is defined %}style="display: block"{% endif %}>
-              <div class="progress">
-                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar" class="progress-bar progress-bar-striped active"></div>
-              </div>
-              <span title="Retirer la photo" class="upload-pic-delete"><i class="fa fa-times"></i></span>
-              {% if product.images[i] is defined %}
-              <img class="upload-pic-img" src="{{ loadpic(product.images[i], 250, 250, 'r3') }}" />
-              {% endif %}
-            </div>
-            <input type="hidden" value="{% if product.images[i] is defined %}{{ product.images[i].id }}{% endif %}" name="image{{ i }}" id="image{{ i }}" class="upload-pic-id">
-          </div>
-        </div>
-        {% endfor %}
-      </div>
+            <div class="tab-pane" id="2">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        {{ form_row(productForm.price) }}
+                    </div>
 
+                    <div class="col-md-4">
+                        {{ form_row(productForm.originalPrice) }}
+                    </div>
+
+                    <div class="col-md-12 checkbox text-center">
+                        {{ form_row(productForm.allowOffer, {'label': "J'accepte la négociation du prix de l'article"}) }}
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_row(productForm.price) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_row(productForm.originalPrice) }}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="text-center" style="margin: 40px 0;">
+
+                    <div class="checkbox">
+                        {{ form_row(productForm.allowOffer) }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane" id="3">
+
+
+                <table class="table table-delivery" style="margin-top: 50px;">
+                    <tr>
+                        <td class="choice">
+                            {{ form_widget(productForm.byHandDelivery, {'label': ' ', 'attr': {'class': 'checkBox-delivery'}}) }}
+                        </td>
+                        <td class="name">Le retrait au domicile</td>
+                        <td class="description">
+                            L'acheteur se déplace chez vous ou vous convenez d'un rendez-vous dans un lieu public avec lui pour la remise du produit.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="choice">
+                            <input type="checkbox" class="checkBox-delivery" name="deliveryMode[]" value="custom_seller_validate" id="delivery_custom_seller" {% if productForm.customDeliveryFee.vars.value != '' %}checked{% endif %} />
+                        </td>
+                        <td class="name">Mon propre transporteur</td>
+                        <td class="description">
+                            Vous avez pour habitude de passer par un transporteur pour livrer vos produits en France métropolitaine.<br />
+                            Définissez vous-même le prix du transport applicable à votre produit.
+
+                            <div class="row">
+
+                                <div class="col-md-8 col-md-offset-2 input-delivery-shipping-fees text-center form-group" {% if productForm.customDeliveryFee.vars.value == '' %}style="display: none;"{% endif %}>
+                                    <br /><br />
+                                    <label for="shipping_fees">Vos frais de livraison</label>
+                                    {{ form_widget(productForm.customDeliveryFee) }}
+                                </div>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="choice">
+                            {{ form_widget(productForm.emc, {'label': ' ', 'attr': {'class': 'checkBox-delivery'}}) }}
+                        </td>
+                        <td class="name">Le service livraison Unik Place</td>
+                        <td class="description">
+                            Notre service de livraison permet de proposer aux acheteurs le meilleur choix de transporteurs nationaux et internationaux.<br />
+                            Le service est intégralement pris en charge par Unik Place.<br /><br />
+                            <b>Un seul engagement de votre part :</b> être disponible sur le créneau horaire de votre choix dans les 48 heures qui suivent la validation de la commande pour l’enlèvement ou le dépôt de votre colis (Colissimo ou Chronopost).
+                            <br />Dans le cas de l’enlèvement du produit à votre adresse, c’est vous qui choisissez votre créneau horaire. La qualité et rapidité de la livraison est importante pour votre notoriété car une fois le colis réceptionné, l’acheteur vous évaluera.
+                        </td>
+                    </tr>
+                </table>
+                <div class="error-delivery text-center"></div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(productForm.customDeliveryFee) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(productForm.byHandDelivery) }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane" id="4">
+                <input type="file" id="fileupload" multiple style="display:none;">
+
+                <div class="row box-upload-pictures">
+                    {% for i in 0..4 %}
+                        <div class="col-sm-4">
+                            <div class="upload-pic other-photo">
+                                <div class="upload-pic-input" {% if product.images[i] is defined %}style="display: none"{% endif %}>
+                                </div>
+                                <div class="upload-pic-preview" {% if product.images[i] is defined %}style="display: block"{% endif %}>
+                                    <div class="progress">
+                                        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar" class="progress-bar progress-bar-striped active"></div>
+                                    </div>
+                                    <span title="Retirer la photo" class="upload-pic-delete"><i class="fa fa-times"></i></span>
+                                    {% if product.images[i] is defined %}
+                                        <img class="upload-pic-img" src="{{ loadpic(product.images[i], 250, 250, 'r3') }}"/>
+                                    {% endif %}
+                                </div>
+                                <input type="hidden" value="{% if product.images[i] is defined %}{{ product.images[i].id }}{% endif %}" name="image{{ i }}" id="image{{ i }}" class="upload-pic-id">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="box-footer" style="margin-top: 20px;">
-      <button class="btn btn-primary" type="submit">
-        Enregistrer
-      </button>
+    <div style="display: none">
+        {{ form_rest(productForm) }}
     </div>
-  </div>
-  {{ form_end(productForm) }}
+
+    <div class="row btn-save">
+        <div class="col-md-6 col-md-offset-3">
+            <button class="btn btn-default btn-unik btn-block" type="submit">
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
+    {{ form_end(productForm) }}
 
 {% endblock %}
 
