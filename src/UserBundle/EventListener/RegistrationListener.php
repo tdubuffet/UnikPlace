@@ -11,6 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use AppBundle\Service\MangoPayService;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
@@ -63,6 +64,9 @@ class RegistrationListener implements EventSubscriberInterface
         // Flush user
         $this->em->persist($user);
         $this->em->flush();
+
+        $session = new Session();
+        $session->getFlashBag()->clear();
 
 
     }
@@ -126,6 +130,9 @@ class RegistrationListener implements EventSubscriberInterface
                 $this->router->generate('sell_category')
             );
         }
+
+        $session = new Session();
+        $session->getFlashBag()->clear();
 
         $event->setResponse($response);
 

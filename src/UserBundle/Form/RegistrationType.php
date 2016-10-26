@@ -59,6 +59,7 @@ class RegistrationType extends AbstractType
             ]
         ])
             ->add('street_number', HiddenType::class ,['mapped' => false])
+            ->add('sublocality_level_1', HiddenType::class,['mapped' => false])
             ->add('locality', HiddenType::class ,['mapped' => false])
             ->add('route', HiddenType::class ,['mapped' => false])
             ->add('administrative_area_level_1', HiddenType::class ,['mapped' => false])
