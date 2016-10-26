@@ -8768,3 +8768,89 @@ share-button:before {
   }
 
 }
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+
+  .modal-content {
+    border-radius: 0px;
+  }
+  .close{
+    position: relative;
+    top: -13px;
+    background: #181818;
+    right: -15px;
+    height: 30px;
+    width: 30px;
+    opacity: 1;
+    color: white;
+    text-shadow: none;
+  }
+}
+
+/**
+ * OUTLINE BTN
+ */
+.btn-outline {
+  background-color: transparent;
+  color: inherit;
+  transition: all .5s;
+}
+
+.btn-primary.btn-outline {
+  color: $brand-primary;
+}
+
+.btn-success.btn-outline {
+  color: $brand-success;
+}
+
+.btn-info.btn-outline {
+  color: $brand-info;
+}
+
+.btn-warning.btn-outline {
+  color: $brand-warning;
+}
+
+.btn-danger.btn-outline {
+  color: $brand-danger;
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover {
+  color: #fff;
+}
+
+.btn-unik{
+  background: #EBD570;
+  border-radius: 0px;
+  border: none;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.modal-cart{
+  .padd{
+    margin: 25px 0;
+  }
+}

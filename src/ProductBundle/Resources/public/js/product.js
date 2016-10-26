@@ -188,7 +188,7 @@ var Product = {
                         var total = parseInt($('.header-maincart .total .numb:first').text()) + 1;
                         $('.header-maincart .total .numb').text(total);
 
-                        $('.popup-wrapper').show();
+                        $('#modalAddToCart').modal('show') ;
                     },
                     error: function(result) {
                         if (result.status == 401) {
