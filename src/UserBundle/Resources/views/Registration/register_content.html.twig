@@ -9,7 +9,7 @@
             <div class="col-sm-6">
                 <h1>S'inscrire</h1>
 
-                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
+                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register', { 'redirect': app.request.get('redirect')}), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
                 <div class="form-group">
                     <div class="btn-group type-user" data-toggle="buttons">
                         <label class="btn btn-default btn-type-user">

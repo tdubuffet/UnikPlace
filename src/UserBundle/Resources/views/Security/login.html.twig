@@ -21,8 +21,13 @@
 
       <p>Saisissez votre adresse e-mail pour créer votre compte.</p>
 
+      {% if app.request.get('redirect_to') and redirectToRelative(app.request.get('redirect_to')) %}
+        {% set redirect = redirectToRelative(app.request.get('redirect_to')) %}
+      {% else %}
+        {% set redirect = app.session.get('_security.main.target_path')|default('/') %}
+      {% endif %}
 
-      <form action="{{ path('fos_user_registration_register') }}" method="post" id="signup-form">
+      <form action="{{ path('fos_user_registration_register', {'redirect': redirect}) }}" method="post" id="signup-form">
 
         <div class="form-group">
           <label for="username" class="required">{{ 'Adresse e-mail'|trans }}</label>

@@ -111,10 +111,15 @@ class RegistrationListener implements EventSubscriberInterface
             $user->addAddress($address);
         }
 
-
-        $response = new RedirectResponse(
-            $this->router->generate('homepage')
-        );
+        if ($event->getRequest()->get('redirect', false) && $event->getRequest()->get('redirect')) {
+            $response = new RedirectResponse(
+                $event->getRequest()->get('redirect')
+            );
+        } else {
+            $response = new RedirectResponse(
+                $this->router->generate('homepage')
+            );
+        }
 
         if ($user->getPro()) {
             $response = new RedirectResponse(
