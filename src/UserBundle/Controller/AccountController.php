@@ -826,8 +826,10 @@ class AccountController extends Controller
 
         $this->get('fos_user.mailer.send')->sendConfirmationEmailMessage($this->getUser());
 
+        $previousUri = $request->headers->get('referer');
+        $previousUri = Request::create($previousUri, 'GET', array('asi' => 'send'))->getUri();
 
-        return $this->redirectToRoute('fos_user_profile_edit');
+        return $this->redirect($previousUri);
 
     }
 
