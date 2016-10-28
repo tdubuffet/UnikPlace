@@ -115,7 +115,7 @@ class Delivery
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
-            'offers' => $this->carriersEnabled,
+            //'offers' => $this->carriersEnabled,
             'content_code'          => 200
         );
 
@@ -139,8 +139,11 @@ class Delivery
 
         $deliveries = [];
 
+
         foreach ($lib->offers as $offer) {
-            $deliveries[$offer['operator']['code'] . $offer['service']['code']] = $offer;
+            if ($offer['collection']['type'] !=  'DROPOFF_POINT' && $offer['delivery']['type'] != 'PICKUP_POINT') {
+                $deliveries[$offer['operator']['code'] . $offer['service']['code']] = $offer;
+            }
         }
 
         return $deliveries;
