@@ -387,7 +387,7 @@ var Deposit = {
                 if (typeof element[0] != 'undefined' && element[0].name == 'deliveryMode[]') {
                     $('.error-delivery').append(error);
                 } else {
-                    error.insertBefore(element);
+                    error.insertAfter(element);
                 }
             },
             rules: {
@@ -398,7 +398,22 @@ var Deposit = {
                 "deliveryMode[]": {
                     required: true,
                     minlength: 1
-                }
+                },
+                "parcel_length": {
+                    required: true,
+                    number: true,
+                },
+                "parcel_width": {
+                    required: true,
+                    number: true,
+                },
+                "parcel_height": {
+                    required: true,
+                    number: true,
+                },
+                "parcel_type": {
+                    required: true
+                },
             },
             messages: {
 

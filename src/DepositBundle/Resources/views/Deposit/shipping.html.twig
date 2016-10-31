@@ -64,6 +64,47 @@
                 Ajouter une adresse à mon compte
               </button>
 
+
+              <h4 style="margin-top: 40px;">2 - Mon colis</h4>
+
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Largeur du colis en cm</label>
+                    <input type="number" name="parcel_width" id="product-width" class="form-control" min="1"
+                           placeholder="Largeur du colis en cm" value="{{ app.session.get('deposit').width }}">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Longueur du colis en cm</label>
+                    <input type="number" name="parcel_length" id="product-length" class="form-control" min="1"
+                           placeholder="Longueur du colis en cm" value="{{ app.session.get('deposit').length }}">
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Hauteur du colis en cm</label>
+                    <input type="number" name="parcel_height" id="product-height" class="form-control" min="1"
+                           placeholder="Hauteur du colis en cm" value="{{ app.session.get('deposit').height }}">
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Type de colis</label>
+                    <select name="parcel_type" id="parcel_type" class="form-control">
+                      <option value="box" selected>Colis</option>
+                      <option value="bulky">Encombrant</option>
+                      <option value="pallet">Palette</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
               <h4 style="margin-top: 40px;">2 - Je sélectionne mes modes de livraison </h4>
 
 

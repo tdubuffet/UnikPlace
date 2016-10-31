@@ -400,7 +400,11 @@ class DepositController extends Controller
                 }
             } else {
                 $fields = [
-                    'address_id' => "adresse"
+                    'address_id' => "adresse",
+                    'parcel_width' => "largeur du colis",
+                    'parcel_length' => "longueur du colis",
+                    'parcel_height' => "hauteur du colis",
+                    'parcel_type' => "type de colis",
                 ];
 
 
@@ -526,6 +530,11 @@ class DepositController extends Controller
                 $this->getDoctrine()->getManager()->persist($delivery);
             }
         }
+
+        $product->setParcelHeight($deposit['delivery']['parcel_height']);
+        $product->setParcelWidth($deposit['delivery']['parcel_width']);
+        $product->setParcelLength($deposit['delivery']['parcel_length']);
+        $product->setParcelType($deposit['delivery']['parcel_type']);
 
         if (isset($deposit['delivery']['emc'])) {
             $product->setEmc(true);

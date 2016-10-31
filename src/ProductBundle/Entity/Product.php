@@ -173,6 +173,35 @@ class Product
      */
     private $height;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_width", type="decimal", precision=5, scale=2)
+     */
+    private $parcelWidth;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_length", type="decimal", precision=5, scale=2)
+     */
+    private $parcelLength;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_height", type="decimal", precision=5, scale=2)
+     */
+    private $parcelHeight;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_type", type="string", length=50)
+     */
+    private $parcelType;
+
     /**
      * @var string
      *
@@ -865,4 +894,87 @@ class Product
     {
         $this->emc = $emc;
     }
+
+    /**
+     * @return string
+     */
+    public function getParcelWidth()
+    {
+        if (empty($this->parcelWidth)) {
+            return $this->width;
+        }
+
+        return $this->parcelWidth;
+    }
+
+    /**
+     * @param string $parcelWidth
+     */
+    public function setParcelWidth($parcelWidth)
+    {
+        $this->parcelWidth = $parcelWidth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelLength()
+    {
+        if (empty($this->parcelLength)) {
+            return $this->length;
+        }
+
+        return $this->parcelLength;
+    }
+
+    /**
+     * @param string $parcelLength
+     */
+    public function setParcelLength($parcelLength)
+    {
+        $this->parcelLength = $parcelLength;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelHeight()
+    {
+        if (empty($this->parcelHeight)) {
+            return $this->height;
+        }
+
+        return $this->parcelHeight;
+    }
+
+    /**
+     * @param string $parcelHeight
+     */
+    public function setParcelHeight($parcelHeight)
+    {
+        $this->parcelHeight = $parcelHeight;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelType()
+    {
+
+        if (empty($this->parcelType)) {
+            return 'box';
+        }
+
+        return $this->parcelType;
+    }
+
+    /**
+     * @param string $parcelType
+     */
+    public function setParcelType($parcelType)
+    {
+        $this->parcelType = $parcelType;
+    }
+
+
 }
