@@ -71,6 +71,40 @@ class Address
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Country")
+     * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
+     */
+    private $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="geo_latitude", type="string", length=255)
+     */
+    private $geoLatitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="geo_longitude", type="string", length=255)
+     */
+    private $geoLongitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="formated_address", type="string", length=255)
+     */
+    private $formatedAddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="json_google", type="text")
+     */
+    private $jsonGoogle = [];
+
 
     /**
      * Get id
@@ -244,5 +278,85 @@ class Address
     public function setCivility($civility)
     {
         $this->civility = $civility;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGeoLatitude()
+    {
+        return $this->geoLatitude;
+    }
+
+    /**
+     * @param string $geoLatitude
+     */
+    public function setGeoLatitude($geoLatitude)
+    {
+        $this->geoLatitude = $geoLatitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGeoLongitude()
+    {
+        return $this->geoLongitude;
+    }
+
+    /**
+     * @param string $geoLongitude
+     */
+    public function setGeoLongitude($geoLongitude)
+    {
+        $this->geoLongitude = $geoLongitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormatedAddress()
+    {
+        return $this->formatedAddress;
+    }
+
+    /**
+     * @param string $formatedAddress
+     */
+    public function setFormatedAddress($formatedAddress)
+    {
+        $this->formatedAddress = $formatedAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsonGoogle()
+    {
+        return $this->jsonGoogle;
+    }
+
+    /**
+     * @param string $jsonGoole
+     */
+    public function setJsonGoogle($jsonGoole)
+    {
+        $this->jsonGoogle = $jsonGoole;
     }
 }
