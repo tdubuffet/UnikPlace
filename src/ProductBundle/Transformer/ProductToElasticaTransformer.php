@@ -39,7 +39,11 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
             'price' => $product->getPrice(),
             'updated_at' => $product->getUpdatedAt()->getTimestamp(),
             'status' => $product->getStatus()->getName(),
-            'user' => $product->getUser()->getId()
+            'user' => $product->getUser()->getId(),
+            'location' => [
+                'lat' => $product->getAddress()->getGeoLatitude(),
+                'lon' => $product->getAddress()->getGeoLongitude()
+            ]
         ));
 
         // Import product attributes
