@@ -124,9 +124,9 @@ class Delivery
             'dimensions' => array(
                 1 => array(
                     'poids' => $product->getWeight() / 1000,
-                    'longueur' => $product->getLength() * 100,
-                    'largeur' => $product->getWidth() * 100,
-                    'hauteur' => $product->getHeight() * 100
+                    'longueur' => $product->getParcelLength() * 100,
+                    'largeur' => $product->getParcelWidth() * 100,
+                    'hauteur' => $product->getParcelHeight() * 100
                 )
             )
         );
@@ -199,9 +199,9 @@ class Delivery
             'dimensions' => array(
                 1 => array(
                     'poids' => $product->getWeight() / 1000,
-                    'longueur' => $product->getLength() * 100,
-                    'largeur' => $product->getWidth() * 100,
-                    'hauteur' => $product->getHeight() * 100
+                    'longueur' => $product->getParcelLength() * 100,
+                    'largeur' => $product->getParcelWidth() * 100,
+                    'hauteur' => $product->getParcelHeight() * 100
                 )
             )
         );
@@ -269,9 +269,9 @@ class Delivery
             'dimensions' => array(
                 1 => array(
                     'poids'     => $order->getProduct()->getWeight() / 1000,
-                    'longueur'  => $order->getProduct()->getLength() * 100,
-                    'largeur'   => $order->getProduct()->getWidth() * 100,
-                    'hauteur'   => $order->getProduct()->getHeight() * 100
+                    'longueur' => $product->getParcelLength() * 100,
+                    'largeur' => $product->getParcelWidth() * 100,
+                    'hauteur' => $product->getParcelHeight() * 100
                 )
             )
         );
