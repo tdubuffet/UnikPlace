@@ -43,6 +43,9 @@ class CountyController extends Controller
      */
     public function searchCities(Request $request)
     {
+
+        $results = [];
+
         if ($request->request->has('q') && strlen($request->request->get('q')) >= 3) {
             $query = $request->request->get("q");
 
@@ -54,7 +57,6 @@ class CountyController extends Controller
                 ->getQuery()
                 ->getResult();
 
-            $results = [];
             foreach ($cities as $city) {
                 $results[] = ['id' =>$city->getId(),
                               'name' => $city->getName(),
