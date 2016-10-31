@@ -88,13 +88,7 @@ class RegistrationListener implements EventSubscriberInterface
 
             if (!$city) {
 
-                $county = $this->em->getRepository('LocationBundle:County')->findOneBy(['code' =>  substr($cityZipCode, 0, 2)]);
-                if (!$county) {
-                    throw new Exception('County not found');
-                }
-
                 $city = new City();
-                $city->setCounty($county);
                 $city->setName($cityName);
                 $city->setZipcode($cityZipCode);
 

@@ -57,7 +57,6 @@ class ProductSearchService
         $this->applyStatus($boolQuery);
         $this->applyPrice($boolQuery, $params);
         $this->applyAttributes($boolQuery, $params);
-        $this->applyCounty($boolQuery, $params);
         $this->applyUser($boolQuery, $params);
 
         $query = new \Elastica\Query($boolQuery);
@@ -146,7 +145,6 @@ class ProductSearchService
             }
         }
         $html = '';
-        $filters['county'] = ['template' => 'county'];
         foreach ($filters as $filter) {
 
             if (isset($filter['viewVars']['referentialValues'])) {
@@ -205,23 +203,6 @@ class ProductSearchService
         }
     }
 
-    /**
-     * @param BoolQuery $boolQuery
-     * @param $params
-     */
-    private function applyCounty($boolQuery, $params)
-    {
-        if (isset($params['county'])) {
-            $county = $this->em->getRepository("LocationBundle:County")->findOneBy(['id' => $params['county']]);
-            if (isset($county)) {
-                $fieldTerm = new \Elastica\Query\Match();
-                $fieldTerm->setFieldQuery('county', $county->getId());
-                $boolQuery->addMust($fieldTerm);
-            }
-
-        }
-
-    }
 
     /**
      * @param BoolQuery $boolQuery

@@ -35,7 +35,6 @@ var Search = {
                 $('.sidebar .block-layered-nav .block-content-filters').html(result);
                 Search.initPrice();
                 Search.initRange();
-                Search.initCounty();
                 // Reinject values
                 Search.reinjectValuesInFilters();
                 // Bind events on these filters
@@ -66,36 +65,6 @@ var Search = {
             error: function(result) {
             }
         });
-    },
-
-    initCounty : function () {
-        $.ajax({
-            url: Routing.generate('ajax_search_county'),
-            type: 'GET',
-            data: [],
-            success: function(result) {
-                var select = $(".search-county");
-                result = result['counties'];
-                var options = "<option value=''>Toute la France</option>";
-                var county = Search.getUrlParameter('county');
-                $.each(result, function (key, value) {
-                    var selected = county == value['id'] ? "selected" : "";
-                    options+= "<option "+selected+" value='"+value['id']+"'>"+value['name']+"</option>";
-                });
-                select.html(options);
-                select = select.select2();
-
-                select.change(function() {
-                    Search.search();
-                });
-
-            },
-            error: function(result) {
-            }
-        });
-
-
-
     },
 
     reinjectValuesInFilters: function() {
@@ -275,7 +244,6 @@ var Search = {
 
         Search.params.cat = $('#search-category').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
-        Search.params.county = $(".search-county").val();
         Search.params.user = $(".search-user").val();
 
         // Product attributes filters
