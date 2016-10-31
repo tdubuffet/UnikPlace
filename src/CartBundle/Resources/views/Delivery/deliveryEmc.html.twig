@@ -92,7 +92,7 @@
                                                                     <img src="{{ delivery.operator.logo|replace({'http://': '//'}) }}" class="img-responsive" style="85%; margin: 0 auto;"/>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="fav">La sélection de Unik Place - Transporteur de meuble préféré des internautes pour sa qualité de service.<br /></span>
+                                                                    <span class="fav">La sélection de Unik Place - Transporteur de meuble préféré des internautes = pour sa qualité de service.<br /></span>
                                                                     {{ delivery.operator.label }} / {{ delivery.service.label }}
                                                                     <br/>
                                                                     <small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
