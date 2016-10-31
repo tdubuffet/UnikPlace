@@ -201,7 +201,8 @@ class DepositController extends Controller
                 'width' => 'Largeur',
                 'length' => 'Longueur',
                 'height' => 'Hauteur',
-                'weight' => 'Poids'
+                'weight' => 'Poids',
+                'quantity' => 'Quantité'
             ];
 
             foreach ($fields as $field => $fieldName) {
@@ -476,6 +477,7 @@ class DepositController extends Controller
             ->setWeight($deposit['weight']*1000)
             ->setLength($deposit['length'] / 100)
             ->setWidth($deposit['width'] / 100)
+            ->setQuantity($deposit['quantity'])
             ->setHeight($deposit['height'] / 100)
             ->setUser($this->getUser());
 

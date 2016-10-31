@@ -205,6 +205,13 @@ class Product
     /**
      * @var string
      *
+     * @ORM\Column(name="quantity", type="integer")
+     */
+    private $quantity = 1;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="emc", type="boolean")
      */
     private $emc = false;
@@ -976,5 +983,24 @@ class Product
         $this->parcelType = $parcelType;
     }
 
+    /**
+     * @return string
+     */
+    public function getQuantity()
+    {
+        if (empty($this->quantity)) {
+            return 1;
+        }
+
+        return $this->quantity;
+    }
+
+    /**
+     * @param string $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
 
 }

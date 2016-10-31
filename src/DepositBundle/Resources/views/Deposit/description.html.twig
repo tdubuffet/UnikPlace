@@ -49,6 +49,12 @@
                                 {{ customField|raw }}
                             {% endfor %}
 
+                            <div class="form-group">
+                                <label class="required">La quantité du produit</label>
+                                <input type="number" name="quantity" id="product-quantity" class="form-control" min="1"
+                                       placeholder="La quantité du produit" value="{% if app.session.get('deposit').quantity is defined %}{{ app.session.get('deposit').quantity }}{% else %}1{% endif %}">
+                            </div>
+
 
                             <h4 class="title-description-technique">Informations techniques de mon produit</h4>
 
