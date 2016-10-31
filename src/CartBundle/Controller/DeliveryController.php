@@ -108,10 +108,58 @@ class DeliveryController extends Controller
         }
 
 
+        /**
+         * Order deliveryes selected
+         */
+        $deliveriesSelected = [];
+        $productTop = [];
+
+        foreach ($deliveries as $keys => $p) {
+
+            foreach ($p as $key => $data) {
+
+                if (in_array($data['operator']['code'], ['SODX', 'GUIN'])) {
+                    $deliveriesSelected[$keys]['selected'][$key] = $data;
+                    unset($p[$key]);
+                }
+
+            }
+
+            if (reset($p)) {
+
+                $deliveriesSelected[$keys]['price'][$key] = reset($p);
+                unset($p[key($p)]);
+
+                $z = [];
+                foreach ($p as $key => $date) {
+
+                    if (!isset($z[$date['delivery']['date']])) {
+                        $z[$date['delivery']['date']] = [];
+                    }
+
+                    $z[$date['delivery']['date']][$key] = $date['price']['tax-inclusive'];
+                }
+
+                ksort($z);
+
+
+                $first = reset($z);
+                if ($first) {
+
+                    $mustPrice = reset($first);
+
+                    if ($mustPrice) {
+
+                        $deliveriesSelected[$keys]['speed'][$key] = $deliveries[$keys][key($first)];
+                    }
+                }
+            }
+        }
+
         return [
             'products'              => $products,
             'productsTotalPrice'    => $productsTotalPrice,
-            'deliveriesByProduct'            => $deliveries
+            'deliveriesByProduct'            => $deliveriesSelected,
         ];
     }
 

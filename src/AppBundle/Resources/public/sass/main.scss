@@ -8755,6 +8755,18 @@ share-button:before {
 
 .cart-select-delivery{
 
+  .delivery-selected{
+    td{
+      background: rgba(#d99f25, 0.1);
+    }
+  }
+
+  .fav{
+    font-weight: bold;
+    color: #d99f25;
+    font-size: 0.9em;
+  }
+
   .table-delivery{
     tr:first-child td{
       border-top: none;

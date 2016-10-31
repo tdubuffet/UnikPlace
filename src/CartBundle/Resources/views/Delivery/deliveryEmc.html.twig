@@ -82,21 +82,60 @@
 
                                                 {% endfor %}
 
-                                                {% if product.emc %}
-                                                {% for delivery in deliveries %}
-                                                    <tr>
-                                                        <td class="logo" style="width: 10%;"><input type="radio"  id="deliveryMode[{{ product.id }}]" value="{{ delivery.operator.code }}{{ delivery.service.code }}" name="deliveryMode[{{ product.id }}]" {% if loop.first %}checked{% endif %}/></td>
-                                                        <td class="logo" style="width: 20%; text-align: center;">
-                                                            <img src="{{ delivery.operator.logo|replace({'http://': '//'}) }}" class="img-responsive" style="85%; margin: 0 auto;"/>
-                                                        </td>
-                                                        <td>
-                                                            {{ delivery.service.label }}
-                                                            <br/>
-                                                            <small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
-                                                        </td>
-                                                        <td class="price" style="width: 25%; text-align: right;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
-                                                    </tr>
-                                                {% endfor %}
+                                                {% if product.emc  and deliveries|first %}
+
+                                                    {% if deliveries['selected'] is defined %}
+                                                        {% for delivery in deliveries['selected'] %}
+                                                            <tr class="delivery-selected">
+                                                                <td class="logo" style="width: 10%;"><input type="radio"  id="deliveryMode[{{ product.id }}]" value="{{ delivery.operator.code }}{{ delivery.service.code }}" name="deliveryMode[{{ product.id }}]" {% if loop.first %}checked{% endif %}/></td>
+                                                                <td class="logo" style="width: 20%; text-align: center;">
+                                                                    <img src="{{ delivery.operator.logo|replace({'http://': '//'}) }}" class="img-responsive" style="85%; margin: 0 auto;"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="fav">La sélection de Unik Place - Transporteur de meuble préféré des internautes pour sa qualité de service.<br /></span>
+                                                                    {{ delivery.operator.label }} / {{ delivery.service.label }}
+                                                                    <br/>
+                                                                    <small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
+                                                                </td>
+                                                                <td class="price" style="width: 25%; text-align: right;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% endif %}
+
+                                                    {% if deliveries['price'] is defined %}
+                                                        {% for delivery in deliveries['price'] %}
+                                                            <tr class="delivery-price">
+                                                                <td class="logo" style="width: 10%;"><input type="radio"  id="deliveryMode[{{ product.id }}]" value="{{ delivery.operator.code }}{{ delivery.service.code }}" name="deliveryMode[{{ product.id }}]" /></td>
+                                                                <td class="logo" style="width: 20%; text-align: center;">
+                                                                    <img src="{{ delivery.operator.logo|replace({'http://': '//'}) }}" class="img-responsive" style="85%; margin: 0 auto;"/>
+                                                                </td>
+                                                                <td>
+                                                                    {{ delivery.operator.label }} / {{ delivery.service.label }}
+                                                                    <br/>
+                                                                    <small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
+                                                                </td>
+                                                                <td class="price" style="width: 25%; text-align: right;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% endif %}
+
+                                                    {% if deliveries['speed'] is defined %}
+                                                        {% for delivery in deliveries['speed'] %}
+                                                            <tr class="delivery-speed">
+                                                                <td class="logo" style="width: 10%;"><input type="radio"  id="deliveryMode[{{ product.id }}]" value="{{ delivery.operator.code }}{{ delivery.service.code }}" name="deliveryMode[{{ product.id }}]" /></td>
+                                                                <td class="logo" style="width: 20%; text-align: center;">
+                                                                    <img src="{{ delivery.operator.logo|replace({'http://': '//'}) }}" class="img-responsive" style="85%; margin: 0 auto;"/>
+                                                                </td>
+                                                                <td>
+                                                                    {{ delivery.operator.label }} / {{ delivery.service.label }}
+                                                                    <br/>
+                                                                    <small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
+                                                                </td>
+                                                                <td class="price" style="width: 25%; text-align: right;">{{ delivery.price['tax-inclusive'] }} {{ delivery.price.currency }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% endif %}
+
                                                 {% endif %}
 
                                                 {% for deliv in product.deliveries %}
