@@ -167,7 +167,7 @@ class Delivery
         $addressTo = $order->getDeliveryAddress();
 
         $to = array(
-            'pays'          => 'FR', //Bouchon not international
+            'pays'          => $addressTo->getCountry()->getCode(),
             'ville'         => $addressTo->getCity()->getName(),
             'type'          => ($user->getPro()) ? 'entreprise' : 'particulier',
             'adresse'       => $addressTo->getStreet(),
@@ -178,7 +178,7 @@ class Delivery
         $product = $order->getProduct();
 
         $from = array(
-            'pays'          => 'FR',
+            'pays'          => $product->getAddress()->getCountry()->getCode(),
             'code_postal'   => $product->getAddress()->getCity()->getZipcode(),
             'ville'         => $product->getAddress()->getCity()->getName(),
             'type'          => ($order->getProduct()->getUser()->getPro()) ? 'entreprise' : 'particulier',
@@ -233,7 +233,7 @@ class Delivery
 
 
         $from = array(
-            'pays'          => 'FR',  // must be an ISO code, set get_country example on how to get codes
+            'pays'          => $order->getProduct()->getAddress()->getCountry()->getCode(),
             'code_postal'   => $order->getProduct()->getAddress()->getCity()->getZipcode(),
             'ville'         => $order->getProduct()->getAddress()->getCity()->getName(),
             'type'          => ($order->getProduct()->getUser()->getPro()) ? 'entreprise' : 'particulier', // accepted values are "particulier" or "entreprise"
@@ -251,7 +251,7 @@ class Delivery
         }
 
         $to = array(
-            'pays'          => 'FR',  // must be an ISO code, set get_country example on how to get codes @todo INTERNATIONAL
+            'pays'          => $order->getDeliveryAddress()->getCountry()->getCode(),
             'code_postal'   => $order->getDeliveryAddress()->getCity()->getZipcode(),
             'ville'         =>  $order->getDeliveryAddress()->getCity()->getName(),
             'type'          => ($order->getUser()->getPro()) ? 'entreprise' : 'particulier',
@@ -269,9 +269,9 @@ class Delivery
             'dimensions' => array(
                 1 => array(
                     'poids'     => $order->getProduct()->getWeight() / 1000,
-                    'longueur' => $product->getParcelLength() * 100,
-                    'largeur' => $product->getParcelWidth() * 100,
-                    'hauteur' => $product->getParcelHeight() * 100
+                    'longueur' => $order->getProduct()->getParcelLength() * 100,
+                    'largeur' => $order->getProduct()->getParcelWidth() * 100,
+                    'hauteur' => $order->getProduct()->getParcelHeight() * 100
                 )
             )
         );
