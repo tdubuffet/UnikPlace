@@ -4,6 +4,7 @@ namespace DeliveryBundle\Service;
 use DeliveryBundle\Emc\ContentCategory;
 use DeliveryBundle\Emc\OrderStatus;
 use DeliveryBundle\Emc\Quotation;
+use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
 use LocationBundle\Entity\Address;
 use OrderBundle\Entity\Order;
@@ -96,7 +97,7 @@ class Delivery
 
 
         $to = array(
-            'pays'          => 'FR', //Bouchon not international
+            'pays'          => $address->getCountry()->getCode(),
             'ville'         => $address->getCity()->getName(),
             'type'          => ($user->getPro()) ? 'entreprise' : 'particulier',
             'adresse'       => $address->getStreet(),
@@ -104,7 +105,7 @@ class Delivery
         );
 
         $from = array(
-            'pays'          => 'FR',
+            'pays'          => $product->getAddress()->getCountry()->getCode(),
             'code_postal'   => $product->getAddress()->getCity()->getZipcode(),
             'ville'         => $product->getAddress()->getCity()->getName(),
             'type'          => ($product->getUser()->getPro()) ? 'entreprise' : 'particulier',
@@ -116,7 +117,8 @@ class Delivery
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             //'offers' => $this->carriersEnabled,
-            'content_code'          => 200
+            'content_code'          => 200,
+            'valeur'                => $product->getPrice(),
         );
 
         $parcels = array(
@@ -192,6 +194,7 @@ class Delivery
             'offers' => $this->carriersEnabled,
             'content_code' => 200,
             'assurance.selection' => false,
+            'valeur'                => $order->getProductAmount(),
         );
 
         $parcels = array(

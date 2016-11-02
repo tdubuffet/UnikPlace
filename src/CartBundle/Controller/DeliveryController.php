@@ -42,12 +42,21 @@ class DeliveryController extends Controller
          * generate hash delivery cache
          */
 
-        $hash               = md5(implode('-', $cart)) . '-cart-user-' . $this->getUser()->getId();
+        $hash = md5(implode('-', $cart)) . '-cart-user-' . $this->getUser()->getId();
 
-        $deliveries         = $this->get('app_cache')->fetch($hash);
+        $deliveries = $this->get('app_cache')->fetch($hash);
+        $deliveries = false;
         $modes = $request->get('deliveryMode', []);
 
-        if (!$deliveries){
+        $addresses = $this->get('session')->get('cart_addresses');
+
+        if (isset($addresses['delivery_address'])) {
+            $deliveryAddress = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById(
+                $addresses['delivery_address']
+            );
+        }
+
+        if (!$deliveries) {
 
 
             $deliveries = [];
@@ -61,7 +70,7 @@ class DeliveryController extends Controller
                     'status' => 'accepted'
                 ]);
 
-                if($orderProposal) {
+                if ($orderProposal) {
                     $product->setPrice($orderProposal->getAmount());
                 }
 
@@ -70,14 +79,6 @@ class DeliveryController extends Controller
                     ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
 
                 $delivery = $this->get('delivery.emc');
-
-                $addresses      = $this->get('session')->get('cart_addresses');
-
-                if (isset($addresses['delivery_address'])) {
-                    $deliveryAddress = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById(
-                        $addresses['delivery_address']
-                    );
-                }
 
                 $deliveries[$product->getId()] = $delivery->findDeliveryByProduct(
                     $this->getUser(),
@@ -92,7 +93,7 @@ class DeliveryController extends Controller
 
         if ($modes) {
 
-            foreach( $modes as $key => $mode ) {
+            foreach ($modes as $key => $mode) {
 
                 if ($mode != 'by_hand' && $mode != 'seller_custom' && !isset($deliveries[$key][$mode])) {
                     return $this->redirectToRoute('cart_delivery_emc');
@@ -110,13 +111,15 @@ class DeliveryController extends Controller
          * Order deliveryes selected
          */
         $deliveriesSelected = [];
-        $productTop = [];
 
         foreach ($deliveries as $keys => $p) {
 
             foreach ($p as $key => $data) {
 
-                if (in_array($data['operator']['code'], ['SODX', 'GUIN'])) {
+                if (in_array($data['operator']['code'], [
+                    'SODX',
+                    'GUIN'
+                ])) {
                     $deliveriesSelected[$keys]['selected'][$key] = $data;
                     unset($p[$key]);
                 }
@@ -155,9 +158,10 @@ class DeliveryController extends Controller
         }
 
         return [
-            'products'              => $products,
-            'productsTotalPrice'    => $productsTotalPrice,
-            'deliveriesByProduct'            => $deliveriesSelected,
+            'products' => $products,
+            'productsTotalPrice' => $productsTotalPrice,
+            'deliveriesByProduct' => $deliveriesSelected,
+            'deliveryAddress' => $deliveryAddress
         ];
     }
 
@@ -180,22 +184,22 @@ class DeliveryController extends Controller
             $this->getUser(),
             true
         );
-        
+
         $addresses = $this->getDoctrine()
             ->getRepository("LocationBundle:Address")
             ->findBy(
                 [
                     'user' => $this->getUser()
-                ], 
+                ],
                 [
                     'id' => 'DESC'
                 ]
             );
-        
+
         $selectAddressForm = $this->createForm(SelectCartAddressType::class, null, ['addresses' => $addresses]);
 
         $cartDelivery = $session->get('cart_delivery', array());
-        
+
         $byHandOnly = true;
         foreach ($cartDelivery as $deliveryCode) {
             if ($deliveryCode != 'by_hand') {
@@ -230,21 +234,21 @@ class DeliveryController extends Controller
             }
         } else if ($request->request->has('select_cart_address')) {
 
-            $addresses  = $this->getUser()->getAddresses();
-            $form       = $this->createForm(SelectCartAddressType::class, null, ['addresses' => $addresses]);
+            $addresses = $this->getUser()->getAddresses();
+            $form = $this->createForm(SelectCartAddressType::class, null, ['addresses' => $addresses]);
             $form->handleRequest($request);
 
             // Save selected addresses
             $addresses = [
-                'delivery_address'  => $form['delivery_address']->getData(),
-                'billing_address'   => $form['billing_address']->getData()
+                'delivery_address' => $form['delivery_address']->getData(),
+                'billing_address' => $form['billing_address']->getData()
             ];
 
             // Make sure addresses are owned by current user
             foreach ($addresses as $address) {
 
                 if (!is_null($address)) {
-                    
+
                     $address = $this->getDoctrine()
                         ->getRepository('LocationBundle:Address')
                         ->findOneBy(

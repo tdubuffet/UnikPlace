@@ -55,7 +55,7 @@
                                             <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">
                                                 {{ product.name }}
                                             </a><br />
-                                            Localisation du produit: <b>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</b>
+                                            Localisation du produit: <b>{{ product.address.city.name }} ({{ product.address.city.zipcode }}) - {{ product.address.country.name }}</b>
                                         </td>
                                         <td style="width: 60%;">
 
@@ -63,7 +63,7 @@
                                             <table class="table table-delivery">
                                                 {% for deliv in product.deliveries %}
 
-                                                    {% if deliv.deliveryMode.code == "by_hand" %}
+                                                    {% if deliv.deliveryMode.code == "by_hand" and deliveryAddress.country.code == product.address.country.code %}
                                                         <tr>
                                                             <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code }}" id="deliveryMode[{{ product.id }}]" name="deliveryMode[{{ product.id }}]"/></td>
                                                             <td class="logo">
@@ -74,7 +74,7 @@
                                                                 <br/>
                                                                 <small>{{ deliv.deliveryMode.description }}</small><br /><br />
 
-                                                                Localisation du produit: <b>{{ product.address.city.name }} ({{ product.address.city.zipcode }})</b>
+                                                                Localisation du produit: <b>{{ product.address.city.name }} ({{ product.address.city.zipcode }}) - {{ product.address.country.name }}</b>
                                                             </td>
                                                             <td class="price" style="width: 25%; text-align: right;">Gratuit</td>
                                                         </tr>
@@ -82,7 +82,7 @@
 
                                                 {% endfor %}
 
-                                                {% if product.emc  and deliveries|first %}
+                                                {% if (product.emc or deliveryAddress.country.code != product.address.country.code )  and deliveries|first %}
 
                                                     {% if deliveries['selected'] is defined %}
                                                         {% for delivery in deliveries['selected'] %}
@@ -92,7 +92,7 @@
                                                                     <img src="{{ delivery.operator.logo|replace({'http://': '//'}) }}" class="img-responsive" style="85%; margin: 0 auto;"/>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="fav">La sélection de Unik Place - Transporteur de meuble préféré des internautes = pour sa qualité de service.<br /></span>
+                                                                    <span class="fav">La sélection de Unik Place - Transporteur de meuble préféré des internautes pour sa qualité de service.<br /></span>
                                                                     {{ delivery.operator.label }} / {{ delivery.service.label }}
                                                                     <br/>
                                                                     <small>{{ delivery.delivery.label|capitalize }} prévue entre le {{ delivery.delivery.date|date('d/m/Y') }} et {{ delivery.delivery.date|date_modify('+4 days')|date('d/m/Y') }}.</small>
@@ -140,7 +140,7 @@
 
                                                 {% for deliv in product.deliveries %}
 
-                                                    {% if deliv.deliveryMode.code != "by_hand" %}
+                                                    {% if deliv.deliveryMode.code != "by_hand" and deliveryAddress.country.code == product.address.country.code  %}
                                                     <tr>
                                                         <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code }}" id="deliveryMode[{{ product.id }}]" name="deliveryMode[{{ product.id }}]"/></td>
                                                         <td class="logo" style="width: 20%; text-align: center;">
@@ -167,7 +167,7 @@
                         </div>
 
                         <div class="text-right">
-                            <input class="btn btn-primary" type="submit" value="Finaliser ma commande">
+                            <input class="btn btn-default btn-unik" type="submit" value="Finaliser ma commande">
                         </div>
                     </form>
 
