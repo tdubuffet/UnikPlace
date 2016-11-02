@@ -1005,4 +1005,9 @@ class Product
         return $this;
     }
 
+    public function getLocation() {
+        return $this->getAddress()->getGeoLatitude() . ',' . $this->getAddress()->getGeoLongitude();
+    }
+
+
 }

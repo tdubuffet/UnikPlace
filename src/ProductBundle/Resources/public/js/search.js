@@ -2,6 +2,8 @@ var Search = {
 
     params: {},
     initialized: false,
+    latitude: false,
+    longitude: false,
 
     init: function() {
         Search.filterCollapsing();
@@ -35,6 +37,7 @@ var Search = {
                 $('.sidebar .block-layered-nav .block-content-filters').html(result);
                 Search.initPrice();
                 Search.initRange();
+                Search.initLocation();
                 // Reinject values
                 Search.reinjectValuesInFilters();
                 // Bind events on these filters
@@ -103,6 +106,12 @@ var Search = {
                 }
             }
         });
+
+        var location = Search.getUrlParameter('location[dist]');
+        if (location) {
+            $('select[name="around-me"]>option[value="' + location + '"]').attr('selected', true);
+        }
+
     },
 
     initSortBy: function() {
@@ -147,6 +156,51 @@ var Search = {
         else if (direction == 'asc') {
             $($('.sort-direction').find('i')[0]).removeClass('fa-arrow-down').addClass('fa-arrow-up');
         }
+    },
+
+    initLocation: function() {
+        $('select[name="around-me"]').change(function(e) {
+            var val = $('select[name="around-me"]').val();
+
+            if (val != 0) {
+
+                if (Search.latitude != false && Search.longitude != false) {
+
+                    Search.params.location = {
+                        'lat': Search.latitude,
+                        'lng': Search.longitude,
+                        'dist': val,
+                    }
+
+                    Search.search('location');
+
+                } else {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+
+                            Search.latitude = position.coords.latitude;
+                            Search.longitude = position.coords.longitude;
+                            Search.distance = val;
+
+                            Search.params.location = {
+                                'lat': position.coords.latitude,
+                                'lng': position.coords.longitude,
+                                'dist': val,
+                            }
+
+                            Search.search('location');
+                        }
+                        , function () {
+                            $('select[name="around-me"]>option:eq(0)').attr('selected', true);
+                        }
+                    );
+                }
+            } else {
+                delete Search.params.location;
+                Search.search('location');
+            }
+
+        });
+
     },
 
     initPagination: function() {
@@ -296,7 +350,6 @@ var Search = {
                 }
             });
         });
-
 
         // multiselect2
         var multiselects2 = [];

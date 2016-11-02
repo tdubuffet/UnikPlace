@@ -40,10 +40,7 @@ class ProductToElasticaTransformer implements ModelToElasticaTransformerInterfac
             'updated_at' => $product->getUpdatedAt()->getTimestamp(),
             'status' => $product->getStatus()->getName(),
             'user' => $product->getUser()->getId(),
-            'location' => [
-                'lat' => $product->getAddress()->getGeoLatitude(),
-                'lon' => $product->getAddress()->getGeoLongitude()
-            ]
+            'location' => $product->getLocation()
         ));
 
         // Import product attributes

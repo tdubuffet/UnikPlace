@@ -4,6 +4,7 @@ namespace ProductBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\GeoDistance;
 use Pagerfanta\View\TwitterBootstrap3View;
 use ProductBundle\Entity\Attribute;
 use ProductBundle\Entity\Category;
@@ -60,6 +61,7 @@ class ProductSearchService
         $this->applyUser($boolQuery, $params);
 
         $query = new \Elastica\Query($boolQuery);
+        $this->applyLocation($query, $params);
         $this->applySortAndOrder($query, $params);
 
         $results = $this->finder->findPaginated($query);
@@ -145,6 +147,8 @@ class ProductSearchService
             }
         }
         $html = '';
+
+        $filters['location'] = ['template' => 'location'];
         foreach ($filters as $filter) {
 
             if (isset($filter['viewVars']['referentialValues'])) {
@@ -170,6 +174,26 @@ class ProductSearchService
 
         return $html;
     }
+
+    /**
+     * @param BoolQuery $boolQuery
+     * @param $params
+     */
+    private function applyLocation($query, $params)
+    {
+        if (isset($params['location']) && isset($params['location']['dist']) && isset($params['location']['lat']) && isset($params['location']['lng'])) {
+
+            $filter = new GeoDistance('location', array(
+                'lat' => $params['location']['lat'],
+                'lon' => $params['location']['lng']
+            ),
+                $params['location']['dist'] . 'km'
+            );
+            $query->setPostFilter($filter);
+        }
+
+    }
+
 
     /**
      * @param BoolQuery $boolQuery
