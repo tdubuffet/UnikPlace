@@ -59,7 +59,7 @@
                                         <td><a target="_blank"
                                                href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a>
                                         </td>
-                                        <td>{{ product.getAddress.getCity.getName }} ({{ product.getAddress.getCity.getZipcode }})</td>
+                                        <td>{{ product.getAddress.city.name }} ({{ product.getAddress.city.zipcode }}) - {{ product.address.country.name }}</td>
                                         <td style="max-width: 5%;">
                                             <button title="Retirer de mon panier" type="button" class="btn btn-link btn-remove"
                                                     data-id="{{ product.id }}"><i

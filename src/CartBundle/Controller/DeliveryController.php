@@ -45,8 +45,6 @@ class DeliveryController extends Controller
         $hash               = md5(implode('-', $cart)) . '-cart-user-' . $this->getUser()->getId();
 
         $deliveries         = $this->get('app_cache')->fetch($hash);
-        $deliveries = false;
-
         $modes = $request->get('deliveryMode', []);
 
         if (!$deliveries){

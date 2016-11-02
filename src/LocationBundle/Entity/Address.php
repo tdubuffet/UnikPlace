@@ -103,7 +103,7 @@ class Address
      *
      * @ORM\Column(name="json_google", type="text")
      */
-    private $jsonGoogle = [];
+    private $jsonGoogle = "";
 
 
     /**
