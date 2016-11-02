@@ -140,7 +140,7 @@
 
                                                 {% for deliv in product.deliveries %}
 
-                                                    {% if deliv.deliveryMode.code != "by_hand" and deliveryAddress.country.code == product.address.country.code  %}
+                                                    {% if deliv.deliveryMode.code != "by_hand" and deliv.deliveryMode.emc != true and deliveryAddress.country.code == product.address.country.code  %}
                                                     <tr>
                                                         <td class="logo" style="width: 10%;"><input type="radio" value="{{ deliv.deliveryMode.code }}" id="deliveryMode[{{ product.id }}]" name="deliveryMode[{{ product.id }}]"/></td>
                                                         <td class="logo" style="width: 20%; text-align: center;">
