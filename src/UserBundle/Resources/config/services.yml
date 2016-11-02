@@ -5,7 +5,7 @@ services:
 
     user.registration_listener:
         class: UserBundle\EventListener\RegistrationListener
-        arguments: ['@mangopay_service', '@doctrine.orm.entity_manager', '@router']
+        arguments: ['@mangopay_service', '@doctrine.orm.entity_manager', '@router', '@user.address_form']
         tags:
             - { name: kernel.event_subscriber }
 

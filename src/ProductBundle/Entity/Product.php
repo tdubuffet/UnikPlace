@@ -1001,6 +1001,8 @@ class Product
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+
+        return $this;
     }
 
 }

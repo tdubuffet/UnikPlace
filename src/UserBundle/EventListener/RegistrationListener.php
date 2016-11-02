@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
+use UserBundle\Service\AddressForm;
 
 class RegistrationListener implements EventSubscriberInterface
 {
@@ -22,11 +23,12 @@ class RegistrationListener implements EventSubscriberInterface
     private $em;
     private $router;
 
-    public function __construct(MangoPayService $mangopayService, EntityManager $em, Router $router)
+    public function __construct(MangoPayService $mangopayService, EntityManager $em, Router $router, AddressForm $af)
     {
         $this->mangopayService = $mangopayService;
         $this->em = $em;
         $this->router = $router;
+        $this->addressForm = $af;
     }
 
     public static function getSubscribedEvents()
@@ -102,6 +104,8 @@ class RegistrationListener implements EventSubscriberInterface
             $address->setStreet($street['street_number'] . ' ' . $street['route']. ' ' . $street['sublocality_level_1']);
             $address->setCity($city);
             $address->setUser($user);
+
+            $address = $this->addressForm->formatedAddress($address);
 
             $user->setCompanyAddress($street['street_number'] . ' ' . $street['route']. ' ' . $street['sublocality_level_1']);
             $user->setCompanyZipcode($city->getZipcode());
