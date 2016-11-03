@@ -39,10 +39,10 @@
                                 <thead>
                                 <tr>
                                     <th>Produit</th>
-                                    <th>Nom</th>
-                                    <th>Ville</th>
-                                    <th></th>
-                                    <th>Prix</th>
+                                    <th colspan="2">Nom</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Quantité</th>
+                                    <th>Total</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -56,33 +56,44 @@
                                                     alt="{{ product.name }} " />{% endif %}
                                             </a>
                                         </td>
-                                        <td><a target="_blank"
-                                               href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a>
+                                        <td>
+                                            <a target="_blank" href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}">{{ product.name }}</a><br />
+                                            <small>{{ product.getAddress.city.name }} ({{ product.getAddress.city.zipcode }}) - {{ product.address.country.name }}</small>
                                         </td>
-                                        <td>{{ product.getAddress.city.name }} ({{ product.getAddress.city.zipcode }}) - {{ product.address.country.name }}</td>
                                         <td style="max-width: 5%;">
                                             <button title="Retirer de mon panier" type="button" class="btn btn-link btn-remove"
                                                     data-id="{{ product.id }}"><i
                                                         class="fa fa-trash"></i></button>
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-center color-price">
                                             {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
                                             {% if product.getCurrency.getCode != 'EUR' %}
                                                 ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
                                             {% endif %}
                                         </td>
+                                        <td class="text-left">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="Cart.cartBtnAdd({{ product.id }}, 'remove')">-</button>
+                                            <div class="btn btn-default btn-xs product-list" id="{{ product.id }}" data-price="{{ product.price }}">{{ app.session.get('cart_quantity')[product.id] }}</div>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="Cart.cartBtnAdd({{ product.id }}, 'add')">+</button> <span style="font-size: 0.78em;">(Max: {{ product.quantity }})</span>
+                                        </td>
+                                        <td class="text-right color-price total-row-price-{{ product.id }}">
+                                            {{ (product.price * app.session.get('cart_quantity')[product.id])|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                                            {% if product.getCurrency.getCode != 'EUR' %}
+                                                ({{ (product.price * app.session.get('cart_quantity')[product.id])|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="5" class="text-center">Aucun produit dans le panier</td>
+                                        <td colspan="6" class="text-center">Aucun produit dans le panier</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
                                 <tfoot class="text-right">
                                 <tr>
-                                    <td colspan="4" class="text-right label-table">Total</td>
+                                    <td colspan="5" class="text-right label-table">Total</td>
                                     <td colspan="1">
-                                        <span class="totalProduct" data-total="{{ productsTotalPrice }}">
+                                        <span class="totalProduct color-price" data-total="{{ productsTotalPrice }}">
                                             {{ productsTotalPrice|currency_format('EUR') }}
                                         </span>
                                     </td>

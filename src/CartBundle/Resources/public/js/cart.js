@@ -17,6 +17,33 @@ var Cart = {
 
     calculateDeliveryFee: function(fee) {},
 
+    cartBtnAdd: function(productId, action) {
+
+        $.ajax({
+            url: Routing.generate('product_cart_quantity', {id: productId, action: action}),
+            type: 'GET',
+            success: function (result) {
+
+                if (typeof result.status != 'undefined' && result.status == 'OK') {
+                    $('#' + productId).html(result.quantity);
+
+                    var total = result.quantity * $('#' + productId).data('price');
+
+                    $('.total-row-price-' + productId).html('€' + total);
+
+                    var product = $('.totalProduct');
+                    product.html(result['prices']['formated']);
+                    product.data('total', result['prices']['price']);
+                }
+            }
+        });
+
+    },
+
+    cartRefresh: function() {
+
+    },
+
     cartAction: function () {
         $("td .btn-remove").click(function () {
             var row = $($(this).parents("tr")[0]);
@@ -37,7 +64,6 @@ var Cart = {
                         var product = $('.totalProduct');
                         product.html(result['prices']['formated']);
                         product.data('total', result['prices']['price']);
-                        Cart.calculateDeliveryFee();
                     }
                 },
                 error: function (result) {

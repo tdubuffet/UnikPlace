@@ -42,6 +42,7 @@ class PaymentController extends Controller
         $deliveryFee            = 0; // in EUR
 
         $cartDelivery   = $session->get('cart_delivery');
+        $cartQuantity   = $session->get('cart_quantity');
         $deliveries     = $session->get('cart_delivery_emc');
         $selectedDeliveryEmc = [];
         $selectStandardDeliveries = [];
@@ -67,8 +68,9 @@ class PaymentController extends Controller
             }
 
             $products[] = $product;
+            $quantity = $cartQuantity[$product->getId()];
             $productsTotalPrice += $this->get('lexik_currency.converter')->convert(
-                $product->getPrice(),
+                ($product->getPrice() * $quantity),
                 'EUR',
                 true,
                 $product->getCurrency()->getCode()

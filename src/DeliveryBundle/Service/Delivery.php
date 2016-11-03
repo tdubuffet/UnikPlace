@@ -11,6 +11,7 @@ use OrderBundle\Entity\Order;
 use ProductBundle\Entity\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -95,6 +96,8 @@ class Delivery
     public function findDeliveryByProduct(User $user, Address $address, $ip, Product $product)
     {
 
+        $session = new Session();
+        $quantity = $session->get('cart_quantity', []);
 
         $to = array(
             'pays'          => $address->getCountry()->getCode(),
@@ -123,15 +126,20 @@ class Delivery
 
         $parcels = array(
             'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
-            'dimensions' => array(
-                1 => array(
-                    'poids' => $product->getWeight() / 1000,
-                    'longueur' => $product->getParcelLength() * 100,
-                    'largeur' => $product->getParcelWidth() * 100,
-                    'hauteur' => $product->getParcelHeight() * 100
-                )
-            )
+            'dimensions' => []
         );
+
+
+        $quantity = (isset($quantity[$product->getId()])) ? $quantity[$product->getId()] : 1;
+        for($i = 0; $i < $quantity; $i++) {
+            $parcels['dimensions'][] = [
+                'poids' => $product->getWeight() / 1000,
+                'longueur' => $product->getParcelLength(),
+                'largeur' => $product->getParcelWidth(),
+                'hauteur' => $product->getParcelHeight(),
+            ];
+        }
+
 
         $lib = new Quotation();
         $lib->getQuotation($from, $to, $parcels, $additionalParams);

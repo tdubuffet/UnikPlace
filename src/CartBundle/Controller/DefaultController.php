@@ -34,6 +34,8 @@ class DefaultController extends Controller
     {
         $session = new Session();
         $cart = $session->get('cart', array());
+        $cartQuant = $session->get('cart_quantity', []);
+
         /** @var Status $publishedStatus */
         $publishedStatus = $this->getDoctrine()->getRepository('ProductBundle:Status')->findOneByName('published');
         $acceptedStatus = $this->getDoctrine()->getRepository('OrderBundle:Status')->findOneByName('accepted');
@@ -58,8 +60,20 @@ class DefaultController extends Controller
             }
 
             $products[] = $product;
-            $productsTotalPrice += $this->get('lexik_currency.converter')
-                ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+
+            if (isset($cartQuant[$product->getId()])) {
+
+                $prixUnit = $this->get('lexik_currency.converter')
+                    ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+
+                $productsTotalPrice += $cartQuant[$product->getId()] * $prixUnit;
+            } else {
+
+                $cartQuant[$product->getId()] = 1;
+
+                $productsTotalPrice += $this->get('lexik_currency.converter')
+                    ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+            }
             if ($product->getStatus()->getName() == $publishedStatus->getName()) {
                 $publishedProducts[] = $product->getId();
             }
@@ -71,6 +85,8 @@ class DefaultController extends Controller
             $session->set('cart', $publishedProducts);
             return $this->redirectToRoute('cart');
         }
+
+        $session->set('cart_quantity', $cartQuant);
 
         return [
             'products'              => $products,

@@ -82,16 +82,16 @@
                                                 </a>
                                             </td>
                                             <td class="text-center">
-                                                {{ product.price|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                                                {{ (product.price * app.session.get('cart_quantity')[product.id])|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
                                                 {% if product.getCurrency.getCode != 'EUR' %}
-                                                    ({{ product.price|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
+                                                    ({{ (product.price * app.session.get('cart_quantity')[product.id])|currency_convert_format(product.getCurrency.getCode, false, true, product.getCurrency.getCode) }})
                                                 {% endif %}
                                             </td>
                                             <td rowspan="2" class="text-right">
                                                 {% if selectedDeliveryEmc[product.id] is defined %}
-                                                    {{ (product.price+selectedDeliveryEmc[product.id]['price']['tax-inclusive'])|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                                                    {{ ((product.price * app.session.get('cart_quantity')[product.id])+selectedDeliveryEmc[product.id]['price']['tax-inclusive'])|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
                                                 {% else %}
-                                                    {{ (product.price+standardDeliveries[product.id].fee)|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
+                                                    {{ ((product.price * app.session.get('cart_quantity')[product.id])+standardDeliveries[product.id].fee)|currency_convert_format('EUR', false, true, product.getCurrency.getCode) }}
                                                 {% endif %}
                                             </td>
                                         </tr>
