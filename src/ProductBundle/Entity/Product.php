@@ -908,7 +908,7 @@ class Product
     public function getParcelWidth()
     {
         if (empty($this->parcelWidth) || $this->parcelWidth == 0) {
-            return $this->width;
+            return $this->width * 100;
         }
 
         return $this->parcelWidth;
@@ -928,7 +928,7 @@ class Product
     public function getParcelLength()
     {
         if (empty($this->parcelLength) || $this->parcelLength == 0) {
-            return $this->length;
+            return $this->length * 100;
         }
 
         return $this->parcelLength;
@@ -948,7 +948,7 @@ class Product
     public function getParcelHeight()
     {
         if (empty($this->parcelHeight)  || $this->parcelHeight == 0) {
-            return $this->height;
+            return $this->height * 100;
         }
 
         return $this->parcelHeight;

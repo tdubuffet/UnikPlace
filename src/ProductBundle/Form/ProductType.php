@@ -5,6 +5,7 @@ namespace ProductBundle\Form;
 use LocationBundle\Form\AddressAdminType;
 use LocationBundle\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -33,6 +34,18 @@ class ProductType extends AbstractType
             ->add('category', null, ['label' => 'Catégorie'])
             ->add('currency', null, ['label' => 'Devise'])
             ->add('status', null, ['label' => 'Statut'])
+            ->add('quantity', null, ['label' => 'Quantité'])
+            ->add('parcelHeight', null, ['label' => 'Hauteur du colis en cm'])
+            ->add('parcelLength', null, ['label' => 'Longueur du colis en cm'])
+            ->add('parcelWidth', null, ['label' => 'Largeur du colis en cm'])
+            ->add('parcelType', ChoiceType::class, [
+                'label' => 'Type de colis',
+                'choices' => [
+                    'Colis' => 'box',
+                    'Encombrant' => 'bulky',
+                    'Palette' => 'pallet',
+                ]
+            ])
             ->add('customDeliveryFee', NumberType::class, [
                 'label' => 'Mes frais de port en France métropolitaine',
                 'mapped' => false,
