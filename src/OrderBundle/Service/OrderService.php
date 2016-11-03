@@ -64,6 +64,7 @@ class OrderService
         $session        = new Session();
         $cart           = $session->get('cart', array());
         $cartDelivery  = $session->get('cart_delivery', null);
+        $cartQuantity  = $session->get('cart_quantity', null);
 
         $addresses      = $session->get('cart_addresses');
 
@@ -100,7 +101,7 @@ class OrderService
             }
 
             $productAmount = $this->currencyConverter->convert(
-                (!is_null($product->getProposalAccepted())) ? $product->getProposalAccepted()->getAmount() : $product->getPrice(),
+                (!is_null($product->getProposalAccepted())) ? $product->getProposalAccepted()->getAmount() : $product->getPrice() * $cartQuantity[$product->getId()],
                 $currency,
                 true,
                 $product->getCurrency()->getCode()
@@ -155,6 +156,7 @@ class OrderService
             $order->setDelivery($delivery);
             $order->setCurrency($this->em->getRepository('ProductBundle:Currency')->findOneByCode($currency));
             $order->setUser($user);
+            $order->setQuantity($cartQuantity[$product->getId()]);
 
             $order->setDeliveryAddress(null);
             if (isset($addresses['delivery_address'])) {
@@ -199,6 +201,7 @@ class OrderService
         $session->remove('cart_addresses');
         $session->remove('card_registration_id');
         $session->remove('cart_amount');
+        $session->remove('cart_quantity');
     }
 
     /**
@@ -248,8 +251,15 @@ class OrderService
         if ($payInId !== false) {
             $order->setMangopayPayinId($payInId)->setMangopayPayinDate(new \DateTime());
 
-            $statusSold = $this->em->getRepository('ProductBundle:Status')->findOneBy(['name' => 'sold']);
-            $product = $order->getProduct()->setStatus($statusSold);
+            $product = $order->getProduct();
+
+            $newQuantity = $product->getQuantity() - $order->getQuantity();
+            $product->setQuantity($newQuantity);
+
+            if ($newQuantity >= 0) {
+                $statusSold = $this->em->getRepository('ProductBundle:Status')->findOneBy(['name' => 'sold']);
+                $product->setStatus($statusSold);
+            }
 
             $statusAccepted = $this->em->getRepository('OrderBundle:Status')->findOneBy(['name' => 'accepted']);
             $order->setStatus($statusAccepted);

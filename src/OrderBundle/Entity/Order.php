@@ -64,6 +64,12 @@ class Order
     private $product;
 
     /**
+     * @var Product $product
+     * @ORM\Column(name="quantity", type="integer", options={"default" : 1})
+     */
+    private $quantity = 1;
+
+    /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="orders")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -738,6 +744,22 @@ class Order
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
     }
     
 }
