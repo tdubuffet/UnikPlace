@@ -67,7 +67,9 @@
                             <li>
                                 <span>Produit</span><br /><a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a>
                             </li>
+                            <li><span>Quantité</span> {{ order.quantity }}</li>
                             <li><span>Prix</span>{{ order.productAmount|number_format(2, '.', ' ') }} €</li>
+                            <li><span>Prix à l'unité</span>{{ (order.productAmount/order.quantity)|number_format(2, '.', ' ') }} €</li>
                             <li>
                                 <span>Etat</span>
                                 {% if order.status == 'pending' %}
@@ -367,6 +369,7 @@
                                 </div>
                             </div>
 
+                            {{ dump(delivery) }}
                             {% if delivery.mandatory|length > 0 %}
 
                                 <h4>Informations sur la livraison</h4>

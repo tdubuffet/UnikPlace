@@ -199,7 +199,7 @@ class Delivery
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
-            'offers' => $this->carriersEnabled,
+            //'offers' => $this->carriersEnabled,
             'content_code' => 200,
             'assurance.selection' => false,
             'valeur'                => $order->getProductAmount(),
@@ -210,9 +210,9 @@ class Delivery
             'dimensions' => array(
                 1 => array(
                     'poids' => $product->getWeight() / 1000,
-                    'longueur' => $product->getParcelLength() * 100,
-                    'largeur' => $product->getParcelWidth() * 100,
-                    'hauteur' => $product->getParcelHeight() * 100
+                    'longueur' => $product->getParcelLength(),
+                    'largeur' => $product->getParcelWidth(),
+                    'hauteur' => $product->getParcelHeight()
                 )
             )
         );
@@ -280,9 +280,9 @@ class Delivery
             'dimensions' => array(
                 1 => array(
                     'poids'     => $order->getProduct()->getWeight() / 1000,
-                    'longueur' => $order->getProduct()->getParcelLength() * 100,
-                    'largeur' => $order->getProduct()->getParcelWidth() * 100,
-                    'hauteur' => $order->getProduct()->getParcelHeight() * 100
+                    'longueur' => $order->getProduct()->getParcelLength(),
+                    'largeur' => $order->getProduct()->getParcelWidth(),
+                    'hauteur' => $order->getProduct()->getParcelHeight()
                 )
             )
         );

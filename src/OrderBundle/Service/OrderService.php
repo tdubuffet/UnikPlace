@@ -256,8 +256,11 @@ class OrderService
             $newQuantity = $product->getQuantity() - $order->getQuantity();
             $product->setQuantity($newQuantity);
 
-            if ($newQuantity >= 0) {
+            if ($newQuantity <= 0) {
                 $statusSold = $this->em->getRepository('ProductBundle:Status')->findOneBy(['name' => 'sold']);
+                $product->setStatus($statusSold);
+            } else {
+                $statusSold = $this->em->getRepository('ProductBundle:Status')->findOneBy(['name' => 'published']);
                 $product->setStatus($statusSold);
             }
 

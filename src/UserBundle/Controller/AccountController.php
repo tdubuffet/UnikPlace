@@ -368,7 +368,6 @@ class AccountController extends Controller
             $delivery = $this->get('delivery.emc')->prepareDeliveryByOrder($order);
         }
 
-
         return [
             'order' => $order,
             'sale' => $sale,
