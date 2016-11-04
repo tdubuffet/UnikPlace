@@ -192,7 +192,7 @@ class OrderService
             $transaction->setTotalProductPrice($productAmount);
             $transaction->setTotalPrice($productAmount + $deliveryAmount);
 
-            $this->em->persist($order);
+            $this->em->persist($transaction);
 
             $orders[] = $order;
         }
