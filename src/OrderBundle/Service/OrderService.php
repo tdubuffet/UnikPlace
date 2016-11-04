@@ -6,6 +6,7 @@ use AppBundle\Service\MangoPayService;
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\CurrencyBundle\Currency\Converter;
 use MangoPay\Libraries\Exception;
+use MangoPay\Transaction;
 use OrderBundle\Entity\Delivery;
 use OrderBundle\Entity\OrderProposal;
 use OrderBundle\Event\OrderProposalEvent;
@@ -177,6 +178,22 @@ class OrderService
 
             $this->em->persist($product);
             $this->em->persist($order);
+
+
+
+            $transaction = new \OrderBundle\Entity\Transaction();
+            $transaction->setBuyer($order->getUser());
+            $transaction->setSeller($order->getProduct()->getUser());
+            $transaction->setEmc($deliveryMode->isEmc());
+            $transaction->setDateTransaction(new \DateTime());
+            $transaction->setOrder($order);
+            $transaction->setDeliveryPrice($deliveryAmount);
+            $transaction->setProductPrice($productAmount/$order->getQuantity());
+            $transaction->setTotalProductPrice($productAmount);
+            $transaction->setTotalPrice($productAmount + $deliveryAmount);
+
+            $this->em->persist($order);
+
             $orders[] = $order;
         }
 
