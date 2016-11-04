@@ -438,9 +438,9 @@ class DepositController extends Controller
                     $deposit['delivery']['shipping_fees'] = $request->request->get('shipping_fees');
                 }
 
-                if (in_array('carrier_unik', $deliveryModes)) {
+                //if (in_array('carrier_unik', $deliveryModes)) {
                     $deposit['delivery']['emc'] = true;
-                }
+                //}
 
                 if (count($errors) > 0) {
                     $this->addFlash('error', $errors);
