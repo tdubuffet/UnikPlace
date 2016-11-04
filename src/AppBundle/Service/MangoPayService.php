@@ -413,6 +413,23 @@ class MangoPayService
         return $result;
     }
 
+    public function isKYCValidBuyer(UserEntity $user, $inputAmount = 0)
+    {
+        $input  = $inputAmount;
+
+        /** User is regular, KYC is validate */
+        if ($this->getMangoPayUser($user->getMangopayUserId())->KYCLevel == "REGULAR"){
+            return 0;
+        }
+        // As buyer
+        $orders = $user->getOrders();
+        foreach($orders as $order) {
+            $input += $order->getAmount();
+        }
+
+        return $input;
+    }
+
 
     public function isKYCValidUser(UserEntity $user, $inputAmount = 0, $outputAmount = 0)
     {
