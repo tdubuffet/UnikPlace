@@ -234,6 +234,23 @@ class MailerSender
         $this->sendMessage($template, $context, $this->parameters['from_email'], $this->parameters['contact_email']);
     }
 
+    public function sendOrderLimitedKYCEmailMessage(User $user, $type = 1600)
+    {
+        if ($type == 1600) {
+            $template = 'OrderBundle:email:limit_1600.email.twig';
+        } else {
+            $template = 'OrderBundle:email:limit_2500.email.twig';
+        }
+        $limitedUrl = $this->router->generate('user_account_wallet_kyc', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $context = [
+            'user' => $user,
+            'link' => $limitedUrl
+        ];
+
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $user->getEmail());
+    }
+
     public function sendClosedOrderDisputeEmailMessage(Order $order)
     {
         $template = 'OrderBundle:email:dispute_closed.email.twig';

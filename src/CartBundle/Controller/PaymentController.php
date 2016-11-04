@@ -4,6 +4,8 @@ namespace CartBundle\Controller;
 
 use MangoPay\Libraries\Exception;
 use OrderBundle\Entity\DeliveryMode;
+use OrderBundle\Event\OrderEvents;
+use OrderBundle\Event\UserEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -279,11 +281,13 @@ class PaymentController extends Controller
                 $blockedOrders = false;
                 if (!$this->get('mangopay_service')->isKYCValidUser($this->getUser(), $cartAmount, 0)) {
 
+                    $this->get('event_dispatcher')->dispatch(OrderEvents::ORDER_LIMITED_2500, new UserEvent($this->getUser()));
                     $blockedOrders = true;
-                } elseif($this->get('mangopay_service')->isKYCValidBuyer($this->getUser(), $cartAmount) > 1800) {
+                } elseif($this->get('mangopay_service')->isKYCValidBuyer($this->getUser(), $cartAmount) >= 1600) {
                     /**
                      * @todo On envoie une notification et un mail d'information.
                      */
+                    $this->get('event_dispatcher')->dispatch(OrderEvents::ORDER_LIMITED_1600, new UserEvent($this->getUser()));
                 }
 
                 // Success - Create order and redirect to confirmation page

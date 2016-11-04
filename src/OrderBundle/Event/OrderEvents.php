@@ -62,4 +62,16 @@ final class OrderEvents
      * @var string
      */
     const ORDER_PROPOSAL_CHANGE = 'order_proposal.change';
+    /**
+     * The ORDER_PROPOSAL_NEW event occurs after an order proposal has been updated to accepted or canceled
+     *
+     * @var string
+     */
+    const ORDER_LIMITED_1600 = 'order.kyc.1600';
+    /**
+     * The ORDER_PROPOSAL_NEW event occurs after an order proposal has been updated to accepted or canceled
+     *
+     * @var string
+     */
+    const ORDER_LIMITED_2500 = 'order.kyc.2500';
 }

@@ -1,6 +1,7 @@
 <?php
 namespace OrderBundle\EventListener;
 
+use OrderBundle\Event\UserEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OrderBundle\Event\OrderEvents as Event;
 use OrderBundle\Event\OrderEvent;
@@ -18,12 +19,14 @@ class EmailOrderEventsListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Event::ORDER_CREATED          => 'onOrderCreated',
-            Event::ORDER_ACCEPTED         => 'onOrderAccepted',
-            Event::ORDER_REFUSED          => 'onOrderRefused',
-            Event::ORDER_DONE             => 'onOrderDone',
-            Event::ORDER_DISPUTE_OPENED   => 'onOrderDisputeOpened',
-            Event::ORDER_DISPUTE_CLOSED   => 'onOrderDisputeClosed'
+            Event::ORDER_CREATED => 'onOrderCreated',
+            Event::ORDER_ACCEPTED => 'onOrderAccepted',
+            Event::ORDER_REFUSED => 'onOrderRefused',
+            Event::ORDER_DONE => 'onOrderDone',
+            Event::ORDER_DISPUTE_OPENED => 'onOrderDisputeOpened',
+            Event::ORDER_DISPUTE_CLOSED => 'onOrderDisputeClosed',
+            Event::ORDER_LIMITED_1600 => 'onOrderLimited1600',
+            Event::ORDER_LIMITED_2500 => 'onOrderLimited2500',
         );
     }
 
@@ -61,5 +64,20 @@ class EmailOrderEventsListener implements EventSubscriberInterface
     {
         $order = $event->getOrder();
         $this->mailerSender->sendClosedOrderDisputeEmailMessage($order);
+    }
+
+    public function onOrderLimited1600(UserEvent $event)
+    {
+
+        $user = $event->getUser();
+        $this->mailerSender->sendOrderLimitedKYCEmailMessage($user, 1600);
+    }
+
+
+    public function onOrderLimited2500(UserEvent $event)
+    {
+
+        $user = $event->getUser();
+        $this->mailerSender->sendOrderLimitedKYCEmailMessage($user, 2500);
     }
 }
