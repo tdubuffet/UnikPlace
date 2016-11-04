@@ -54,9 +54,12 @@ class OrderService
      * @return array
      * @throws \Exception
      */
-    public function createOrdersFromCartSession($user, $currency, $preAuthId)
+    public function createOrdersFromCartSession($user, $currency, $preAuthId, $blockedLimit = false)
     {
         $pendingStatus = $this->em->getRepository('OrderBundle:Status')->findOneByName('pending');
+
+
+
 
         /**
          * We create an order per product at the moment
@@ -172,6 +175,11 @@ class OrderService
                 $order->setBillingAddress($billingAddress);
             }
 
+            if ($blockedLimit) {
+                $pendingStatus = $this->em
+                    ->getRepository('OrderBundle:Status')
+                    ->findOneByName('limit');
+            }
             $order->setStatus($pendingStatus);
             $order->setMangopayPreauthorizationId($preAuthId);
             $order->setProduct($product);
