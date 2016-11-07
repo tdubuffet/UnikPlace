@@ -27,7 +27,7 @@
         <tr>
           <td>
             {% set images = order.product.getImages() %}
-            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 50, 50) }}{% endif %}"
+            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 50, 50, 'r3') }}{% endif %}"
                  alt="{{ order.product.name }}"/>
           </td>
           <td class="title">

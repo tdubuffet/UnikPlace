@@ -291,7 +291,6 @@ class Delivery
             'collecte'              => date('Y-m-d'),
             'delai'                 => "aucun",
             'assurance.selection'   => false,
-            'content_code'          => $order->getId(),
             'valeur'                => $order->getProductAmount(),
             'operator'              => $delivery['operator']['code'],
             'service'               => $delivery['service']['code'],
