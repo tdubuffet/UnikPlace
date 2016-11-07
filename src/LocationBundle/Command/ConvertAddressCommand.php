@@ -35,7 +35,7 @@ class ConvertAddressCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 
 
-        $address = $em->getRepository('LocationBundle:Address')->findAll();
+        $address = $em->getRepository('LocationBundle:Address')->findByFormatedAddress(null);
 
         $output->writeln([
             '==================',
@@ -99,6 +99,9 @@ class ConvertAddressCommand extends ContainerAwareCommand
 
                 $em->persist($a);
 
+                $output->writeln('Address: NOK');
+            } else {
+                $output->writeln('Address: OK');
             }
 
 
