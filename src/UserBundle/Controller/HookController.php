@@ -2,11 +2,18 @@
 
 namespace UserBundle\Controller;
 
+use MangoPay\EventType;
+use MangoPay\Hook;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class HookController
+ * @package UserBundle\Controller
+ */
 class HookController extends Controller
 {
 
@@ -70,7 +77,44 @@ class HookController extends Controller
             break;
         }
 
-        return new Response('');
+        return new Response('Ok');
+    }
+
+    /**
+     * @Route("/hook/mangopay/create", name="hook_mangopay_create")
+     * @param Request $request
+     */
+    public function hookAction(Request $request)
+    {
+
+        $hook = new Hook();
+        $hook->Url = $this->generateUrl('hook_mangopay_kyc', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $hook->Validity = 'VALID';
+        $hook->Status = 'ENABLED';
+        $hook->EventType = EventType::KycSucceeded;
+
+        $this->get('mangopay_service')->getMangoPayApi()->Hooks->Create($hook);
+
+        $hook = new Hook();
+        $hook->Url = $this->generateUrl('hook_mangopay_kyc', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $hook->Validity = 'VALID';
+        $hook->Status = 'ENABLED';
+        $hook->EventType = EventType::KycFailed;
+
+        $this->get('mangopay_service')->getMangoPayApi()->Hooks->Create($hook);
+
+        exit('OK');
+    }
+
+    /**
+     * @Route("/hook/mangopay/all", name="hook_mangopay_all")
+     * @param Request $request
+     */
+    public function hooksAction(Request $request)
+    {
+        $returns = $this->get('mangopay_service')->getMangoPayApi()->Hooks->GetAll();
+
+        var_dump($returns); die;
     }
 
 }
