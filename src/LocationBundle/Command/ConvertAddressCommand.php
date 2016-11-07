@@ -35,7 +35,7 @@ class ConvertAddressCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 
 
-        $address = $em->getRepository('LocationBundle:Address')->findByFormatedAddress(null);
+        $address = $em->getRepository('LocationBundle:Address')->findByCountry(null);
 
         $output->writeln([
             '==================',
