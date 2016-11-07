@@ -61,7 +61,8 @@ class ProductType extends AbstractType
             ->add('emc', CheckboxType::class, [
                 'label' => 'Le service livraison Unik Place',
                 'mapped' => true,
-                'required' => false
+                'required' => false,
+                'disabled' => true
             ])
             ->add('address', AddressAdminType::class, ['label' => 'Adresse']);
 

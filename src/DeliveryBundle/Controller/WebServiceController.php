@@ -50,17 +50,22 @@ class WebServiceController extends Controller
         $orderNumber = $request->get('order');
         $keyNumber   = $request->get('key');
 
+        $logger = $this->get('monolog.logger.api');
+
         if(!$orderNumber || !$keyNumber) {
+            $logger->addNotice('Not valid push url: ' . $orderNumber . ' - ' . $keyNumber);
             throw new \Exception('Not valid push url');
         }
 
         if ($keyNumber != md5('emc_delivery')) {
+            $logger->addNotice('Key is not valid: ' . $orderNumber . ' - ' . $keyNumber);
             throw new \Exception('Key is not valid');
         }
 
         $order = $this->getDoctrine()->getRepository('OrderBundle:Order')->findOneById($orderNumber);
 
         if (!$order){
+            $logger->addNotice('Not valid order url: ' . $orderNumber . ' - ' . $keyNumber);
             throw new \Exception('Not valid order url');
         }
 
@@ -102,6 +107,8 @@ class WebServiceController extends Controller
 
             $order->setEmcTracking($dump);
 
+            $logger->addNotice('Save Emc Tracking: ' . $orderNumber . ' - ' . $keyNumber);
+
         } else {
 
 
@@ -118,6 +125,9 @@ class WebServiceController extends Controller
 
             $order->setEmcStatus($dump);
 
+
+
+            $logger->addNotice('Save Emc Status: ' . $orderNumber . ' - ' . $keyNumber);
         }
 
         $this->getDoctrine()->getManager()->persist($order);

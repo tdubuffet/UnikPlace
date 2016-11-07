@@ -8,7 +8,7 @@ imports:
 #        query_cache_driver: apc
 
 monolog:
-    channels: ['cron']
+    channels: ['cron', 'api']
     handlers:
         main:
             type:         fingers_crossed
@@ -28,3 +28,7 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/cron_%kernel.environment%.log"
             channels: cron
+        api:
+            type: stream
+            path: "%kernel.logs_dir%/api_%kernel.environment%.log"
+            channels: api
