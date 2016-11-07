@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-md-2">
                 {% set images = order.product.getImages() %}
-                <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 300, 300) }}{% endif %}"
+                <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 300, 300, 'r3') }}{% endif %}"
                      alt="{{ order.product.name }}"/>
             </div>
 
