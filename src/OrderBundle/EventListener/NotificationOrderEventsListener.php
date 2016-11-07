@@ -28,6 +28,8 @@ class NotificationOrderEventsListener implements EventSubscriberInterface
             Event::ORDER_DISPUTE_CLOSED   => 'onOrderDisputeClosed',
             Event::ORDER_PROPOSAL_NEW     => 'onOrderProposalNew',
             Event::ORDER_PROPOSAL_CHANGE     => 'onOrderProposalChange',
+            Event::ORDER_LIMITED_2500 => 'onOrderLimited2500',
+            Event::ORDER_LIMITED_1600 => 'onOrderLimited1600',
         );
     }
 
@@ -166,5 +168,21 @@ class NotificationOrderEventsListener implements EventSubscriberInterface
             ]
         );
 
+    }
+
+    public function onOrderLimited1600(OrderEvent $event)
+    {
+        $this->notificationService->createNotification(
+            $event->getOrder()->getUser(),
+            'kyc_limit'
+        );
+    }
+
+    public function onOrderLimited2500(OrderEvent $event)
+    {
+        $this->notificationService->createNotification(
+            $event->getOrder()->getUser(),
+            'kyc_limit'
+        );
     }
 }
