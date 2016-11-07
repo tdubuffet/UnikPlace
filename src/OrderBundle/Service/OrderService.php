@@ -9,6 +9,7 @@ use MangoPay\Libraries\Exception;
 use MangoPay\Transaction;
 use OrderBundle\Entity\Delivery;
 use OrderBundle\Entity\OrderProposal;
+use OrderBundle\Entity\TransactionPayIn;
 use OrderBundle\Event\OrderProposalEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -242,7 +243,7 @@ class OrderService
             $updateStatus = true;
         } else {
             $mangoId = $order->getUser()->getMangopayUserId();
-            $refund = $this->mangopayService->refundOrder($mangoId, $preAuth->PayInId, $order->getAmount());
+            $refund = $this->mangopayService->refundOrder($mangoId, $preAuth->PayInId, $order);
             if ($refund) {
                 $updateStatus = true;
                 $order->setMangopayRefundId($refund->Id)->setMangopayRefundDate(new \DateTime());
@@ -279,6 +280,12 @@ class OrderService
             $transaction = $this->em->getRepository('OrderBundle:Transaction')->findOneByOrder($order);
             $transaction->setDatePayIn(new \DateTime());
             $this->em->persist($transaction);
+
+            $transactionPayIn = new TransactionPayIn();
+            $transactionPayIn->setOrder($order);
+            $transactionPayIn->setAmount($order->getAmount());
+            $transactionPayIn->setDate(new \DateTime());
+            $this->em->persist($transactionPayIn);
 
             $order->setMangopayPayinId($payInId)->setMangopayPayinDate(new \DateTime());
 

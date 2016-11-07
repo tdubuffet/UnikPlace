@@ -11,6 +11,7 @@ namespace Admin2Bundle\Controller;
 use OrderBundle\Entity\Order;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -36,9 +37,43 @@ class OrderController extends Controller
      * @param Order $order
      * @return Response
      */
-    public function detailOrderAction(Order $order)
+    public function detailOrderAction(Request $request, Order $order)
     {
-        return $this->render("Admin2Bundle:Orders:view.html.twig", ['order' => $order]);
+
+        $refund = $request->get('refund', false);
+
+        if ($refund)  {
+            try{
+                $this->get('mangopay_service')->refundOrderByType($order, $refund);
+
+                $this->get('session')->getFlashBag()->add('success', 'Remboursement validé.');
+            } catch (\Exception $e) {
+                $this->get('session')->getFlashBag()->add('error', $e->getMessage());
+            }
+
+            return $this->redirectToRoute('ad2_orders_view', ['id' => $order->getId()]);
+        }
+
+        $refundOrder = $this->get('doctrine')->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
+            'order' => $order,
+            'type' => 'all'
+        ]);
+
+        if ($refundOrder) {
+            $refundOrder = true;
+        }
+
+        $transactions = array_merge(
+            $this->get('doctrine')->getRepository('OrderBundle:TransactionPayIn')->findByOrder($order),
+            $this->get('doctrine')->getRepository('OrderBundle:TransactionPayRefund')->findByOrder($order)
+        );
+
+
+        return $this->render("Admin2Bundle:Orders:view.html.twig", [
+            'order' => $order,
+            'refund' => $refundOrder,
+            'transactions' => $transactions
+        ]);
     }
 
 }

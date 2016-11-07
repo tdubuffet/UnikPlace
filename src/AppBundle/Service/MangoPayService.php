@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 use MangoPay;
 use OrderBundle\Entity\Order;
+use OrderBundle\Entity\TransactionPayRefund;
 use UserBundle\Entity\User as UserEntity;
 use UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
@@ -346,9 +347,6 @@ class MangoPayService
             return $preauthorization->PayInId;
         }
 
-
-        //@todo log transaction
-
         return false;
 
     }
@@ -360,8 +358,100 @@ class MangoPayService
      * @param $amount int Integer
      * @return mixed
      */
-    public function refundOrder($userMangoPayId, $PayInId, $amount)
+    public function refundOrder($userMangoPayId, $PayInId, Order $order)
     {
+
+        $Refund = new \MangoPay\Refund();
+        $Refund->AuthorId       = $userMangoPayId;
+        $Refund->DebitedFunds   = new \MangoPay\Money();
+
+        $Refund->DebitedFunds->Currency = "EUR";
+        $Refund->DebitedFunds->Amount = $order->getAmount()*100;
+        $Refund->Fees = new \MangoPay\Money();
+        $Refund->Fees->Currency = "EUR";
+        $Refund->Fees->Amount = 0; // No fee on refund
+
+
+        $result = $this->mangoPayApi->PayIns->CreateRefund($PayInId, $Refund);
+
+
+        $transactionPayRefund = new TransactionPayRefund();
+        $transactionPayRefund->setOrder($order);
+        $transactionPayRefund->setAmount($order->getAmount());
+        $transactionPayRefund->setType('all');
+        $transactionPayRefund->setDate(new \DateTime());
+        $this->em->persist($transactionPayRefund);
+        $this->em->flush();
+
+        return $result;
+
+    }
+
+    /**
+     * Refound Pay In
+     * @param $userId MangoPay\User Id
+     * @param $PayInId MangoPay\PayIn|string Id
+     * @param $amount int Integer
+     * @return mixed
+     */
+    public function refundOrderByType(Order $order, $type)
+    {
+
+        $PayInId            = $order->getMangopayPayinId();
+        $userMangoPayId     = $order->getUser()->getMangopayUserId();
+
+        if (empty($PayInId)) {
+            throw new \Exception('Aucun payment sur cette commande');
+        }
+
+        if ($type == 'all') {
+
+            $refund = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
+                'order' => $order,
+                'type' => 'all'
+            ]);
+
+            if ($refund) {
+                throw new \Exception('Un remboursement total pour cette commande existe déja.');
+            }
+
+            return $this->refundOrder($userMangoPayId, $PayInId, $order);
+
+        } elseif ($type == 'delivery') {
+            $refund = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
+                'order' => $order,
+                'type' => 'delivery'
+            ]);
+
+            if ($refund) {
+                throw new \Exception('Vous avez déja remboursé la livraison');
+            }
+
+            $amount = $order->getDeliveryAmount();
+        } elseif ($type == 'product') {
+            $refunds = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findBy([
+                'order' => $order,
+                'type' => 'product'
+            ]);
+
+            $transaction = $this->em->getRepository('OrderBundle:Transaction')->findOneBy([
+                'order' => $order
+            ]);
+
+            $totalRefund = 0;
+
+            foreach($refunds as $r) {
+                $totalRefund += $r->getAmount();
+            }
+
+            if ($totalRefund >= $order->getProductAmount()) {
+                throw new \Exception('Vous avez déja remboursé la totalité des produits.');
+            }
+
+            $amount = $transaction->getProductPrice();
+        } else {
+            throw new \Exception('Not found code');
+        }
 
         $Refund = new \MangoPay\Refund();
         $Refund->AuthorId       = $userMangoPayId;
@@ -376,8 +466,15 @@ class MangoPayService
 
         $result = $this->mangoPayApi->PayIns->CreateRefund($PayInId, $Refund);
 
-        return $result;
 
+        $transactionPayRefund = new TransactionPayRefund();
+        $transactionPayRefund->setOrder($order);
+        $transactionPayRefund->setAmount($amount);
+        $transactionPayRefund->setType($type);
+        $transactionPayRefund->setDate(new \DateTime());
+        $this->em->persist($transactionPayRefund);
+
+        $this->em->flush();
     }
 
     public function validateOrder(Order $order)
