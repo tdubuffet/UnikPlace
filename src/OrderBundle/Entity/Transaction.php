@@ -95,6 +95,14 @@ class Transaction
      */
     private $seller;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string")
+     */
+    private $type = 'payin';
+
+
 
     /**
      * Get id
@@ -344,6 +352,22 @@ class Transaction
     public function setSeller($seller)
     {
         $this->seller = $seller;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
     }
 
 }

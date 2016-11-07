@@ -274,6 +274,12 @@ class OrderService
         $payInId = $this->mangopayService->createPayIn($order->getUser(), $order, $totalAmount);
 
         if ($payInId !== false) {
+
+
+            $transaction = $this->em->getRepository('OrderBundle:Transaction')->findOneByOrder($order);
+            $transaction->setDatePayIn(new \DateTime());
+            $this->em->persist($transaction);
+
             $order->setMangopayPayinId($payInId)->setMangopayPayinDate(new \DateTime());
 
             $product = $order->getProduct();
@@ -331,6 +337,11 @@ class OrderService
             $statusDone = $this->em->getRepository('OrderBundle:Status')->findOneBy(['name' => 'done']);
             $feeRate = $this->mangopayService->getFeeRateFromProductAndOrderAmount($order->getProduct(), $order->getProductAmount());
             $order->setStatus($statusDone)->setMangopayTransferId($result->Id)->setRate($feeRate);
+
+
+            $transaction = $this->em->getRepository('OrderBundle:Transaction')->findOneByOrder($order);
+            $transaction->setDatePayOut(new \DateTime());
+            $this->em->persist($transaction);
 
             $this->em->persist($order);
             $this->em->flush();
