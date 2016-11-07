@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use UserBundle\Entity\User;
 
 /**
  * Class HookController
@@ -70,7 +71,6 @@ class HookController extends Controller
 
             if ($eventType == 'KYC_SUCCEEDED') {
                 $this->get('mailer_sender')->sendKYCValidatedEmailMessage($user, $documentName);
-
             } elseif ($eventType == 'KYC_FAILED') {
                 $this->get('mailer_sender')->sendKYCFailedEmailMessage($user, $documentName);
             }
