@@ -89,7 +89,7 @@ class WebServiceController extends Controller
                         break;
 
                     case 'ENV':
-                        $this->get('mailer_sender')->sendValidatedEmcToSeller($order);
+                        $this->get('mailer_sender')->sendTransitEmcToBuyer($order);
                         break;
 
                     case 'ANL':
