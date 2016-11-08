@@ -115,13 +115,13 @@ class Delivery
             'adresse'       => $product->getAddress()->getStreet()
         );
 
-
+        $quantity = (isset($quantity[$product->getId()])) ? $quantity[$product->getId()] : 1;
         $additionalParams = array(
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             //'offers' => $this->carriersEnabled,
             'content_code'          => 200,
-            'valeur'                => $product->getPrice(),
+            'valeur'                => $product->getPrice() * $quantity,
         );
 
         $parcels = array(
@@ -130,7 +130,6 @@ class Delivery
         );
 
 
-        $quantity = (isset($quantity[$product->getId()])) ? $quantity[$product->getId()] : 1;
         for($i = 0; $i < $quantity; $i++) {
             $parcels['dimensions'][] = [
                 'poids' => $product->getWeight() / 1000,
@@ -207,15 +206,18 @@ class Delivery
 
         $parcels = array(
             'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
-            'dimensions' => array(
-                1 => array(
-                    'poids' => $product->getWeight() / 1000,
-                    'longueur' => $product->getParcelLength(),
-                    'largeur' => $product->getParcelWidth(),
-                    'hauteur' => $product->getParcelHeight()
-                )
-            )
+            'dimensions' => []
         );
+
+        $quantity = $order->getQuantity();
+        for($i = 0; $i < $quantity; $i++) {
+            $parcels['dimensions'][] = [
+                'poids' => $product->getWeight() / 1000,
+                'longueur' => $product->getParcelLength(),
+                'largeur' => $product->getParcelWidth(),
+                'hauteur' => $product->getParcelHeight(),
+            ];
+        }
 
         $lib = new Quotation();
         $lib->getQuotation($from, $to, $parcels, $additionalParams);
@@ -286,6 +288,16 @@ class Delivery
                 )
             )
         );
+
+        $quantity = $order->getQuantity();
+        for($i = 0; $i < $quantity; $i++) {
+            $parcels['dimensions'][] = [
+                'poids' => $order->getProduct()->getWeight() / 1000,
+                'longueur' => $order->getProduct()->getParcelLength(),
+                'largeur' => $order->getProduct()->getParcelWidth(),
+                'hauteur' => $order->getProduct()->getParcelHeight(),
+            ];
+        }
 
         $paramsAdds = [
             'collecte'              => date('Y-m-d'),
