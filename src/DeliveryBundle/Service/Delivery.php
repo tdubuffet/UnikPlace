@@ -298,9 +298,8 @@ class Delivery
             'content_code'          => 200,
             'url_push'              => $this->router->generate('emc_tracking', [
                 'order' => $order->getId(),
-                'key' => md5('emc_delivery'),
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ])
+                'key' => md5('emc_delivery')
+            ], UrlGeneratorInterface::ABSOLUTE_URL)
         ];
 
         if (isset($emcValues['date-order']) && $this->validateDate($emcValues['date-order'])) {

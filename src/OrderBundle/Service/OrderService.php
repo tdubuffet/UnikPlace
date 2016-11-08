@@ -339,10 +339,9 @@ class OrderService
     public function doneOrder(Order $order)
     {
         try {
-            $result = $this->mangopayService->validateOrder($order);
+            $result = $this->mangopayService->validateOrder($order, $feeRate);
 
             $statusDone = $this->em->getRepository('OrderBundle:Status')->findOneBy(['name' => 'done']);
-            $feeRate = $this->mangopayService->getFeeRateFromProductAndOrderAmount($order->getProduct(), $order->getProductAmount());
             $order->setStatus($statusDone)->setMangopayTransferId($result->Id)->setRate($feeRate);
 
 

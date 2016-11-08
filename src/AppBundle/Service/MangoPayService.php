@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use MangoPay;
 use OrderBundle\Entity\Order;
 use OrderBundle\Entity\TransactionPayRefund;
+use OrderBundle\Entity\TransactionPayTransfert;
 use UserBundle\Entity\User as UserEntity;
 use UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
@@ -477,28 +478,66 @@ class MangoPayService
         $this->em->flush();
     }
 
-    public function validateOrder(Order $order)
+    public function validateOrder(Order $order, &$feeRate)
     {
+
+        $transaction = $this->em->getRepository('OrderBundle:Transaction')->findOneBy([
+            'order' => $order
+        ]);
+
+        if (!$transaction) {
+            throw new \Exception('Not transaction found');
+        }
+
+        $productAmount = $transaction->getProductPrice();
+        $transactionRefundProducts = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findBy([
+            'order' => $order,
+            'type' => 'product'
+        ]);
+        foreach($transactionRefundProducts as $refund) {
+            $productAmount -= $refund->getAmount();
+        }
+
+        $feeRate = $this->getFeeRateFromProductAndOrderAmount(
+            $order->getProduct(), $order->getProductAmount()
+        );
+
+
+        $deliveryAmount = $order->getDeliveryAmount();
+        $transactionRefundDelivery= $this->em->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
+            'order' => $order,
+            'type' => 'product'
+        ]);
+
+        if ($transactionRefundDelivery) {
+            $deliveryAmount -= $transactionRefundDelivery->getAmount();
+        }
+        $debitedSupplEmc = 0;
+        if ($order->getEmc()) {
+            $debitedSupplEmc = $deliveryAmount;
+        }
+
+        $totalAmount = $deliveryAmount + $productAmount;
 
         $Transfer = new \MangoPay\Transfer();
         $Transfer->AuthorId                 = $order->getUser()->getMangopayUserId();
         $Transfer->DebitedFunds             = new \MangoPay\Money();
 
         $Transfer->DebitedFunds->Currency   = 'EUR';
-        $Transfer->DebitedFunds->Amount     = $order->getAmount() * 100;
-
-        $debitedSupplEmc = 0;
-        if ($order->getEmc()) {
-            $debitedSupplEmc = $order->getDeliveryAmount();
-        }
+        $Transfer->DebitedFunds->Amount     = $totalAmount * 100;
 
         $Transfer->Fees = new \MangoPay\Money();
         $Transfer->Fees->Currency       = "EUR";
-        $feeRate = $this->getFeeRateFromProductAndOrderAmount($order->getProduct(), $order->getProductAmount());
-        $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($feeRate/100) + $this->config['fixed_fee']*100 + $debitedSupplEmc*100);
+        $Transfer->Fees->Amount         = (($productAmount *100) * ($feeRate/100) + $this->config['fixed_fee']*100 + $debitedSupplEmc*100);
 
         $Transfer->DebitedWalletID      = $order->getUser()->getMangopayBlockedWalletId();
         $Transfer->CreditedWalletId     = $order->getProduct()->getUser()->getMangopayFreeWalletId();
+
+        $transactionPayTransfert = new TransactionPayTransfert();
+        $transactionPayTransfert->setDate(new \DateTime());
+        $transactionPayTransfert->setOrder($order);
+        $transactionPayTransfert->setFees($productAmount* ($feeRate/100) + $this->config['fixed_fee']);
+        $transactionPayTransfert->setAmount($totalAmount - ($productAmount * ($feeRate/100) + $this->config['fixed_fee'] + $debitedSupplEmc));
 
 
         $result = $this->mangoPayApi->Transfers->Create($Transfer);
@@ -506,6 +545,9 @@ class MangoPayService
         if (isset($result->Status) && $result->Status == "FAILED") {
             throw new \Exception('Erreur ' . $result->ResultCode . ' - Message: ' . $result->ResultMessage);
         }
+
+        $this->em->persist($transactionPayTransfert);
+        $this->em->flush();
 
         return $result;
     }
