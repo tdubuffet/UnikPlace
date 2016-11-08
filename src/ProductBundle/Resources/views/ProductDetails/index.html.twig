@@ -162,8 +162,13 @@
                                                                 {% if product.originalPrice is not empty %}
                                                                     <span class="price original-price">{{ product.originalPrice|currency_format(product.getCurrency.getCode) }}</span>
                                                                 {% endif %}
+                                                                {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user) %}
+                                                                    <p>
+                                                                        <b>{{ product.quantity }} exemplaire(s) en stock.</b>
+                                                                    </p>
+                                                                {% endif %}
 
-                                                            </div>
+                                                                </div>
                                                         </div>
                                                     </div><!-- .middle-product-detail -->
 
