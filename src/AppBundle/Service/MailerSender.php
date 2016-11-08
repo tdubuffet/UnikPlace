@@ -383,7 +383,7 @@ class MailerSender
             'orderUrl' => $orderUrl
         ];
 
-        $this->get('mailer')->s($template, $context, $this->parameters['from_email'], $seller->getEmail());
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $seller->getEmail());
     }
 
     public function sendTransitEmcToBuyer(Order $order)
@@ -404,7 +404,7 @@ class MailerSender
             'orderUrl' => $orderUrl
         ];
 
-        $this->get('mailer')->s($template, $context, $this->parameters['from_email'], $buyer->getEmail());
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
     }
 
 
@@ -426,6 +426,6 @@ class MailerSender
             'orderUrl' => $orderUrl
         ];
 
-        $this->get('mailer')->s($template, $context, $this->parameters['from_email'], $buyer->getEmail());
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
     }
 }

@@ -86,19 +86,24 @@ class WebServiceController extends Controller
 
                     case 'CMD':
                         $this->get('mailer_sender')->sendValidatedEmcToSeller($order);
+                        $logger->addNotice('Save Emc Tracking CMD: ' . $orderNumber . ' - ' . $keyNumber);
                         break;
 
                     case 'ENV':
                         $this->get('mailer_sender')->sendTransitEmcToBuyer($order);
+                        $logger->addNotice('Save Emc Tracking ENV: ' . $orderNumber . ' - ' . $keyNumber);
                         break;
 
                     case 'ANL':
 
                         //@todo commande annulé: Envoyer un mail ?
+                        $logger->addNotice('Save Emc Tracking ANL: ' . $orderNumber . ' - ' . $keyNumber);
                         break;
 
                     case 'LIV':
                         $this->get('mailer_sender')->sendArrivalEmcToBuyer($order);
+
+                        $logger->addNotice('Save Emc Tracking LIV: ' . $orderNumber . ' - ' . $keyNumber);
                         break;
 
                 }
@@ -107,6 +112,7 @@ class WebServiceController extends Controller
 
             $order->setEmcTracking($dump);
 
+            $logger->addNotice('Save Emc Tracking DUMP: ' . $orderNumber . ' - ' . $keyNumber . ' | ' .  var_export($dump, true));
             $logger->addNotice('Save Emc Tracking: ' . $orderNumber . ' - ' . $keyNumber);
 
         } else {
