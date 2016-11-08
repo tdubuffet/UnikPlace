@@ -2,6 +2,7 @@
 
 namespace UserBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use LocationBundle\Entity\Address;
 use LocationBundle\Form\AddressType;
 use OrderBundle\Entity\Order;
@@ -148,8 +149,11 @@ class AccountController extends Controller
             $pagination
         );
 
+        $transferts = $this->getDoctrine()->getRepository('OrderBundle:TransactionPayTransfert')->findAllTransactionsByUser($this->getUser());
+
         return [
             'transactions' => $transactions,
+            'transferts' => $transferts,
             'wallet' => $this->get('mangopay_service')->getWalletId($this->getUser()->getMangopayFreeWalletId())
         ];
     }
