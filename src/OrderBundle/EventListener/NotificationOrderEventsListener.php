@@ -2,6 +2,7 @@
 namespace OrderBundle\EventListener;
 
 use OrderBundle\Event\OrderProposalEvent;
+use OrderBundle\Event\UserEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OrderBundle\Event\OrderEvents as Event;
 use OrderBundle\Event\OrderEvent;
@@ -170,18 +171,18 @@ class NotificationOrderEventsListener implements EventSubscriberInterface
 
     }
 
-    public function onOrderLimited1600(OrderEvent $event)
+    public function onOrderLimited1600(UserEvent $event)
     {
         $this->notificationService->createNotification(
-            $event->getOrder()->getUser(),
+            $event->getUser(),
             'kyc_limit'
         );
     }
 
-    public function onOrderLimited2500(OrderEvent $event)
+    public function onOrderLimited2500(UserEvent $event)
     {
         $this->notificationService->createNotification(
-            $event->getOrder()->getUser(),
+            $event->getUser(),
             'kyc_limit'
         );
     }
