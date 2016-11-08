@@ -78,36 +78,29 @@ class WebServiceController extends Controller
                 'date'          => $request->get('date')
             ];
 
-            $values = $order->getEmcTracking();
+            switch ($dump['etat']) {
 
-            if (!isset($values['etat']) || (isset($values['etat']) && $values['etat'] != $dump['etat'])) {
+                case 'CMD':
+                    $this->get('mailer_sender')->sendValidatedEmcToSeller($order);
+                    $logger->addNotice('Save Emc Tracking CMD: ' . $orderNumber . ' - ' . $keyNumber);
+                    break;
 
-                switch ($values['etat']) {
+                case 'ENV':
+                    $this->get('mailer_sender')->sendTransitEmcToBuyer($order);
+                    $logger->addNotice('Save Emc Tracking ENV: ' . $orderNumber . ' - ' . $keyNumber);
+                    break;
 
-                    case 'CMD':
-                        $this->get('mailer_sender')->sendValidatedEmcToSeller($order);
-                        $logger->addNotice('Save Emc Tracking CMD: ' . $orderNumber . ' - ' . $keyNumber);
-                        break;
+                case 'ANL':
 
-                    case 'ENV':
-                        $this->get('mailer_sender')->sendTransitEmcToBuyer($order);
-                        $logger->addNotice('Save Emc Tracking ENV: ' . $orderNumber . ' - ' . $keyNumber);
-                        break;
+                    //@todo commande annulé: Envoyer un mail ?
+                    $logger->addNotice('Save Emc Tracking ANL: ' . $orderNumber . ' - ' . $keyNumber);
+                    break;
 
-                    case 'ANL':
+                case 'LIV':
+                    $this->get('mailer_sender')->sendArrivalEmcToBuyer($order);
 
-                        //@todo commande annulé: Envoyer un mail ?
-                        $logger->addNotice('Save Emc Tracking ANL: ' . $orderNumber . ' - ' . $keyNumber);
-                        break;
-
-                    case 'LIV':
-                        $this->get('mailer_sender')->sendArrivalEmcToBuyer($order);
-
-                        $logger->addNotice('Save Emc Tracking LIV: ' . $orderNumber . ' - ' . $keyNumber);
-                        break;
-
-                }
-
+                    $logger->addNotice('Save Emc Tracking LIV: ' . $orderNumber . ' - ' . $keyNumber);
+                    break;
             }
 
             $order->setEmcTracking($dump);
