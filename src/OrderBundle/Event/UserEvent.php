@@ -4,6 +4,7 @@ namespace OrderBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use OrderBundle\Entity\Order;
+use UserBundle\Entity\User;
 
 class UserEvent extends Event
 {
