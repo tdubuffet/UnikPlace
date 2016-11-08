@@ -300,7 +300,14 @@
 
                 <ul>
                     <li>Votre colis doit être prêt avant le <b>{{ order.emcInfos.collection.date|date('d/m/Y') }}</b></li>
-                    <li>{{ order.emcInfos.alerts[0]|replace({"Avant de passer commande, assurez-vous que l'expéditeur pourra imprimer": 'Vous devez imprimer et coller sur le colis'})|replace({'...': 'etc'})|replace({'.' : '.</li><li>'})|raw }}</li>
+                    {% if order.emcInfos.alerts is not empty %}<li>
+                        {{ order.emcInfos.alerts[0]|replace({"Avant de passer commande, assurez-vous que l'expéditeur pourra imprimer": 'Vous devez imprimer et coller sur le colis'})|replace({'...': 'etc'})|replace({'.' : '.</li><li>'})|raw }}</li>
+                    {% else %}
+                        {% if order.emcInfos.characteristics[1] is defined %}<li>{{ order.emcInfos.characteristics[1]|striptags }}</li>{% endif %}
+                        {% if order.emcInfos.characteristics[3] is defined %}<li>{{ order.emcInfos.characteristics[3]|striptags }}</li>{% endif %}
+                        {% if order.emcInfos.characteristics[7] is defined %}<li>{{ order.emcInfos.characteristics[7]|striptags }}</li>{% endif %}
+                        {% if order.emcInfos.characteristics[9] is defined %}<li>{{ order.emcInfos.characteristics[9]|striptags }}</li>{% endif %}
+                    {% endif %}
                     <li><br /><a href="{{ path('emc_document_download', { 'id': order.id }) }}" class="btn btn-primary">Télécharger le bordereau d'expédition</a></li>
                 </ul>
 
@@ -375,7 +382,16 @@
 
                                 <div class="alert alert-warning" role="alert">
 
+                                    {% if delivery.alert is not empty %}
                                     {{ delivery.alert|replace({'.' : '.<br />'})|raw }}
+                                    {% else %}
+                                        <ul>
+                                            {% if delivery.characteristics[1] is defined %}<li>- {{ delivery.characteristics[1]|striptags }}</li>{% endif %}
+                                            {% if delivery.characteristics[3] is defined %}<li>- {{ delivery.characteristics[3]|striptags }}</li>{% endif %}
+                                            {% if delivery.characteristics[7] is defined %}<li>- {{ delivery.characteristics[7]|striptags }}</li>{% endif %}
+                                            {% if delivery.characteristics[9] is defined %}<li>- {{ delivery.characteristics[9]|striptags }}</li>{% endif %}
+                                        </ul>
+                                    {% endif %}
                                 </div>
 
                                 {% if delivery.mandatory['disponibilite.HDE'] is defined %}

@@ -195,8 +195,11 @@ class Delivery
         );
 
 
+        $date = new \DateTime();
+        $date->modify('+1 day');
+
         $additionalParams = array(
-            'collecte' => date("Y-m-d"),
+            'collecte' => $date->format("Y-m-d"),
             'delay' => 'aucun',
             //'offers' => $this->carriersEnabled,
             'content_code' => 200,
@@ -339,6 +342,14 @@ class Delivery
                     $paramsAdds['disponibilite.HLE'] = $emcValues['disponibilite.HLE'];
                     break;
 
+                case 'depot.pointrelais':
+                    $paramsAdds['depot.pointrelais'] = 'POFR-POST';
+                    break;
+
+                case 'type_emballage.emballage':
+                    $paramsAdds['type_emballage.emballage'] = '1';
+                    break;
+
 
             }
 
@@ -347,6 +358,8 @@ class Delivery
 
         $lib = new Quotation();
         $lib->makeOrder($from, $to, $parcels, $paramsAdds, true);
+
+        $this->handlerError($lib);
 
         return $lib->order;
     }
@@ -395,6 +408,7 @@ class Delivery
         if ($lib->resp_error) {
             $error = '';
 
+            var_dump($lib); die;
             foreach ($lib->resp_errors_list as $m => $message) {
                 $error .= $message["message"];
             }

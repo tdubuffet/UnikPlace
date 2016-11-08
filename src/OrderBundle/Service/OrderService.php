@@ -310,7 +310,22 @@ class OrderService
 
                 $emcValues= $request->get('emc');
 
-                $emc = $deliveryService->makeOrder($order, $emcValues);
+                try {
+                    $emc = $deliveryService->makeOrder($order, $emcValues);
+                }catch (\Exception $e) {
+
+
+                    $error = $this->em->getRepository('OrderBundle:Status')->findOneBy([
+                        'name' => 'error'
+                    ]);
+
+                    $order->setStatus($error);
+                    $order->setErrorMessage($e->getMessage());
+                    $this->em->persist($order);
+                    $this->em->flush();
+                    return false;
+
+                }
 
                 if ($emc) {
                     $order->setEmc(true);
