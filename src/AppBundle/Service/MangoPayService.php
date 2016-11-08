@@ -236,8 +236,9 @@ class MangoPayService
 
         $sorting = new \MangoPay\Sorting();
         $sorting->AddField('CreationDate', "desc");
+        $pagination = new \MangoPay\Pagination();
 
-        $banks =  $this->mangoPayApi->Users->GetBankAccounts($userId, new \MangoPay\Pagination(), $sorting);
+        $banks =  $this->mangoPayApi->Users->GetBankAccounts($userId, $pagination, $sorting);
         if (count($banks) == 0) {
             return array();
         }
@@ -489,7 +490,7 @@ class MangoPayService
             throw new \Exception('Not transaction found');
         }
 
-        $productAmount = $transaction->getProductPrice();
+        $productAmount = $transaction->getTotalProductPrice();
         $transactionRefundProducts = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findBy([
             'order' => $order,
             'type' => 'product'
@@ -506,7 +507,7 @@ class MangoPayService
         $deliveryAmount = $order->getDeliveryAmount();
         $transactionRefundDelivery= $this->em->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
             'order' => $order,
-            'type' => 'product'
+            'type' => 'delivery'
         ]);
 
         if ($transactionRefundDelivery) {
@@ -537,7 +538,8 @@ class MangoPayService
         $transactionPayTransfert->setDate(new \DateTime());
         $transactionPayTransfert->setOrder($order);
         $transactionPayTransfert->setFees($productAmount* ($feeRate/100) + $this->config['fixed_fee']);
-        $transactionPayTransfert->setAmount($totalAmount - ($productAmount * ($feeRate/100) + $this->config['fixed_fee'] + $debitedSupplEmc));
+        $transactionPayTransfert->setAmount($totalAmount - $debitedSupplEmc);
+        $transactionPayTransfert->setAmountWithoutFees($totalAmount - ($productAmount * ($feeRate/100) + $this->config['fixed_fee'] + $debitedSupplEmc));
 
 
         $result = $this->mangoPayApi->Transfers->Create($Transfer);
