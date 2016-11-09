@@ -58,6 +58,10 @@
             {% if order.status == 'error' %}
               <span class="label label-danger">Erreur</span>
             {% endif %}
+
+            {% if order.status == 'limit' %}
+              <span class="label label-danger">En attente validation bancaire</span>
+            {% endif %}
           </td>
           <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
           <td><a class="btn btn-primary btn-xs" href="{{ path('user_account_sale', { id: order.id}) }}"><i

@@ -34,6 +34,9 @@
             {% if order.status == 'error' %}
                 <span class="label label-danger">Erreur</span>
             {% endif %}
+            {% if order.status == 'limit' %}
+                <span class="label label-danger">En attente de validation bancaire</span>
+            {% endif %}
         </div>
 
     </h2>
@@ -144,7 +147,7 @@
         </div>
 
     </div>
-    {% if order.status != 'canceled' and order.status != 'disputed' and order.status != 'error' and order.delivery.deliveryMode.type =="parcel_carrier" %}
+    {% if order.status != 'canceled' and order.status != 'disputed' and order.status != 'error' and order.status != 'limit' and order.delivery.deliveryMode.type =="parcel_carrier" %}
     <div class="timeline-product">
 
         {% if order.status == 'pending' %}
@@ -365,20 +368,10 @@
                         <p>Soyez bien certain d'avoir le produit en stock avant de confirmer la vente.</p>
                         <form method="post" class="form-horizontal" id="confirm-sell-form">
 
-                            <p>Si le produit vendu est l'unique exemplaire que vous possédez, nous retirons pour vous votre produit du site. Si vous possédez plusieurs exemplaires identiques, cochez la case ci-dessous.</p>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <div class="col-md-offset-3 col-md-8">
-                                        <label>
-                                            <input type="checkbox" name="keep_published" value="1"/> Je conserve la publication de mon produit
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                            <p>Confirmation de ma vente et expédition du colis.</p>
 
                             {% if delivery.mandatory|length > 0 %}
 
-                                <h4>Informations sur la livraison</h4>
 
                                 <div class="alert alert-warning" role="alert">
 
@@ -443,6 +436,22 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if sale == false and order.status == 'limit' %}
+        <div class="order-summary">
+            <div class="alert alert-danger alert-dismissible alert-message-email text-center" role="alert">
+                Vous avez effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année.<br />Vous devez valider votre identité bancaire pour poursuivre cette commande. Si aucune confirmation de votre identité bancaire avant 7 jours, la commande sera automatiquement annulé.<br /><a href="{{ path('user_account_wallet_kyc') }}">Confirmer mon identité bancaire</a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if sale == true and order.status == 'limit' %}
+        <div class="order-summary">
+            <div class="alert alert-warning alert-dismissible alert-message-email text-center" role="alert">
+                L'acheteur a effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année.<br />Il doit confirmer son identité bancaire pour terminer la commande. Si aucune confirmation de son identité bancaire avant 7 jours, la commande sera automatiquement annulé.
             </div>
         </div>
     {% endif %}

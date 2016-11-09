@@ -374,7 +374,7 @@ class MailerSender
 
         $orderUrl = $this->router->generate('user_account_sale', [
             'id' => $order->getId()
-        ], UrlGeneratorInterface::ABSOLUTE_URL );
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = [
             'order' => $order,
@@ -395,7 +395,7 @@ class MailerSender
 
         $orderUrl = $this->router->generate('user_account_sale', [
             'id' => $order->getId()
-        ], UrlGeneratorInterface::ABSOLUTE_URL );
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = [
             'order' => $order,
@@ -417,7 +417,7 @@ class MailerSender
 
         $orderUrl = $this->router->generate('user_account_sale', [
             'id' => $order->getId()
-        ], UrlGeneratorInterface::ABSOLUTE_URL );
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = [
             'order' => $order,
@@ -427,5 +427,14 @@ class MailerSender
         ];
 
         $this->sendMessage($template, $context, $this->parameters['from_email'], $buyer->getEmail());
+    }
+
+    public function sendKYCValidatedEmailMessageCron(User $user)
+    {
+        $template = 'UserBundle:email:kyc_validated_cron.email.twig';
+        $context = [
+            'user' => $user,
+        ];
+        $this->sendMessage($template, $context, $this->parameters['from_email'], $user->getEmail());
     }
 }

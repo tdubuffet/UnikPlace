@@ -304,9 +304,17 @@ class PaymentController extends Controller
                 $this->get('mailer_sender')->sendOrderSummary($orders, $this->getUser());
 
                 if (!$this->get('mangopay_service')->isKYCValidUser($this->getUser(), $cartAmount, 0)) {
+
+                    $user = $this->getUser();
+                    $user->setLimitedBuyer(true);
+
+                    $this->getDoctrine()->getManager()->persist($user);
+                    $this->getDoctrine()->getManager()->flush();
+
                     $this->get('session')->getFlashBag()->add('kyc_errors',
                         "Vous avez atteint la limite de " .  $this->container->getParameter('mangopay.max_input') . "€ de crédit ou " . $this->container->getParameter('mangopay.max_output') . "€ de retrait vers votre compte. Afin de valider votre commande ou votre retrait, vous devez renseigner les informations suivantes pour valider votre identité bancaire. Une fois les éléments transmis à notre organisme bancaire, vous pourrez de nouveau valider vos commandes et demander des retraits sur votre compte."
                     );
+
                     return $this->redirectToRoute('user_account_wallet_kyc');
                 }
 

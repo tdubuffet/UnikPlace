@@ -175,6 +175,17 @@ class User extends BaseUser implements ParticipantInterface
      */
     private $emailValidated = false;
 
+    /**
+     * @ORM\Column(name="limited_buyer", type="boolean", nullable=false)
+     */
+    private $limitedBuyer = false;
+
+
+    /**
+     * @ORM\Column(name="limited_seller", type="boolean", nullable=false)
+     */
+    private $limitedSeller = false;
+
     public function isEmailValidated()
     {
         return $this->emailValidated;
@@ -942,6 +953,38 @@ class User extends BaseUser implements ParticipantInterface
     public function isModerator()
     {
         return $this->hasRole('ROLE_ADMIN');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLimitedBuyer()
+    {
+        return $this->limitedBuyer;
+    }
+
+    /**
+     * @param mixed $limitedBuyer
+     */
+    public function setLimitedBuyer($limitedBuyer)
+    {
+        $this->limitedBuyer = $limitedBuyer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLimitedSeller()
+    {
+        return $this->limitedSeller;
+    }
+
+    /**
+     * @param mixed $limitedSeller
+     */
+    public function setLimitedSeller($limitedSeller)
+    {
+        $this->limitedSeller = $limitedSeller;
     }
 
     /**
