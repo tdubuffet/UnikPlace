@@ -407,8 +407,6 @@ class Delivery
 
         if ($lib->resp_error) {
             $error = '';
-
-            var_dump($lib); die;
             foreach ($lib->resp_errors_list as $m => $message) {
                 $error .= $message["message"];
             }
