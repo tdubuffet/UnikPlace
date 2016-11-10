@@ -218,7 +218,7 @@
         {% if sale %}
 
             <div class="order-summary">
-                <h3 class="order-summary-title">Nouvelle commande</h3>
+                <h3 class="order-summary-title">Nouvelle commande à confirmer</h3>
                 <p>Une nouvelle commande vient d'être effectuée !<br/>Il s'agit d'une commande concernant le produit suivant : <a href="{{ path('product_details', { id: order.product.id, slug: order.product.slug}) }}" target="_blank">{{ order.product.name }}</a></p>
                 {% if order.delivery.deliveryMode.code == 'tracked_letter' or order.delivery.deliveryMode.code == 'parcel' %}
                     <p>Les frais de port sont remboursés par {{ siteName }}.</p>
@@ -284,7 +284,7 @@
                 </ol>
             {% elseif order.emc %}
 
-                L'acheteur a choisit de se faire livrer son produit par <b>{{ order.delivery.deliveryMode.name }}</b>.<br /><br />
+                L'acheteur a choisi de se faire livrer son produit par <b>{{ order.delivery.deliveryMode.name }}</b>.<br /><br />
 
                 <b>Instruction sur l'expédition du produit</b><br />
                 {% if order.emcInfos.collection.code == "POST_OFFICE" %}
@@ -300,7 +300,7 @@
                 <ul>
                     <li>Votre colis doit être prêt avant le <b>{{ order.emcInfos.collection.date|date('d/m/Y') }}</b></li>
                     {% if order.emcInfos.alerts is not empty %}<li>
-                        {{ order.emcInfos.alerts[0]|replace({"Avant de passer commande, assurez-vous que l'expéditeur pourra imprimer": 'Vous devez imprimer et coller sur le colis'})|replace({'...': 'etc'})|replace({'.' : '.</li><li>'})|raw }}</li>
+                        {{ order.emcInfos.alerts[0]|replace({"Avant de passer commande, assurez-vous que l'expéditeur pourra imprimer": 'Vous devez imprimer et coller sur le colis'})|replace({'.. .': 'etc'})|replace({'...': 'etc'})|replace({'. . .': 'etc'})|replace({'.' : '.</li><li>'})|raw }}</li>
                     {% else %}
                         {% if order.emcInfos.characteristics[1] is defined %}<li>{{ order.emcInfos.characteristics[1]|striptags }}</li>{% endif %}
                         {% if order.emcInfos.characteristics[3] is defined %}<li>{{ order.emcInfos.characteristics[3]|striptags }}</li>{% endif %}
