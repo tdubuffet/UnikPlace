@@ -100,10 +100,22 @@ class DeliveryController extends Controller
                 }
             }
 
-            $this->get('session')->set('cart_delivery_emc', $deliveries);
-            $this->get('session')->set('cart_delivery', $modes);
+            $error = false;
+            foreach($cart as $productId) {
+                if (!isset($modes[$productId])) {
+                    $error = true;
+                    $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+                    $this->get('session')->getFlashBag()->add('notice', 'Aucune livraison selectionnée pour le produit ' . $product->getName() . '.');
+                    break;
+                }
+            }
 
-            return $this->redirectToRoute('cart_payment');
+            if (!$error) {
+                $this->get('session')->set('cart_delivery_emc', $deliveries);
+                $this->get('session')->set('cart_delivery', $modes);
+
+                return $this->redirectToRoute('cart_payment');
+            }
         }
 
 

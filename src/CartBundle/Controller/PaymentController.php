@@ -79,6 +79,9 @@ class PaymentController extends Controller
             );
 
             if (!isset($cartDelivery[$productId])) {
+                $this->get('session')->getFlashBag()->add('notice', 'Aucune livraison selectionnée pour le produit ' . $product->getName() . '.');
+                return $this->redirectToRoute('cart_delivery_emc');
+
                 throw new \Exception('Not found delivery type');
             }
 
