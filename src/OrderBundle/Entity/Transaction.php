@@ -47,7 +47,7 @@ class Transaction
      *
      * @ORM\Column(name="emc", type="boolean")
      */
-    private $emc;
+    private $emc = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="OrderBundle\Entity\Order")
