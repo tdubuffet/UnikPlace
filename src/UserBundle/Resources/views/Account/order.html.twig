@@ -193,8 +193,6 @@
             <div class="small">
                 {% if order.emc %}
                     {{ order.emcInfos.collection.date|date('d M') }}.
-                {% else %}
-                    {{ order.mangopayPayinDate|date('d M') }}.
                 {% endif %}
             </div>
         </div>
@@ -204,8 +202,6 @@
             <div class="small">
                 {% if order.emc  %}
                     {{ order.emcInfos.delivery.date|date('d M') }}.
-                {% else %}
-                    {{ order.mangopayPayinDate|date('d M') }}.
                 {% endif %}
             </div>
         </div>
