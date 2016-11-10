@@ -282,14 +282,7 @@ class Delivery
 
         $parcels = array(
             'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
-            'dimensions' => array(
-                1 => array(
-                    'poids'     => $order->getProduct()->getWeight() / 1000,
-                    'longueur' => $order->getProduct()->getParcelLength(),
-                    'largeur' => $order->getProduct()->getParcelWidth(),
-                    'hauteur' => $order->getProduct()->getParcelHeight()
-                )
-            )
+            'dimensions' => []
         );
 
         $quantity = $order->getQuantity();
