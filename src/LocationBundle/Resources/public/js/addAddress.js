@@ -67,13 +67,15 @@ var AddAddress = {
                         document.getElementById('address_' + addressType).value = val;
                     }
                 }
+
+                $("#address_street").valid();
             }
 
             if ($('#add-address-form')) {
 
                 // Enable jQuery Validation for the form
                 $('#add-address-form').validate({
-                    onkeyup: true
+                    onkeyup: function(element) { $(element).valid(); }
                 });
 
                 // Add validation rules to the Address field
