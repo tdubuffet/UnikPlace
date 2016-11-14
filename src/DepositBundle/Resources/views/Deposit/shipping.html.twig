@@ -69,6 +69,62 @@
 
 
               <div class="row">
+
+
+
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label class="required">Type de colis</label>
+
+                    <div class="row type-delivery">
+                      <div class="col-md-4">
+                        <label>
+                          Colis
+
+                          <div class="icon">
+                            <img src="{{ asset('bundles/deposit/images/type-1.png') }}" />
+                          </div>
+
+                          <p>
+                            <input name="parcel_type" type="radio" value="box" checked>
+                          </p>
+                        </label>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>
+                          Encombrant
+
+
+                          <div class="icon">
+                            <img src="{{ asset('bundles/deposit/images/type-2.png') }}" />
+                          </div>
+
+                          <p>
+                            <input name="parcel_type" type="radio" value="bulky">
+                          </p>
+                        </label>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>
+                          Palette
+
+
+                          <div class="icon">
+                            <img src="{{ asset('bundles/deposit/images/type-3.png') }}" />
+                          </div>
+
+                          <p>
+                            <input name="parcel_type" type="radio" value="palett">
+                          </p>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label class="required">Largeur du colis en cm</label>
@@ -91,22 +147,14 @@
                            placeholder="Hauteur du colis en cm" value="{{ app.session.get('deposit').height }}">
                   </div>
                 </div>
-
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label class="required">Type de colis</label>
-                    <select name="parcel_type" id="parcel_type" class="form-control">
-                      <option value="box" selected>Colis</option>
-                      <option value="bulky">Encombrant</option>
-                      <option value="pallet">Palette</option>
-                    </select>
-                  </div>
-                </div>
               </div>
 
 
               <h4 style="margin-top: 40px;">3 - Je sélectionne mes modes de livraison </h4>
 
+              <div class="text-center">
+                <i class="fa fa-info-circle"></i> <b>Les frais de livraison sont à la charge de l'acheteur.</b> <br /><br />
+              </div>
 
               <table class="table table-delivery">
                 <tr>

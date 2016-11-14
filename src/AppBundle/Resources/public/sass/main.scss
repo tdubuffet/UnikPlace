@@ -7816,6 +7816,24 @@ body { background-color:rgba(0,0,0,0); }
   display: none;
 }
 
+.deposit .type-delivery{
+
+  label{
+    display: block;
+    width: 100%;
+    min-height: 100px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    padding-top: 6px;
+
+    .icon{
+      margin: 6px 0;
+    }
+  }
+
+}
+
 .page-steps {
   margin-bottom: 40px;
 }
