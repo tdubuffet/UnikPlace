@@ -4,11 +4,12 @@
 {% autoescape false %}
 Bonjour {{ user.firstname }} !
 
-Un acheteur vient de vous commander votre produit {{ product.name }}.
-Vous pouvez confirmer cette commande en cliquant sur le lien suivant {{ orderUrl }}
+    Un acheteur vient de vous commander votre produit "{{ product.name }}".
+    Vous avez 48h pour confirmer cette commande en cliquant sur le lien suivant "{{ orderUrl }}".
 
-A bientôt,
-L'équipe
+
+    A bientôt,
+    Toute l'équipe Unik Place vous souhaite une bonne journée.
 {% endautoescape %}
 {% endblock %}
 

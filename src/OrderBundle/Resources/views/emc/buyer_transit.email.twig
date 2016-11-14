@@ -2,13 +2,14 @@
 
 {% block body_text %}
     {% autoescape false %}
-        Bonjour {{ user.firstname }} !
+        Bonjour {{ user.lastname }} !
 
-        Le colis concernant l'achat {{ product.name }} est actuellement en transit chez le transporteur.<br />
+        Le colis concernant l'achat "{{ product.name }}" est actuellement en transit chez le transporteur.<br />
         Vous pouvez suivre votre colis sur la page de commande: {{ orderUrl }}
 
+
         A bientôt,
-        L'équipe
+        Toute l'équipe Unik Place vous souhaite une bonne journée.
     {% endautoescape %}
 {% endblock %}
 

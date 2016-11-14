@@ -2,14 +2,14 @@
 
 {% block body_text %}
 {% autoescape false %}
-Bonjour {{ user.firstname }} !
+Bonjour {{ user.lastname }} !
 
 Votre achat {{ product.name }} a été confirmé par le vendeur et va vous être envoyé sous peu.
 Pour rappel, ce vendeur a choisi la vente sécurisée. Par conséquent, votre argent ne sera pas transmis au vendeur tant que vous n'aurez pas confirmé la bonne réception de votre article dans un délai de 30 jours à partir d'aujourd'hui.
 Vous pouvez échanger avec le vendeur sur cette page {{ orderUrl }}
 
 A bientôt,
-L'équipe
+Toute l'équipe Unik Place vous souhaite une bonne journée.
 {% endautoescape %}
 {% endblock %}
 

@@ -21,12 +21,17 @@
                         <td class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;" valign="top">
                             Bonjour {{ user.firstname }} !<br />
 
-                            Vous avez effectué une ou plusieurs transaction(s) pour un montant de 1600 € ou plus sur le site Unik Place et vous vous rapprochez de la limite de réception de 2500 €.<br />
-                            Unik Place est légalement tenue de respecter les réglementations de l'Union européenne concernant le blanchiment d'argent, en collectant des informations auprès de ses utilisateurs lorsque ces derniers effectuent des paiements d'un montant supérieur à cette limite.<br />
-                            Vous pouvez dès à présent nous fournir les informations demandées en cliquant sur le lien suivant :<br />
-                            <a href="{{ link }}">Validation de mon identité bancaire</a><br />
+                            <p>
+                                Vous avez effectué une ou plusieurs transaction(s) pour un montant de 1600 € ou plus sur le site Unik Place et vous vous rapprochez de la limite de réception de 2500 €.
+                            </p>
+                            <p>
+                                Unik Place est légalement tenue de respecter les réglementations de l'Union européenne concernant le blanchiment d'argent, en collectant des informations auprès de ses utilisateurs lorsque ces derniers effectuent des paiements d'un montant supérieur à cette limite.
+                            </p>
+                            <p>Vous pouvez dès à présent nous fournir les informations demandées en cliquant sur le lien suivant :</p>
 
-                            Pour toute question, n'hésitez pas à joindre notre service client sur le "chat" en ligne ou par téléphone au 01 84 17 76 12.<br />
+                            <p><a href="{{ link }}">Validation de mon identité bancaire</a></p>
+
+                            <p>Pour toute question, n'hésitez pas à joindre notre service client sur le "chat" en ligne ou par téléphone au 01 84 17 76 12.</p>
                         </td>
                     </tr>
                     </tbody>
@@ -63,4 +68,7 @@
         </tr>
         </tbody>
     </table>
+{% endblock %}
+{% block extra_footer_content %}
+    Toute l'équipe Unik Place vous souhaite une bonne journée.
 {% endblock %}
