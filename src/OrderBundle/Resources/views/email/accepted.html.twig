@@ -18,13 +18,10 @@
                 <table style="max-width: 100%;min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" class="mcnTextContentContainer" align="left" border="0" width="100%" cellpadding="0" cellspacing="0">
                     <tbody><tr>
                         <td class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;" valign="top">Bonjour {{ user.lastname}}, <br />
-                          Votre achat <a href="{{ productUrl }}">{{ product.name }}</a> a été confirmé par le vendeur et va vous être envoyé sous peu.<br />
-                          Pour rappel, ce vendeur a choisi la vente sécurisée.<br />
-                          Par conséquent, votre argent ne sera pas transmis au vendeur tant que vous n'aurez pas
-                          confirmé la bonne réception de votre article dans un délai de 30 jours à partir d'aujourd'hui.<br />
-                          Vous pouvez échanger avec le vendeur, convenir d'un rendez vous au domicile du vendeur ou
-                          encore suivre votre commande à partir de votre compte utilisateur.
-
+                            <p>
+                                Votre commande "<a href="{{ productUrl }}">{{ product.name }}</a> " a été confirmé par le vendeur et va vous être envoyée sous peu.<br />
+                                Vous pouvez dès à présent échanger avec le vendeur si vous le souhaitez "<a  href="{{ orderUrl }}" target="_blank">Echanger avec le vendeur</a>".
+                            </p>
                           <table class="mcnButtonBlock" style="min-width:100%;" border="0" width="100%" cellpadding="0" cellspacing="0">
                             <tbody class="mcnButtonBlockOuter">
                             <tr>
