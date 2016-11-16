@@ -119,6 +119,61 @@
 
 
                 <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="required">Type de colis</label>
+
+                            <div class="row type-delivery">
+                                <div class="col-md-4">
+                                    <label>
+                                        Colis
+
+                                        <div class="icon">
+                                            <img src="{{ asset('bundles/deposit/images/type-1.png') }}"/>
+                                        </div>
+
+                                        <p>
+                                            <input name="parcel_type" type="radio" value="box" checked/>
+                                        </p>
+                                    </label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>
+                                        Encombrant
+
+
+                                        <div class="icon">
+                                            <img src="{{ asset('bundles/deposit/images/type-2.png') }}"/>
+                                        </div>
+
+                                        <p>
+                                            <input name="parcel_type" type="radio" value="bulky"/>
+                                        </p>
+                                    </label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>
+                                        Palette
+
+
+                                        <div class="icon">
+                                            <img src="{{ asset('bundles/deposit/images/type-3.png') }}"/>
+                                        </div>
+
+                                        <p>
+                                            <input name="parcel_type" type="radio" value="palett"/>
+                                        </p>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
                     <div class="col-sm-6">
                         {{ form_row(productForm.parcelWidth) }}
                     </div>
@@ -131,12 +186,6 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             {{ form_row(productForm.parcelHeight) }}
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            {{ form_row(productForm.parcelType) }}
                         </div>
                     </div>
                 </div>
