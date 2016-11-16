@@ -423,32 +423,15 @@ var Deposit = {
             }
         });
 
-        $('#product-length, #product-width, #product-height, input[name="parcel_type"]').blur(function() {
-            var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
 
-            if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
-                $('#delivery_custom_seller').prop("checked", true);
-                $('#delivery_custom_seller').prop("disabled", true);
-                Deposit.onChangeDeliveryCustomSeller();
-            } else {
-                $('#delivery_custom_seller').prop("checked", false);
-                $('#delivery_custom_seller').prop("disabled", false);
-                Deposit.onChangeDeliveryCustomSeller();
-            }
+        Deposit.onChangeDeliveryCustomSellerRadio();
+
+        $('#product-length, #product-width, #product-height, input[name="parcel_type"]').blur(function() {
+            Deposit.onChangeDeliveryCustomSellerRadio();
         });
 
         $('input[name="parcel_type"]').change(function(){
-            var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
-
-            if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
-                $('#delivery_custom_seller').prop("checked", true);
-                $('#delivery_custom_seller').prop("disabled", true);
-                Deposit.onChangeDeliveryCustomSeller();
-            } else {
-                $('#delivery_custom_seller').prop("checked", false);
-                $('#delivery_custom_seller').prop("disabled", false);
-                Deposit.onChangeDeliveryCustomSeller();
-            }
+            Deposit.onChangeDeliveryCustomSellerRadio();
         });
 
 
@@ -456,6 +439,20 @@ var Deposit = {
 
             Deposit.onChangeDeliveryCustomSeller();
         });
+    },
+
+    onChangeDeliveryCustomSellerRadio: function() {
+        var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+        if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
+            $('#delivery_custom_seller').prop("checked", true);
+            $('#delivery_custom_seller').prop("disabled", true);
+            Deposit.onChangeDeliveryCustomSeller();
+        } else {
+            $('#delivery_custom_seller').prop("checked", false);
+            $('#delivery_custom_seller').prop("disabled", false);
+            Deposit.onChangeDeliveryCustomSeller();
+        }
     },
 
     onChangeDeliveryCustomSeller: function() {
