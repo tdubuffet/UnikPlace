@@ -87,7 +87,6 @@ class MailerSender
         $thread = $message->getThread();
         $participants = $thread->getParticipants();
         $product = $thread->getProduct();
-        $threadUrl = $this->router->generate('fos_message_thread_view', ['threadId' => $thread->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         foreach ($participants as $participant) {
             if ($participant->getEmail() != $message->getSender()) {
                 $template = 'MessageBundle:email:notification.email.twig';
@@ -95,8 +94,7 @@ class MailerSender
                     'message' => $message,
                     'recipient' => $participant,
                     'sender' => $sender,
-                    'product' => $product,
-                    'threadUrl' => $threadUrl
+                    'product' => $product
                 ];
                 $this->sendMessage($template, $context, $this->parameters['from_email'], $participant->getEmail());
             }
