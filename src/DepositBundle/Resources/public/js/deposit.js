@@ -440,7 +440,7 @@ var Deposit = {
         $('input[name="parcel_type"]').change(function(){
             var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
 
-            if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 250) {
+            if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
                 $('#delivery_custom_seller').prop("checked", true);
                 $('#delivery_custom_seller').prop("disabled", true);
                 Deposit.onChangeDeliveryCustomSeller();
