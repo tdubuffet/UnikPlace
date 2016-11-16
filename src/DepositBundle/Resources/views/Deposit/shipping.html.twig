@@ -160,6 +160,7 @@
                 <tr>
                   <td class="choice">
                     <input type="checkbox" name="deliveryMode[]" id="delivery_by_hand" value="by_hand" />
+                    <input type="hidden" name="deliveryModes[]" id="delivery_by_hand_hidden" value="by_hand" disabled/>
                   </td>
                   <td class="name">Le retrait au domicile</td>
                   <td class="description">
@@ -170,6 +171,7 @@
                 <tr>
                   <td class="choice">
                     <input type="checkbox" name="deliveryMode[]" id="delivery_custom_seller" value="custom_seller"/>
+                    <input type="hidden" name="deliveryModes[]" value="custom_seller" id="delivery_custom_seller_hidden" disabled/>
                   </td>
                   <td class="name">Mon propre transporteur</td>
                   <td class="description">
@@ -191,7 +193,8 @@
 
                 <tr>
                   <td class="choice">
-                    <input type="checkbox" name="deliveryMode[]" id="delivery_by_hand" value="carrier_unik" checked disabled />
+                    <input type="checkbox" name="deliveryMode[]" id="delivery_unik" value="carrier_unik" checked disabled/>
+                    <input type="hidden" name="deliveryModes[]" value="carrier_unik" id="delivery_unik_hidden"/>
                   </td>
                   <td class="name">Livraison Unik Place en France<br /> et à l'international</td>
                   <td class="description">

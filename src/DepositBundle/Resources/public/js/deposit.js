@@ -436,9 +436,51 @@ var Deposit = {
 
 
         $('#delivery_custom_seller').click(function() {
-
             Deposit.onChangeDeliveryCustomSeller();
         });
+
+        $('#delivery_unik, #delivery_by_hand, #delivery_custom_seller').change(function () {
+            Deposit.onChangeDelivery();
+        });
+    },
+
+    onChangeDelivery: function () {
+
+        if ($('#delivery_by_hand').is(":checked")) {
+            $('#delivery_by_hand_hidden').prop('disabled', false);
+        } else {
+            $('#delivery_by_hand_hidden').prop('disabled', true);
+        }
+
+        if ($('#delivery_custom_seller').is(":checked")) {
+            $('#delivery_custom_seller_hidden').prop('disabled', false);
+        } else {
+            $('#delivery_by_hand_hidden').prop('disabled', true);
+        }
+
+        if ($('#delivery_unik').is(":checked")) {
+            $('#delivery_unik_hidden').prop('disabled', false);
+        } else {
+            $('#delivery_unik_hidden').prop('disabled', true);
+        }
+
+    },
+
+    onChangeDeliveryCustomSellerRadio: function() {
+        var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+        if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
+            $('#delivery_custom_seller').prop("checked", true);
+            $('#delivery_custom_seller').prop("disabled", true);
+            Deposit.onChangeDeliveryCustomSeller();
+        } else {
+            $('#delivery_custom_seller').prop("checked", false);
+            $('#delivery_custom_seller').prop("disabled", false);
+            $('#delivery_custom_seller').attr("onclick", "return false;");
+            Deposit.onChangeDeliveryCustomSeller();
+        }
+
+        Deposit.onChangeDelivery();
     },
 
     onChangeDeliveryCustomSellerRadio: function() {
@@ -463,6 +505,9 @@ var Deposit = {
             $('#shipping_fees').rules("remove", "required");
             $('.input-delivery-shipping-fees').hide();
         }
+
+
+        Deposit.onChangeDelivery();
     }
 
 };
