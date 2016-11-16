@@ -120,7 +120,7 @@ class Delivery
             'collecte' => date("Y-m-d"),
             'delay' => 'aucun',
             //'offers' => $this->carriersEnabled,
-            'content_code'          => 200,
+            'content_code'          => 60122,
             'valeur'                => $product->getPrice() * $quantity,
         );
 
@@ -202,7 +202,7 @@ class Delivery
             'collecte' => $date->format("Y-m-d"),
             'delay' => 'aucun',
             //'offers' => $this->carriersEnabled,
-            'content_code' => 200,
+            'content_code' => 60122,
             'assurance.selection' => false,
             'valeur'                => $order->getProductAmount(),
         );
@@ -303,7 +303,7 @@ class Delivery
             'operator'              => $delivery['operator']['code'],
             'service'               => $delivery['service']['code'],
             'raison'                => 'sale',
-            'content_code'          => 200,
+            'content_code'          => 60122,
             'url_push'              => $this->router->generate('emc_tracking', [
                 'order' => $order->getId(),
                 'key' => md5('emc_delivery')
