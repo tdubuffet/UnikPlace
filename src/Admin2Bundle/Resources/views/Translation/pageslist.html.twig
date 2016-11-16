@@ -1,0 +1,58 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Pages de traduction{% endblock %}
+{% block page_subtitle %}Liste des pages{% endblock %}
+
+
+{% block page_content %}
+
+    <div class="box">
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <!-- /.box-header -->
+        <div class="box-body">
+
+            <div class="pull-right">
+                <a class="btn btn-primary" href="{{ path('ad2_pages_add') }}">
+                    Ajouter une page
+                </a>
+                <br/>
+                <br/>
+            </div>
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+
+                {% for lang in pages %}
+
+                    <tr>
+                        <td>
+                            {{ lang.name }}
+                        </td>
+                        <td>
+                            {{ lang.code }}
+                        </td>
+                        <td>
+                            {{ lang.description }}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

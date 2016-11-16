@@ -1,0 +1,44 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Langues{% endblock %}
+{% block page_subtitle %}Liste des langues{% endblock %}
+
+
+{% block page_content %}
+
+    <div class="box">
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                </tr>
+
+                {% for lang in languages %}
+
+                    <tr>
+                        <td>
+                            {{ lang.name }}
+                        </td>
+                        <td>
+                            {{ lang.code }}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

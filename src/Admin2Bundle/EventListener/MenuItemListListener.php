@@ -51,6 +51,8 @@ class MenuItemListListener {
             new MenuItemModel('product_status', 'Statut de produit', 'ad2_product_status_list', [/* options */], 'iconclasses fa fa-wrench '),
             new MenuItemModel('fee_rates', 'Taux de commission', 'ad2_fee_rate_list', [/* options */], 'iconclasses fa fa-wrench '),
             new MenuItemModel('currency', 'Devises', 'ad2_currency_list', [/* options */], 'iconclasses fa fa-wrench '),
+            new MenuItemModel('languages', 'Langues', 'ad2_language', [/* options */], 'iconclasses fa fa-wrench '),
+            new MenuItemModel('pages', 'Page de traduction', 'ad2_pages', [/* options */], 'iconclasses fa fa-wrench '),
         ];
 
 
