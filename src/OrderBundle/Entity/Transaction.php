@@ -195,6 +195,11 @@ class Transaction
      */
     public function setEmc($emc)
     {
+
+        if ($emc != true) {
+            $emc = false;
+        }
+
         $this->emc = $emc;
 
         return $this;
