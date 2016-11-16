@@ -393,7 +393,6 @@ var Deposit = {
             rules: {
                 "shipping_fees": {
                     number: true,
-
                 },
                 "deliveryMode[]": {
                     required: true,
@@ -424,17 +423,49 @@ var Deposit = {
             }
         });
 
+        $('#product-length, #product-width, #product-height, input[name="parcel_type"]').blur(function() {
+            var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+            if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
+                $('#delivery_custom_seller').prop("checked", true);
+                $('#delivery_custom_seller').prop("disabled", true);
+                Deposit.onChangeDeliveryCustomSeller();
+            } else {
+                $('#delivery_custom_seller').prop("checked", false);
+                $('#delivery_custom_seller').prop("disabled", false);
+                Deposit.onChangeDeliveryCustomSeller();
+            }
+        });
+
+        $('input[name="parcel_type"]').change(function(){
+            var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+            if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 250) {
+                $('#delivery_custom_seller').prop("checked", true);
+                $('#delivery_custom_seller').prop("disabled", true);
+                Deposit.onChangeDeliveryCustomSeller();
+            } else {
+                $('#delivery_custom_seller').prop("checked", false);
+                $('#delivery_custom_seller').prop("disabled", false);
+                Deposit.onChangeDeliveryCustomSeller();
+            }
+        });
+
 
         $('#delivery_custom_seller').click(function() {
 
-            if ($(this).is(":checked")) {
-                $('#shipping_fees').rules("add", "required");
-                $('.input-delivery-shipping-fees').show();
-            } else {
-                $('#shipping_fees').rules("remove", "required");
-                $('.input-delivery-shipping-fees').hide();
-            }
+            Deposit.onChangeDeliveryCustomSeller();
         });
+    },
+
+    onChangeDeliveryCustomSeller: function() {
+        if ($('#delivery_custom_seller').is(":checked")) {
+            $('#shipping_fees').rules("add", "required");
+            $('.input-delivery-shipping-fees').show();
+        } else {
+            $('#shipping_fees').rules("remove", "required");
+            $('.input-delivery-shipping-fees').hide();
+        }
     }
 
 };
