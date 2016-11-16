@@ -99,11 +99,11 @@ var Product = {
             }
 
         });
-        $(".owl-nav-left.similar-products").click(function() {
+        $(".similar-products > .owl-nav-left").click(function () {
             $("#similar-products").trigger('prev.owl.carousel');
         });
 
-        $(".owl-nav-right.similar-products").click(function() {
+        $(".similar-products > .owl-nav-right").click(function () {
             $("#similar-products").trigger('next.owl.carousel');
         });
     },
@@ -127,11 +127,11 @@ var Product = {
             }
 
         });
-        $(".owl-nav-left.user-products").click(function() {
+        $(".user-products > .owl-nav-left").click(function () {
             $("#user-products").trigger('prev.owl.carousel');
         });
 
-        $(".owl-nav-right.user-products").click(function() {
+        $(".user-products > .owl-nav-right").click(function () {
             $("#user-products").trigger('next.owl.carousel');
         });
     },

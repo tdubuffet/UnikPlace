@@ -417,11 +417,12 @@
                             <h3 class="title-widget"><span>Produits similaires</span></h3>
 
                             <p class="block-subtitle">Ces objets similaires sont susceptibles de vous intéresser.</p>
-
+                            {% if similarProducts|length >= 4 %}
                             <div class="owl-nav similar-products">
                                 <i class="fa fa-long-arrow-left owl-nav-left"></i>
                                 <i class="fa fa-long-arrow-right owl-nav-right"></i>
                             </div>
+                            {% endif %}
 
                             <div class="category-products">
                                 <ul class="products-grid owl-carousel" id="similar-products">
@@ -473,10 +474,12 @@
 
                             <p class="block-subtitle">Ces objets du même vendeur sont suceptibles de vous intéresser.</p>
 
-                            <div class="owl-nav user-products">
-                                <i class="fa fa-long-arrow-left owl-nav-left"></i>
-                                <i class="fa fa-long-arrow-right owl-nav-right"></i>
-                            </div>
+                            {% if similarProductsUser|length >= 4 %}
+                                <div class="owl-nav user-products">
+                                    <i class="fa fa-long-arrow-left owl-nav-left"></i>
+                                    <i class="fa fa-long-arrow-right owl-nav-right"></i>
+                                </div>
+                            {% endif %}
 
                             <div class="category-products">
                                 <ul class="products-grid owl-carousel" id="user-products">
