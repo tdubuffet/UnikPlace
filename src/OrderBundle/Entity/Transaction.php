@@ -45,7 +45,7 @@ class Transaction
     /**
      * @var bool
      *
-     * @ORM\Column(name="emc", type="boolean")
+     * @ORM\Column(name="emc", type="boolean", nullable=true)
      */
     private $emc = false;
 
