@@ -1,7 +1,9 @@
 shop:
     resource: "@ShopBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 fos_comment_api:
     type: rest
@@ -12,7 +14,9 @@ fos_comment_api:
 blog:
     resource: "@BlogBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 admin2:
     resource: "@Admin2Bundle/Controller/"
@@ -22,52 +26,77 @@ admin2:
 comment:
     resource: "@CommentBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 delivery:
     resource: "@DeliveryBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 order:
     resource: "@OrderBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 cart:
     resource: "@CartBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 deposit:
     resource: "@DepositBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 image:
     resource: "@ImageBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 product:
     resource: "@ProductBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 location:
     resource: "@LocationBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 fos_user:
     resource: "@UserBundle/Resources/config/routing/fos_user/all.xml"
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 user:
     resource: "@UserBundle/Controller/"
     type:     annotation
+    prefix:   /{_locale}
+    defaults:
+      - _locale: "fr"
 
 user_oauth:
     resource: "@UserBundle/Resources/config/routing/oauth.yml"
@@ -78,3 +107,10 @@ fos_js_routing:
 kms_froala_editor:
   resource: "@KMSFroalaEditorBundle/Resources/config/routing.yml"
   prefix:   /froalaeditor
+
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /fr
+        permanent: true

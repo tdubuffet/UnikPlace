@@ -14,8 +14,11 @@ use ProductBundle\Entity\Category;
 use ProductBundle\Entity\Collection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -113,6 +116,19 @@ class TranslationController extends Controller
             $this->getDoctrine()->getManager()->persist($translation);
             $this->getDoctrine()->getManager()->flush();
 
+            $kernel = $this->get('kernel');
+            $application = new Application($kernel);
+            $application->setAutoExit(false);
+
+            $input = new ArrayInput(array(
+                'command' => 'cache:clear',
+                '--env' => $this->get('kernel')->getEnvironment(),
+            ));
+            $output = new BufferedOutput();
+            $application->run($input, $output);
+
+            $content = $output->fetch();
+
             return $this->redirectToRoute('ad2_translation_list', ['page' => $page->getId()]);
 
         }
@@ -139,6 +155,20 @@ class TranslationController extends Controller
         if ($form->isValid()) {
             $this->getDoctrine()->getManager()->persist($wording);
             $this->getDoctrine()->getManager()->flush();
+
+
+            $kernel = $this->get('kernel');
+            $application = new Application($kernel);
+            $application->setAutoExit(false);
+
+            $input = new ArrayInput(array(
+                'command' => 'cache:clear',
+                '--env' => $this->get('kernel')->getEnvironment(),
+            ));
+            $output = new BufferedOutput();
+            $application->run($input, $output);
+
+            $content = $output->fetch();
 
             return $this->redirectToRoute('ad2_translation_list', ['page' => $page->getId()]);
 

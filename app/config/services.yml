@@ -72,3 +72,9 @@ services:
         class: ProductBundle\Service\CategoryService
         arguments: ['@doctrine.orm.entity_manager']
 
+    translation.loader.bin:
+        class: AppBundle\Service\TranslationLoader
+        arguments: [ '@doctrine.orm.entity_manager' ]
+        tags:
+          - { name: translation.loader, alias: bin }
+
