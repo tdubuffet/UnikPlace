@@ -47,8 +47,11 @@
                             {{ lang.description }}
                         </td>
                         <td>
-                            <a class="btn btn-info">
-                                Traduction
+                            <a class="btn btn-success" href="{{ path('ad2_translation_list', {'page': lang.id }) }}">
+                                Voir
+                            </a>
+                            <a class="btn btn-info" href="{{ path('ad2_translation_add', {'page': lang.id }) }}">
+                                Ajouter
                             </a>
                         </td>
                     </tr>

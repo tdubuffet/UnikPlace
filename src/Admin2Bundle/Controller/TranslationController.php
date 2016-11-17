@@ -3,8 +3,12 @@
 namespace Admin2Bundle\Controller;
 
 use Admin2Bundle\Form\CreateCategoryForm;
+use AppBundle\Entity\Translation;
 use AppBundle\Entity\TranslationPage;
+use AppBundle\Entity\Wording;
 use AppBundle\Form\TranslationPageType;
+use AppBundle\Form\TranslationType;
+use AppBundle\Form\WordingType;
 use ProductBundle\Entity\Attribute;
 use ProductBundle\Entity\Category;
 use ProductBundle\Entity\Collection;
@@ -72,5 +76,91 @@ class TranslationController extends Controller
         return $this->render('Admin2Bundle:Translation:pagescreate.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/page/translation/list/{page}", name="ad2_translation_list")
+     * @return Response
+     */
+    public function translationListAction(Request $request, TranslationPage $page)
+    {
+
+        $wordings = $this->getDoctrine()->getRepository('AppBundle:Wording')->findBy([
+            'page' => $page
+        ]);
+
+        return $this->render('Admin2Bundle:Translation:translationlist.html.twig', [
+            'wordings' => $wordings,
+            'page' => $page
+        ]);
+    }
+
+    /**
+     * @Route("/page/translation/add/{page}", name="ad2_translation_add")
+     * @return Response
+     */
+    public function translationAddAction(Request $request, TranslationPage $page)
+    {
+
+        $translation = new Wording();
+        $translation->setPage($page);
+
+        $form = $this->createForm(WordingType::class, $translation);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $this->getDoctrine()->getManager()->persist($translation);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('ad2_translation_list', ['page' => $page->getId()]);
+
+        }
+
+
+        return $this->render('Admin2Bundle:Translation:translationcreate.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/page/translation/edit/{page}/{wording}", name="ad2_translation_edit")
+     * @return Response
+     */
+    public function translationEditAction(Request $request, TranslationPage $page, Wording $wording)
+    {
+
+        $wording->setPage($page);
+
+        $form = $this->createForm(WordingType::class, $wording);
+        $form->remove('code');
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $this->getDoctrine()->getManager()->persist($wording);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('ad2_translation_list', ['page' => $page->getId()]);
+
+        }
+
+
+        return $this->render('Admin2Bundle:Translation:translationcreate.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/page/translation/delete/{page}/{wording}", name="ad2_translation_delete")
+     * @return Response
+     */
+    public function translationRemoveAction(Request $request, TranslationPage $page, Wording $wording)
+    {
+
+        $this->getDoctrine()->getManager()->remove($wording);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('ad2_translation_list', ['page' => $page->getId()]);
+
     }
 }

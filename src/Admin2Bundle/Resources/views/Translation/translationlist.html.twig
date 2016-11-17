@@ -1,0 +1,58 @@
+{% extends 'Admin2Bundle::layout.html.twig' %}
+
+{% block page_title %}Liste des traductions : {{ page.name }}{% endblock %}
+{% block page_subtitle %}Liste des traductions : {{ page.name }}{% endblock %}
+
+
+{% block page_content %}
+
+    <div class="box">
+        <!-- /.box-header -->
+        <div class="box-body">
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>FR</th>
+                    <th>EN</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for wording in wordings %}
+                    <tr>
+                        <td>{{ wording.code }}</td>
+                        <td>{{ wording.description }}</td>
+                        <td>
+                            {% if wording.translate('fr', false) == false %}
+                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="fa fa-check" style="color: green;" aria-hidden="true"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if wording.translate('en', false) == false %}
+                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="fa fa-check" style="color: green;" aria-hidden="true"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a class="btn btn-success" href="{{ path('ad2_translation_edit', { 'page': page.id, 'wording': wording.id }) }}">
+                                Modifier
+                            </a>
+                            <a class="btn btn-danger" href="{{ path('ad2_translation_delete', { 'page': page.id, 'wording': wording.id }) }}">
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+{% endblock %}

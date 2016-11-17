@@ -35,6 +35,7 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new FOS\CommentBundle\FOSCommentBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
+            new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
 
             // Private bundles
             new AppBundle\AppBundle(),
