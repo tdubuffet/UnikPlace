@@ -17,14 +17,13 @@
                 <div class="row">
 
                   <div class="col-md-6 slider-text">
-                    <h3>Mobilier et décoration design<br />haut de gamme et à caractère unique</h3>
+                      <h3>{% autoescape false %}{{ 'homepage.slider1-title'|trans }}{% endautoescape %}</h3>
                     <span class="text">
                       <span class="text-inner">
-                          Unik Place vous met à disposition sa plateforme 100 % sécurisée pour vous permettre d’acheter et vendre rapidement du mobilier design haut de gamme et à caractère unique, sans sortir de chez vous. <br />
-                          Achetez, vendez, déstockez, revendez, … auprès d’une communauté de passionnés de mobilier et décoration design. Les acheteurs formulent des offres et achètent leurs produits préférés, le vendeur n’a pas à se soucier de la transaction et de la livraison, Unik Place s'en charge !
+                          {% autoescape false %}{{ 'homepage.slider1-text'|trans }}{% endautoescape %}
                       </span>
                     </span>
-                    <span class="button"><a href="{{ path('sell_category') }}">Je souhaite vendre</a> </span>
+                      <span class="button"><a href="{{ path('sell_category') }}">{{ 'homepage.slider1-btn'|trans }}</a> </span>
                   </div>
 
                   <div class="col-md-6">
@@ -41,15 +40,13 @@
                     <div class="row">
 
                         <div class="col-md-6 slider-text">
-                            <h3>Vendeurs professionnels,<br />vous êtes mis en avant !</h3>
+                            <h3>{% autoescape false %}{{ 'homepage.slider2-title'|trans }}{% endautoescape %}</h3>
                             <span class="text">
                               <span class="text-inner">
-                                  Unik Place est avant tout un espace pour les passionnés du design.<br />
-                                  C'est pourquoi nous mettons en avant les vendeurs professionnels au travers de séries d’articles reportages au coeur de leur activité. <br />
-                                  Les vendeurs sont mentionnés dans nos newsletters et sur notre plateforme afin de valoriser leur expérience et leurs produits.
+                                  {% autoescape false %}{{ 'homepage.slider2-text'|trans }}{% endautoescape %}
                               </span>
                             </span>
-                            <span class="button"><a href="{{ path('contact') }}">Contactez-nous</a> </span>
+                            <span class="button"><a href="{{ path('contact') }}">{% autoescape false %}{{ 'homepage.slider2-btn'|trans }}{% endautoescape %}</a> </span>
                         </div>
 
                         <div class="col-md-6">
@@ -65,12 +62,9 @@
                 <div class="row">
 
                   <div class="col-md-6 slider-text">
-                    <h3>Des sélections de produits<br />à portée de clic</h3>
+                      <h3>{% autoescape false %}{{ 'homepage.slider3-title'|trans }}{% endautoescape %}</h3>
                     <span class="text">
-                      <span class="text-inner">Créer une ambiance, un univers déco chez soi, c'est parfois compliqué.
-                        <br />Avec Unik Place, des sélections de produits déco sont créés chaque jour<br />
-                        pour vous aider dans vos changements de design. Faites confiance à Unik Place,<br />
-                        et créez des atmosphères chaleureuses avec du mobilier de qualité à moindre coût.</span>
+                      <span class="text-inner">{% autoescape false %}{{ 'homepage.slider3-text'|trans }}{% endautoescape %}</span>
                     </span>
                     <!--<span class="button">
                       <a href="{{ path('collections') }}">Découvrez les tendances déco du moment</a>
@@ -97,10 +91,9 @@
           </div>
           <div class="visible-xs visible-sm text-center block-mobile-sell">
 
-            <h3>Un meuble design <br />
-              vous encombre ?</h3>
+              <h3>{% autoescape false %}{{ 'homepage.mobile-sell-title'|trans }}{% endautoescape %}</h3>
 
-            <a class="btn" href="{{ path('sell_category') }}">Je souhaite vendre</a>
+              <a class="btn" href="{{ path('sell_category') }}">{{ "homepage.mobile-sell-btn"|trans }}</a>
 
           </div>
         </div>
@@ -111,7 +104,7 @@
             <div class="row show-grid">
               <div class="block-container">
                 <div class="col-xs-12">
-                  <h3 class="category-product title-widget"><span>Tendances</span></h3>
+                    <h3 class="category-product title-widget"><span>{{ 'homepage.collection-title'|trans }}</span></h3>
                   <div class="row">
                     {% for collection in collections %}
                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -142,7 +135,7 @@
         <div class="container hidden-xs ">
 
           <div class="block-container">
-            <h1 class="category-product title-widget"><span>Unik Place, l'univers de l'ameublement design</span></h1>
+              <h1 class="category-product title-widget"><span>{{ 'homepage.categories-title'|trans }}</span></h1>
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 {% if categories[0] is defined %}
@@ -216,25 +209,24 @@
             <div class="row">
                 <div class="block-container">
                     <div class="col-sm-12">
-                        <h3 class="category-product title-widget"><span>Nos valeurs</span></h3>
+                        <h3 class="category-product title-widget"><span>{{ 'homepage.quality-title'|trans }}</span></h3>
                     </div>
                     <div class="col-sm-3 col-advantage">
                         <div class="text-center">
                             <img src="{{ optipng('bundles/app/images/about/quality.png', { 'output' : 'images/about_quality.png'}) }}" class="img-circle" alt="qualité">
-                            <h5 class="one-value-title">Qualité du contenu</h5>
+                            <h5 class="one-value-title">{{ "homepage.quality-quality-title"|trans }}</h5>
                         </div>
                         <div class="text">
-                            Description des produits et retouche des photos pour une meilleure mise en avant des produits tout en bénéficiant d'un dépôt d'annonce très détaillée.
+                            {{ "homepage.quality-quality-text"|trans }}
                         </div>
                     </div>
                     <div class="col-sm-3 col-advantage">
                         <div class="text-center">
                             <img src="{{ optipng('bundles/app/images/about/sell_key.png', { 'output' : 'images/about_sell.png'}) }}" class="img-circle" alt="certifié">
-                            <h5 class="one-value-title">Vente clef en main</h5>
+                            <h5 class="one-value-title">{{ "homepage.quality-sell-title"|trans }}</h5>
                         </div>
                         <div class="text">
-                            Vous pouvez confier à Unik Place un produit à vendre. Vous n'aurez plus à vous soucier de votre
-                            annonce, de la livraison et de la transaction.
+                            {{ "homepage.quality-sell-text"|trans }}
                         </div>
                     </div>
                     <div class="col-sm-3 col-advantage">
