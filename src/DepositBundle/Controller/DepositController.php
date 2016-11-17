@@ -425,7 +425,7 @@ class DepositController extends Controller
                 $deliveryModes = $request->get('deliveryModes', []);
 
 
-                if (count($request->get('deliveryMode')) == 0) {
+                if (count($request->get('deliveryModes')) == 0) {
                     $errors[] = "Aucun mode de livraison";
                 }
 
