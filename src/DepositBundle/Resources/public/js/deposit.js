@@ -417,7 +417,14 @@ var Deposit = {
             messages: {
 
                 "shipping_fees": {
-                    required: "Vous avez choisi d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison."
+                    required: function () {
+                        var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+                        if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
+                            return "Les dimensions et/ou le poids de votre produit ne nous permettent pas de proposer notre solution de livraison  sur l'ensemble du territoire. Merci donc de renseigner les frais du transporteur que vous choisirez et avec qui vous traiterez directement l'expédition et la livraison du produit. Les frais seront toujours refacturés à l'acheteur.";
+                        }
+                        return "Vous avez choisi d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison.";
+                    }
                 },
                 "deliveryMode[]": "Vous devez sélectionner au moins un mode de livraison."
             }
@@ -455,7 +462,7 @@ var Deposit = {
         if ($('#delivery_custom_seller').is(":checked")) {
             $('#delivery_custom_seller_hidden').prop('disabled', false);
         } else {
-            $('#delivery_by_hand_hidden').prop('disabled', true);
+            $('#delivery_custom_seller_hidden').prop('disabled', true);
         }
 
         if ($('#delivery_unik').is(":checked")) {
@@ -476,7 +483,6 @@ var Deposit = {
         } else {
             $('#delivery_custom_seller').prop("checked", false);
             $('#delivery_custom_seller').prop("disabled", false);
-            $('#delivery_custom_seller').attr("onclick", "return false;");
             Deposit.onChangeDeliveryCustomSeller();
         }
 
