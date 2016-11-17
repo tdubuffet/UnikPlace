@@ -417,7 +417,7 @@ var Deposit = {
             messages: {
 
                 "shipping_fees": {
-                    required: "Vous avez choisis d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison."
+                    required: "Vous avez choisi d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison."
                 },
                 "deliveryMode[]": "Vous devez sélectionner au moins un mode de livraison."
             }
