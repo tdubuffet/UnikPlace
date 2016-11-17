@@ -78,3 +78,9 @@ services:
         tags:
           - { name: translation.loader, alias: bin }
 
+    twig.extension.trans:
+      class: AppBundle\Twig\AppTranslationExtension
+      public: false
+      arguments: ['@translator']
+      tags:
+        - { name: twig.extension }

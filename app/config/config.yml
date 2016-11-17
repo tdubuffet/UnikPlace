@@ -38,7 +38,6 @@ parameters:
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
-    default_locale: "%locale%"
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -325,5 +324,5 @@ a2lix_translation_form:
     locale_provider: default       # [1]
     locales: [fr, en]      # [1-a]
     default_locale: fr             # [1-b]
-    required_locales: [fr, en]         # [1-c]
+    required_locales: [fr]         # [1-c]
     templating: "A2lixTranslationFormBundle::default.html.twig"      # [2]

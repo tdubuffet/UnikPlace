@@ -10,6 +10,14 @@
         <!-- /.box-header -->
         <div class="box-body">
 
+            <div>
+                <a class="btn btn-primary" href="{{ path('ad2_translation_add', {'page': page.id}) }}">
+                    Ajouter une traduction
+                </a>
+                <br/>
+                <br/>
+            </div>
+
             <table class="table table-bordered">
                 <tbody>
                 <tr>
@@ -25,17 +33,17 @@
                         <td>{{ wording.code }}</td>
                         <td>{{ wording.description }}</td>
                         <td>
-                            {% if wording.translate('fr', false) == false %}
-                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
-                            {% else %}
+                            {% if wording.translate('fr', false).text != false %}
                                 <i class="fa fa-check" style="color: green;" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
                             {% endif %}
                         </td>
                         <td>
-                            {% if wording.translate('en', false) == false %}
-                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
-                            {% else %}
+                            {% if wording.translate('en', false).text != false %}
                                 <i class="fa fa-check" style="color: green;" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
                             {% endif %}
                         </td>
                         <td>

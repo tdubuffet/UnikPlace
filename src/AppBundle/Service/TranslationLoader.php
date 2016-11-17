@@ -32,12 +32,17 @@ class TranslationLoader implements LoaderInterface
      */
     public function load($resource, $locale, $domain = 'messages')
     {
+
         $catalogue = new MessageCatalogue($locale);
 
         $wordings = $this->em->getRepository('AppBundle:Wording')->findAll();
 
         foreach ($wordings as $trans) {
-            //$catalogue->set($trans->getCode(), $trans->translate($locale, false)->getText());
+            if ($trans->translate($locale, false)->getText() != false) {
+                $catalogue->set($trans->getCode(), $trans->translate($locale, false)->getText());
+            } else {
+                $catalogue->set($trans->getCode(), 'Error translation: ' . $trans->getCode());
+            }
         }
 
         return $catalogue;

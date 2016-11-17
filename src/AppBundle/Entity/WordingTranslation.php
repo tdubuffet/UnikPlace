@@ -17,7 +17,7 @@ class WordingTranslation
     use ORMBehaviors\Translatable\Translation;
 
     /**
-     * @ORM\Column(type="text", length=255)
+     * @ORM\Column(type="text")
      */
     protected $text;
 
