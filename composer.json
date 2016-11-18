@@ -53,7 +53,8 @@
         "avanzu/admin-theme-bundle": "dev-master",
         "kms/froala-editor-bundle": "^2.3",
         "symfony/assetic-bundle": "^2.8",
-        "friendsofsymfony/comment-bundle": "dev-master"
+        "friendsofsymfony/comment-bundle": "dev-master",
+        "kendrick/symfony-debug-toolbar-git": "^1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

@@ -49,3 +49,6 @@ monolog:
 assetic:
     use_controller: false
     debug: true
+
+symfony_debug_toolbar_git:
+    repository_commit_url: ""
