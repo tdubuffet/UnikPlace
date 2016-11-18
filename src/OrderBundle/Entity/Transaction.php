@@ -45,7 +45,7 @@ class Transaction
     /**
      * @var bool
      *
-     * @ORM\Column(name="emc", type="boolean")
+     * @ORM\Column(name="emc", type="boolean", nullable=true)
      */
     private $emc = false;
 
@@ -195,6 +195,11 @@ class Transaction
      */
     public function setEmc($emc)
     {
+
+        if ($emc != true) {
+            $emc = false;
+        }
+
         $this->emc = $emc;
 
         return $this;

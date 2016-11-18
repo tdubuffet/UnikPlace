@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\TextType;
 use LocationBundle\Form\AddressProType;
 use LocationBundle\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Intl;
@@ -49,7 +50,11 @@ class RegistrationType extends AbstractType
             ],
             'required' => true,
             'mapped' => false
-        ]);
+        ])
+            ->add('newsletter', CheckboxType::class, array(
+                'label' => 'Recevoir des infos sur nos nouveaux services, nos promotions et notre actualité',
+                'required' => false
+            ));
 
         $builder->add('street', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
             'label' => 'Adresse de l\'entreprise',

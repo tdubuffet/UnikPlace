@@ -72,12 +72,12 @@ class DisputeController extends Controller
 
             if ($request->get('refund') !== null) {
                 $this->get('order_service')->cancelOrder($order);
-                return $this->redirectToRoute('admin_disputes');
+                return $this->redirectToRoute('ad2_disputes');
             }
 
             if ($request->get('close') !== null) {
                 $this->get('order_service')->closeDisputeOrder($order);
-                return $this->redirectToRoute('admin_disputes');
+                return $this->redirectToRoute('ad2_disputes');
             }
 
             return $this->redirectToRoute('ad2_dispute', ['id' => $order->getId() ]);
