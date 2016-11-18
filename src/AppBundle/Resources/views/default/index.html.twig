@@ -232,22 +232,18 @@
                     <div class="col-sm-3 col-advantage">
                         <div class="text-center">
                             <img src="{{ optipng('bundles/app/images/about/security.png', { 'output' : 'images/about_security.png'}) }}" class="img-circle" alt="sécurité">
-                            <h5 class="one-value-title">100% sécurisé</h5>
+                            <h5 class="one-value-title">{{ "homepage.quality-security-title"|trans }}</h5>
                         </div>
-                        <div class="text">
-                            Achetez ou vendez des produits d'occasion en toute sécurité !
-                            Vous êtes assuré de recevoir l'argent des ventes ou de recevoir votre achat.
+                        <div class="text">{{ "homepage.quality-security-text"|trans }}
                         </div>
                     </div>
                     <div class="col-sm-3 col-advantage">
                         <div class="text-center">
                             <img src="{{ optipng('bundles/app/images/about/confidential.png', { 'output' : 'images/about_confidential.png'}) }}" class="img-circle"
                                  alt="confidentialité">
-                            <h5 class="one-value-title">Confidentialité</h5>
+                            <h5 class="one-value-title">{{ "homepage.quality-confidential-title"|trans }}</h5>
                         </div>
-                        <div class="text">
-                            Par sécurité, les données des utilisateurs sont confidentielles. L'évaluation des
-                            profils favorise une démarche d'achat ou de vente.
+                        <div class="text">{{ "homepage.quality-confidential-text"|trans }}
                         </div>
                     </div>
                 </div>
@@ -256,7 +252,7 @@
           <div class="row">
             <div class="block-container">
               <div class="col-sm-12">
-                <h3 class="category-product title-widget"><span>#DESIGNLOVERS - le journal du design</span></h3>
+                  <h3 class="category-product title-widget"><span>{{ "homepage.blog-title"|trans }}</span></h3>
               </div>
 
               {% for article in articles %}
