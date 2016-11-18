@@ -14,12 +14,8 @@ class PreferenceFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('emailClassified', CheckboxType::class, array(
-                'label'    => 'Recevoir des emails de vos annonces',
-                'required' => false
-            ))
             ->add('newsletter', CheckboxType::class, array(
-                'label'    => 'Recevoir des emails d\'informations du site',
+                'label' => 'Recevoir des infos sur nos nouveaux services, nos promotions et notre actualité',
                 'required' => false
             ))
             ->add('submit', SubmitType::class, array(
