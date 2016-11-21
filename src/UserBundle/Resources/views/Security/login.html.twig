@@ -2,8 +2,8 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block title %}Créez un compte ou identifiez-vous - {{ siteName }}{% endblock %}
-{% block description %}Particuliers ou professionnels, ouvrez un compte sur Unik Place gratuitement. Achetez Vendez vos meubles et objets de déco design et haut de gamme facilement et rapidement.{% endblock %}
+{% block title %}{{ 'login.seo-title'|trans }} - {{ siteName }}{% endblock %}
+{% block description %}{{ 'login.seo-description'|trans }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['login']) }}{% endblock javascript_include %}
 
@@ -12,14 +12,14 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="h2">Créez un compte ou identifiez-vous</h1>
+      <h1 class="h2">{{ 'login.create-title'|trans }}</h1>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6">
-      <h2 class="h3">Créez votre compte</h2>
+      <h2 class="h3">{{ 'login.create-subtitle'|trans }}</h2>
 
-      <p>Saisissez votre adresse e-mail pour créer votre compte.</p>
+      <p>{{ 'login.create-text'|trans }}</p>
 
       {% if app.request.get('redirect_to') and redirectToRelative(app.request.get('redirect_to')) %}
         {% set redirect = redirectToRelative(app.request.get('redirect_to')) %}
@@ -34,9 +34,9 @@
           <input type="email" name="email_registration" value="" class="form-control" required="required" />
         </div>
 
-        <p>* Champs obligatoires</p>
+        <p>{{ 'login.mandatory-field'|trans }}</p>
 
-        <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="Créer votre compte" /></p>
+        <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="{{ 'login.create-account-btn'|trans }}"/></p>
 
       </form>
 
@@ -44,7 +44,7 @@
 
     </div>
     <div class="col-sm-6 col-login">
-      <h2 class="h3">Déjà inscrit?</h2>
+      <h2 class="h3">{{ 'login.login-subtitle'|trans }}</h2>
 
       {% if error %}
       <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -72,16 +72,15 @@
           <input type="hidden" name="redirect_to" value="{{ redirectToRelative(app.request.get('redirect_to'))  }}" />
         {% endif %}
 
-        <p>* Champs obligatoires</p>
+        <p>{{ 'login.mandatory-field'|trans }}</p>
 
-        <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="{{ 'security.login.submit'|trans }}" /><a href="{{ path('fos_user_resetting_request') }}" style="margin-left: 15px;">Mot de passe oublié ?</a></p>
+        <p><input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="{{ 'security.login.submit'|trans }}"/><a href="{{ path('fos_user_resetting_request') }}" style="margin-left: 15px;">{{ 'login.password-lost'|trans }}</a></p>
       </form>
 
-      <p>ou via les réseaux sociaux :</p>
+      <p>{{ 'login.social-network-title'|trans }}</p>
 
-      <p><a href="{{ path('facebook_connect') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i> Connexion avec Facebook</a></p>
+      <p><a href="{{ path('facebook_connect') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i> {{ 'login.social-network-btn'|trans }}</a></p>
 
-      <p><a href="{{ path('fos_user_registration_register') }}">Vous n'avez pas de compte ? <b>Inscrivez-vous !</b></a></p>
 
     </div><!-- col -->
   </div><!-- .row -->
