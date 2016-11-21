@@ -32,6 +32,7 @@
     "jquery.maskedinput": "^1.4.1",
     "jquery-creditcardvalidator": "^1.0.0",
     "featherlight": "^1.5.0",
-    "share-button": "^1.0.3"
+    "share-button": "^1.0.3",
+    "intl-tel-input": "jackocnr/intl-tel-input#^9.2.4"
   }
 }

@@ -105,9 +105,6 @@ var Signup = {
                     required: true,
                 },
                 "fos_user_registration_form[phone]": {
-                    number: true,
-                    minlength:10,
-                    maxlength:10,
                     required: true
                 }
 
@@ -123,6 +120,18 @@ var Signup = {
                     error.insertAfter(element);
                 }
             }
+        });
+
+        $("input[name='fos_user_registration_form[phone]']").intlTelInput({
+            initialCountry: "auto",
+            geoIpLookup: function (callback) {
+                $.get('http://ipinfo.io', function () {
+                }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            utilsScript: "/components/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
         });
     },
 
