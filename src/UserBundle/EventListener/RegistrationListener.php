@@ -113,6 +113,10 @@ class RegistrationListener implements EventSubscriberInterface
             $user->addAddress($address);
         }
 
+        if ($event->getRequest()->get('phone-full')) {
+            $user->setPhone($event->getRequest()->get('phone-full'));
+        }
+
         if ($event->getRequest()->get('redirect', false) && $event->getRequest()->get('redirect')) {
             $response = new RedirectResponse(
                 $event->getRequest()->get('redirect')

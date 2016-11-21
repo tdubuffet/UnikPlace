@@ -88,6 +88,8 @@
                         {{ form_errors(form.phone) }}
                     </div>
 
+                    <input id="phone-full" type="hidden" name="phone-full">
+
                     <div class="form-group">
                         <label class="required">{{ 'form.password'|trans }}</label>
                         {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}

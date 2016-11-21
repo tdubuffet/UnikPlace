@@ -133,6 +133,10 @@ var Signup = {
             },
             utilsScript: "/components/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
         });
+
+        $("form").submit(function () {
+            $("#phone-full").val($("input[name='fos_user_registration_form[phone]']").intlTelInput("getNumber"));
+        });
     },
 
     initProFields: function() {
