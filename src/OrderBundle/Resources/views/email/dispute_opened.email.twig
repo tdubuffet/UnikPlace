@@ -3,7 +3,7 @@
 {% block body_text %}
 {% autoescape false %}
 {% if user is defined %}
-Bonjour {{ user.firstname }},
+    Bonjour {{ user.lastname }},
 
 {% endif%}
 Un litige a été ouvert concernant la commande {{ product.name }}.

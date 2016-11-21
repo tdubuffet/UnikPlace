@@ -2,7 +2,7 @@
 
 {% block body_text %}
   {% autoescape false %}
-    Bonjour {{ proposal.user.firstname }}
+    Bonjour {{ proposal.user.lastname }}
     Le vendeur a accepté votre offre de  {{ proposal.amount|currency_convert_format(product.getCurrency.getCode) }}
     concernant l'annonce "{{ product.name }}".
     Vous pouvez maintenant l'ajouter à votre panier

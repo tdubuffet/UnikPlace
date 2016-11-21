@@ -2,7 +2,7 @@
 
 {% block body_text %}
 {% autoescape false %}
-Bonjour {{ user.firstname }} !
+    Bonjour {{ user.lastname }} !
 
 La réception du produit {{ product.name }} a été confirmée par l'acheteur et l'argent a été reversé sur votre porte-monnaie. Cette commande est à présent terminée.
 Vous pouvez consulter votre porte-feuille à l'addresse suivante : {{ walletUrl }}
