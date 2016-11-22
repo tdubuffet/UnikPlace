@@ -124,8 +124,16 @@ class Delivery
             'valeur'                => $product->getPrice() * $quantity,
         );
 
+
+        $type = 'colis';
+        $weight = $product->getWeight() / 1000;
+        if ($weight >= 70) {
+            $type = 'encombrant';
+        }
+
         $parcels = array(
-            'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+            'type' => $type,
+            // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
             'dimensions' => []
         );
 
@@ -207,6 +215,12 @@ class Delivery
             'valeur'                => $order->getProductAmount(),
         );
 
+        $type = 'colis';
+        $weight = $product->getWeight() / 1000;
+        if ($weight >= 70) {
+            $type = 'encombrant';
+        }
+
         $parcels = array(
             'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
             'dimensions' => []
@@ -280,6 +294,11 @@ class Delivery
             'infos'         => $order->getDeliveryAddress()->getAdditional()
         );
 
+        $type = 'colis';
+        $weight = $order->getProduct()->getWeight() / 1000;
+        if ($weight >= 70) {
+            $type = 'encombrant';
+        }
         $parcels = array(
             'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
             'dimensions' => []
