@@ -65,18 +65,20 @@ var ProductEdition = {
                 },
                 image4: {
                     require_from_group: picErrorMessage
-                }
+                },
+                "product[customDeliveryFee]": {
+                    required: function () {
+                        var dim = parseFloat($('#product_parcelWidth').val()) + parseFloat($('#product_parcelLength').val()) + parseFloat($('#product_parcelHeight').val());
+
+                        if ($('#product_parcelType').val() != 'box' || dim >= 200) {
+                            return "Les dimensions et/ou le poids de votre produit ne nous permettent pas de proposer notre solution de livraison  sur l'ensemble du territoire. Merci donc de renseigner les frais du transporteur que vous choisirez et avec qui vous traiterez directement l'expédition et la livraison du produit. Les frais seront toujours refacturés à l'acheteur.";
+                        }
+                        return "Vous avez choisi d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison.";
+                    }
+                },
             }
         });
 
-
-
-        $(".checkBox-delivery").rules("add", {
-            required: function(elem)
-            {
-                return $("input.checkBox-delivery:checked").length > 0;
-            }
-        });
 
         $('#delivery_custom_seller').click(function() {
 
