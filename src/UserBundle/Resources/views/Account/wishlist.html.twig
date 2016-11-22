@@ -1,7 +1,7 @@
 {% extends 'UserBundle::base.html.twig' %}
 
-{% block title %}Ma wishlist{% endblock %}
-{% block description %}Ma wishlist sur {{ siteName }}{% endblock %}
+{% block title %}{{ 'account.whishlist.seo-title'|trans }}{% endblock %}
+{% block description %}{{ 'account.whishlist.seo-description'|trans({'%siteName%': siteName }) }}{% endblock %}
 
 {% block javascript_include %}{{ jsinit(['wishlist']) }}{% endblock javascript_include %}
 
@@ -11,10 +11,10 @@
     <div class="col-sm-12">
       <div class="category-products">
 
-        <h2>Ma wishlist</h2>
+        <h2>{{ 'account.whishlist.title-h1'|trans }}</h2>
 
         {% if favorites is empty %}
-          <p>Vous n'avez aucun produit dans votre wishlist.</p>
+          <p>{{ 'account.whishlist.without-product'|trans }}</p>
         {% else %}
           <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-4col show-grid">
             {% for favorite in favorites %}
@@ -23,10 +23,10 @@
                 <div class="item-inner">
                   <div class="product-action">
                     {% if date(product.getCreatedAt()) > date('-2weeks') and product.getStatus().getName() != 'sold' %}
-                      <div class="product-new-label">Nouveau</div>
+                      <div class="product-new-label">{{ 'entity.product.status-new'|trans }}</div>
                     {% endif %}
                     {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
-                      <div class="product-sale-label">Vendu</div>
+                      <div class="product-sale-label">{{ 'entity.product.status-sold'|trans }}</div>
                     {% endif %}
                     <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}"
                        title="{{ product.name }}" class="product-image">
@@ -64,7 +64,7 @@
 
                     <div class="actions-box">
                       <button class="btn btn-primary btn-sm link-wishlist" data-product-id="{{ product.getId() }}">
-                        Retirer de ma wishlist
+                        {{ 'account.whishlist.btn-remove'|trans }}
                       </button>
                     </div>
                   </div>
