@@ -30,7 +30,7 @@
       <form action="{{ path('fos_user_registration_register', {'redirect': redirect}) }}" method="post" id="signup-form">
 
         <div class="form-group">
-          <label for="username" class="required">{{ 'Adresse e-mail'|trans }}</label>
+          <label for="username" class="required">{{ 'entity.user.email'|trans }}</label>
           <input type="email" name="email_registration" value="" class="form-control" required="required" />
         </div>
 
@@ -54,7 +54,7 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
         <div class="form-group">
-          <label for="username" class="required">{{ 'Adresse e-mail'|trans }}</label>
+          <label for="username" class="required">{{ 'entity.user.email'|trans }}</label>
           <input type="email" id="username" name="_username" value="{{ last_username }}" class="form-control" required="required" />
         </div>
         <div class="form-group">
