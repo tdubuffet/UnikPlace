@@ -1,12 +1,12 @@
 {% extends "UserBundle::base.html.twig" %}
 
-{% block title %}Mes préférences{% endblock %}
-{% block description %}Mes préférences sur {{ siteName }}{% endblock %}
+{% block title %}{{ 'account.preference.seo-title'|trans }}{% endblock %}
+{% block description %}{{ 'account.preference.seo-description'|trans({'%siteName%': siteName }) }}{% endblock %}
 
 
 {% block account_content %}
 
-  <h2>Mes préférences</h2>
+  <h2>{{ 'account.preference.title-h1'|trans }}</h2>
 
   {{ form(form) }}
 

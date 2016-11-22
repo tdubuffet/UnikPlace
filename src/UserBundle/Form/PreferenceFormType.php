@@ -15,11 +15,11 @@ class PreferenceFormType extends AbstractType
     {
         $builder
             ->add('newsletter', CheckboxType::class, array(
-                'label' => 'Recevoir des infos sur nos nouveaux services, nos promotions et notre actualité',
+                'label' => 'entity.user.newletter',
                 'required' => false
             ))
             ->add('submit', SubmitType::class, array(
-                'label' => "Enregistrer",
+                'label' => "entity.user.save-btn",
                 'attr' => [
                     'class' => 'btn-primary'
                 ]
