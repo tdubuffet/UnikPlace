@@ -42,6 +42,11 @@ class MenuItemListListener {
             new MenuItemModel('blog_category', 'Catégories de blog', 'ad2_blog_categories_list', [], 'iconclasses fa fa-bars'),
 
 
+            new MenuItemModel('international', 'International', false),
+            new MenuItemModel('languages', 'Langues', 'ad2_language', [/* options */], 'iconclasses fa fa-wrench '),
+            new MenuItemModel('pages', 'Page de traduction', 'ad2_pages', [/* options */], 'iconclasses fa fa-wrench '),
+            new MenuItemModel('currency', 'Devises', 'ad2_currency_list', [/* options */], 'iconclasses fa fa-wrench '),
+
             new MenuItemModel('configuration', 'Configuration', false),
             new MenuItemModel('category', 'Catégories', 'ad2_categories_list', [], 'iconclasses fa fa-bars'),
             new MenuItemModel('collection', 'Tendances', 'ad2_collections_list', [], 'iconclasses fa fa-bars'),
@@ -50,9 +55,7 @@ class MenuItemListListener {
             new MenuItemModel('order_status', 'Statut de commande', 'ad2_order_status_list', [/* options */], 'iconclasses fa fa-wrench '),
             new MenuItemModel('product_status', 'Statut de produit', 'ad2_product_status_list', [/* options */], 'iconclasses fa fa-wrench '),
             new MenuItemModel('fee_rates', 'Taux de commission', 'ad2_fee_rate_list', [/* options */], 'iconclasses fa fa-wrench '),
-            new MenuItemModel('currency', 'Devises', 'ad2_currency_list', [/* options */], 'iconclasses fa fa-wrench '),
-            new MenuItemModel('languages', 'Langues', 'ad2_language', [/* options */], 'iconclasses fa fa-wrench '),
-            new MenuItemModel('pages', 'Page de traduction', 'ad2_pages', [/* options */], 'iconclasses fa fa-wrench '),
+
         ];
 
 
