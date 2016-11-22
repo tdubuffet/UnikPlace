@@ -45,19 +45,19 @@ class RegistrationType extends AbstractType
         $builder->add('civility', ChoiceType::class, [
             'label' => 'Civilité',
             'choices' => [
-                'Monsieur' => 'mr',
-                'Madame' => 'mrs'
+                'entity.user.civility-mr' => 'mr',
+                'entity.user.civility-mrs' => 'mrs'
             ],
             'required' => true,
             'mapped' => false
         ])
             ->add('newsletter', CheckboxType::class, array(
-                'label' => 'Recevoir des infos sur nos nouveaux services, nos promotions et notre actualité',
+                'label' => 'entity.user.newletter',
                 'required' => false
             ));
 
         $builder->add('street', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
-            'label' => 'Adresse de l\'entreprise',
+            'label' => 'entity.user.address-company',
             'required' => true,
             'mapped' => false,
             'attr' => [
