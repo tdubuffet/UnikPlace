@@ -362,33 +362,30 @@
                         <div class="block-footer-bottom block-advantage">
                             <div class="col-sm-3 col-xs-12 advantage">
 
-                                <a href="{{ path('quality_content') }}" class="advantage-title">Qualité du Contenu</a>
+                                <a href="{{ path('quality_content') }}" class="advantage-title">{{ "homepage.quality-quality-title"|trans }}</a>
                                 <div>
-                                    Description des produits et retouche des photos pour une meilleure mise en avant des produits tout en bénéficiant d'un dépôt d'annonce très détaillée.
+                                    {{ "homepage.quality-quality-text"|trans }}
                                 </div>
 
                             </div>
                             <div class="col-sm-3 col-xs-12 advantage">
-                                <div class="advantage-title">Vente clef en main</div>
+                                <div class="advantage-title">{{ "homepage.quality-sell-title"|trans }}</div>
                                 <div>
-                                    Vous pouvez confier à Unik Place un produit à vendre. Vous n'aurez plus à vous soucier de votre
-                                    annonce, de la livraison et de la transaction.
+                                    {{ "homepage.quality-sell-text"|trans }}
                                 </div>
                             </div>
                             <div class="col-sm-3 col-xs-12 advantage">
 
-                                <div class="advantage-title">100% Sécurisé</div>
+                                <div class="advantage-title">{{ "homepage.quality-security-title"|trans }}</div>
                                 <div>
-                                    Achetez ou vendez des produits neufs ou d'occasion en toute sécurité ! Vous êtes assuré
-                                    de recevoir l'argent des ventes ou de recevoir votre achat.
+                                    {{ "homepage.quality-security-text"|trans }}
                                 </div>
 
                             </div>
                             <div class="col-sm-3 col-xs-12 advantage">
-                                <div class="advantage-title">Confidentialité</div>
+                                <div class="advantage-title">{{ "homepage.quality-confidential-title"|trans }}</div>
                                 <div>
-                                    Par sécurité, les données des utilisateurs sont confidentielles. L'évaluation des
-                                    profils favorise une démarche d'achat ou de vente.
+                                    {{ "homepage.quality-confidential-text"|trans }}
                                 </div>
                             </div>
                         </div>
@@ -408,16 +405,16 @@
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <div class="about">
                                             <div class="footer-block-title">
-                                                <span>A propos de nous</span>
+                                                <span>{{ 'footer.title-about'|trans }}</span>
                                             </div>
                                             <div class="custom-footer-content">
                                                 <div class="about-text"><p>
-                                                        Place de marché de meubles et objets déco neufs et d'occasion premium.
+                                                        {{ 'footer.text-about'|trans }}
                                                     </p></div>
 
                                                 <div class="social">
                                                     <div class="footer-block-title">
-                                                        <span>Réseaux sociaux</span>
+                                                        <span>{{ 'footer.title-social-network'|trans }}</span>
                                                     </div>
                                                     <ul class="social-icons2 small light">
                                                         <li class="facebook">
@@ -440,7 +437,7 @@
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hidden-xs">
                                         <div class="product_link">
                                             <div class="footer-block-title">
-                                                <span>La Boutique</span>
+                                                <span>{{ 'footer.title-shop'|trans }}</span>
                                             </div>
                                             <div class="custom-footer-content">
                                                 <ul class="links">
@@ -456,10 +453,10 @@
                                             </div>
                                             <div class="custom-footer-content">
                                                 <ul class="links">
-                                                    <li><a href="{{ path('about') }}">A propos de nous</a></li>
-                                                    <li><a href="{{ path('faq') }}">Foire aux questions</a></li>
-                                                    <li><a href="{{ path('legal_notice') }}">Mentions légales</a></li>
-                                                    <li><a href="{{ path('contact') }}">Nous contacter</a></li>
+                                                    <li><a href="{{ path('about') }}">{{ 'footer.link-about'|trans }}</a></li>
+                                                    <li><a href="{{ path('faq') }}">{{ 'footer.link-faq'|trans }}</a></li>
+                                                    <li><a href="{{ path('legal_notice') }}">{{ 'footer.link-legal-notice'|trans }}</a></li>
+                                                    <li><a href="{{ path('contact') }}">{{ 'footer.link-contact'|trans }}</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -467,7 +464,7 @@
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hidden-xs">
                                         <div class="product_link">
                                             <div class="footer-block-title">
-                                                <span>Nous contacter</span>
+                                                <span>{{ 'footer.link-contact'|trans }}</span>
                                             </div>
                                             <div class="custom-footer-content">
                                                 <span class="item-info"><i class="fa fa-university"></i><span class="address">{{ website.contact.address }}</span> </span>
@@ -489,7 +486,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <address>
-                        {{ siteName }} {{ "now"|date('Y') }} - Tous droits réservés - Site d'achat, vente de biens d'occasions et neufs sécurisé.
+                        {{ siteName }} {{ "now"|date('Y') }} - {{ 'footer.copyright'|trans }}
                         <p class="text-center">
                             <img class="mangopay-credits text-center" src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'images/mangopay.png'}) }}"
                                  alt="mangopay" height="26px">
