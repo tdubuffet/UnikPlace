@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Twig;
 
+use AppBundle\Service\Translation;
 use BlogBundle\Entity\ArticleImage;
 use ProductBundle\Entity\CategoryImage;
 use ProductBundle\Entity\CollectionImage;
@@ -40,7 +41,7 @@ class AppExtension extends \Twig_Extension
 
     public function translator($text)
     {
-        $this->translator->translate($text, 'en');
+        Translation::trans($text, 'en');
 
         return $text;
     }

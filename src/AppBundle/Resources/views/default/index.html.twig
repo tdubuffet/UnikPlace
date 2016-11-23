@@ -143,13 +143,13 @@
                     <div class="overlay">
                             <span class="button">
                               <a href="{{ path('category', {'path' : categories[0].slug}) }}">
-                                {{ categories[0].name }}
+                                {{ categories[0].translate(app.request.get('_locale')).getName() }}
                               </a>
                             </span>
                     </div>
                     {% if categories[0].image %}
-                    <img class="img-responsive" alt="{{ categories[0].name }}"
-                         src="{{ loadpic(categories[0].image, 500, 500, "f", "categories") }}"/>
+                        <img class="img-responsive" alt="{{ categories[0].translate(app.request.get('_locale')).getName() }}"
+                             src="{{ loadpic(categories[0].image, 500, 500, "f", "categories") }}"/>
                     {% endif %}
                   </div>
                 {% endif %}
@@ -160,13 +160,13 @@
                     <div class="overlay">
                             <span class="button">
                               <a href="{{ path('category', {'path' : categories[1].slug}) }}">
-                                {{ categories[1].name }}
+                                {{ categories[1].translate(app.request.get('_locale')).getName() }}
                               </a>
                             </span>
                     </div>
                     {% if categories[1].image %}
-                    <img class="img-responsive" alt="{{ categories[1].name }}"
-                         src="{{ loadpic(categories[1].image, 500, 235, "f", "categories") }}"/>
+                        <img class="img-responsive" alt="{{ categories[1].translate(app.request.get('_locale')).getName() }}"
+                             src="{{ loadpic(categories[1].image, 500, 235, "f", "categories") }}"/>
                     {% endif %}
                   </div>
                 {% endif %}
@@ -175,13 +175,13 @@
                     <div class="overlay">
                             <span class="button">
                               <a href="{{ path('category', {'path' : categories[2].slug}) }}">
-                                {{ categories[2].name }}
+                                {{ categories[2].translate(app.request.get('_locale')).getName() }}
                               </a>
                             </span>
                     </div>
                     {% if categories[2].image %}
-                    <img class="img-responsive" alt="{{ categories[2].name }}"
-                         src="{{ loadpic(categories[2].image, 500, 235, "f", "categories") }}"/>
+                        <img class="img-responsive" alt="{{ categories[2].translate(app.request.get('_locale')).getName() }}"
+                             src="{{ loadpic(categories[2].image, 500, 235, "f", "categories") }}"/>
                     {% endif %}
                   </div>
                 {% endif %}
@@ -192,13 +192,13 @@
                     <div class="overlay">
                             <span class="button">
                               <a href="{{ path('category', {'path' : categories[3].slug}) }}">
-                                {{ categories[3].name }}
+                                {{ categories[3].translate(app.request.get('_locale')).getName() }}
                               </a>
                             </span>
                     </div>
                     {% if categories[3].image %}
-                    <img class="img-responsive" alt="{{ categories[3].name }}"
-                         src="{{ loadpic(categories[3].image, 500, 500, "f", "categories") }}"/>
+                        <img class="img-responsive" alt="{{ categories[3].translate(app.request.get('_locale')).getName() }}"
+                             src="{{ loadpic(categories[3].image, 500, 500, "f", "categories") }}"/>
                     {% endif %}
                   </div>
                 {% endif %}
@@ -286,7 +286,7 @@
               {% for category in categories %}
                 {% if productsByCategory[category.slug] is defined and productsByCategory[category.slug]|length > 0 %}
                   <div class="col-sm-12">
-                    <h3 class="category-product title-widget"><span>{{ category.name }}</span></h3>
+                      <h3 class="category-product title-widget"><span>{{ category.translate(app.request.get('_locale')).getName() }}</span></h3>
                     <div class="category-products-container clearfix">
                       {% include 'ProductBundle:Search:product_grid.html.twig' with { 'products': productsByCategory[category.slug] } only %}
                     </div>

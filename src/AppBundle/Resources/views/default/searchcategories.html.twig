@@ -1,6 +1,6 @@
 <ul class="dropdown-menu search-cat-filters">
   <li><a data-id="">Tout</a></li>
   {% for idx, category in categories %}
-    <li><a data-id="{{ category.id }}">{{ category.name }}</a></li>
+    <li><a data-id="{{ category.id }}">{{ category.translate(app.request.get('_locale')).getName() }}</a></li>
   {% endfor %}
 </ul>

@@ -16,7 +16,8 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 class Category
 {
     use ORMBehaviors\Sluggable\Sluggable,
-        ORMBehaviors\Timestampable\Timestampable;
+        ORMBehaviors\Timestampable\Timestampable,
+        ORMBehaviors\Translatable\Translatable;
 
     /**
      * @var int
@@ -40,12 +41,6 @@ class Category
      */
     private $parent;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
 
     /**
      * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="categories")
@@ -96,29 +91,6 @@ class Category
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Category
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
 
     public function getSluggableFields()
     {

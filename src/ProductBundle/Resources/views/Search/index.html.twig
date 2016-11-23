@@ -1,9 +1,9 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title %}{% if category is defined %}Catégorie {{ category.name }} & l'univers de l'ameublement design - {{ siteName }}{% else %}Résultats trouvés{% endif %}{% endblock %}
+{% block title %}{% if category is defined %}Catégorie {{ category.translate(app.request.get('_locale')).getName() }} & l'univers de l'ameublement design - {{ siteName }}{% else %}Résultats trouvés{% endif %}{% endblock %}
 
 {% block description %}
-  {% if category is defined %}Retrouvez notre collection de Catégorie {{ category.name }} d'exception, design ou unique sur le site {{ siteName }}. Achat Vente de mobilier et objets de décoration pour la maison.{% endif %}
+  {% if category is defined %}Retrouvez notre collection de Catégorie {{ category.translate(app.request.get('_locale')).getName() }} d'exception, design ou unique sur le site {{ siteName }}. Achat Vente de mobilier et objets de décoration pour la maison.{% endif %}
 {% endblock %}
 
 {% block javascript_include %}{{ jsinit(['search']) }}{% endblock javascript_include %}
@@ -28,13 +28,13 @@
                   <li>
                   <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a href="{{ path('category', {path: element.getPath()}) }}" itemprop="url">
-                      <span itemprop="title">{{ element.name }}</span>
+                      <span itemprop="title">{{ element.translate(app.request.get('_locale')).getName() }}</span>
                     </a>
                   </span>
                     <span class="separator">/</span>
                   </li>
                 {% endfor %}
-                <li><strong>{{ category.name }}</strong></li>
+                <li><strong>{{ category.translate(app.request.get('_locale')).getName() }}</strong></li>
               </ul>
             </div>
           </div>
@@ -88,7 +88,7 @@
                     <ul>
                       {% for subCat in children %}
                         <li>
-                          <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.name }}</a>
+                          <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.translate(app.request.get('_locale')).getName() }}</a>
                         </li>
                       {% endfor %}
                     </ul>
@@ -103,7 +103,7 @@
                   <ul>
                     {% for subCat in children %}
                       <li>
-                        <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.name }}</a>
+                        <a href="{{ path('category', {path: subCat.getPath()}) }}" {% if category.id == subCat.id %}class="active"{% endif %}><i class="fa fa-angle-right"></i> {{ subCat.translate(app.request.get('_locale')).getName() }}</a>
                       </li>
                     {% endfor %}
                   </ul>
@@ -142,7 +142,7 @@
           <div class="col-md-9">
             <div class="col-main">
               {% if category is defined %}
-                <h1>{{ category.name }}</h1>
+                <h1>{{ category.translate(app.request.get('_locale')).getName() }}</h1>
               {% endif %}
 
               <div class="category-products">

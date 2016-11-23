@@ -9,6 +9,7 @@
 namespace Admin2Bundle\Form;
 
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Doctrine\ORM\EntityRepository;
 use ProductBundle\Entity\Category;
 use ProductBundle\Form\CategoryImageType;
@@ -29,7 +30,9 @@ class CreateCategoryForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add("name", TextType::class, ['label' => "Nom", 'required' => true])
+            ->add("translations", TranslationsType::class, [
+                'exclude_fields' => ['slug']
+            ])
             ->add(
                 "parent",
                 EntityType::class,

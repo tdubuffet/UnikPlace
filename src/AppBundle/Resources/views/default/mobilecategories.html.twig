@@ -16,21 +16,21 @@
 {% for idx, category in categories %}
   <li class="level0 nav-{{ idx }} level-top parent">
     <a href="{{ path('category', {path: category.getPath()}) }}" class="level-top">
-      <span>{{ category.GetName }}</span>
+      <span>{{ category.translate(app.request.get('_locale')).getName() }}</span>
     </a>
     {% if category.getChildren()|length > 0 %}
       <ul class="level0">
         {% for childCategory in category.getChildren() %}
           <li class="level1 item">
             <a href="{{ path('category', {path: childCategory.getPath()}) }}">
-              <span>{{ childCategory.getName }}</span>
+              <span>{{ childCategory.translate(app.request.get('_locale')).getName() }}</span>
             </a>
             {% if childCategory.getChildren()|length > 0 %}
               <ul class="level1">
                 {% for subChildCategory in childCategory.getChildren() %}
                   <li class="level2">
                     <a href="{{ path('category', {path: subChildCategory.getPath()}) }}">
-                      <span>{{ subChildCategory.getName }}</span>
+                      <span>{{ subChildCategory.translate(app.request.get('_locale')).getName() }}</span>
                     </a>
                   </li>
                 {% endfor %}
