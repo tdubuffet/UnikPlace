@@ -5,6 +5,7 @@ namespace ProductBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Category
@@ -97,6 +98,15 @@ class Category
         return [ 'name' ];
     }
 
+    public function getName()
+    {
+
+        $session = new Session();
+        $locale = $session->get('_locale');
+
+        return $this->translate($locale, 'Trans: Error')->getName();
+    }
+
     /**
      * Add child
      *
@@ -162,10 +172,13 @@ class Category
      */
     public function getPath()
     {
+        $session = new Session();
+        $locale = $session->get('_locale');
+
         $slugs = array();
         $category = $this;
         while (isset($category)) {
-            $slugs[] = $category->getSlug();
+            $slugs[] = $category->translate($locale)->getSlug();
             $category = $category->getParent();
         }
         return implode('/', array_reverse($slugs));

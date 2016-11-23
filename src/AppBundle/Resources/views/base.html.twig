@@ -548,8 +548,26 @@ filter='uglifyjs2' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 
-{% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
 <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script>
+    $(function () {
+        // change name of initial method
+        Routing.generateImpl = Routing.generate;
+        // override generate fonction by adding a default _locale from request locale
+        Routing.generate = function (url, params) {
+            var paramsExt = {};
+            if (params) {
+                paramsExt = params;
+            }
+            if (!paramsExt._locale) {
+                paramsExt._locale = '{{ app.request.locale }}';
+            }
+            return Routing.generateImpl(url, paramsExt);
+        }
+    })
+</script>
+{% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
+
 {% if app.environment == 'prod' %}
     <script type="text/javascript">CRISP_WEBSITE_ID = "{{ crispWebsiteId }}";
         (function () {
