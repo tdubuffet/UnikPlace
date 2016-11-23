@@ -14,6 +14,24 @@ class Translation
 
     public static function trans($text, $target)
     {
+        $result = Translation::doTranslate($text, $target);
+
+        if ($result) {
+
+            $values = json_decode($result, true);
+
+            if (isset($values['translationText'])) {
+                return $values['translationText'];
+            }
+
+            return null;
+        }
+
+        return null;
+    }
+
+    public static function doTranslate($text, $target)
+    {
         $uri = 'http://www.transltr.org/api/translate';
 
         $ch = curl_init($uri);
@@ -28,18 +46,7 @@ class Translation
         $result = curl_exec($ch);
         curl_close($ch);
 
-        if ($result) {
-
-            $values = json_decode($result, true);
-
-            if (isset($values['translationText'])) {
-                return $values['translationText'];
-            }
-
-            return null;
-        }
-
-        return null;
+        return $result;
     }
 
 }

@@ -219,9 +219,18 @@ class ProductSearchService
     {
         if (isset($params['cat']) && is_numeric($params['cat'])) {
             $category = $this->em->getRepository('ProductBundle:Category')->findOneById($params['cat']);
+
+            $catoriesId = [
+                $category->getId()
+            ];
+
+            foreach ($category->getChildren() as $cat) {
+                $catoriesId[] = $cat->getId();
+            }
+
             if (isset($category)) {
-                $fieldTerm = new \Elastica\Query\Term();
-                $fieldTerm->setTerm('category', $category->getPath());
+                $fieldTerm = new \Elastica\Query\Terms();
+                $fieldTerm->setTerms('category', $catoriesId);
                 $boolQuery->addMust($fieldTerm);
             }
         }

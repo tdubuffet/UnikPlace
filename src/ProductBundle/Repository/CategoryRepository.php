@@ -35,10 +35,11 @@ class CategoryRepository extends EntityRepository
      * @param $slug
      * @return array
      */
-    public function findBySlugCache($slug)
+    public function findBySlugCache($slug, $locale = 'fr')
     {
         return $this->createQueryBuilder('c')
-            ->where('c.slug = :slug')
+            ->innerJoin('c.translations', 't', 't.locale = "' . $locale . '"')
+            ->where('t.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()
             ->useResultCache(true, 3600, 'list_categories-_by_slug')
