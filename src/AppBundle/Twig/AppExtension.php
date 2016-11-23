@@ -13,11 +13,10 @@ class AppExtension extends \Twig_Extension
     private $generator;
     private $finder;
 
-    public function __construct(UrlGeneratorInterface $generator, $finder, $translator)
+    public function __construct(UrlGeneratorInterface $generator, $finder)
     {
         $this->generator            = $generator;
         $this->finder = $finder;
-        $this->translator = $translator;
     }
 
     public function getFilters()
