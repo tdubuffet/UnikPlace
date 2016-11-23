@@ -331,7 +331,8 @@
 
     <div class="alert alert-danger alert-dismissible alert-message-email text-center" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-        Vous avez effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année.<br/><a href="{{ path('user_account_wallet_kyc') }}">Confirmer mon identité bancaire</a>
+        {{ 'header.limited-user-alert'|trans }}<br/>
+        <a href="{{ path('user_account_wallet_kyc') }}">{{ 'header.limited-user-alert-link'|trans }}</a>
     </div>
 
 {% endif %}
@@ -340,7 +341,8 @@
 
     <div class="alert alert-warning alert-dismissible alert-message-email text-center" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-        Vous n'avez pas confirmé votre adresse email. Merci de vérifier vos mails et de valider votre compte.<br/><a href="{{ path('email_validation') }}">Me renvoyer le mail de confirmation</a>
+        {{ 'header.email-validated-alert'|trans }}<br/>
+        <a href="{{ path('email_validation') }}">{{ 'header.email-validated-alert-link'|trans }}</a>
     </div>
 
 {% endif %}
