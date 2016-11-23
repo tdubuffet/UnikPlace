@@ -55,7 +55,8 @@
         "symfony/assetic-bundle": "^2.8",
         "friendsofsymfony/comment-bundle": "dev-master",
         "a2lix/translation-form-bundle": "^2.1",
-        "kendrick/symfony-debug-toolbar-git": "^1.4"
+      "kendrick/symfony-debug-toolbar-git": "^1.4",
+      "eko/googletranslatebundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

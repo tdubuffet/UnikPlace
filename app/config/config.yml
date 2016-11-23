@@ -326,3 +326,6 @@ a2lix_translation_form:
     default_locale: fr             # [1-b]
     required_locales: [fr]         # [1-c]
     templating: "A2lixTranslationFormBundle::default.html.twig"      # [2]
+
+eko_google_translate:
+    api_key: AIzaSyAL1vLUAUrxtm8Rrbzh4bRPJwrjfCf7Ycw

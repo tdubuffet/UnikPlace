@@ -46,7 +46,7 @@ services:
         public: false
         tags:
             - { name: twig.extension }
-        arguments: ['@router', '@fos_elastica.finder.noname.product']
+        arguments: ['@router', '@fos_elastica.finder.noname.product', '@eko.google_translate.translator']
 
     fos_message.composer_product:
         class: MessageBundle\Composer\Composer

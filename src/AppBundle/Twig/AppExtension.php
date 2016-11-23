@@ -13,10 +13,18 @@ class AppExtension extends \Twig_Extension
     private $generator;
     private $finder;
 
-    public function __construct(UrlGeneratorInterface $generator, $finder)
+    public function __construct(UrlGeneratorInterface $generator, $finder, $translator)
     {
         $this->generator            = $generator;
         $this->finder = $finder;
+        $this->translator = $translator;
+    }
+
+    public function getFilters()
+    {
+        return array(
+            'translator' => new \Twig_Filter_Method($this, 'translator'),
+        );
     }
 
     public function getFunctions()
@@ -24,8 +32,18 @@ class AppExtension extends \Twig_Extension
         return array(
             'jsinit' => new \Twig_SimpleFunction('jsinit', array($this, 'jsInitFunction'), array('is_safe' => array('html'))),
             'loadpic' => new \Twig_SimpleFunction('loadpic', array($this, 'loadPicFunction'), array('is_safe' => array('html'))),
-            'redirectToRelative' => new \Twig_SimpleFunction('redirectToRelative', array($this, 'parseUrl'))
+            'redirectToRelative' => new \Twig_SimpleFunction('redirectToRelative', array(
+                $this,
+                'parseUrl'
+            )),
         );
+    }
+
+    public function translator($text)
+    {
+        $this->translator->translate($text, 'en');
+
+        return $text;
     }
 
     public function jsInitFunction($files = array())
