@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Product
 {
     use ORMBehaviors\Sluggable\Sluggable,
-        ORMBehaviors\Timestampable\Timestampable;
+        ORMBehaviors\Timestampable\Timestampable,
+        ORMBehaviors\Translatable\Translatable;
 
     /**
      * @var int
