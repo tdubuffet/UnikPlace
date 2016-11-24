@@ -1026,7 +1026,7 @@ class Product
     /**
      * @return string
      */
-    public function getCrawlRef(): string
+    public function getCrawlRef()
     {
         return $this->crawlRef;
     }
@@ -1034,7 +1034,7 @@ class Product
     /**
      * @param string $crawlRef
      */
-    public function setCrawlRef(string $crawlRef)
+    public function setCrawlRef($crawlRef)
     {
         $this->crawlRef = $crawlRef;
 
@@ -1044,7 +1044,7 @@ class Product
     /**
      * @return string
      */
-    public function getCrawlUqRef(): string
+    public function getCrawlUqRef()
     {
         return $this->crawlUqRef;
     }
@@ -1052,7 +1052,7 @@ class Product
     /**
      * @param string $crawlUqRef
      */
-    public function setCrawlUqRef(string $crawlUqRef)
+    public function setCrawlUqRef($crawlUqRef)
     {
         $this->crawlUqRef = $crawlUqRef;
 
