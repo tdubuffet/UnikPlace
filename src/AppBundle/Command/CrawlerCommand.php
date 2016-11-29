@@ -136,7 +136,7 @@ trait CrawlerCommand
                 ->findOneBy(['id' => $data['category']]);
         }
 
-        if (!$category) {
+        if (!isset($category) || (isset($category) && !$category)) {
             $category = $doctrine
                 ->getRepository('ProductBundle:Category')
                 ->findOneBy(['id' => 1]);
