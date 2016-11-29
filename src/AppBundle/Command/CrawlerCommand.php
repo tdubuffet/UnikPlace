@@ -81,7 +81,7 @@ trait CrawlerCommand
 
         $user = $doctrine->getRepository('UserBundle:User')->findOneBy(['username' => $this->username]);
 
-        if (!$user) {
+        if ($user == false) {
             return 'Utilisateur inconnu';
         }
 

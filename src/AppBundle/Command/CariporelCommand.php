@@ -220,7 +220,7 @@ class CariporelCommand extends ContainerAwareCommand
 
             $return = $this->saveProduct($product);
 
-            if ($return == true) {
+            if ($return === true) {
                 $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => OK');
                 $this->totalInsert++;
             } else {
