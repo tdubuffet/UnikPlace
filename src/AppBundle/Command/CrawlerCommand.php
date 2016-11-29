@@ -107,17 +107,17 @@ trait CrawlerCommand
         $product->setParcelType(0);
 
         if (isset($data['width'])) {
-            $product->setWidth($data['width']);
+            $product->setWidth($data['width'] / 100);
             $product->setParcelWidth($data['width']);
         }
 
         if (isset($data['length'])) {
-            $product->setLength($data['length']);
+            $product->setLength($data['length'] / 100);
             $product->setParcelLength($data['length']);
         }
 
         if (isset($data['height'])) {
-            $product->setHeight($data['height']);
+            $product->setHeight($data['height'] / 100);
             $product->setParcelHeight($data['height']);
         }
 
