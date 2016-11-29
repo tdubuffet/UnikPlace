@@ -130,8 +130,7 @@ var Signup = {
                     var countryCode = (resp && resp.country) ? resp.country : "";
                     callback(countryCode);
                 });
-            },
-            utilsScript: "/components/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
+            }
         });
 
         $("form").submit(function () {

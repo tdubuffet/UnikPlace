@@ -216,6 +216,20 @@ class Product
      */
     private $emc = false;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="crawl_ref", type="string", length=50, nullable=true)
+     */
+    private $crawlRef;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="crawl_uq_ref", type="string", length=255, nullable=true)
+     */
+    private $crawlUqRef;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
@@ -1009,5 +1023,39 @@ class Product
         return $this->getAddress()->getGeoLatitude() . ',' . $this->getAddress()->getGeoLongitude();
     }
 
+    /**
+     * @return string
+     */
+    public function getCrawlRef()
+    {
+        return $this->crawlRef;
+    }
 
+    /**
+     * @param string $crawlRef
+     */
+    public function setCrawlRef($crawlRef)
+    {
+        $this->crawlRef = $crawlRef;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCrawlUqRef()
+    {
+        return $this->crawlUqRef;
+    }
+
+    /**
+     * @param string $crawlUqRef
+     */
+    public function setCrawlUqRef($crawlUqRef)
+    {
+        $this->crawlUqRef = $crawlUqRef;
+
+        return $this;
+    }
 }

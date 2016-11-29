@@ -45,7 +45,7 @@ class Image
 
     /**
      * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
-     * @Assert\Image(maxSize="5M", mimeTypes={"image/jpeg", "image/jpg", "image/png", "image/gif"})
+     * @Assert\Image(maxSize="20M", mimeTypes={"image/jpeg", "image/jpg", "image/png", "image/gif"})
      * @var File
      */
     private $imageFile;
