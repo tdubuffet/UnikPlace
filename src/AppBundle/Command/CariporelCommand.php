@@ -157,7 +157,17 @@ class CariporelCommand extends ContainerAwareCommand
             $product['description'] = '';
         }
 
-        if ($crawler->filter('img[itemprop="image"]')->count() > 0) {
+        $product['crawlRef'] = $this->crawlRef;
+
+        $doctrine = $this->getContainer()->get('doctrine');
+
+        $p = $doctrine->getRepository('ProductBundle:Product')->findOneBy([
+            'crawlRef' => $this->crawlRef,
+            'crawlUqRef' => $product['sku'],
+        ]);
+
+
+        if ($crawler->filter('img[itemprop="image"]')->count() > 0 && !$p) {
             $crawler->filter('img[itemprop="image"]')->each(function (Crawler $node, $i) use (&$product) {
                 $product['images'][] = $this->uploadImage($node->attr('src'));
             });
@@ -200,15 +210,6 @@ class CariporelCommand extends ContainerAwareCommand
             });
         }
 
-
-        $product['crawlRef'] = $this->crawlRef;
-
-        $doctrine = $this->getContainer()->get('doctrine');
-
-        $p = $doctrine->getRepository('ProductBundle:Product')->findOneBy([
-            'crawlRef' => $this->crawlRef,
-            'crawlUqRef' => $product['sku'],
-        ]);
 
         $this->totalProduct++;
 

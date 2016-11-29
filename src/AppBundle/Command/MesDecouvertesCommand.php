@@ -123,11 +123,6 @@ class MesDecouvertesCommand extends ContainerAwareCommand
             $product['description'] = '';
         }
 
-        if ($crawler->filter('.thumbnail-image > a[itemprop="image"]')->count() > 0) {
-            $crawler->filter('.thumbnail-image > a[itemprop="image"]')->each(function (Crawler $node, $i) use (&$product) {
-                $product['images'][] = $this->uploadImage($node->attr('href'));
-            });
-        }
 
         $doctrine = $this->getContainer()->get('doctrine');
 
@@ -136,6 +131,14 @@ class MesDecouvertesCommand extends ContainerAwareCommand
             'crawlRef' => $this->crawlRef,
             'crawlUqRef' => $product['sku'],
         ]);
+
+
+        if ($crawler->filter('.thumbnail-image > a[itemprop="image"]')->count() > 0 && !$p) {
+            $crawler->filter('.thumbnail-image > a[itemprop="image"]')->each(function (Crawler $node, $i) use (&$product) {
+                $product['images'][] = $this->uploadImage($node->attr('href'));
+            });
+        }
+
 
 
         $this->totalProduct++;
