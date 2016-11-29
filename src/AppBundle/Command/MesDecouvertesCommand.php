@@ -7,16 +7,18 @@ use OrderBundle\Event\OrderEvent;
 use OrderBundle\Event\OrderEvents;
 use ProductBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\HttpFoundation\File\File;
 
-class MesDecouvertesCommand extends ContainerAwareCommand
+class MesDecouvertesCommand extends CrawlerCommand
 {
 
     private $url = 'http://mes-decouvertes.com/shop/';
+    protected $crawlRef = 'mes-decouvertes';
 
     /**
      * Configures the current command.
@@ -24,7 +26,8 @@ class MesDecouvertesCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName("crawl:decouvertes")
-            ->setDescription("Crawler de merde - Mes decouvertes");
+            ->setDescription("Crawler de merde - Mes decouvertes")
+            ->addArgument('username', InputArgument::REQUIRED, 'Quel est l\'utilisateur d\'import ?');
     }
 
     /**
@@ -37,6 +40,8 @@ class MesDecouvertesCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $username = $input->getArgument('username');
+        $this->setUsername($username, $output);
 
         $html = file_get_contents($this->url);
 
@@ -47,7 +52,7 @@ class MesDecouvertesCommand extends ContainerAwareCommand
             $catUrl = $node->filter('a')->first()->attr('href');
             $titre = $node->filter('a')->first()->text();
 
-            $output->writeln('Catégorie: ' . $titre . ' - ' . $catUrl . '');
+            $output->writeln('[' . $this->crawlRef . '] - Catégorie: ' . $titre . ' - ' . $catUrl . '');
 
             $this->findProductsCategory($catUrl, $output, $titre);
         });
@@ -66,7 +71,7 @@ class MesDecouvertesCommand extends ContainerAwareCommand
                 $product = $node->attr('href');
                 $titre = $node->text();
 
-                $output->writeln('[PRODUIT] - - ' . $titre);
+                $output->writeln('[' . $this->crawlRef . '][PRODUIT] - - ' . $titre);
 
                 $this->loadProduct($product, $categoryName, $output);
             });
@@ -92,7 +97,7 @@ class MesDecouvertesCommand extends ContainerAwareCommand
             $crawler->filter('span[itemprop="sku"]')->count() == 0 ||
             $crawler->filter('meta[itemprop="price"]')->count() == 0
         ) {
-            $output->writeln('[PRODUIT] - [' . $href . '] - IGNORE - INCOMPLETE');
+            $output->writeln('[' . $this->crawlRef . '][PRODUIT] - [' . $href . '] - IGNORE - INCOMPLETE');
             return null;
         }
 
@@ -117,124 +122,27 @@ class MesDecouvertesCommand extends ContainerAwareCommand
 
         $doctrine = $this->getContainer()->get('doctrine');
 
+        $product['crawlRef'] = $this->crawlRef;
         $p = $doctrine->getRepository('ProductBundle:Product')->findOneBy([
-            'crawlRef' => 'mes-decouvertes',
+            'crawlRef' => $this->crawlRef,
             'crawlUqRef' => $product['sku'],
         ]);
 
         if ($p) {
 
-            $output->writeln('[PRODUIT] - [' . $product['sku'] . '] - IGNORE - DOUBLON => ' . $product['title']);
+            $output->writeln('[' . $this->crawlRef . '][PRODUIT] - [' . $product['sku'] . '] - IGNORE - DOUBLON => ' . $product['title']);
             $this->saveProduct($product);
         } else {
-            $output->writeln('[PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title']);
-            $this->saveProduct($product);
-            $output->writeln('[PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => OK');
+            $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title']);
+
+            $return = $this->saveProduct($product);
+
+            if ($return == true) {
+                $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => OK');
+            } else {
+                $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => ' . $return);
+            }
         }
 
     }
-
-    public function uploadImage($href)
-    {
-
-        $pathinfo = pathinfo($href);
-
-        $image = new Image();
-        $image->setImage(md5($pathinfo['filename']) . '.' . $pathinfo['extension']);
-
-
-        $doctrine = $this->getContainer()->get('doctrine');
-        $doctrine->getManager()->persist($image);
-        $doctrine->getManager()->flush();
-
-        $tmpfname = __DIR__ . '/../../../web/images/products/' . $image->getImagePath();
-
-        if (!is_dir(dirname($tmpfname))) {
-            mkdir(dirname($tmpfname));
-        }
-
-        $img = file_get_contents($href);
-        file_put_contents($tmpfname, $img);
-
-        return $image;
-
-    }
-
-
-    public function saveProduct($data)
-    {
-
-        $doctrine = $this->getContainer()->get('doctrine');
-
-        $user = $doctrine->getRepository('UserBundle:User')->findOneBy(['username' => 'dubuffet.thibault@gmail.com']);
-
-        $product = new \ProductBundle\Entity\Product();
-        $product
-            ->setName($data['title'])
-            ->setDescription($data['description'])
-            ->setPrice($data['price'])
-            ->setAllowOffer(false)
-            ->setWeight(0)
-            ->setLength(0)
-            ->setWidth(0)
-            ->setQuantity(1)
-            ->setHeight(0)
-            ->setUser($user)
-            ->setCrawlRef('mes-decouvertes')
-            ->setCrawlUqRef($data['sku']);
-
-
-        $currency = $doctrine
-            ->getRepository('ProductBundle:Currency')
-            ->findOneBy(['code' => 'EUR']);
-        if ($currency) {
-            $product->setCurrency($currency);
-        }
-
-        $category = $doctrine
-            ->getRepository('ProductBundle:Category')
-            ->findOneBy(['id' => 1]);
-
-        if ($category) {
-            $product->setCategory($category);
-        }
-
-        $status = $doctrine
-            ->getRepository('ProductBundle:Status')
-            ->findOneBy(['name' => 'awaiting']);
-
-        if ($status) {
-            $product->setStatus($status);
-        }
-
-        $address = $doctrine
-            ->getRepository('LocationBundle:Address')
-            ->findOneBy(['user' => $user]);
-
-        if ($address) {
-            $product->setAddress($address);
-        }
-
-
-        $product->setParcelHeight(0);
-        $product->setParcelWidth(0);
-        $product->setParcelLength(0);
-        $product->setParcelType(0);
-
-        $doctrine->getManager()->persist($product);
-        $doctrine->getManager()->flush();
-
-        foreach ($data['images'] as $file) {
-
-            $file->setProduct($product);
-
-
-            $doctrine->getManager()->persist($file);
-            $doctrine->getManager()->flush();
-
-        }
-
-    }
-
-
 }
