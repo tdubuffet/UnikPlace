@@ -161,17 +161,22 @@ abstract class CrawlerCommand extends ContainerAwareCommand
             $product->setAddress($address);
         }
 
-        $doctrine->getManager()->persist($product);
-        $doctrine->getManager()->flush();
+        try {
 
-        foreach ($data['images'] as $file) {
-
-            $file->setProduct($product);
-
-
-            $doctrine->getManager()->persist($file);
+            $doctrine->getManager()->persist($product);
             $doctrine->getManager()->flush();
 
+            foreach ($data['images'] as $file) {
+
+                $file->setProduct($product);
+
+
+                $doctrine->getManager()->persist($file);
+                $doctrine->getManager()->flush();
+
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
 
         return true;
