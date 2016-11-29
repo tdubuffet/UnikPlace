@@ -13,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\HttpFoundation\File\File;
 
-abstract class CrawlerCommand extends ContainerAwareCommand
+trait CrawlerCommand
 {
 
 

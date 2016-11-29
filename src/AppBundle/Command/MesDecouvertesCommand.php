@@ -7,6 +7,7 @@ use OrderBundle\Event\OrderEvent;
 use OrderBundle\Event\OrderEvents;
 use ProductBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,8 +15,10 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\HttpFoundation\File\File;
 
-class MesDecouvertesCommand extends CrawlerCommand
+class MesDecouvertesCommand extends ContainerAwareCommand
 {
+
+    use CrawlerCommand;
 
     private $url = 'http://mes-decouvertes.com/shop/';
     protected $crawlRef = 'mes-decouvertes';
@@ -150,7 +153,7 @@ class MesDecouvertesCommand extends CrawlerCommand
                 $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => OK');
                 $this->totalInsert++;
             } else {
-                $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => ' . $return);
+                $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - ERROR - ' . $product['title'] . ' => ' . $return);
                 $this->totalError++;
             }
         }

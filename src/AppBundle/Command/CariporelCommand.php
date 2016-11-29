@@ -14,8 +14,10 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\HttpFoundation\File\File;
 
-class CariporelCommand extends CrawlerCommand
+class CariporelCommand extends ContainerAwareCommand
 {
+
+    use CrawlerCommand;
 
     protected $crawlRef = 'cariporel';
 
@@ -222,7 +224,7 @@ class CariporelCommand extends CrawlerCommand
                 $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => OK');
                 $this->totalInsert++;
             } else {
-                $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => ' . $return);
+                $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - ERROR - ' . $product['title'] . ' => ' . $return);
                 $this->totalError++;
             }
         }
