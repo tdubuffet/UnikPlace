@@ -73,8 +73,11 @@ class CariporelCommand extends CrawlerCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
-
         $this->setUsername($username, $output);
+
+        $output->writeln('-----------------------------------------------------------');
+        $output->writeln('-------------------------  START --------------------------');
+        $output->writeln('-----------------------------------------------------------');
 
         foreach ($this->urls as $key => $urls) {
 
@@ -91,6 +94,8 @@ class CariporelCommand extends CrawlerCommand
 
         }
 
+
+        $this->outMessage($output);
 
     }
 
@@ -203,8 +208,11 @@ class CariporelCommand extends CrawlerCommand
             'crawlUqRef' => $product['sku'],
         ]);
 
+        $this->totalProduct++;
+
         if ($p) {
             $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - IGNORE - DOUBLON => ' . $product['title']);
+            $this->totalIgnore++;
         } else {
             $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title']);
 
@@ -212,8 +220,10 @@ class CariporelCommand extends CrawlerCommand
 
             if ($return == true) {
                 $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => OK');
+                $this->totalInsert++;
             } else {
                 $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => ' . $return);
+                $this->totalError++;
             }
         }
 

@@ -17,12 +17,34 @@ abstract class CrawlerCommand extends ContainerAwareCommand
 {
 
 
+    public $totalProduct = 0;
+    public $totalInsert = 0;
+    public $totalIgnore = 0;
+    public $totalError = 0;
+    public $start = 0;
+
     private $username;
 
     public function setUsername($username, $output)
     {
+        $this->start = new \DateTime();
+
         $output->writeln('[' . $this->crawlRef . '][Import] - ' . $username);
 
+    }
+
+    public function outMessage($output)
+    {
+        $end = new \DateTime();
+        $output->writeln('Début ::: [' . $this->start->format('d/m/Y H:i:s') . ']');
+        $output->writeln('Fin ::: [' . $end->format('d/m/Y H:i:s') . ']');
+        $output->writeln('Total product ::: [' . $this->totalProduct . ']');
+        $output->writeln('Total product insert ::: [' . $this->totalInsert . ']');
+        $output->writeln('Total produit ignore ::: [' . $this->totalIgnore . ']');
+        $output->writeln('Total produit error ::: [' . $this->totalError . ']');
+        $output->writeln('-----------------------------------------------------------');
+        $output->writeln('--------------------------  END ---------------------------');
+        $output->writeln('-----------------------------------------------------------');
     }
 
     public function uploadImage($href)

@@ -43,6 +43,9 @@ class MesDecouvertesCommand extends CrawlerCommand
         $username = $input->getArgument('username');
         $this->setUsername($username, $output);
 
+        $output->writeln('-----------------------------------------------------------');
+        $output->writeln('-------------------------  START --------------------------');
+        $output->writeln('-----------------------------------------------------------');
         $html = file_get_contents($this->url);
 
 
@@ -56,6 +59,9 @@ class MesDecouvertesCommand extends CrawlerCommand
 
             $this->findProductsCategory($catUrl, $output, $titre);
         });
+
+
+        $this->outMessage($output);
 
     }
 
@@ -128,10 +134,13 @@ class MesDecouvertesCommand extends CrawlerCommand
             'crawlUqRef' => $product['sku'],
         ]);
 
+
+        $this->totalProduct++;
+
         if ($p) {
 
             $output->writeln('[' . $this->crawlRef . '][PRODUIT] - [' . $product['sku'] . '] - IGNORE - DOUBLON => ' . $product['title']);
-            $this->saveProduct($product);
+            $this->totalIgnore++;
         } else {
             $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title']);
 
@@ -139,8 +148,10 @@ class MesDecouvertesCommand extends CrawlerCommand
 
             if ($return == true) {
                 $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => OK');
+                $this->totalInsert++;
             } else {
                 $output->writeln('[' . $this->crawlRef . '] - [PRODUIT] - [' . $product['sku'] . '] - AJOUT - ' . $product['title'] . ' => ' . $return);
+                $this->totalError++;
             }
         }
 
