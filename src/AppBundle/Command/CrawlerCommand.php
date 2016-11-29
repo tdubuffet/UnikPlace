@@ -29,6 +29,7 @@ trait CrawlerCommand
     {
         $this->start = new \DateTime();
 
+        $this->username = $username;
         $output->writeln('[' . $this->crawlRef . '][Import] - ' . $username);
 
     }
