@@ -17,7 +17,7 @@
         <![endif]-->
         <table style="max-width: 100%;min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" class="mcnTextContentContainer" align="left" border="0" width="100%" cellpadding="0" cellspacing="0">
           <tbody><tr>
-            <td class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;" valign="top">Bonjour {{ product.user.firstname}}, <br />
+            <td class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;" valign="top">Bonjour {{ product.user.lastname }}, <br/>
               Un utilisateur est intéressé par votre annonce " <a href="{{ productUrl }}">{{ product.name }}</a>".<br>
               <br>
               Il vous propose de vous l'acheter pour&nbsp;
@@ -57,3 +57,6 @@
 </table>
 {% endblock %}
 
+{% block extra_footer_content %}
+  Toute l'équipe Unik Place vous souhaite une bonne journée.
+{% endblock %}

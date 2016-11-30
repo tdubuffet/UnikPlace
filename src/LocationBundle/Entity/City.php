@@ -39,15 +39,6 @@ class City
     private $zipcode;
 
     /**
-     * @var County $county
-     *
-     * @ORM\ManyToOne(targetEntity="LocationBundle\Entity\County", inversedBy="cities")
-     * @ORM\JoinColumn(name="county_id", referencedColumnName="id")
-     * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
-     */
-    private $county;
-
-    /**
      * Get id
      *
      * @return int

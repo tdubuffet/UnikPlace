@@ -2,6 +2,9 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
+    router.request_context.host: unik-place.com
+    router.request_context.scheme: https
+    router.request_context.base_url: /
     database_host:     127.0.0.1
     database_port:     ~
     database_name:     symfony
@@ -58,3 +61,22 @@ parameters:
 
     # Asset version
     assets_version: v000
+
+    emc:
+        mode: "test"
+        user: "tdubuffet"
+        pass: "Bonjour1"
+        key: "ow2gwhkv"
+        carriers:
+          - CHRPChronoInternationalClassic
+          - DHLEDomesticExpress
+          - DHLEEconomySelect
+          - DHLEExpressWorldwide
+          - FEDXInternationalEconomy
+          - FEDXInternationalPriorityCC
+          - UPSEExpressSaver
+          - UPSEStandard
+          - POFRColissimoAccess
+          - POFRColissimoExpert
+          - SODXExpressStandardInterColisMarch
+          - TNTEEconomyExpressInternational

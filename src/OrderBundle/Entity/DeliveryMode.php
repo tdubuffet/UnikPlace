@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="delivery_mode")
  * @ORM\Entity(repositoryClass="OrderBundle\Repository\DeliveryModeRepository")
- * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class DeliveryMode
 {
@@ -33,7 +32,7 @@ class DeliveryMode
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=55, unique=true)
+     * @ORM\Column(name="code", type="string", length=55, unique=false)
      */
     private $code;
 
@@ -51,6 +50,12 @@ class DeliveryMode
      */
     private $description;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc", type="boolean", nullable=true)
+     */
+    private $emc = false;
 
     /**
      * Get id
@@ -162,6 +167,22 @@ class DeliveryMode
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function isEmc()
+    {
+        return $this->emc;
+    }
+
+    /**
+     * @param string $emc
+     */
+    public function setEmc($emc)
+    {
+        $this->emc = $emc;
     }
 
 }

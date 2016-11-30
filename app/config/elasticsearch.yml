@@ -51,6 +51,7 @@ fos_elastica:
                             type: date
                         status:
                             type: string
+                        location: { type: geo_point}
                     persistence:
                         model_to_elastica_transformer:
                             service: product.elastica.transformer

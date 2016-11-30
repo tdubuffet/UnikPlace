@@ -11,9 +11,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use AppBundle\Service\MangoPayService;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
+use UserBundle\Service\AddressForm;
 
 class RegistrationListener implements EventSubscriberInterface
 {
@@ -21,11 +23,12 @@ class RegistrationListener implements EventSubscriberInterface
     private $em;
     private $router;
 
-    public function __construct(MangoPayService $mangopayService, EntityManager $em, Router $router)
+    public function __construct(MangoPayService $mangopayService, EntityManager $em, Router $router, AddressForm $af)
     {
         $this->mangopayService = $mangopayService;
         $this->em = $em;
         $this->router = $router;
+        $this->addressForm = $af;
     }
 
     public static function getSubscribedEvents()
@@ -64,6 +67,9 @@ class RegistrationListener implements EventSubscriberInterface
         $this->em->persist($user);
         $this->em->flush();
 
+        $session = new Session();
+        $session->getFlashBag()->clear();
+
 
     }
 
@@ -72,39 +78,63 @@ class RegistrationListener implements EventSubscriberInterface
         $user = $event->getForm()->getData();
 
         if ($user->getPro()) {
+            $street = $event->getRequest()->request->get('fos_user_registration_form');
 
-            $city = $this->em->getRepository('LocationBundle:City')->find(
-                $event->getRequest()->request->get('city_code')
-            );
+
+            $cityName = $street['locality'];
+            $cityZipCode = $street['postal_code'];
+
+            $city = $this->em
+                ->getRepository('LocationBundle:City')
+                ->findOneBy(['name' => $cityName, 'zipcode' => $cityZipCode]);
 
             if (!$city) {
-                throw new NotFoundHttpException();
+
+                $city = new City();
+                $city->setName($cityName);
+                $city->setZipcode($cityZipCode);
+
+                $this->em->persist($city);
+                $this->em->flush();
             }
 
-            $street = $event->getRequest()->request->get('fos_user_registration_form')['address']['street'];
-
             $address = new Address();
-            $address->setName($user->getCompanyName());
-            $address->setStreet($street);
+            $address->setFirstname($user->getFirstname());
+            $address->setLastname($user->getLastname());
+            $address->setStreet($street['street_number'] . ' ' . $street['route']. ' ' . $street['sublocality_level_1']);
             $address->setCity($city);
             $address->setUser($user);
 
-            $user->setCompanyAddress($street);
+            $address = $this->addressForm->formatedAddress($address);
+
+            $user->setCompanyAddress($street['street_number'] . ' ' . $street['route']. ' ' . $street['sublocality_level_1']);
             $user->setCompanyZipcode($city->getZipcode());
             $user->setCompanyCity($city->getName());
             $user->addAddress($address);
         }
 
+        if ($event->getRequest()->get('phone-full')) {
+            $user->setPhone($event->getRequest()->get('phone-full'));
+        }
 
-        $response = new RedirectResponse(
-            $this->router->generate('homepage')
-        );
+        if ($event->getRequest()->get('redirect', false) && $event->getRequest()->get('redirect')) {
+            $response = new RedirectResponse(
+                $event->getRequest()->get('redirect')
+            );
+        } else {
+            $response = new RedirectResponse(
+                $this->router->generate('homepage')
+            );
+        }
 
         if ($user->getPro()) {
             $response = new RedirectResponse(
                 $this->router->generate('sell_category')
             );
         }
+
+        $session = new Session();
+        $session->getFlashBag()->clear();
 
         $event->setResponse($response);
 

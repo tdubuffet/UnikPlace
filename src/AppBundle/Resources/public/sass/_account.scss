@@ -23,6 +23,57 @@ table.table-products{
 }
 
 .order{
+
+  .product-data{
+    margin-top: 30px;
+    ul{
+      span{
+        color: #d99f25;
+      }
+    }
+  }
+
+  .timeline-product{
+
+    .info{
+      position: absolute;
+      text-align: center;
+      width: 10%
+    }
+
+    .date-start-order{
+
+      text-align: left;
+    }
+
+    .date-confirmed-order{
+       left: 20%;
+    }
+
+
+    .date-send-order{
+      left: 45%;
+    }
+
+    .date-arrival-order{
+       left: 70%;
+    }
+
+    .date-end-order{
+      left: 90%;
+      text-align: right;
+    }
+
+    position: relative;
+    padding-bottom: 30px;
+    .progress{
+      margin-top: 20px;
+      .progress-bar{
+        background-color: #EBD570;
+      }
+    }
+
+  }
   .order-status{
     float: right;
     font-size: 0.6em;
@@ -44,6 +95,7 @@ table.table-products{
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 4px;
+    min-height: 180px;
   }
 
   .box-order-infos .order-infos-head {

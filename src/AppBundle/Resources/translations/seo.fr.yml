@@ -30,6 +30,20 @@ cart:
   title: "Mon panier"
   description: "Mon panier sur %siteName%"
 
+cart_delivery:
+  title: "Mon adresse - Mon panier"
+
+cart_delivery_emc:
+  title: "Mode de livraison - Mon panier"
+  description: "Mon panier sur %siteName%"
+
+cart_payment:
+  title: "Paiement - Mon panier"
+
+cart_confirmation:
+  title: "Confirmation de ma commande"
+
+
 sell_category:
   title: "Choix de la catégorie"
   description: "Dépôt d'annonce - Catégorie"

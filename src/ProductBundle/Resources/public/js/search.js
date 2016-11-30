@@ -2,6 +2,8 @@ var Search = {
 
     params: {},
     initialized: false,
+    latitude: false,
+    longitude: false,
 
     init: function() {
         Search.filterCollapsing();
@@ -35,7 +37,7 @@ var Search = {
                 $('.sidebar .block-layered-nav .block-content-filters').html(result);
                 Search.initPrice();
                 Search.initRange();
-                Search.initCounty();
+                Search.initLocation();
                 // Reinject values
                 Search.reinjectValuesInFilters();
                 // Bind events on these filters
@@ -66,36 +68,6 @@ var Search = {
             error: function(result) {
             }
         });
-    },
-
-    initCounty : function () {
-        $.ajax({
-            url: Routing.generate('ajax_search_county'),
-            type: 'GET',
-            data: [],
-            success: function(result) {
-                var select = $(".search-county");
-                result = result['counties'];
-                var options = "<option value=''>Toute la France</option>";
-                var county = Search.getUrlParameter('county');
-                $.each(result, function (key, value) {
-                    var selected = county == value['id'] ? "selected" : "";
-                    options+= "<option "+selected+" value='"+value['id']+"'>"+value['name']+"</option>";
-                });
-                select.html(options);
-                select = select.select2();
-
-                select.change(function() {
-                    Search.search();
-                });
-
-            },
-            error: function(result) {
-            }
-        });
-
-
-
     },
 
     reinjectValuesInFilters: function() {
@@ -134,6 +106,12 @@ var Search = {
                 }
             }
         });
+
+        var location = Search.getUrlParameter('location[dist]');
+        if (location) {
+            $('select[name="around-me"]>option[value="' + location + '"]').attr('selected', true);
+        }
+
     },
 
     initSortBy: function() {
@@ -178,6 +156,51 @@ var Search = {
         else if (direction == 'asc') {
             $($('.sort-direction').find('i')[0]).removeClass('fa-arrow-down').addClass('fa-arrow-up');
         }
+    },
+
+    initLocation: function() {
+        $('select[name="around-me"]').change(function(e) {
+            var val = $('select[name="around-me"]').val();
+
+            if (val != 0) {
+
+                if (Search.latitude != false && Search.longitude != false) {
+
+                    Search.params.location = {
+                        'lat': Search.latitude,
+                        'lng': Search.longitude,
+                        'dist': val,
+                    }
+
+                    Search.search('location');
+
+                } else {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+
+                            Search.latitude = position.coords.latitude;
+                            Search.longitude = position.coords.longitude;
+                            Search.distance = val;
+
+                            Search.params.location = {
+                                'lat': position.coords.latitude,
+                                'lng': position.coords.longitude,
+                                'dist': val,
+                            }
+
+                            Search.search('location');
+                        }
+                        , function () {
+                            $('select[name="around-me"]>option:eq(0)').attr('selected', true);
+                        }
+                    );
+                }
+            } else {
+                delete Search.params.location;
+                Search.search('location');
+            }
+
+        });
+
     },
 
     initPagination: function() {
@@ -275,7 +298,6 @@ var Search = {
 
         Search.params.cat = $('#search-category').val();
         Search.params.price = $('.search-price-from').val()+'-'+$('.search-price-to').val();
-        Search.params.county = $(".search-county").val();
         Search.params.user = $(".search-user").val();
 
         // Product attributes filters
@@ -328,7 +350,6 @@ var Search = {
                 }
             });
         });
-
 
         // multiselect2
         var multiselects2 = [];

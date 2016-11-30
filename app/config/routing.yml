@@ -24,6 +24,11 @@ comment:
     type:     annotation
     prefix:   /
 
+delivery:
+    resource: "@DeliveryBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 order:
     resource: "@OrderBundle/Controller/"
     type:     annotation

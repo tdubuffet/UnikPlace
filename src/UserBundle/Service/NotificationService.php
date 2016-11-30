@@ -27,7 +27,7 @@ class NotificationService
     }
 
 
-    public function createNotification(User $user, $code, $data)
+    public function createNotification(User $user, $code, $data = [])
     {
 
         if (!isset($this->notificationParams[$code])) {

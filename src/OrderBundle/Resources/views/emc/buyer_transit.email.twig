@@ -1,0 +1,18 @@
+{% block subject %}Informations de livraison{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        Bonjour {{ user.lastname }} !
+
+        Le colis concernant l'achat "{{ product.name }}" est actuellement en transit chez le transporteur.<br />
+        Vous pouvez suivre votre colis sur la page de commande: {{ orderUrl }}
+
+
+        A bientôt,
+        Toute l'équipe Unik Place vous souhaite une bonne journée.
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% include 'OrderBundle:emc:buyer_transit.html.twig' %}
+{% endblock %}

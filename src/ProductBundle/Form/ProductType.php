@@ -5,6 +5,7 @@ namespace ProductBundle\Form;
 use LocationBundle\Form\AddressAdminType;
 use LocationBundle\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -33,16 +34,37 @@ class ProductType extends AbstractType
             ->add('category', null, ['label' => 'Catégorie'])
             ->add('currency', null, ['label' => 'Devise'])
             ->add('status', null, ['label' => 'Statut'])
-            ->add('customDeliveryFee', NumberType::class, ['label' => 'Mes frais de port en France métropolitaine',
-                                                           'mapped' => false,
-                                                           'required' => false,
-                                                           'data' => $this->getCustomDeliveryFee($builder->getData())])
-            ->add('byHandDelivery', CheckboxType::class, ['label' => 'J\'accepte la remise en main propre',
-                                                          'mapped' => false,
-                                                          'required' => false,
-                                                          'data' => $this->isByHandDeliveryEnabled($builder->getData())])
-            ->add('address', AddressAdminType::class, ['label' => 'Adresse'])
-        ;
+            ->add('quantity', null, ['label' => 'Quantité'])
+            ->add('parcelHeight', null, ['label' => 'Hauteur du colis en cm'])
+            ->add('parcelLength', null, ['label' => 'Longueur du colis en cm'])
+            ->add('parcelWidth', null, ['label' => 'Largeur du colis en cm'])
+            ->add('parcelType', ChoiceType::class, [
+                'label' => 'Type de colis',
+                'choices' => [
+                    'Colis' => 'box',
+                    'Encombrant' => 'bulky',
+                    'Palette' => 'pallet',
+                ]
+            ])
+            ->add('customDeliveryFee', NumberType::class, [
+                'label' => 'Mes frais de port en France métropolitaine',
+                'mapped' => false,
+                'required' => false,
+                'data' => $this->getCustomDeliveryFee($builder->getData())
+            ])
+            ->add('byHandDelivery', CheckboxType::class, [
+                'label' => 'J\'accepte la remise en main propre',
+                'mapped' => false,
+                'required' => false,
+                'data' => $this->isByHandDeliveryEnabled($builder->getData())
+            ])
+            ->add('emc', CheckboxType::class, [
+                'label' => 'Le service livraison Unik Place',
+                'mapped' => true,
+                'required' => false,
+                'disabled' => true
+            ])
+            ->add('address', AddressAdminType::class, ['label' => 'Adresse']);
 
         // Transform weight in grams / kilograms
         $builder->get('weight')
@@ -94,7 +116,8 @@ class ProductType extends AbstractType
         return null;
     }
 
-    private function isByHandDeliveryEnabled($product) {
+    private function isByHandDeliveryEnabled($product)
+    {
         $code = 'by_hand';
         $deliveries = $product->getDeliveries();
         if (isset($deliveries)) {

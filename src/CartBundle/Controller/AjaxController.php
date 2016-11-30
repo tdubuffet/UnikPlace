@@ -49,10 +49,13 @@ class AjaxController extends Controller
         }
 
         $session = new Session();
-        $cart = $session->get('cart', array());
+        $cart = $session->get('cart', []);
+        $cartQuantity = $session->get('cart_quantity', []);
         if ($action == 'add' && !in_array($product->getId(), $cart)) {
             $cart[] = $product->getId();
+            $cartQuantity[$product->getId()] = 1;
             $session->set('cart', $cart);
+            $session->set('cart_quantity', $cartQuantity);
 
             return new JsonResponse(array('message' => 'Product added in cart.'), 201);
         }
@@ -80,11 +83,60 @@ class AjaxController extends Controller
             $offer = $this->getDoctrine()->getRepository("OrderBundle:OrderProposal")
                 ->findOneBy(['product' => $product, 'status' => 2]);
             $price = $offer ? $offer->getAmount() : $product->getPrice();
+
+
+
+            $cartQuantity = $this->get('session')->get('cart_quantity', []);
+
             $productsTotalPrice += $this->get('lexik_currency.converter')
-                ->convert($price, $currency, true, $product->getCurrency()->getCode());
+                ->convert(($price * $cartQuantity[$product->getId()]), $currency, true, $product->getCurrency()->getCode());
         }
         $service = $this->get('lexik_currency.formatter');
 
         return ['formated' => $service->format($productsTotalPrice, $currency), 'price' => $productsTotalPrice];
+    }
+
+    /**
+     * @Route("/product/cart/quantity/{id}/{action}", name="product_cart_quantity", options={"expose"=true})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function quantityAction(Request $request, Product $product, $action = 'add')
+    {
+        $cart = $this->get('session')->get('cart', []);
+        $cartQuantity = $this->get('session')->get('cart_quantity', []);
+
+        if (!in_array($product->getId(), $cart) || !isset($cartQuantity[$product->getId()])) {
+            return new JsonResponse(array('message' => 'Product added in cart.'), 201);
+        }
+
+        if ($action == 'add') {
+            $quantity = $cartQuantity[$product->getId()];
+            if ($quantity < $product->getQuantity()) {
+                $cartQuantity[$product->getId()]++;
+            } else {
+                $this->get('session')->set('cart_quantity', $cartQuantity);
+                return new JsonResponse([
+                    'status' => 'NOK',
+                    'message' => 'Vous avez atteint la quantité maximum pour ce produit.',
+                    'quantity' => $cartQuantity[$product->getId()],
+                    'prices' => $this->getCartPrices()
+                ]);
+            }
+        }
+
+        if ($action == 'remove') {
+            if ($cartQuantity[$product->getId()] > 1) {
+                $cartQuantity[$product->getId()]--;
+            }
+        }
+
+        $this->get('session')->set('cart_quantity', $cartQuantity);
+
+        return new JsonResponse([
+            'status' => 'OK',
+            'quantity' => $cartQuantity[$product->getId()],
+            'prices' => $this->getCartPrices()
+        ]);
     }
 }

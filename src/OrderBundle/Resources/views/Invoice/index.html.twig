@@ -136,11 +136,12 @@
             </td>
 
             <td>
-              {{ order.product.address.name }}<br />
+              {{ order.product.address.firstname }} {{ order.product.address.lastname }}<br />
               {{ order.product.address.street }}<br />
               {% if order.product.address.additional is not empty  %}{{ order.product.address.additional }}<br />{% endif %}
               {{ order.product.address.city.zipcode }}
               {{ order.product.address.city.name }}
+              {{ order.product.address.country.name }}
             </td>
           </tr>
         </table>

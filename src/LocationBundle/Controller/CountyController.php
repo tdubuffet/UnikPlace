@@ -22,20 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 class CountyController extends Controller
 {
     /**
-     * @Route("/ajax/search/county", name="ajax_search_county", options={"expose"=true})
-     * @Method({"GET"})
-     */
-    public function countyListAction()
-    {
-        $list = $this->getDoctrine()->getRepository("LocationBundle:County")->findAllToArray();
-        if (!$list) {
-            return new JsonResponse(['message' => 'an error occured'], 500);
-        }
-
-        return new JsonResponse(['counties' => $list]);
-    }
-
-    /**
      * @Route("/ajax/search/city", name="ajax_search_city", options={"expose"=true})
      * @Method({"POST"})
      * @param Request $request
@@ -43,6 +29,9 @@ class CountyController extends Controller
      */
     public function searchCities(Request $request)
     {
+
+        $results = [];
+
         if ($request->request->has('q') && strlen($request->request->get('q')) >= 3) {
             $query = $request->request->get("q");
 
@@ -54,7 +43,6 @@ class CountyController extends Controller
                 ->getQuery()
                 ->getResult();
 
-            $results = [];
             foreach ($cities as $city) {
                 $results[] = ['id' =>$city->getId(),
                               'name' => $city->getName(),

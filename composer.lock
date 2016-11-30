@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4f362106ea3da3dddc8f96eb12db8fdc",
-    "content-hash": "b96d0136e4fe45353b446cc64f07bc23",
+    "hash": "77764c57ae0e8e9e0405c53221a640c5",
+    "content-hash": "292f20632c278ee3d9a395ebad692803",
     "packages": [
         {
             "name": "avanzu/admin-theme-bundle",
@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avanzu/AdminThemeBundle/zipball/4349e5edcec85404280434975670c6660c38e310",
+                "url": "https://api.github.com/repos/avanzu/AdminThemeBundle/zipball/84673fbb4bc7329864631fedce137ccf64eb321a",
                 "reference": "4349e5edcec85404280434975670c6660c38e310",
                 "shasum": ""
             },
@@ -951,7 +951,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/fac57751ac1f058487cf9d834cfb321516f1a02d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/909508a550b5dab0277af5db9797f7d59c64501d",
                 "reference": "d9153ad364a29fd873124f2256e9bff875edb2b8",
                 "shasum": ""
             },
@@ -1241,7 +1241,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/4cb7a29869e4a9bef4f51986d48b1a3af76d3f48",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/4ea37a5f7ef423b03b0619fc7cbe0d1ae436edff",
                 "reference": "147ca6888712365e5ad3b7906f7b6e8654da2f48",
                 "shasum": ""
             },
@@ -1371,7 +1371,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/0c7abffa1cf47a8e33733837b94495b629a424c1",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/429ae3fe1641a54ea0934bb06dac355affc41f8d",
                 "reference": "4f531b3643a4ab038dd1e84b4b13f34db804cddb",
                 "shasum": ""
             },
@@ -1965,6 +1965,52 @@
                 "version"
             ],
             "time": "2016-06-13 09:33:51"
+        },
+        {
+            "name": "kendrick/symfony-debug-toolbar-git",
+            "version": "1.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kendrick-k/symfony-debug-toolbar-git.git",
+                "reference": "54c5f7e7d625be821ded152c718ee9feac498351"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kendrick-k/symfony-debug-toolbar-git/zipball/54c5f7e7d625be821ded152c718ee9feac498351",
+                "reference": "54c5f7e7d625be821ded152c718ee9feac498351",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": ">=2.3",
+                "symfony/twig-bundle": ">=2.0",
+                "twig/twig": ">=1.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.5.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Kendrick\\SymfonyDebugToolbarGit\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kendrick"
+                }
+            ],
+            "description": "Git information into Symfony Debug Toolbar",
+            "homepage": "https://github.com/kendrick-k/symfony-debug-toolbar-git",
+            "keywords": [
+                "debug",
+                "git",
+                "symfony"
+            ],
+            "time": "2016-10-24 10:21:19"
         },
         {
             "name": "kms/froala-editor-bundle",

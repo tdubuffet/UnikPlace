@@ -29,7 +29,6 @@ var Deposit = {
         Deposit.loadPriceStep();
 
         Deposit.loadShippingValidation();
-        Deposit.saveShippingForm();
     },
 
     loadSubCategories: function () {
@@ -255,6 +254,23 @@ var Deposit = {
                 minlength: 20,
                 maxlength: 2000,
             },
+            "weight": {
+                required: true,
+                number: true,
+                min: 0.01
+            },
+            "length": {
+                required: true,
+                number: true,
+            },
+            "width": {
+                required: true,
+                number: true,
+            },
+            "height": {
+                required: true,
+                number: true,
+            },
         };
 
         $('.attribute-field').each(function(k, v) {
@@ -363,100 +379,141 @@ var Deposit = {
 
     loadShippingValidation: function () {
 
+
+
         $("#shipping-form").validate({
-            rules: {
-                "weight": {
-                    required: true,
-                    number: true,
-                    min: 0.01
-                },
-                "length": {
-                    required: true,
-                    number: true,
-                },
-                "width": {
-                    required: true,
-                    number: true,
-                },
-                "height": {
-                    required: true,
-                    number: true,
-                },
-                "shipping_fees": {
-                    number: true,
-
-                }
-            },
-            messages: {
-
-                "shipping_fees": {
-                    required: "Votre colis ne peut être pris en charge par Colissimo compte tenu de son poids et dimensions. Vous avez la possibilité de choisir votre propre transporteur et de renseigner son tarif de livraison."
-                }
-            }
-        });
-
-
-        $('#product-length, #product-width, #product-height, #product-weight').blur(function() {
-
-            var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
-
-            if ($('#product-weight').val() >= 30 || dim >= 150) {
-                $('input[name="shipping_fees"]').rules("add", "required");
-            } else {
-                $('input[name="shipping_fees"]').rules("remove", "required");
-            }
-        });
-
-        $("#add-address-form").validate({
-            rules: {
-                "name": {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 100,
-                },
-                "street": {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 250,
-                },
-                "city": {
-                    required: true,
-                },
-                "phone": {
-                    required: true,
-                    minlength: 10,
-                    maxlength: 20,
-                }
-            },
             errorPlacement: function(error, element) {
-                if(element.hasClass('select-select2')) {
-                    error.insertAfter(".select2-container");
+
+                if (typeof element[0] != 'undefined' && element[0].name == 'deliveryMode[]') {
+                    $('.error-delivery').append(error);
                 } else {
                     error.insertAfter(element);
                 }
             },
-            highlight: function(element, errorClass) {
-                if ($(element).hasClass('select-select2')) {
-                    $('.select2').addClass(errorClass);
-                } else {
-                    $(element).addClass(errorClass);
-                }
+            rules: {
+                "shipping_fees": {
+                    number: true,
+                },
+                "deliveryMode[]": {
+                    required: true,
+                    minlength: 1
+                },
+                "parcel_length": {
+                    required: true,
+                    number: true,
+                },
+                "parcel_width": {
+                    required: true,
+                    number: true,
+                },
+                "parcel_height": {
+                    required: true,
+                    number: true,
+                },
+                "parcel_type": {
+                    required: true
+                },
             },
-            unhighlight: function(element, errorClass) {
-                if ($(element).hasClass('select-select2')) {
-                    $('.select2').removeClass(errorClass);
-                } else {
-                    $(element).removeClass(errorClass);
-                }
+            messages: {
+
+                "shipping_fees": {
+                    required: function () {
+                        var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+                        if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
+                            return "Les dimensions et/ou le poids de votre produit ne nous permettent pas de proposer notre solution de livraison  sur l'ensemble du territoire. Merci donc de renseigner les frais du transporteur que vous choisirez et avec qui vous traiterez directement l'expédition et la livraison du produit. Les frais seront toujours refacturés à l'acheteur.";
+                        }
+                        return "Vous avez choisi d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison.";
+                    }
+                },
+                "deliveryMode[]": "Vous devez sélectionner au moins un mode de livraison."
             }
+        });
+
+
+        Deposit.onChangeDeliveryCustomSellerRadio();
+
+        $('#product-length, #product-width, #product-height, input[name="parcel_type"]').blur(function() {
+            Deposit.onChangeDeliveryCustomSellerRadio();
+        });
+
+        $('input[name="parcel_type"]').change(function(){
+            Deposit.onChangeDeliveryCustomSellerRadio();
+        });
+
+
+        $('#delivery_custom_seller').click(function() {
+            Deposit.onChangeDeliveryCustomSeller();
+        });
+
+        $('#delivery_unik, #delivery_by_hand, #delivery_custom_seller').change(function () {
+            Deposit.onChangeDelivery();
         });
     },
 
-    saveShippingForm: function() {
-        $('#addAddressModal').on('shown.bs.modal', function() {
-            // Save previous entered data in shipping form when an address is added
-            $('#shipping-form-data').val($("#shipping-form").serialize());
-        })
+    onChangeDelivery: function () {
+
+        if ($('#delivery_by_hand').is(":checked")) {
+            $('#delivery_by_hand_hidden').prop('disabled', false);
+        } else {
+            $('#delivery_by_hand_hidden').prop('disabled', true);
+        }
+
+        if ($('#delivery_custom_seller').is(":checked")) {
+            $('#delivery_custom_seller_hidden').prop('disabled', false);
+        } else {
+            $('#delivery_custom_seller_hidden').prop('disabled', true);
+        }
+
+        if ($('#delivery_unik').is(":checked")) {
+            $('#delivery_unik_hidden').prop('disabled', false);
+        } else {
+            $('#delivery_unik_hidden').prop('disabled', true);
+        }
+
+    },
+
+    onChangeDeliveryCustomSellerRadio: function() {
+        var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+        if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
+            $('#delivery_custom_seller').prop("checked", true);
+            $('#delivery_custom_seller').prop("disabled", true);
+            Deposit.onChangeDeliveryCustomSeller();
+        } else {
+            $('#delivery_custom_seller').prop("checked", false);
+            $('#delivery_custom_seller').prop("disabled", false);
+            Deposit.onChangeDeliveryCustomSeller();
+        }
+
+        Deposit.onChangeDelivery();
+    },
+
+    onChangeDeliveryCustomSellerRadio: function() {
+        var dim = parseFloat($('#product-height').val()) + parseFloat($('#product-length').val()) + parseFloat($('#product-width').val());
+
+        if ($('input[name="parcel_type"]:checked').val() != 'box' || dim >= 200) {
+            $('#delivery_custom_seller').prop("checked", true);
+            $('#delivery_custom_seller').prop("disabled", true);
+            Deposit.onChangeDeliveryCustomSeller();
+        } else {
+            $('#delivery_custom_seller').prop("checked", false);
+            $('#delivery_custom_seller').prop("disabled", false);
+            Deposit.onChangeDeliveryCustomSeller();
+        }
+    },
+
+    onChangeDeliveryCustomSeller: function() {
+        if ($('#delivery_custom_seller').is(":checked")) {
+            $('#shipping_fees').rules("add", "required");
+            $('.input-delivery-shipping-fees').show();
+        } else {
+            $('#shipping_fees').rules("remove", "required");
+            $('.input-delivery-shipping-fees').hide();
+        }
+
+
+        Deposit.onChangeDelivery();
     }
 
 };

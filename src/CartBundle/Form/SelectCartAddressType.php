@@ -8,27 +8,29 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class selectCartAddressType extends AbstractType
+class SelectCartAddressType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = [];
         foreach ($options['addresses'] as $address) {
-            $choices[$address->getName().' - '.$address->getStreet().' '.$address->getCity()->getZipcode().' '.$address->getCity()->getName()] = $address->getId();
+            $choices[(string) $address] = $address->getId();
         }
 
         $builder
-            ->add('delivery_address', ChoiceType::class,
-                      array(
-                          'label' => 'Adresse de livraison',
-                          'choices' => $choices,
-                      )
+        ->add('delivery_address', ChoiceType::class,
+              array(
+                  'label' => 'Adresse de livraison',
+                  'choices' => $choices
+              )
         )->add('billing_address', ChoiceType::class,
                array(
                    'label' => 'Adresse de facturation',
-                   'choices' => $choices,
+                   'choices' => $choices
                )
-        )->add('save', SubmitType::class, ['label' => 'Enregistrer et passer à l\'étape suivante']);
+        )->add('save', SubmitType::class, [
+                'label' => 'Enregistrer et passer à l\'étape suivante'
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

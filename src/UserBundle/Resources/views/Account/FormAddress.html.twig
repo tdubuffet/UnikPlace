@@ -1,0 +1,50 @@
+<style>
+    .pac-container {
+        background-color: #FFF;
+        z-index: 20;
+        position: fixed;
+        display: inline-block;
+        float: left;
+    }
+    .modal{
+        z-index: 20;
+    }
+    .modal-backdrop{
+        z-index: 10;
+    }
+</style>
+
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addAddressModalTitle">Ajouter une adresse à mon compte</h4>
+            </div>
+            {{ form_start(addAddressForm, {'attr': {'id': 'add-address-form'}}) }}
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(addAddressForm.civility) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(addAddressForm.firstname) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(addAddressForm.lastname) }}
+                    </div>
+                </div>
+                {{ form_row(addAddressForm.street) }}
+                {{ form_row(addAddressForm.additional) }}
+            </div>
+            <div class="modal-footer">
+                {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+            {{ form_rest(addAddressForm) }}
+            {{ form_end(addAddressForm) }}
+
+
+        </div>
+    </div>
+</div>

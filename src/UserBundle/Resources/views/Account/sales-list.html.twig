@@ -27,7 +27,7 @@
         <tr>
           <td>
             {% set images = order.product.getImages() %}
-            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 50, 50) }}{% endif %}"
+            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 50, 50, 'r3') }}{% endif %}"
                  alt="{{ order.product.name }}"/>
           </td>
           <td class="title">
@@ -57,6 +57,10 @@
             {% endif %}
             {% if order.status == 'error' %}
               <span class="label label-danger">Erreur</span>
+            {% endif %}
+
+            {% if order.status == 'limit' %}
+              <span class="label label-danger">En attente validation bancaire</span>
             {% endif %}
           </td>
           <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>

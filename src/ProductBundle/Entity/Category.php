@@ -71,6 +71,13 @@ class Category
      */
     private $products;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_code", type="string", length=255, nullable=true)
+     */
+    private $emcCode;
+
 
     public function __construct() {
         $this->children = new ArrayCollection();
@@ -334,5 +341,22 @@ class Category
     {
         return $this->products;
     }
+
+    /**
+     * @return string
+     */
+    public function getEmcCode()
+    {
+        return $this->emcCode;
+    }
+
+    /**
+     * @param string $emcCode
+     */
+    public function setEmcCode($emcCode)
+    {
+        $this->emcCode = $emcCode;
+    }
+
 
 }

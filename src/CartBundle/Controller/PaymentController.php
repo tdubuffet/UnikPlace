@@ -2,6 +2,10 @@
 
 namespace CartBundle\Controller;
 
+use MangoPay\Libraries\Exception;
+use OrderBundle\Entity\DeliveryMode;
+use OrderBundle\Event\OrderEvents;
+use OrderBundle\Event\UserEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -39,8 +43,12 @@ class PaymentController extends Controller
         $productsTotalPrice     = 0; // in EUR
         $deliveryFee            = 0; // in EUR
 
-        $cartDelivery = $session->get('cart_delivery');
-        $cartAddresses = $session->get('cart_addresses');
+        $cartDelivery   = $session->get('cart_delivery');
+        $cartQuantity   = $session->get('cart_quantity');
+        $deliveries     = $session->get('cart_delivery_emc');
+        $selectedDeliveryEmc = [];
+        $selectStandardDeliveries = [];
+        $cartAddresses  = $session->get('cart_addresses');
         $cartDeliveryFinal = [];
 
         foreach ($cart as $productId) {
@@ -62,29 +70,93 @@ class PaymentController extends Controller
             }
 
             $products[] = $product;
+            $quantity = $cartQuantity[$product->getId()];
             $productsTotalPrice += $this->get('lexik_currency.converter')->convert(
-                $product->getPrice(),
+                ($product->getPrice() * $quantity),
                 'EUR',
                 true,
                 $product->getCurrency()->getCode()
             );
 
             if (!isset($cartDelivery[$productId])) {
+                $this->get('session')->getFlashBag()->add('notice', 'Aucune livraison selectionnée pour le produit ' . $product->getName() . '.');
+                return $this->redirectToRoute('cart_delivery_emc');
+
                 throw new \Exception('Not found delivery type');
             }
+
+            $standardDeliveries = [];
+            foreach ($product->getDeliveries() as $d) {
+                $standardDeliveries[$d->getDeliveryMode()->getCode()] = $d;
+            }
+
+
+
+            if (isset($deliveries[$product->getId()])) {
+
+                if (isset($deliveries[$product->getId()][$cartDelivery[$product->getId()]])){
+                    $deliveryEmc = $deliveries[$product->getId()][$cartDelivery[$product->getId()]];
+                    $selectedDeliveryEmc[$product->getId()] = $deliveryEmc;
+
+                } elseif(isset($standardDeliveries[$cartDelivery[$product->getId()]])) {
+
+                    $selectStandardDeliveries[$product->getId()] = $standardDeliveries[$cartDelivery[$product->getId()]];
+
+                } else {
+                    throw new \Exception('Not valid delivery');
+                }
+
+            } else {
+                throw new \Exception('Not valid delivery');
+            }
+
             $deliveryModeCode = $cartDelivery[$product->getId()];
-            $deliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneBy(['code' => $deliveryModeCode]);
-            $cartDeliveryFinal[$product->getId()] = $deliveryMode->getName();
+            $deliveryMode                           = $this->getDoctrine()
+                ->getRepository('OrderBundle:DeliveryMode')
+                ->findOneBy([
+                    'code' => $deliveryModeCode
+                ]);
+
+            if (!$deliveryMode && isset($deliveryEmc)){
+
+
+                $deliveryMode = new DeliveryMode();
+                $deliveryMode->setEmc(true);
+                $deliveryMode->setCode($cartDelivery[$product->getId()]);
+                $deliveryMode->setName($deliveryEmc['operator']['label'] . ' - ' . $deliveryEmc['service']['label']);
+                $deliveryMode->setDescription($deliveryEmc['operator']['label'] . ' - ' . $deliveryEmc['service']['label']);
+
+                $deliveryMode->setType('parcel_carrier');
+
+                $this->getDoctrine()->getManager()->persist($deliveryMode);
+                $this->getDoctrine()->getManager()->flush();
+
+
+            }
+
+            $cartDeliveryFinal[$product->getId()]   = $deliveryMode;
+
             if (!isset($deliveryMode)) {
                 throw new \Exception('Delivery mode not found.');
             }
-            $delivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
-            $deliveryFee += $this->get('lexik_currency.converter')->convert(
-                $delivery->getFee(),
-                'EUR',
-                true,
-                $product->getCurrency()->getCode()
-            );
+
+            if (!isset($deliveryEmc)) {
+                $delivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy(['product' => $product, 'deliveryMode' => $deliveryMode]);
+                $deliveryFee += $this->get('lexik_currency.converter')->convert(
+                    $delivery->getFee(),
+                    'EUR',
+                    true,
+                    $product->getCurrency()->getCode()
+                );
+            } else {
+                $deliveryFee += $this->get('lexik_currency.converter')->convert(
+                    $deliveryEmc['price']['tax-inclusive'],
+                    $deliveryEmc['price']['currency'],
+                    true,
+                    $product->getCurrency()->getCode()
+                );
+            }
+
         }
 
 
@@ -119,14 +191,6 @@ class PaymentController extends Controller
             return $this->redirectToRoute('cart_delivery');
         }
 
-        // Check buyer kyc
-        if (!$this->get('mangopay_service')->isKYCValidUser($this->getUser(), $productsTotalPrice, 0)) {
-            $this->get('session')->getFlashBag()->add('kyc_errors',
-                                                      "Vous avez atteint la limite de " .  $this->container->getParameter('mangopay.max_input') . "€ de crédit ou " . $this->container->getParameter('mangopay.max_output') . "€ de retrait vers votre compte. Afin de valider votre commande ou votre retrait, vous devez renseigner les informations suivantes pour valider votre identité bancaire. Une fois les éléments transmis à notre organisme bancaire, vous pourrez de nouveau valider vos commandes et demander des retraits sur votre compte."
-            );
-            return $this->redirectToRoute('user_account_wallet_kyc');
-        }
-
         $cardRegistration = $this->get('mangopay_service')->createCardRegistration(
             $this->getUser()->getMangopayUserId(),
             'EUR'
@@ -140,7 +204,9 @@ class PaymentController extends Controller
             'deliveryFee' => $deliveryFee,
             'deliveryModes' => $cartDeliveryFinal,
             'addresses' => $addresses,
-            'cardRegistration' => $cardRegistration
+            'cardRegistration' => $cardRegistration,
+            'selectedDeliveryEmc' => $selectedDeliveryEmc,
+            'standardDeliveries' => $selectStandardDeliveries
         ];
     }
 
@@ -205,23 +271,55 @@ class PaymentController extends Controller
     {
         // Process after the validation from 3D secure
         // 3d secure preauthorizationid
-        $session = new Session();
+        $session = $this->get('session');
         $get = $request->query->all();
         $mangopayService = $this->get('mangopay_service');
+
         if (isset($get['preAuthorizationId'])) {
             $preAuth = $mangopayService->getCardPreAuthorization($get['preAuthorizationId']);
+
             if ($preAuth->Status == 'SUCCEEDED' && $preAuth->AuthorId == $this->getUser()->getMangopayUserId()) {
+
+                $cartAmount = $this->get('session')->get('cart_amount');
+                $blockedOrders = false;
+                if (!$this->get('mangopay_service')->isKYCValidUser($this->getUser(), $cartAmount, 0)) {
+
+                    $this->get('event_dispatcher')->dispatch(OrderEvents::ORDER_LIMITED_2500, new UserEvent($this->getUser()));
+                    $blockedOrders = true;
+                } elseif($this->get('mangopay_service')->isKYCValidBuyer($this->getUser(), $cartAmount) >= 1600) {
+                    /**
+                     * @todo On envoie une notification et un mail d'information.
+                     */
+                    $this->get('event_dispatcher')->dispatch(OrderEvents::ORDER_LIMITED_1600, new UserEvent($this->getUser()));
+                }
+
                 // Success - Create order and redirect to confirmation page
                 $orderService = $this->get('order_service');
                 $orders = $orderService->createOrdersFromCartSession(
                     $this->getUser(),
                     'EUR',
-                    $preAuth->Id
+                    $preAuth->Id,
+                    $blockedOrders
                 );
                 $orderService->removeCartSession();
 
                 // Send order summary
                 $this->get('mailer_sender')->sendOrderSummary($orders, $this->getUser());
+
+                if (!$this->get('mangopay_service')->isKYCValidUser($this->getUser(), $cartAmount, 0)) {
+
+                    $user = $this->getUser();
+                    $user->setLimitedBuyer(true);
+
+                    $this->getDoctrine()->getManager()->persist($user);
+                    $this->getDoctrine()->getManager()->flush();
+
+                    $this->get('session')->getFlashBag()->add('kyc_errors',
+                        "Vous avez atteint la limite de " .  $this->container->getParameter('mangopay.max_input') . "€ de crédit ou " . $this->container->getParameter('mangopay.max_output') . "€ de retrait vers votre compte. Afin de valider votre commande ou votre retrait, vous devez renseigner les informations suivantes pour valider votre identité bancaire. Une fois les éléments transmis à notre organisme bancaire, vous pourrez de nouveau valider vos commandes et demander des retraits sur votre compte."
+                    );
+
+                    return $this->redirectToRoute('user_account_wallet_kyc');
+                }
 
                 return $this->redirectToRoute('cart_confirmation');
             }

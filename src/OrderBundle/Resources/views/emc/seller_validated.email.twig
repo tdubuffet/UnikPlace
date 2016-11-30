@@ -1,0 +1,18 @@
+{% block subject %}Informations de livraison{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        Bonjour {{ user.lastname }} !
+
+        La livraison pour l'achat "{{ product.name }}" a été confirmée par le transporteur.
+        Vous pouvez voir les instructions de livraison sur la page de commande: {{ orderUrl }}
+
+
+        A bientôt,
+        Toute l'équipe Unik Place vous souhaite une bonne journée.
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% include 'OrderBundle:emc:seller_validated.html.twig' %}
+{% endblock %}

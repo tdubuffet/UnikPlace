@@ -8,7 +8,15 @@
 
   <h2>Validation de votre identité bancaire</h2>
 
-  <p>Afin de lutter contre la fraude, la loi nous impose de valider votre identité bancaire. Vous devez nous fournir plusieurs informations.</p>
+  <p>
+    Vous avez effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année.<br />
+    Unik Place est légalement tenue de respecter les réglementations de l'Union européenne concernant le blanchiment d'argent, en collectant des informations auprès de ses utilisateurs lorsque ces derniers effectuent des paiements d'un montant supérieur à cette limite.<br />
+    Merci de bien vouloir nous fournir les informations demandées ci-après.
+  </p>
+
+  <p>Vous venez de procéder à une commande ? Pas de panique, le produit que vous venez de commander est en attente de confirmation de votre identité bancaire par notre organisme bancaire. Une fois les éléments transmis, le délai de validation est d'environ 48h.</p>
+
+  <p>Pour toute question, n'hésitez pas à joindre notre service client sur le "chat" en ligne ou par téléphone au 01 84 17 76 12.</p>
 
   {% for flashMessage in app.session.flashbag.get('kyc_errors') %}
   <div class="alert alert-warning">{{ flashMessage }}</div>

@@ -64,6 +64,12 @@ class Order
     private $product;
 
     /**
+     * @var Product $product
+     * @ORM\Column(name="quantity", type="integer", options={"default" : 1})
+     */
+    private $quantity = 1;
+
+    /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="orders")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -155,6 +161,54 @@ class Order
      */
     private $rate = 0;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_enabled", type="boolean")
+     */
+    private $emc = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_ref", type="string", nullable=true)
+     */
+    private $emcRef;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_date", type="string", nullable=true)
+     */
+    private $emcDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_infos", type="array", nullable=true)
+     */
+    private $emcInfos;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_tracking", type="array", nullable=true)
+     */
+    private $emcTracking;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc_status", type="array", nullable=true)
+     */
+    private $emcStatus;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="error_message", type="text", nullable=true)
+     */
+    private $errorMessage;
 
     /**
      * Get id
@@ -579,4 +633,133 @@ class Order
     {
         return $this->rate;
     }
+
+    /**
+     * @return string
+     */
+    public function getEmc()
+    {
+        return $this->emc;
+    }
+
+    /**
+     * @param string $emc
+     */
+    public function setEmc($emc)
+    {
+        $this->emc = $emc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcRef()
+    {
+        return $this->emcRef;
+    }
+
+    /**
+     * @param string $emcRef
+     */
+    public function setEmcRef($emcRef)
+    {
+        $this->emcRef = $emcRef;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcDate()
+    {
+        return $this->emcDate;
+    }
+
+    /**
+     * @param string $emcDate
+     */
+    public function setEmcDate($emcDate)
+    {
+        $this->emcDate = $emcDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcInfos()
+    {
+        return $this->emcInfos;
+    }
+
+    /**
+     * @param string $emcInfos
+     */
+    public function setEmcInfos($emcInfos)
+    {
+        $this->emcInfos = $emcInfos;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcTracking()
+    {
+        return $this->emcTracking;
+    }
+
+    /**
+     * @param string $emcTracking
+     */
+    public function setEmcTracking($emcTracking)
+    {
+        $this->emcTracking = $emcTracking;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmcStatus()
+    {
+        return $this->emcStatus;
+    }
+
+    /**
+     * @param string $emcStatus
+     */
+    public function setEmcStatus($emcStatus)
+    {
+        $this->emcStatus = $emcStatus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
+    /**
+     * @param string $errorMessage
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+    
 }

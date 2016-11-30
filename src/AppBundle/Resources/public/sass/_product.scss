@@ -1,5 +1,25 @@
 .product-view{
 
+  .table-delivery{
+    td{
+      vertical-align: middle;
+    }
+    text-align: center;
+    .logo{
+      max-width: 30%;
+      img{
+        max-width: 75%;
+      }
+    }
+    small{
+      font-size: 0.68em;
+      font-weight: normal;
+    }
+    .price{
+      min-width: 30%;
+    }
+  }
+
   .info-delivery{
     font-size: 0.85em;
     line-height: 18px;
@@ -158,4 +178,33 @@
       text-align: center;
     }
   }
+}
+
+.btn-save{
+  margin-top: 50px;
+}
+
+
+.product-edit{
+
+  .btn-save{
+    margin-top: 50px;
+  }
+
+  .nav-tabs > li > a{
+    text-transform: uppercase;
+  }
+
+  .nav-tabs > li.active > a{
+    color: #d99f25;
+  }
+
+  .tab-content{
+    margin-top: 10px;
+  }
+
+  .nav-tabs{
+    margin-top: 30px;
+  }
+
 }

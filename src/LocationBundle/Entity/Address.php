@@ -27,9 +27,23 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="civility", type="string", length=3)
      */
-    private $name;
+    private $civility = 'mr';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstname", type="string", length=255)
+     */
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastname", type="string", length=255)
+     */
+    private $lastname;
 
     /**
      * @var string
@@ -57,6 +71,40 @@ class Address
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Country")
+     * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
+     */
+    private $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="geo_latitude", type="string", length=255)
+     */
+    private $geoLatitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="geo_longitude", type="string", length=255)
+     */
+    private $geoLongitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="formated_address", type="string", length=255)
+     */
+    private $formatedAddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="json_google", type="text")
+     */
+    private $jsonGoogle = "";
+
 
     /**
      * Get id
@@ -66,6 +114,50 @@ class Address
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname()
+    {
+        if (empty($this->lastname)) {
+            $this->lastname = $this->getUser()->getLastname();
+            $this->firstname = $this->getUser()->getFirstname();
+            //@todo Fix empty value - Update delivery
+        }
+
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname()
+    {
+        if (empty($this->firstname)) {
+            $this->lastname = $this->getUser()->getLastname();
+            $this->firstname = $this->getUser()->getFirstname();
+            //@todo Fix empty value - Update delivery
+        }
+
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
     }
 
     /**
@@ -140,32 +232,8 @@ class Address
         return $this->user;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Address
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
     public function __toString() {
-        return $this->name.' - '.$this->street.(!is_null($this->additional) ? '- '.$this->additional : '').' ('.$this->getCity()->getZipcode().' '.$this->getCity()->getName().')';
+        return $this->firstname.' ' . $this->lastname . ' - '.$this->street.(!is_null($this->additional) ? '- '.$this->additional : '').' ('.$this->getCity()->getZipcode().' '.$this->getCity()->getName().')';
     }
 
     /**
@@ -190,5 +258,105 @@ class Address
     public function getAdditional()
     {
         return $this->additional;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCivility()
+    {
+        if (empty($this->civility)) {
+            $this->civility = 'mr';
+        }
+
+        return $this->civility;
+    }
+
+    /**
+     * @param string $civility
+     */
+    public function setCivility($civility)
+    {
+        $this->civility = $civility;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGeoLatitude()
+    {
+        return $this->geoLatitude;
+    }
+
+    /**
+     * @param string $geoLatitude
+     */
+    public function setGeoLatitude($geoLatitude)
+    {
+        $this->geoLatitude = $geoLatitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGeoLongitude()
+    {
+        return $this->geoLongitude;
+    }
+
+    /**
+     * @param string $geoLongitude
+     */
+    public function setGeoLongitude($geoLongitude)
+    {
+        $this->geoLongitude = $geoLongitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormatedAddress()
+    {
+        return $this->formatedAddress;
+    }
+
+    /**
+     * @param string $formatedAddress
+     */
+    public function setFormatedAddress($formatedAddress)
+    {
+        $this->formatedAddress = $formatedAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsonGoogle()
+    {
+        return $this->jsonGoogle;
+    }
+
+    /**
+     * @param string $jsonGoole
+     */
+    public function setJsonGoogle($jsonGoole)
+    {
+        $this->jsonGoogle = $jsonGoole;
     }
 }

@@ -26,9 +26,14 @@ class ProductDetailsController extends Controller
      */
     public function indexAction(Request $request, Product $product)
     {
-        if (!in_array($product->getStatus()->getName(), ['published', 'sold', 'unavailable'])) {
-            throw new NotFoundHttpException("Product status is not valid");
+        if (!in_array($product->getStatus()->getName(), [
+            'published', 'sold', 'unavailable'
+        ])) {
+            return $this->redirectToRoute('category', [
+                'path' => $product->getCategory()->getPath()
+            ], 301);
         }
+
         $productAttributeService = $this->get('product_bundle.product_attribute_service');
         $attributes = $productAttributeService->getAttributesFromProduct($product);
         $routeparams = ['id' => $product->getId(), 'slug' => $product->getSlug()];

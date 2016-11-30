@@ -15,15 +15,33 @@ var Cart = {
         });
     },
 
-    calculateDeliveryFee: function(fee) {
-        var totalDeliveryFee = 0;
-        $('.cartDeliverySelection').each(function(index, elem) {
-            totalDeliveryFee += parseFloat($(elem).find(':selected').data('fee'));
+    calculateDeliveryFee: function(fee) {},
+
+    cartBtnAdd: function(productId, action) {
+
+        $.ajax({
+            url: Routing.generate('product_cart_quantity', {id: productId, action: action}),
+            type: 'GET',
+            success: function (result) {
+
+                if (typeof result.status != 'undefined' && result.status == 'OK') {
+                    $('#' + productId).html(result.quantity);
+
+                    var total = result.quantity * $('#' + productId).data('price');
+
+                    $('.total-row-price-' + productId).html('€' + total);
+
+                    var product = $('.totalProduct');
+                    product.html(result['prices']['formated']);
+                    product.data('total', result['prices']['price']);
+                }
+            }
         });
-        $('.totalDelivery').text("€"+totalDeliveryFee.toFixed(2));
-        var totalProduct = parseFloat($('.totalProduct').data('total'));
-        var total = totalDeliveryFee+totalProduct;
-        $('.totalOrder').text("€"+total.toFixed(2));
+
+    },
+
+    cartRefresh: function() {
+
     },
 
     cartAction: function () {
@@ -46,7 +64,6 @@ var Cart = {
                         var product = $('.totalProduct');
                         product.html(result['prices']['formated']);
                         product.data('total', result['prices']['price']);
-                        Cart.calculateDeliveryFee();
                     }
                 },
                 error: function (result) {

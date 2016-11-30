@@ -2,12 +2,11 @@
 
 {% block body_text %}
 {% autoescape false %}
-Bonjour {{ user.firstname }},
+Bonjour {{ user.lastname }},
 
 Le document "{{ type }}" concernant votre identité bancaire n'a pas permis de valider votre identité bancaire.
-Vous êtes invités à fournir toutes les informations nécessaires et une copie de votre pièce d'identité.
-N'hésitez pas à nous contacter pour plus d'informations.
-
+Les informations transmises par vos soins n’ont pas permis à notre organisme bancaire de valider votre identité bancaire. Merci de bien vouloir vous assurer que les documents et informations transmises sont conformes et lisibles. Nous sommes désolés de la gêne occasionnée.
+Pour toute question, n'hésitez pas à joindre notre service client sur le "chat" en ligne ou par téléphone au 01 84 17 76 12.
 A bientôt,
 L'équipe
 {% endautoescape %}

@@ -3,7 +3,7 @@
 {% block body_text %}
 {% autoescape false %}
 {% if user is defined %}
-Bonjour {{ user.firstname }},
+    Bonjour {{ user.lastname }},
 
 {% endif%}
 Nous vous informons de la fermture du litige concernant la commande {{ product.name }}.
@@ -15,7 +15,8 @@ Consultez l'état de votre achat via le lien suivant : {{ orderPurchaseUrl }}
 Litige fermé
 {% endif %}
 
-A bientôt,
-L'équipe
+
+    A bientôt,
+    Toute l'équipe Unik Place vous souhaite une bonne journée.
 {% endautoescape %}
 {% endblock %}

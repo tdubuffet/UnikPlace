@@ -173,6 +173,63 @@ class Product
      */
     private $height;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_width", type="decimal", precision=5, scale=2)
+     */
+    private $parcelWidth;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_length", type="decimal", precision=5, scale=2)
+     */
+    private $parcelLength;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_height", type="decimal", precision=5, scale=2)
+     */
+    private $parcelHeight;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parcel_type", type="string", length=50)
+     */
+    private $parcelType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="quantity", type="integer")
+     */
+    private $quantity = 1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emc", type="boolean")
+     */
+    private $emc = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="crawl_ref", type="string", length=50, nullable=true)
+     */
+    private $crawlRef;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="crawl_uq_ref", type="string", length=255, nullable=true)
+     */
+    private $crawlUqRef;
+
     public function __construct() {
         $this->images = new ArrayCollection();
         $this->attributesValues = new ArrayCollection();
@@ -841,5 +898,164 @@ class Product
     public function removeProposal(\OrderBundle\Entity\OrderProposal $proposal)
     {
         $this->proposals->removeElement($proposal);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmc()
+    {
+        return $this->emc;
+    }
+
+    /**
+     * @param string $emc
+     */
+    public function setEmc($emc)
+    {
+        $this->emc = $emc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelWidth()
+    {
+        if (empty($this->parcelWidth) || $this->parcelWidth == 0) {
+            return $this->width * 100;
+        }
+
+        return $this->parcelWidth;
+    }
+
+    /**
+     * @param string $parcelWidth
+     */
+    public function setParcelWidth($parcelWidth)
+    {
+        $this->parcelWidth = $parcelWidth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelLength()
+    {
+        if (empty($this->parcelLength) || $this->parcelLength == 0) {
+            return $this->length * 100;
+        }
+
+        return $this->parcelLength;
+    }
+
+    /**
+     * @param string $parcelLength
+     */
+    public function setParcelLength($parcelLength)
+    {
+        $this->parcelLength = $parcelLength;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelHeight()
+    {
+        if (empty($this->parcelHeight)  || $this->parcelHeight == 0) {
+            return $this->height * 100;
+        }
+
+        return $this->parcelHeight;
+    }
+
+    /**
+     * @param string $parcelHeight
+     */
+    public function setParcelHeight($parcelHeight)
+    {
+        $this->parcelHeight = $parcelHeight;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParcelType()
+    {
+
+        if (empty($this->parcelType)) {
+            return 'box';
+        }
+
+        return $this->parcelType;
+    }
+
+    /**
+     * @param string $parcelType
+     */
+    public function setParcelType($parcelType)
+    {
+        $this->parcelType = $parcelType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQuantity()
+    {
+        if (empty($this->quantity)) {
+            return 1;
+        }
+
+        return $this->quantity;
+    }
+
+    /**
+     * @param string $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getLocation() {
+        return $this->getAddress()->getGeoLatitude() . ',' . $this->getAddress()->getGeoLongitude();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCrawlRef()
+    {
+        return $this->crawlRef;
+    }
+
+    /**
+     * @param string $crawlRef
+     */
+    public function setCrawlRef($crawlRef)
+    {
+        $this->crawlRef = $crawlRef;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCrawlUqRef()
+    {
+        return $this->crawlUqRef;
+    }
+
+    /**
+     * @param string $crawlUqRef
+     */
+    public function setCrawlUqRef($crawlUqRef)
+    {
+        $this->crawlUqRef = $crawlUqRef;
+
+        return $this;
     }
 }

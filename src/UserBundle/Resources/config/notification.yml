@@ -97,5 +97,10 @@ parameters:
           id : 'product_id'
           slug: 'product_slug'
 
+      kyc_limit:
+        message: "Vous avez effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année."
+        route: 'user_account_wallet_kyc'
+        params: []
+
 
 

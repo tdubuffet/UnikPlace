@@ -1,126 +1,149 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
-<div class="account-login">
-  <div class="row">
-    <div class="col-sm-6 hidden-xs">
-      <img src="{{ asset('bundles/app/images/pinewood.jpg') }}" class="img-responsive" />
-    </div>
-    <div class="col-sm-6">
-      <h1>S'inscrire</h1>
+    <div class="account-login">
+        <div class="row">
+            <div class="col-sm-6 hidden-xs">
+                <img src="{{ asset('bundles/app/images/pinewood.jpg') }}" class="img-responsive"/>
+            </div>
+            <div class="col-sm-6">
+                <h1>S'inscrire</h1>
 
-      {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
-        <div class="form-group">
-          <div class="btn-group type-user" data-toggle="buttons">
-            <label class="btn btn-default btn-type-user">
-              {{ form_widget(form.pro.0, {'attr': {'class': 'radioTypeUser'}}) }}
-            </label>
-            <label class="btn btn-default btn-type-user">
-              {{ form_widget(form.pro.1, {'attr': {'class': 'radioTypeUser'}}) }}
-            </label>
-          </div>
+                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register', { 'redirect': app.request.get('redirect')}), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
+                <div class="form-group">
+                    <div class="btn-group type-user" data-toggle="buttons">
+                        <label class="btn btn-default btn-type-user">
+                            {{ form_widget(form.pro.0, {'attr': {'class': 'radioTypeUser'}}) }}
+                        </label>
+                        <label class="btn btn-default btn-type-user">
+                            {{ form_widget(form.pro.1, {'attr': {'class': 'radioTypeUser'}}) }}
+                        </label>
+                    </div>
 
-          <div class="showErrorPro"></div>
-          {{ form_errors(form.pro) }}
-        </div>
+                    <div class="showErrorPro"></div>
+                    {{ form_errors(form.pro) }}
+                </div>
 
-        <div class="data-user">
+                <div class="data-user">
 
-        {% if app.request.get('email_registration') %}
-          {% set attrEmail = {'class': 'form-control', 'value': app.request.get('email_registration')} %}
-        {% else %}
-          {% set attrEmail = {'class': 'form-control'} %}
-        {% endif %}
+                    {% if app.request.get('email_registration') %}
+                        {% set attrEmail = {'class': 'form-control', 'value': app.request.get('email_registration')} %}
+                    {% else %}
+                        {% set attrEmail = {'class': 'form-control'} %}
+                    {% endif %}
 
-        <div class="form-group">
-          <label class="required">{{ 'form.email'|trans }}</label>
-          {{ form_widget(form.email, {'attr': attrEmail}) }}
-          {{ form_errors(form.email) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Prénom</label>
-          {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.firstname) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Nom</label>
-          {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.lastname) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Date de naissance</label>
-          <div class="clearfix">
-            {{ form_widget(form.birthday.day, {'attr': {'class': 'form-control birthday'}}) }}
-            {{ form_widget(form.birthday.month, {'attr': {'class': 'form-control birthday'}}) }}
-            {{ form_widget(form.birthday.year, {'attr': {'class': 'form-control birthday'}}) }}
-          </div>
-          {{ form_errors(form.birthday) }}
-        </div>
-        <div class="form-group">
-          <label class="required">{{ 'form.password'|trans }}</label>
-          {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.plainPassword.first) }}
-        </div>
-        <div class="form-group">
-          <label class="required">{{ 'form.password_confirmation'|trans }}</label>
-          {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.plainPassword.second) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Nationalité</label>
-          {{ form_widget(form.nationality, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.nationality) }}
-        </div>
-        <div class="form-group">
-          <label class="required">Pays de résidence</label>
-          {{ form_widget(form.residential_country, {'attr': {'class': 'form-control'}}) }}
-          {{ form_errors(form.residential_country) }}
-        </div>
+                    <div class="row clearfix">
+                        <div class="col-md-4 form-group">
+                            {{ form_label(form.civility, 'Civilité', {"label_attr:": { 'class': 'required'}}) }}
+                            {{ form_widget(form.civility, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.civility) }}
+                        </div>
+                        <div class="col-md-4 form-group">
+                            {{ form_label(form.firstname, 'Nom', {"label_attr:": { 'class': 'required'}}) }}
+                            {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.firstname) }}
+                        </div>
+                        <div class="col-md-4 form-group">
+                            {{ form_label(form.lastname, 'Prénom', {"label_attr:": { 'class': 'required'}}) }}
+                            {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.lastname) }}
+                        </div>
+                    </div>
 
-        <div class="pro-user-fields" style="display: none">
-          <div class="form-group">
-            <label class="required">Numero de téléphone</label>
-            {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.phone) }}
-          </div>
-          <div class="form-group">
-            <label class="required">SIRET de l'entreprise</label>
-            {{ form_widget(form.company_code, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_code) }}
-          </div>
-          <div class="form-group">
-            <label class="required">Nom de l'entreprise</label>
-            {{ form_widget(form.company_name, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.company_name) }}
-          </div>
 
-          {{ form_row(form.address.street) }}
-          <div class="form-group">
-            <label class="control-label required" for="city_code">Ville de l'entreprise</label>
-            <select id="fos_user_registration_form_address_city" name="city_code" required="required"
-                    class="select-select2 autocomplete-city form-control">
-              <option value="">Sélectionnez un code postal</option>
-            </select>
-          </div>
-          {{ form_row(form.address.country) }}
-        </div>
-        </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="required">{{ 'form.email'|trans }}</label>
+                                {{ form_widget(form.email, {'attr': attrEmail}) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
 
-        {{ form_rest(form) }}
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="required">Date de naissance</label>
+                                <div class="clearfix">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.birthday.day, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.birthday.month, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.birthday.year, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_errors(form.birthday) }}
+                            </div>
+                        </div>
+                    </div>
 
-        <p>* Champs obligatoires</p>
 
-        <p><input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}" /></p>
+                    <div class="form-group">
+                        <label class="required">Numero de téléphone</label>
+                        {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.phone) }}
+                    </div>
 
-      {{ form_end(form) }}
+                    <input id="phone-full" type="hidden" name="phone-full">
 
-      <p>ou s'inscrire via les réseaux sociaux :</p>
+                    <div class="form-group">
+                        <label class="required">{{ 'form.password'|trans }}</label>
+                        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.plainPassword.first) }}
+                    </div>
+                    <div class="form-group">
+                        <label class="required">{{ 'form.password_confirmation'|trans }}</label>
+                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.plainPassword.second) }}
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Nationalité</label>
+                        {{ form_widget(form.nationality, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.nationality) }}
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Pays de résidence</label>
+                        {{ form_widget(form.residential_country, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.residential_country) }}
+                    </div>
 
-      <p><a href="{{ path('facebook_connect') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i> Inscription avec Facebook</a></p>
+                    <div class="pro-user-fields" style="display: none">
+                        <div class="form-group">
+                            <label class="required">Siren / Numéro d'immatriculation de l'entreprise</label>
+                            {{ form_widget(form.company_code, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.company_code) }}
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Nom de l'entreprise</label>
+                            {{ form_widget(form.company_name, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.company_name) }}
+                        </div>
 
-      <p><a href="{{ path('fos_user_security_login') }}">Vous avez déjà un compte ? <b>Connectez-vous !</b></a></p>
+                        <div class="form-group">
+                            {{ form_row(form.street) }}
+                        </div>
+                    </div>
+                </div>
 
-    </div><!-- col -->
-  </div><!-- .row -->
-</div><!-- .account-login -->
+                {{ form_rest(form) }}
+
+                <p>* Champs obligatoires</p>
+
+                <p><input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}"/></p>
+
+                {{ form_end(form) }}
+
+                <p>ou s'inscrire via les réseaux sociaux :</p>
+
+                <p><a href="{{ path('facebook_connect') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i> Inscription avec Facebook</a></p>
+
+                <p><a href="{{ path('fos_user_security_login') }}">Vous avez déjà un compte ? <b>Connectez-vous !</b></a></p>
+
+            </div><!-- col -->
+        </div><!-- .row -->
+    </div><!-- .account-login -->
 {% endblock %}

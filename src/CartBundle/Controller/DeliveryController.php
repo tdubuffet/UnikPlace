@@ -2,6 +2,8 @@
 
 namespace CartBundle\Controller;
 
+use CartBundle\Form\SelectCartAddressType;
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -11,39 +13,205 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use LocationBundle\Entity\Address;
 use LocationBundle\Form\AddressType;
-use CartBundle\Form\selectCartAddressType;
 
 /**
  * Class DeliveryController
  * @package CartBundle\Controller
  *
  * @Security("has_role('ROLE_USER')")
- * @Route("/panier/livraison")
+ * @Route("/panier")
  */
 class DeliveryController extends Controller
 {
 
     /**
-     * @Route("", name="cart_delivery")
-     * @Method({"GET"})
-     * @Template("CartBundle:Delivery:delivery.html.twig")
+     * @Route("/livraison", name="cart_delivery_emc")
+     * @Method({"GET", "POST"})
+     * @Template("CartBundle:Delivery:deliveryEmc.html.twig")
      */
     public function deliveryAction(Request $request)
     {
-        $session = new Session();
+
+        $cart = $this->get('session')
+            ->get('cart', array());
+
+        $products = array();
+        $productsTotalPrice = 0;
+
+        /**
+         * generate hash delivery cache
+         */
+
+        $hash = md5(implode('-', $cart)) . '-cart-user-' . $this->getUser()->getId();
+
+        $deliveries = $this->get('app_cache')->fetch($hash);
+        $deliveries = false;
+        $modes = $request->get('deliveryMode', []);
+
+        $addresses = $this->get('session')->get('cart_addresses');
+
+        if (isset($addresses['delivery_address'])) {
+            $deliveryAddress = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById(
+                $addresses['delivery_address']
+            );
+        }
+
+        if (!$deliveries) {
+
+
+            $deliveries = [];
+
+            foreach ($cart as $productId) {
+                $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+
+                $orderProposal = $this->getDoctrine()->getRepository('OrderBundle:OrderProposal')->findOneBy([
+                    'product' => $product,
+                    'user' => $this->getUser(),
+                    'status' => 'accepted'
+                ]);
+
+                if ($orderProposal) {
+                    $product->setPrice($orderProposal->getAmount());
+                }
+
+                $products[] = $product;
+                $productsTotalPrice += $this->get('lexik_currency.converter')
+                    ->convert($product->getPrice(), 'EUR', true, $product->getCurrency()->getCode());
+
+                $delivery = $this->get('delivery.emc');
+
+                $deliveries[$product->getId()] = $delivery->findDeliveryByProduct(
+                    $this->getUser(),
+                    $deliveryAddress,
+                    $request->getClientIp(),
+                    $product
+                );
+            }
+
+            $this->get('app_cache')->save($hash, $deliveries);
+        }
+
+        if ($modes) {
+
+            foreach ($modes as $key => $mode) {
+
+                if ($mode != 'by_hand' && $mode != 'seller_custom' && !isset($deliveries[$key][$mode])) {
+                    return $this->redirectToRoute('cart_delivery_emc');
+                }
+            }
+
+            $error = false;
+            foreach($cart as $productId) {
+                if (!isset($modes[$productId])) {
+                    $error = true;
+                    $product = $this->getDoctrine()->getRepository('ProductBundle:Product')->findOneById($productId);
+                    $this->get('session')->getFlashBag()->add('notice', 'Aucune livraison selectionnée pour le produit ' . $product->getName() . '.');
+                    break;
+                }
+            }
+
+            if (!$error) {
+                $this->get('session')->set('cart_delivery_emc', $deliveries);
+                $this->get('session')->set('cart_delivery', $modes);
+
+                return $this->redirectToRoute('cart_payment');
+            }
+        }
+
+
+        /**
+         * Order deliveryes selected
+         */
+        $deliveriesSelected = [];
+
+        foreach ($deliveries as $keys => $p) {
+
+            foreach ($p as $key => $data) {
+
+                if (in_array($data['operator']['code'], [
+                    'SODX',
+                    'GUIN'
+                ])) {
+                    $deliveriesSelected[$keys]['selected'][$key] = $data;
+                    unset($p[$key]);
+                }
+
+            }
+
+            if (reset($p)) {
+
+                $deliveriesSelected[$keys]['price'][$key] = reset($p);
+                unset($p[key($p)]);
+
+                $z = [];
+                foreach ($p as $key => $date) {
+
+                    if (!isset($z[$date['delivery']['date']])) {
+                        $z[$date['delivery']['date']] = [];
+                    }
+
+                    $z[$date['delivery']['date']][$key] = $date['price']['tax-inclusive'];
+                }
+
+                ksort($z);
+
+
+                $first = reset($z);
+                if ($first) {
+
+                    $mustPrice = reset($first);
+
+                    if ($mustPrice) {
+
+                        $deliveriesSelected[$keys]['speed'][$key] = $deliveries[$keys][key($first)];
+                    }
+                }
+            }
+        }
+
+        return [
+            'products' => $products,
+            'productsTotalPrice' => $productsTotalPrice,
+            'deliveriesByProduct' => $deliveriesSelected,
+            'deliveryAddress' => $deliveryAddress
+        ];
+    }
+
+    /**
+     * @Route("/addresse", name="cart_delivery")
+     * @Method({"GET"})
+     * @Template("CartBundle:Delivery:delivery.html.twig")
+     */
+    public function addressAction(Request $request)
+    {
+        $session = $this->get('session');
         $cart = $session->get('cart', array());
         if (empty($cart)) {
             // Redirect to homepage if cart is empty
             return $this->redirectToRoute('homepage');
         }
 
-        $address = new Address;
-        $addAddressForm = $this->createForm(AddressType::class, $address);
-        $addresses = $this->getDoctrine()->getRepository("LocationBundle:Address")
-            ->findBy(['user' => $this->getUser()], ['id' => 'DESC']);
-        $selectAddressForm = $this->createForm(selectCartAddressType::class, null, ['addresses' => $addresses]);
+        $addressForm = $this->get('user.address_form')->getForm(
+            $request,
+            $this->getUser(),
+            true
+        );
+
+        $addresses = $this->getDoctrine()
+            ->getRepository("LocationBundle:Address")
+            ->findBy(
+                [
+                    'user' => $this->getUser()
+                ],
+                [
+                    'id' => 'DESC'
+                ]
+            );
+
+        $selectAddressForm = $this->createForm(SelectCartAddressType::class, null, ['addresses' => $addresses]);
 
         $cartDelivery = $session->get('cart_delivery', array());
+
         $byHandOnly = true;
         foreach ($cartDelivery as $deliveryCode) {
             if ($deliveryCode != 'by_hand') {
@@ -51,64 +219,66 @@ class DeliveryController extends Controller
             }
         }
 
-        return ['addAddressForm' => $addAddressForm->createView(),
-                'selectAddressForm' => $selectAddressForm->createView(),
-                'addresses' => $addresses,
-                'by_hand_only' => $byHandOnly];
+        return [
+            'addAddressForm' => $addressForm->createView(),
+            'selectAddressForm' => $selectAddressForm->createView(),
+            'addresses' => $addresses,
+            'by_hand_only' => $byHandOnly
+        ];
     }
 
     /**
-     * @Route("")
+     * @Route("/addresse")
      * @Method({"POST"})
      */
-    public function deliveryProcessAction(Request $request)
+    public function addressProcessAction(Request $request)
     {
-        if($request->request->has('address')) {
-            $address = new Address;
-            $form = $this->createForm(AddressType::class, $address);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $cityId = $request->request->get('address')['city'];
-                // Get city from id
-                $city = $this->getDoctrine()->getRepository('LocationBundle:City')->findOneById($cityId);
-                if (!isset($city)) {
-                    throw new \Exception('Cannot find city.');
-                }
-                $address->setCity($city);
-                $address->setUser($this->getUser());
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($address);
-                $em->flush();
-                $session = new Session();
-                $session->getFlashBag()->add('notice', 'Adresse ajoutée avec succès.');
+        if ($request->request->has('address')) {
+
+            $addressForm = $this->get('user.address_form')->getForm(
+                $request,
+                $this->getUser(),
+                true
+            );
+
+            if ($addressForm === true) {
+                $this->addFlash('success', 'L\'adresse a bien été ajoutée');
             }
-        }
-        else if ($request->request->has('select_cart_address')) {
+        } else if ($request->request->has('select_cart_address')) {
+
             $addresses = $this->getUser()->getAddresses();
-            $form = $this->createForm(selectCartAddressType::class, null, ['addresses' => $addresses]);
+            $form = $this->createForm(SelectCartAddressType::class, null, ['addresses' => $addresses]);
             $form->handleRequest($request);
+
             // Save selected addresses
-            $addresses = [];
-            $addresses['delivery_address'] = $form['delivery_address']->getData();
-            $addresses['billing_address'] = $form['billing_address']->getData();
-            if ($addresses['delivery_address'] == $addresses['billing_address']) {
-                unset($addresses['billing_address']);
-            }
+            $addresses = [
+                'delivery_address' => $form['delivery_address']->getData(),
+                'billing_address' => $form['billing_address']->getData()
+            ];
+
             // Make sure addresses are owned by current user
             foreach ($addresses as $address) {
+
                 if (!is_null($address)) {
-                    $address = $this->getDoctrine()->getRepository('LocationBundle:Address')->findOneById($address);
-                    if (!isset($address)) {
-                        throw new \Exception('Address with id '.$address.' cannot be found.');
-                    }
-                    else if ($address->getUser() != $this->getUser()) {
-                        throw new \Exception('Current user does not own address with id '.$address.'.');
+
+                    $address = $this->getDoctrine()
+                        ->getRepository('LocationBundle:Address')
+                        ->findOneBy(
+                            [
+                                'id' => $address,
+                                'user' => $this->getUser()
+                            ]
+                        );
+
+                    if (!$address) {
+                        throw new \Exception('Address ' . $address . ' cannot be found.');
                     }
                 }
             }
             $session = new Session();
             $session->set('cart_addresses', $addresses);
-            return $this->redirectToRoute('cart_payment');
+
+            return $this->redirectToRoute('cart_delivery_emc');
         }
         return $this->redirectToRoute('cart_delivery');
     }

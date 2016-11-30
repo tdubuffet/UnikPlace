@@ -356,6 +356,15 @@
     </nav>
 #}
 
+    {% if app.user and (app.user.limitedBuyer or app.user.limitedSeller) %}
+
+      <div class="alert alert-danger alert-dismissible alert-message-email text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        Vous avez effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année.<br /><a href="{{ path('user_account_wallet_kyc') }}">Confirmer mon identité bancaire</a>
+      </div>
+
+    {% endif %}
+
     {% if app.user and app.user.isEmailValidated() == false %}
 
       <div class="alert alert-warning alert-dismissible alert-message-email text-center" role="alert">
@@ -518,6 +527,23 @@
       </div>
     </footer>
 
+  <!-- Modal -->
+  <div class="modal fade" id="mailConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Mail de confirmation</h4>
+        </div>
+        <div class="modal-body">
+          Un mail de confirmation vous a été envoyé sur votre boite mail.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default btn-unik" title="Fermer" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
     {% javascripts
     'components/jquery/dist/jquery.js'
     'components/bootstrap-sass/assets/javascripts/bootstrap.js'
@@ -538,6 +564,7 @@
     'components/jquery.maskedinput/src/jquery.maskedinput.js'
     'components/jquery-creditcardvalidator/jquery.creditCardValidator.js'
     'components/share-button/share-button.js'
+    'components/intl-tel-input/build/js/intlTelInput.min.js'
     'bundles/fosjsrouting/js/router.js'
     '@CartBundle/Resources/public/js/*.js'
     '@AppBundle/Resources/public/js/*.js'
@@ -559,6 +586,14 @@
     {% endif %}
     {% if app.environment == 'dev' %}
        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+    {% endif %}
+    {% if app.request.get('asi') =='send' %}
+      <script>
+        $('document').ready(function() {
+          $('#mailConfirmation').modal('show');
+        });
+      </script>
+
     {% endif %}
   </body>
 </html>

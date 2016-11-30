@@ -2,13 +2,9 @@
 
 {% block body_text %}
 {% autoescape false %}
-Bonjour {{ user.firstname }},
+    Bonjour {{ user.lastname }},
 
-{% if orders|length > 1 %}
-Merci ! Vos commandes ont bien été prises en compte. Elles sont en attente de validation.
-{% else %}
-Merci ! Votre commande a bien été prise en compte. Elle est en attente de validation.
-{% endif %}
+Nous vous remercions pour votre commande. Elle a bien été prise en compte et est en attente de validation par le vendeur.
 
 {% for order in orders %}
 
@@ -38,8 +34,9 @@ Remise en main propre
 
 {% endfor %}
 
-A bientôt,
-L'équipe
+
+    A bientôt,
+    Toute l'équipe Unik Place vous souhaite une bonne journée.
 {% endautoescape %}
 {% endblock %}
 

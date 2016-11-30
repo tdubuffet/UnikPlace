@@ -4,6 +4,8 @@ namespace AppBundle\Service;
 
 use MangoPay;
 use OrderBundle\Entity\Order;
+use OrderBundle\Entity\TransactionPayRefund;
+use OrderBundle\Entity\TransactionPayTransfert;
 use UserBundle\Entity\User as UserEntity;
 use UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
@@ -234,8 +236,9 @@ class MangoPayService
 
         $sorting = new \MangoPay\Sorting();
         $sorting->AddField('CreationDate', "desc");
+        $pagination = new \MangoPay\Pagination();
 
-        $banks =  $this->mangoPayApi->Users->GetBankAccounts($userId, new \MangoPay\Pagination(), $sorting);
+        $banks =  $this->mangoPayApi->Users->GetBankAccounts($userId, $pagination, $sorting);
         if (count($banks) == 0) {
             return array();
         }
@@ -346,9 +349,6 @@ class MangoPayService
             return $preauthorization->PayInId;
         }
 
-
-        //@todo log transaction
-
         return false;
 
     }
@@ -360,8 +360,100 @@ class MangoPayService
      * @param $amount int Integer
      * @return mixed
      */
-    public function refundOrder($userMangoPayId, $PayInId, $amount)
+    public function refundOrder($userMangoPayId, $PayInId, Order $order)
     {
+
+        $Refund = new \MangoPay\Refund();
+        $Refund->AuthorId       = $userMangoPayId;
+        $Refund->DebitedFunds   = new \MangoPay\Money();
+
+        $Refund->DebitedFunds->Currency = "EUR";
+        $Refund->DebitedFunds->Amount = $order->getAmount()*100;
+        $Refund->Fees = new \MangoPay\Money();
+        $Refund->Fees->Currency = "EUR";
+        $Refund->Fees->Amount = 0; // No fee on refund
+
+
+        $result = $this->mangoPayApi->PayIns->CreateRefund($PayInId, $Refund);
+
+
+        $transactionPayRefund = new TransactionPayRefund();
+        $transactionPayRefund->setOrder($order);
+        $transactionPayRefund->setAmount($order->getAmount());
+        $transactionPayRefund->setType('all');
+        $transactionPayRefund->setDate(new \DateTime());
+        $this->em->persist($transactionPayRefund);
+        $this->em->flush();
+
+        return $result;
+
+    }
+
+    /**
+     * Refound Pay In
+     * @param $userId MangoPay\User Id
+     * @param $PayInId MangoPay\PayIn|string Id
+     * @param $amount int Integer
+     * @return mixed
+     */
+    public function refundOrderByType(Order $order, $type)
+    {
+
+        $PayInId            = $order->getMangopayPayinId();
+        $userMangoPayId     = $order->getUser()->getMangopayUserId();
+
+        if (empty($PayInId)) {
+            throw new \Exception('Aucun payment sur cette commande');
+        }
+
+        if ($type == 'all') {
+
+            $refund = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
+                'order' => $order,
+                'type' => 'all'
+            ]);
+
+            if ($refund) {
+                throw new \Exception('Un remboursement total pour cette commande existe déja.');
+            }
+
+            return $this->refundOrder($userMangoPayId, $PayInId, $order);
+
+        } elseif ($type == 'delivery') {
+            $refund = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
+                'order' => $order,
+                'type' => 'delivery'
+            ]);
+
+            if ($refund) {
+                throw new \Exception('Vous avez déja remboursé la livraison');
+            }
+
+            $amount = $order->getDeliveryAmount();
+        } elseif ($type == 'product') {
+            $refunds = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findBy([
+                'order' => $order,
+                'type' => 'product'
+            ]);
+
+            $transaction = $this->em->getRepository('OrderBundle:Transaction')->findOneBy([
+                'order' => $order
+            ]);
+
+            $totalRefund = 0;
+
+            foreach($refunds as $r) {
+                $totalRefund += $r->getAmount();
+            }
+
+            if ($totalRefund >= $order->getProductAmount()) {
+                throw new \Exception('Vous avez déja remboursé la totalité des produits.');
+            }
+
+            $amount = $transaction->getProductPrice();
+        } else {
+            throw new \Exception('Not found code');
+        }
 
         $Refund = new \MangoPay\Refund();
         $Refund->AuthorId       = $userMangoPayId;
@@ -376,27 +468,78 @@ class MangoPayService
 
         $result = $this->mangoPayApi->PayIns->CreateRefund($PayInId, $Refund);
 
-        return $result;
 
+        $transactionPayRefund = new TransactionPayRefund();
+        $transactionPayRefund->setOrder($order);
+        $transactionPayRefund->setAmount($amount);
+        $transactionPayRefund->setType($type);
+        $transactionPayRefund->setDate(new \DateTime());
+        $this->em->persist($transactionPayRefund);
+
+        $this->em->flush();
     }
 
-    public function validateOrder(Order $order)
+    public function validateOrder(Order $order, &$feeRate)
     {
+
+        $transaction = $this->em->getRepository('OrderBundle:Transaction')->findOneBy([
+            'order' => $order
+        ]);
+
+        if (!$transaction) {
+            throw new \Exception('Not transaction found');
+        }
+
+        $productAmount = $transaction->getTotalProductPrice();
+        $transactionRefundProducts = $this->em->getRepository('OrderBundle:TransactionPayRefund')->findBy([
+            'order' => $order,
+            'type' => 'product'
+        ]);
+        foreach($transactionRefundProducts as $refund) {
+            $productAmount -= $refund->getAmount();
+        }
+
+        $feeRate = $this->getFeeRateFromProductAndOrderAmount(
+            $order->getProduct(), $order->getProductAmount()
+        );
+
+
+        $deliveryAmount = $order->getDeliveryAmount();
+        $transactionRefundDelivery= $this->em->getRepository('OrderBundle:TransactionPayRefund')->findOneBy([
+            'order' => $order,
+            'type' => 'delivery'
+        ]);
+
+        if ($transactionRefundDelivery) {
+            $deliveryAmount -= $transactionRefundDelivery->getAmount();
+        }
+        $debitedSupplEmc = 0;
+        if ($order->getEmc()) {
+            $debitedSupplEmc = $deliveryAmount;
+        }
+
+        $totalAmount = $deliveryAmount + $productAmount;
 
         $Transfer = new \MangoPay\Transfer();
         $Transfer->AuthorId                 = $order->getUser()->getMangopayUserId();
         $Transfer->DebitedFunds             = new \MangoPay\Money();
 
         $Transfer->DebitedFunds->Currency   = 'EUR';
-        $Transfer->DebitedFunds->Amount     = $order->getAmount() * 100;
+        $Transfer->DebitedFunds->Amount     = $totalAmount * 100;
 
         $Transfer->Fees = new \MangoPay\Money();
         $Transfer->Fees->Currency       = "EUR";
-        $feeRate = $this->getFeeRateFromProductAndOrderAmount($order->getProduct(), $order->getProductAmount());
-        $Transfer->Fees->Amount         = (($order->getProductAmount() *100) * ($feeRate/100) + $this->config['fixed_fee']*100);
+        $Transfer->Fees->Amount         = (($productAmount *100) * ($feeRate/100) + $this->config['fixed_fee']*100 + $debitedSupplEmc*100);
 
         $Transfer->DebitedWalletID      = $order->getUser()->getMangopayBlockedWalletId();
         $Transfer->CreditedWalletId     = $order->getProduct()->getUser()->getMangopayFreeWalletId();
+
+        $transactionPayTransfert = new TransactionPayTransfert();
+        $transactionPayTransfert->setDate(new \DateTime());
+        $transactionPayTransfert->setOrder($order);
+        $transactionPayTransfert->setFees($productAmount* ($feeRate/100) + $this->config['fixed_fee']);
+        $transactionPayTransfert->setAmount($totalAmount - $debitedSupplEmc);
+        $transactionPayTransfert->setAmountWithoutFees($totalAmount - ($productAmount * ($feeRate/100) + $this->config['fixed_fee'] + $debitedSupplEmc));
 
 
         $result = $this->mangoPayApi->Transfers->Create($Transfer);
@@ -405,7 +548,27 @@ class MangoPayService
             throw new \Exception('Erreur ' . $result->ResultCode . ' - Message: ' . $result->ResultMessage);
         }
 
+        $this->em->persist($transactionPayTransfert);
+        $this->em->flush();
+
         return $result;
+    }
+
+    public function isKYCValidBuyer(UserEntity $user, $inputAmount = 0)
+    {
+        $input  = $inputAmount;
+
+        /** User is regular, KYC is validate */
+        if ($this->getMangoPayUser($user->getMangopayUserId())->KYCLevel == "REGULAR"){
+            return 0;
+        }
+        // As buyer
+        $orders = $user->getOrders();
+        foreach($orders as $order) {
+            $input += $order->getAmount();
+        }
+
+        return $input;
     }
 
 

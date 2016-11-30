@@ -1,6 +1,9 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block javascript_include %}{{ jsinit(['deposit', 'addAddress']) }}{% endblock javascript_include %}
+{% block javascript_include %}
+  <script src="//maps.google.com/maps/api/js?signed_in=true&libraries=places&language=fr-FR&key=AIzaSyAL1vLUAUrxtm8Rrbzh4bRPJwrjfCf7Ycw" type="text/javascript"></script>
+  {{ jsinit(['deposit', 'addAddress']) }}
+{% endblock javascript_include %}
 
 {% block body %}
   <div class="main-wrapper">
@@ -40,83 +43,7 @@
 
             <form method="post" action="{{ path('deposit_postshipping') }}" id="shipping-form">
 
-
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label class="required">Largeur en cm</label>
-                    <input type="number" name="width" id="product-width" class="form-control" min="1"
-                           placeholder="Largeur du produit en cm" value="{{ shippingFormData.width is defined ? shippingFormData.width : app.request.get('width') }}">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label class="required">Longueur en cm</label>
-                    <input type="number" name="length" id="product-length" class="form-control" min="1"
-                           placeholder="Longueur du produit en cm" value="{{ shippingFormData.length is defined ? shippingFormData.length : app.request.get('length') }}">
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label class="required">Hauteur en cm</label>
-                    <input type="number" name="height" id="product-height" class="form-control" min="1"
-                           placeholder="Hauteur du produit en cm" value="{{ shippingFormData.height is defined ? shippingFormData.height : app.request.get('height') }}">
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label class="required">Poids en kg</label>
-                    <input type="number" name="weight" id="product-weight" class="form-control" min="1"
-                           placeholder="Poids du produit en kg" value="{{ shippingFormData.weight is defined ? shippingFormData.weight : app.request.get('weight') }}">
-                  </div>
-                </div>
-              </div>
-
-              <br/>
-
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="form-group">
-
-                    <p>
-                      <a href="#" data-toggle="modal" data-target="#shippingModal">
-                        <strong>Informations : </strong>Vous avez la possibilité de choisir votre propre transporteur
-                        et de renseigner un tarif de livraison. Nous vous suggérons les transporteurs suivants :
-                        UPS, FEDEX, DHL, Geodis, GLS, Mesenvois.fr, EnvoiMoinsCher.com
-                      </a>
-                    </p>
-
-                    <div class="row">
-                      <div class="col-sm-6 col-sm-offset-3">
-
-                        <label>Mes frais de port en France métropolitaine <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Si vous renseignez ces frais de port, ils seront proposés à l'acheteur ainsi que les autres modes de livraison de nos partenaires."></i></label>
-                        <input class="form-control" type="number" name="shipping_fees" placeholder="Montant en euros" value="{{ shippingFormData.shipping_fees is defined ? shippingFormData.shipping_fees : '' }}">
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="text-center">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" name="by_hand" value="1"
-                           {% if app.session.get('deposit').by_hand is not defined or (app.session.get('deposit').by_hand is defined and app.session.get('deposit').by_hand == '1') %}{% if shippingFormData.by_hand_unselected is not defined and shippingFormData is not empty %}checked{% endif %}{% endif %}>
-                    J'accepte la remise en main propre
-                  </label>
-                </div>
-              </div>
-
-              <p>Merci de sélectionner une adresse de livraison parmis vos adresses enregistrées. Nous supportons
-                actuellement uniquement la livraison en France métropolitaine.</p>
-              <p>
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addAddressModal">
-                  Ajouter une adresse à mon compte
-                </button>
-              </p>
+              <h4>1 - Je sélectionne mon adresse d'expédition </h4>
 
               {% if addresses|length > 0 %}
                 <div class="row">
@@ -125,8 +52,7 @@
                       <label for="address_id" class="sr-only"></label>
                       <select name="address_id" class="form-control" id="address_id">
                         {% for address in addresses %}
-                          <option value="{{ address.id }}">{{ address.name }}
-                            - {{ address.street }}{% if address.additional %} - {{ address.additional }}{% endif %} {{ address.getCity.zipcode }} {{ address.getCity.name }}</option>
+                          <option value="{{ address.id }}">{{ address }}</option>
                         {% endfor %}
                       </select>
                     </div>
@@ -134,9 +60,158 @@
                 </div>
               {% endif %}
 
+              <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addAddressModal">
+                Ajouter une adresse à mon compte
+              </button>
+
+
+              <h4 style="margin-top: 40px;">2 - Les informations de mon colis</h4>
+
+
+              <div class="row">
+
+
+
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label class="required">Type de colis</label>
+
+                    <div class="row type-delivery">
+                      <div class="col-md-4">
+                        <label>
+                          Colis
+
+                          <div class="icon">
+                            <img src="{{ asset('bundles/deposit/images/type-1.png') }}" />
+                          </div>
+
+                          <p>
+                            <input name="parcel_type" type="radio" value="box" checked />
+                          </p>
+                        </label>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>
+                          Encombrant
+
+
+                          <div class="icon">
+                            <img src="{{ asset('bundles/deposit/images/type-2.png') }}" />
+                          </div>
+
+                          <p>
+                            <input name="parcel_type" type="radio" value="bulky" />
+                          </p>
+                        </label>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>
+                          Palette
+
+
+                          <div class="icon">
+                            <img src="{{ asset('bundles/deposit/images/type-3.png') }}" />
+                          </div>
+
+                          <p>
+                            <input name="parcel_type" type="radio" value="palett" />
+                          </p>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Largeur du colis en cm</label>
+                    <input type="number" name="parcel_width" id="product-width" class="form-control" min="1"
+                           placeholder="Largeur du colis en cm" value="{{ app.session.get('deposit').width }}">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Longueur du colis en cm</label>
+                    <input type="number" name="parcel_length" id="product-length" class="form-control" min="1"
+                           placeholder="Longueur du colis en cm" value="{{ app.session.get('deposit').length }}">
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="required">Hauteur du colis en cm</label>
+                    <input type="number" name="parcel_height" id="product-height" class="form-control" min="1"
+                           placeholder="Hauteur du colis en cm" value="{{ app.session.get('deposit').height }}">
+                  </div>
+                </div>
+              </div>
+
+
+              <h4 style="margin-top: 40px;">3 - Je sélectionne mes modes de livraison </h4>
+
+              <div class="text-center">
+                <i class="fa fa-info-circle"></i> <b>Les frais de livraison sont à la charge de l'acheteur.</b> <br /><br />
+              </div>
+
+              <table class="table table-delivery">
+                <tr>
+                  <td class="choice">
+                    <input type="checkbox" name="deliveryMode[]" id="delivery_by_hand" value="by_hand" />
+                    <input type="hidden" name="deliveryModes[]" id="delivery_by_hand_hidden" value="by_hand" disabled/>
+                  </td>
+                  <td class="name">Le retrait au domicile</td>
+                  <td class="description">
+                    L'acheteur se déplace chez vous ou vous convenez d'un rendez-vous dans un lieu public avec lui pour la remise du produit.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="choice">
+                    <input type="checkbox" name="deliveryMode[]" id="delivery_custom_seller" value="custom_seller"/>
+                    <input type="hidden" name="deliveryModes[]" value="custom_seller" id="delivery_custom_seller_hidden" disabled/>
+                  </td>
+                  <td class="name">Mon propre transporteur</td>
+                  <td class="description">
+                    Vous avez pour habitude de passer par un transporteur pour livrer vos produits en France métropolitaine.<br />
+                    Définissez vous-même le prix du transport applicable à votre produit.
+
+                    <div class="row">
+
+                      <div class="col-md-8 col-md-offset-2 input-delivery-shipping-fees text-center form-group" style="display: none;">
+                        <br /><br />
+                        <label for="shipping_fees">Vos frais de livraison</label>
+                        <input type="text" name="shipping_fees" id="shipping_fees" class="form-control" />
+                      </div>
+
+                    </div>
+
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="choice">
+                    <input type="checkbox" name="deliveryMode[]" id="delivery_unik" value="carrier_unik" checked disabled/>
+                    <input type="hidden" name="deliveryModes[]" value="carrier_unik" id="delivery_unik_hidden"/>
+                  </td>
+                  <td class="name">Livraison Unik Place en France<br /> et à l'international</td>
+                  <td class="description">
+                    Notre service de livraison permet de proposer aux acheteurs le meilleur choix de transporteurs nationaux et internationaux.<br />
+                    Le service est intégralement pris en charge par Unik Place.<br /><br />
+                    <b>Un seul engagement de votre part :</b> être disponible sur le créneau horaire de votre choix dans les 48 heures qui suivent la validation de la commande pour l’enlèvement ou le dépôt de votre colis (Colissimo ou Chronopost).
+                    <br />Dans le cas de l’enlèvement du produit à votre adresse, c’est vous qui choisissez votre créneau horaire. La qualité et rapidité de la livraison est importante pour votre notoriété car une fois le colis réceptionné, l’acheteur vous évaluera.
+                  </td>
+                </tr>
+              </table>
+              <div class="error-delivery text-center"></div>
+
+              <br /><br />
+
               <div class="text-center">
               {% if addresses|length > 0 %}
-                <input type="submit" class="btn btn-default" value="Etape suivante"/>
+                <input type="submit" class="btn btn-default btn-unik" value="Valider mon produit"/>
               {% else %}
                 <p>Merci d'ajouter une adresse pour passer à l'étape suivante.</p>
               {% endif %}
@@ -151,45 +226,8 @@
   </div><!-- .main-wrapper -->
 
   <!-- Add address Modal -->
-  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalTitle">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                    aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="addAddressModalTitle">Ajouter une adresse à mon compte</h4>
-        </div>
-        {{ form_start(addAddressForm, {'action': path('deposit_postshipping'), 'attr': {'id': 'add-address-form'}}) }}
-        <div class="modal-body">
-          {{ form_row(addAddressForm.name) }}
-          {{ form_row(addAddressForm.street) }}
-          {{ form_row(addAddressForm.additional) }}
-          <div class="form-group">
-            <label class="control-label required" for="address_city">Ville</label>
-            <select id="address_city" name="address[city]" required="required"
-                    class="select-select2 autocomplete-city form-control">
-              <option value="">Sélectionnez un code postal</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="required">
-              Téléphone
-              <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right"
-                 title="Votre numéro de téléphone sera transmis à l'acheteur si vous avez activé la remise en
-               main propre et qu'il choisit cette option."></i>
-            </label>
-            <input type="text" name="phone" class="form-control" placeholder="Numéro de téléphone">
-          </div>
-          {{ form_row(addAddressForm.country) }}
-          <input type="hidden" name="shipping-form-data" id="shipping-form-data" value="" />
-        </div>
-        <div class="modal-footer">
-          {{ form_widget(addAddressForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
-        </div>
-        {{ form_end(addAddressForm) }}
-      </div>
-    </div>
-  </div>
+
+  {% include 'UserBundle:Account:FormAddress.html.twig' with { 'addAddressForm' : addAddressForm} %}
 
   <div class="modal fade" tabindex="-1" role="dialog" id="shippingModal">
     <div class="modal-dialog" role="document">

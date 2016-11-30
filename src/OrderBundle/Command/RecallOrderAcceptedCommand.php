@@ -46,9 +46,17 @@ class RecallOrderAcceptedCommand extends ContainerAwareCommand
 
         foreach ($orders as $order) {
             if ($order->getCreatedAt() < new \DateTime("-5days") && $order->getCreatedAt() > new \DateTime("-15days")) {
-                $mailer->sendAcceptedOrderToSellerEmailMessage($order);
-                $email = $order->getProduct()->getUser()->getEmail();
-                $logger->addNotice(sprintf("Sending recall_order_accepted email to %s from cron %s", $email, __CLASS__));
+
+                $track = $order->getEmcTracking();
+                if ($order->getEmc() == true && isset($track['etat']) && ($track['etat'] == "LIV" || $track['etat'] == "ENV")) {
+                    /**
+                     * On fait quelque chose ? Le colis est livré
+                     */
+                } else {
+                    $mailer->sendAcceptedOrderToSellerEmailMessage($order);
+                    $email = $order->getProduct()->getUser()->getEmail();
+                    $logger->addNotice(sprintf("Sending recall_order_accepted email to %s from cron %s", $email, __CLASS__));
+                }
             }
         }
     }

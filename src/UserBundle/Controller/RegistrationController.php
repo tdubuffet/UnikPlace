@@ -8,4 +8,14 @@ use FOS\UserBundle\Controller\RegistrationController as BaseRegistrationControll
 
 class RegistrationController extends BaseRegistrationController
 {
+
+    public function registerAction(Request $request)
+    {
+        $response = parent::registerAction($request);
+
+        $this->get('session')->getFlashBag()->clear();
+
+        return $response;
+    }
+
 }

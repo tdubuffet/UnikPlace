@@ -14,7 +14,16 @@ class AddressAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'Nom du destinataire', 'required' => true])
+            ->add('civility', ChoiceType::class, [
+                'label' => 'Civilité',
+                'choices' => [
+                    'Monsieur' => 'mr',
+                    'Madame' => 'mrs'
+                ],
+                'required' => true
+            ])
+            ->add('firstname', TextType::class, ['label' => 'Nom du destinataire', 'required' => true])
+            ->add('lastname', TextType::class, ['label' => 'Nom du destinataire', 'required' => true])
             ->add('street', TextType::class, ['label' => 'Adresse', 'required' => true])
             ->add('additional', TextType::class, ['label' => 'Complément d\'adresse', 'required' => false])
             ->add('city', TextType::class, ['label' => 'Ville', 'disabled' => true])

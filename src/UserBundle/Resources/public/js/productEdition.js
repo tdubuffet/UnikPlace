@@ -65,7 +65,29 @@ var ProductEdition = {
                 },
                 image4: {
                     require_from_group: picErrorMessage
-                }
+                },
+                "product[customDeliveryFee]": {
+                    required: function () {
+                        var dim = parseFloat($('#product_parcelWidth').val()) + parseFloat($('#product_parcelLength').val()) + parseFloat($('#product_parcelHeight').val());
+
+                        if ($('#product_parcelType').val() != 'box' || dim >= 200) {
+                            return "Les dimensions et/ou le poids de votre produit ne nous permettent pas de proposer notre solution de livraison  sur l'ensemble du territoire. Merci donc de renseigner les frais du transporteur que vous choisirez et avec qui vous traiterez directement l'expédition et la livraison du produit. Les frais seront toujours refacturés à l'acheteur.";
+                        }
+                        return "Vous avez choisi d'utiliser votre propre transporteur, vous devez renseigner le tarif de livraison.";
+                    }
+                },
+            }
+        });
+
+
+        $('#delivery_custom_seller').click(function() {
+
+            if ($(this).is(":checked")) {
+                $('#shipping_fees').rules("add", "required");
+                $('.input-delivery-shipping-fees').show();
+            } else {
+                $('#shipping_fees').rules("remove", "required");
+                $('.input-delivery-shipping-fees').hide();
             }
         });
     },
