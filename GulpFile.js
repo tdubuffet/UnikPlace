@@ -32,6 +32,40 @@ gulp.task('sass-prod', function () {
         .pipe(gulp.dest('./web/css/'));
 });
 
+gulp.task('js-script', function() {
+    gulp.src([
+        './web/components/jquery/dist/jquery.js',
+        './web/components/bootstrap-sass/assets/javascripts/bootstrap.js',
+        './web/components/jquery-validation/dist/jquery.validate.js',
+        './web/components/owl.carousel/dist/owl.carousel.js',
+        './web/components/elevatezoom/jquery.elevatezoom.js',
+        './web/components/bootbox.js/bootbox.js',
+        './web/components/select2/dist/js/select2.js',
+        './web/components/select2/dist/js/i18n/fr.js',
+
+        './web/components/blueimp-load-image/js/load-image.all.min.js',
+        './web/components/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
+        './web/components/blueimp-file-upload/js/jquery.iframe-transport.js',
+        './web/components/blueimp-file-upload/js/jquery.fileupload.js',
+        './web/components/blueimp-file-upload/js/jquery.fileupload-process.js',
+        './web/components/blueimp-file-upload/js/jquery.fileupload-image.js',
+        './web/components/html.sortable/dist/html.sortable.js',
+        './web/components/jquery.maskedinput/src/jquery.maskedinput.js',
+        './web/components/jquery-creditcardvalidator/jquery.creditCardValidator.js',
+        './web/components/share-button/share-button.js',
+
+        './src/*/Resources/public/js/*.js'
+    ])
+        .on('error', swallowError)
+        .pipe(useref())
+        .pipe(gulpif('*.js', uglify({
+            mangle: false
+        })))
+        .pipe(concat('master.js'))
+        .pipe(gulp.dest('./web/js/'));
+});
+
+
 var livereload = require('gulp-livereload');
 
 gulp.task('watch', function () {
@@ -47,6 +81,10 @@ gulp.task('watch', function () {
     livereload.listen();
     gulp.watch('./src/*/Resources/public/sass/**/*.scss', ['sass-dev'])
         .on('change', onChange);
+
+
+    gulp.watch('./src/*/Resources/public/js/**/*.js', ['js-script'])
+        .on('change', onChange);
 });
 
 gulp.task('installAssets', function () {
@@ -55,8 +93,8 @@ gulp.task('installAssets', function () {
     });
 });
 
-gulp.task('default', ['sass-dev']);
+gulp.task('default', ['sass-dev', 'js-script']);
 
-gulp.task('dev', ['sass-dev']);
+gulp.task('dev', ['sass-dev', 'js-script']);
 
-gulp.task('prod', ['sass-prod']);
+gulp.task('prod', ['sass-prod', 'js-script']);

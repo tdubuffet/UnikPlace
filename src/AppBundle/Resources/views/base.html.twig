@@ -43,6 +43,18 @@
 
     </script>
   {% endif %}
+  <script>
+    (function(w, d, s, id, n){
+      w[n] = w[n] || {q: [],
+                init: function(o) {w[n].initOpts = o;},
+                ready: function(c) {w[n].q.push(c);}};
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://cdn.by.wonderpush.com/sdk/1.1/wonderpush-loader.min.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(window, document, "script", "wonderpush-jssdk-loader", "WonderPush"));
+  </script>
 
     <!-- // HEADER // -->
     <header class="header-wrapper">
@@ -497,7 +509,6 @@
                             <span>Nous contacter</span>
                           </div>
                           <div class="custom-footer-content">
-                            <span class="item-info"><i class="fa fa-university"></i><span class="address">{{ website.contact.address }}</span> </span>
                             <span class="item-info"><i class="fa fa-envelope-o"></i><a href="mailto:{{ website.contact.email }}" class="email">{{ website.contact.email }}</a> </span>
                             <span class="item-info"><i class="fa fa-phone"></i><a href="tel:{{ website.contact.phone|replace({' ' : ''}) }}" class="phone">{{ website.contact.phone }}</a> </span>
                           </div>
@@ -544,40 +555,8 @@
       </div>
     </div>
   </div>
-    {% javascripts
-    'components/jquery/dist/jquery.js'
-    'components/bootstrap-sass/assets/javascripts/bootstrap.js'
-    'components/jquery-validation/dist/jquery.validate.js'
-    'components/jquery-validation/dist/additional-methods.js'
-    'components/owl.carousel/dist/owl.carousel.js'
-    'components/elevatezoom/jquery.elevatezoom.js'
-    'components/bootbox.js/bootbox.js'
-    'components/select2/dist/js/select2.js'
-    'components/select2/dist/js/i18n/fr.js'
-    'components/blueimp-load-image/js/load-image.all.min.js'
-    'components/blueimp-file-upload/js/vendor/jquery.ui.widget.js'
-    'components/blueimp-file-upload/js/jquery.iframe-transport.js'
-    'components/blueimp-file-upload/js/jquery.fileupload.js'
-    'components/blueimp-file-upload/js/jquery.fileupload-process.js'
-    'components/blueimp-file-upload/js/jquery.fileupload-image.js'
-    'components/html.sortable/dist/html.sortable.js'
-    'components/jquery.maskedinput/src/jquery.maskedinput.js'
-    'components/jquery-creditcardvalidator/jquery.creditCardValidator.js'
-    'components/share-button/share-button.js'
-    'components/intl-tel-input/build/js/intlTelInput.min.js'
-    'bundles/fosjsrouting/js/router.js'
-    '@CartBundle/Resources/public/js/*.js'
-    '@AppBundle/Resources/public/js/*.js'
-    '@CommentBundle/Resources/public/js/*.js'
-    '@LocationBundle/Resources/public/js/*.js'
-    '@DepositBundle/Resources/public/js/*.js'
-    '@UserBundle/Resources/public/js/*.js'
-    '@ProductBundle/Resources/public/js/*.js'
-    output='js/compiled/main.js'
-    filter='uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script src="{{ asset('js/master.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 
     {% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
       <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>

@@ -62,6 +62,27 @@ var Common = {
 
         Common.mobileSkipLink();
         Common.notificationInit();
+        Common.wonderpush();
+    },
+
+    wonderpush: function() {
+
+        console.log('PLOP');
+        
+        WonderPush.init({
+            webKey: "7bdb209cc30ad32d52c8f7d811c30af2ff5abc8fa2a92cac18716e8c7a948dc1",
+            optInOptions: {
+                // You can modify or translate the following:
+                modalBoxMessage: "We will send you personalized notifications.<br/>You can always unsubscribe at any time.",
+                modalBoxButton: "Got it!",
+                externalBoxProcessingMessage: "Subscribing...",
+                externalBoxSuccessMessage: "Thanks for subscribing!",
+                externalBoxFailureMessage: "Sorry, something went wrong.",
+                externalBoxTooLongHint: "Poor connection or private browsing?",
+                externalBoxCloseHint: "Close"
+            }
+        });
+
     },
 
     notificationInit: function() {
