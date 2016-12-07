@@ -1,0 +1,114 @@
+.block-account {
+  padding-bottom: 30px;
+  line-height: 14px;
+
+  .block-title {
+    margin-bottom: 21px;
+    position: relative;
+    z-index: 2;
+    span {
+      display: inline-block;
+      position: relative;
+      text-transform: uppercase;
+      font-size: 16px;
+      color: #181818;
+      font-weight: 700;
+      background-color: #fff;
+      z-index: 9;
+      padding-right: 7px;
+      letter-spacing: .075em;
+    }
+
+    &::after {
+      height: 2px;
+      content: '';
+      position: absolute;
+      width: 100%;
+      top: 6px;
+      right: 0;
+      background-color: $grey-light;
+    }
+  }
+
+  .block-content {
+    border: 1px solid $grey-light;
+    padding: 20px 18px;
+
+    ul {
+      padding: 0;
+      margin: 0;
+      li {
+        list-style: none;
+        padding-bottom: 5px;
+        i.fa {
+          color: $orange;
+          padding-right: 4px;
+        }
+        &:last-child {
+          padding-bottom: 0px;
+        }
+        a {
+          color: $grey;
+        }
+      }
+    }
+  }
+}
+
+.account-login {
+  h2 {
+    color: $black !important;
+  }
+  h1 {
+    text-align: center;
+    color: $grey !important;
+
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    text-transform: uppercase;
+    position: relative;
+    letter-spacing: .075em;
+    margin: 0 60px;
+    text-align: center;
+    margin: 50px 0;
+
+    &:after {
+      height: 2px;
+      position: absolute;
+      content: '';
+      top: 14px;
+      width: 100%;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      background: $grey-light;
+    }
+
+    span {
+      display: inline-block;
+      position: relative;
+      z-index: 4;
+      padding: 0 30px;
+      background-color: #fff;
+    }
+  }
+
+  .type-user {
+    width: 100%;
+
+    .btn-type-user {
+      width: 50%;
+      line-height: 40px;
+      label {
+        color: $orange;
+      }
+    }
+  }
+
+  .btn.btn-facebook {
+    color: #fff;
+    background-color: #4c66a4;
+    border-color: #4c66a4;
+  }
+}

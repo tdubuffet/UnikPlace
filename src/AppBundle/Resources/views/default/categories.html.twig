@@ -1,89 +1,44 @@
-{% if collections|length > 0 %}
-  <li class="level0 level-top m-dropdown parent parent">
-    <a class="level-top" href="{{ path('collections') }}"><span>Tendances</span></a>
-    <div class="dropdown menu-wrap-sub">
-      <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-4col">
-        <ul class="level0">
-          <li class="level1 group item">
-            <span class="title_group_head">Les dernières inspirations</span>
-          </li>
-          {% for idx, collection in collections %}
-            <li class="level1 item nav-2-{{ idx }}">
-              <a href="{{ path("collection", {"slug" : collection.slug}) }}"><span>{{ collection.name }}</span></a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </li>
-{% endif %}
 {% for idx, category in categories %}
-  <li class="level0 nav-{{ idx }} level-top parent">
-    <a href="{{ path('category', {path: category.getPath()}) }}" class="level-top">
-      <span>{{ category.GetName }}</span>
-    </a>
-    {% if category.getChildren()|length > 0 %}
-      <div class="level0 menu-wrap-sub">
-        <div class="ulmenu-block ulmenu-block-center menu-items grid12-3 itemgrid itemgrid-4col">
-          <ul class="level0">
-              <li class="level1 groups">
-                <span class="title_group_head_no_link">Catégorie</span>
-                  <div class="menu-wrapper">
-                    <ul class="level1">
-                      {% for childCategory in category.getChildren() %}
-                        <li class="level2">
-                          <a href="{{ path('category', {path: childCategory.getPath()}) }}">
-                            <span>{{ childCategory.getName }}</span>
-                          </a>
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </div>
-              </li>
-          </ul>
-        </div>
-
-        <div class="ulmenu-block ulmenu-block-center menu-items grid12-3 itemgrid itemgrid-4col">
-          <ul class="level0">
-              <li class="level1 groups">
-                  <span class="title_group_head_no_link">Prix</span>
-                  <div class="menu-wrapper">
-                    <ul class="level1">
-                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-max="100"><span>Inférieur à 100 €</span></a></li>
-                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="100" data-max="500"><span>Entre 100 et 500 €</span></a></li>
-                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="500" data-max="1000"><span>Entre 500 et 1 000 €</span></a></li>
-                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="1000" data-max="2000"><span>Entre 1 000 et 2 000 €</span></a></li>
-                        <li class="level2"><a class="menu-price-range-link" data-cat="{{ category.id }}" data-min="2000"><span>Supérieur à 2 000 €</span></a></li>
-                    </ul>
-                  </div>
-              </li>
-          </ul>
-        </div>
-
-        {% if category.getCollections()|length > 0 %}
-          <div class="ulmenu-block ulmenu-block-center grid12-6 std itemgrid itemgrid-4col menu-items">
-            <div class="groups">
-            <span class="title_group_head_no_link tendance">Tendances</span>
-            <div class="row">
-              {% for collection in category.getCollections() %}
-                {% if loop.index0 < 4 %}
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 tendance-link">
-                    <a href="{{ path('collection', {'slug' : collection.slug}) }}" class="">
-                      {% if collection.image is not null %}
-                        <img class="img-responsive" alt="{{ collection.name }}"
-                             src="{{ loadpic(collection.image, 255, 150, "r", "collections") }}"/>
-                      {% else %}
-                        {{ collection.name }}
-                      {% endif %}
-                    </a>
-                  </div>
-                {% endif %}
-              {% endfor %}
+    <li>
+        <a href="{{ path('category', {path: category.getPath()}) }}" class="parent">
+            <span>{{ category.GetName }}</span>
+        </a>
+        <div class="super-menu">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="title">Catégories</div>
+                        <ul>
+                            {% for cat in category.children %}
+                                <li><a href="{{ path('category', {path: cat.getPath()}) }}">{{ cat.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        {% if designers[category.id] is defined %}
+                            <div class="title">Designers</div>
+                            <ul>
+                                {% for id, designer in designers[category.id] %}
+                                    <li><a href="{{ path('search', {'cat': category.id, 'designer' : id}) }}">{{ designer|capitalize }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3">
+                        {% if styles[category.id] is defined %}
+                            <div class="title">Styles</div>
+                            <ul>
+                                {% for id, style in styles[category.id] %}
+                                    <li><a href="{{ path('search', {'cat': category.id, 'style' : id}) }}">{{ style|capitalize }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3">
+                        <img class="image-super-menu" src="{{ asset('bundles/app/images/category/cat-' ~ category.id ~ '.jpg') }}"/>
+                    </div>
+                </div>
             </div>
-            </div>
-          </div>
-        {% endif %}
-      </div>
-    {% endif %}
-  </li>
+        </div>
+    </li>
 {% endfor %}

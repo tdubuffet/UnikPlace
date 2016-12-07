@@ -1,5 +1,11 @@
+{% if col is not defined %}
+    {% set col = 'products-itemgrid-3col' %}
+{% endif %}
+
 {% if products|length > 0 %}
-<ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-3col show-grid">
+    <ul class="products-grid itemgrid itemgrid-adaptive {{ col }} show-grid {% if carrousel is defined %}owl-carousel owl-loaded owl-theme{% endif %}" {% if id is defined %}id="{{ id }}"{% endif %}>
+        {% if carrousel is defined %}
+        <div class="slide-container">{% endif %}
   {% for product in products %}
   <li class="item first hover-effect">
     <div class="item-inner">
@@ -12,29 +18,24 @@
         {% endif %}
         <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
           {% set images = product.getImages() %}
-          <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}" alt="{{ product.name }}" />
+            <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 320, 'r3') }}{% endif %}" alt="{{ product.name }}"/>
+            {% if images[1] is defined %}<img class="img-responsive hover-effect" src="{% if images[1] is defined %}{{ loadpic(images[1], 275, 320, 'r3') }}{% endif %}" alt="{{ product.name }}" />{% endif %}
         </a>
       </div>
       <div class="product-content">
-        <span class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></span>
-        <!--<div class="display-onhover">
-          <div class="ratings">
-            <div class="rating-box">
-              <div class="rating" style="width:73%"></div>
-            </div>
-          </div>
-        </div>-->
+
+          <span class="category-name">{{ product.category.name }}</span>
+
+          <span class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></span>
 
         <div class="price-box">
           {% if product.originalPrice is not null %}
             <p class="old-price">
-              <span class="price-label">Ancien prix :</span>
               <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
             </p>
           {% endif %}
 
           <p class="special-price">
-            <span class="price-label">Nouveau prix :</span>
             <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
           </p>
         </div>
@@ -43,6 +44,7 @@
     </div>
   </li>
   {% endfor %}
+            {% if carrousel is defined %}</div>{% endif %}
 </ul>
 
 {% if pagination is defined %}

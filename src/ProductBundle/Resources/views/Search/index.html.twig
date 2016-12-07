@@ -34,7 +34,7 @@
                     <span class="separator">/</span>
                   </li>
                 {% endfor %}
-                <li><strong>{{ category.name }}</strong></li>
+                  <li><h1>{{ category.name }}</h1></li>
               </ul>
             </div>
           </div>
@@ -141,10 +141,6 @@
 
           <div class="col-md-9">
             <div class="col-main">
-              {% if category is defined %}
-                <h1>{{ category.name }}</h1>
-              {% endif %}
-
               <div class="category-products">
                 <div class="toolbar">
                   <div class="row">

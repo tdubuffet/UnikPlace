@@ -100,15 +100,37 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/test", name="test")
      * @Template("AppBundle:default:categories.html.twig")
      */
     public function categoriesAction()
     {
 
-        $categories = $this->getDoctrine()->getRepository('ProductBundle:Category')->findByParentCache(null);
+        $categories = $this->getDoctrine()
+            ->getRepository('ProductBundle:Category')
+            ->findByParentCache(null);
+
+        $styles = [];
+        $designers = [];
+
+        foreach ($categories as $cat) {
+            $styles[$cat->getId()] = $this->getDoctrine()
+                ->getRepository('ProductBundle:AttributeValue')
+                ->findStyleByCategory($cat);
+
+            $designers[$cat->getId()] = $this->getDoctrine()
+                ->getRepository('ProductBundle:AttributeValue')
+                ->findDesignersByCategory($cat);
+        }
+
         $collections = $this->getDoctrine()->getRepository("ProductBundle:Collection")->findLast10();
 
-        return ['categories' => $categories, "collections" => $collections];
+        return [
+            'categories' => $categories,
+            "collections" => $collections,
+            'styles' => $styles,
+            'designers' => $designers
+        ];
     }
 
     /**

@@ -10,4 +10,44 @@ namespace ProductBundle\Repository;
  */
 class AttributeValueRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findStyleByCategory($category, $maxResults = 6)
+    {
+        return $this->findByAttributeCode('style', $category, $maxResults);
+    }
+
+    public function findDesignersByCategory($category, $maxResults = 6)
+    {
+        return $this->findByAttributeCode('designer', $category, $maxResults);
+    }
+
+    public function findByAttributeCode($code, $category, $maxResults = 6)
+    {
+        $values = $this->createQueryBuilder('av')
+            ->addSelect('count(a.id) AS HIDDEN countAttr')
+            ->innerJoin('av.attribute', 'a', 'WITH', 'a.code = :code')
+            ->innerJoin('av.referentialValue', 'rv')
+            ->innerJoin('av.product', 'p')
+            ->innerJoin('p.category', 'c')
+            ->innerJoin('p.status', 's', 'WITH', 's.name = :status')
+            ->where('c.parent = :category')
+            ->setParameter('category', $category)
+            ->setParameter('code', $code)
+            ->setParameter('status', 'published')
+            ->groupBy('rv.id')
+            ->addOrderby('countAttr', 'DESC')
+            ->having('countAttr > 0')
+            ->getQuery()
+            ->setMaxResults($maxResults)
+            ->useResultCache(true, 3600, 'list_' . $code . '_by_category')
+            ->getResult();
+
+        $data = [];
+
+        foreach ($values as $val) {
+            $data[$val->getReferentialValue()->getId()] = $val->getReferentialValue()->getValue();
+        }
+
+        return $data;
+    }
+
 }

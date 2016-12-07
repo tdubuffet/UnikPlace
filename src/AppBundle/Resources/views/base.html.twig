@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>{% block title %}{{ (app.request.get('_route') ~ '.title')|trans({"%siteName%" :  siteName}, 'seo')  }} {% endblock %}</title>
+    <title>{% block title %}{{ (app.request.get('_route') ~ '.title')|trans({"%siteName%" :  siteName}, 'seo') }} {% endblock %}</title>
 
-    {% set metaDescription =  (app.request.get('_route') ~ '.description')|trans({"%siteName%" :  siteName}, 'seo')  %}
+    {% set metaDescription =  (app.request.get('_route') ~ '.description')|trans({"%siteName%" :  siteName}, 'seo') %}
 
     {% if metaDescription == '' or  metaDescription == (app.request.get('_route') ~ '.description') %}
-      {% set metaDescription = 'default.description'|trans({"%siteName%" :  siteName}, 'seo') %}
+        {% set metaDescription = 'default.description'|trans({"%siteName%" :  siteName}, 'seo') %}
     {% endif %}
 
     <meta name="description" content="{% block description %}{{ metaDescription }}{% endblock %}">
@@ -21,558 +21,356 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/master.css') }}">
     {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body {% block bodyclass %}{% endblock %}>
-  {% if app.environment == 'prod' %}
+</head>
+<body {% block bodyclass %}{% endblock %}>
+{% if app.environment == 'prod' %}
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-83010047-1', 'auto');
-      ga('send', 'pageview');
+        ga('create', 'UA-83010047-1', 'auto');
+        ga('send', 'pageview');
 
     </script>
-  {% endif %}
-  <script>
-    (function(w, d, s, id, n){
-      w[n] = w[n] || {q: [],
-                init: function(o) {w[n].initOpts = o;},
-                ready: function(c) {w[n].q.push(c);}};
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://cdn.by.wonderpush.com/sdk/1.1/wonderpush-loader.min.js";
-      fjs.parentNode.insertBefore(js, fjs);
+{% endif %}
+<script>
+    (function (w, d, s, id, n) {
+        w[n] = w[n] || {
+                    q: [],
+                    init: function (o) {
+                        w[n].initOpts = o;
+                    },
+                    ready: function (c) {
+                        w[n].q.push(c);
+                    }
+                };
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://cdn.by.wonderpush.com/sdk/1.1/wonderpush-loader.min.js";
+        fjs.parentNode.insertBefore(js, fjs);
     }(window, document, "script", "wonderpush-jssdk-loader", "WonderPush"));
-  </script>
+</script>
 
-    <!-- // HEADER // -->
-    <header class="header-wrapper">
-      <div class="header-container">
-        <div class="main-header">
-          <div class="container">
-            <div class="header-content mobile-wrapper visible-xs">
-              <div id="mobile-sticky" class="mobile-content-inner {% if 'DepositBundle' in app.request.attributes.get('_controller') or 'CartBundle' in app.request.attributes.get('_controller') %}non-sticky{% else %}sticky{% endif %}">
-                <div class="header-top-left">
-                  <div class="top-left-inner">
-                    <div class="header-search">
-                      <div class="search-container">
-                        <div class="overwrite-setting skip-link" onclick="Common.mobileSkipLink(this);" data-target-element="#navbar-search">
-                          <i class="fa fa-search"></i>
-                        </div>
-                        <div id="navbar-search" class="switcher-content skip-content">
-                          <form id="search_mb_mini_form" action="{{ path('search') }}" method="get">
-                            <div class="input-group form-search">
-                              <div class="input-group-btn category-filter">
-                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                                  <span class="category-label">Tout </span>&nbsp;
-                                  <i class="fa fa-angle-down"></i>
-                                </button>
-                                {{ render(controller('AppBundle:Default:searchcategories')) }}
-                              </div>
-                              <input type="hidden" name="cat" class="search-category" value="{{ app.request.query.get('cat') }}" />
-                              <input id="mb_search"
-                                     type="search"
-                                     name="q"
-                                     value="{{ app.request.query.get('q') }}"
-                                     class="input-text required-entry"
-                                     maxlength="128"
-                                     placeholder="Rechercher sur le site..."
-                                     />
-                              <button type="submit" title="Search" class="search-button"><span><span><i class="fa fa-search"></i></span></span></button>
-                            </div>
-                            <div id="search_mb_autocomplete" class="search-autocomplete" style="display: none"></div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- navigation BOF -->
-                    <div class="navbar visible-xs">
-                      <div class="navbar">
-                        <div class="navbar-header skip-link" onclick="Common.mobileSkipLink(this);" data-target-element="#navbar-toggle">
-                          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                          </button>
-                        </div>
-                        <nav id="navbar-toggle" class="bs-navbar-collapse skip-content">
-                          <ul class="nav-accordion nav-mobile-accordion">
+<!-- // HEADER // -->
 
-                            <li class="level0 home level-top">
-                              <a href="{{ path('homepage') }}"
-                                 class="level-top"><span>Accueil</span></a>
-                            </li>
-                            <li class="level0 home level-top">
-                              <a href="{{ path('sell_category') }}"
-                                 class="level-top"><span>Vendez</span></a>
-                            </li>
-                            {{ render(controller('AppBundle:Default:mobilecategories')) }}
-                            <li class="level0 home level-top">
-                              <a href="{{ path('blog') }}"
-                                 class="level-top"><span>#Designlovers</span></a>
-                            </li>
-                          </ul>
-                        </nav>
-                      </div>
-                    </div>
-                    <!-- navigation EOF -->                            </div>
-                </div>
-                <div class="header-logo">
-                  <a href="{{ path('homepage') }}" title="{{ siteName }}" class="logo">
-                    <img class="x1" src="{{ optipng('bundles/app/images/logo_unik.png', { 'output' : 'images/logo_unik.png'}) }}" alt="{{ siteName }}" />
-                  </a>
-                </div>
-                <div class="header-top-right">
-                  <div class="top-right-inner">
-                    <div class="header-type">
-                      <div class="header-maincart">
-                        <div class="cart-container">
-                          <a href="{{ path('cart') }}" title="Mon Panier" class="icon-cart-header skip-link">
-                            <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb">{{ app.session.get('cart')|length }}</span></span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="header-setting">
-                      <div class="setting-switcher switcher-wrap">
-                        <div class="overwrite-setting skip-link" onclick="Common.mobileSkipLink(this);" data-target-element="#navbar-setting">
-                          <span class="fa fa-cog"></span>
-                        </div>
-                        <div id="navbar-setting" class="switcher-content skip-content">
-                          <div class="main-switcher">
-                            <div class="main-setting">
-                              <div class="main-account">
-                                <ul class="links">
-                                  {% if app.user %}
-                                    <li class="first"><a href="{{ path("user_account_products") }}">Mes produits</a></li>
-                                    <li><a href="{{ path('user_account_wallet') }}">Mon argent</a></li>
-                                    <li><a href="{{ path('fos_user_profile_edit') }}">Mes paramètres</a></li>
-                                    <li><a href="{{ path('user_account_purchases') }}">Mes achats</a></li>
-                                    <li><a href="{{ path('user_account_sales') }}">Mes ventes</a></li>
-                                    <li><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
-                                    <li><a href="{{ path('user_addresses') }}">Mes adresses</a></li>
-                                    <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
-                                    <li class=" last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
-                                  {% else %}
-                                    <li class="first" ><a href="{{ path('fos_user_security_login') }}" title="Connexion" >Connexion</a></li>
-                                    <li class="last" ><a href="{{ path('fos_user_registration_register') }}" title="Connexion" >Inscription</a></li>
-                                  {% endif %}
-                                </ul>
-                              </div>
-                            </div>
-                            <div class="language-currency hidden">
-                              <div class="language-switcher">
-                                <div class="title-selector"><span>Langues</span></div>
-                                <ul class="select-language clearfix">
-                                  <li class="current-language">
-                                    <span>
-                                      <img alt="francais" src="{{ asset('bundles/app/images/flags/flag-french.jpg') }}" />
-                                    </span>
-                                  </li>
-                                  <li><a href="#"> <img alt="anglais" src="{{ asset('bundles/app/images/flags/flag-english.jpg') }}" /></a></li>
-                                </ul>
-                              </div>
-                            </div>
+<header class="header-wrapper">
 
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-3 logo">
+                <a href="{{ path('homepage') }}" title="{{ siteName }}" class="logo">
+                    <img class="x1" src="{{ optipng('bundles/app/images/logo_unik.png', { 'output' : 'images/logo_unik.png'}) }}" alt="{{ siteName }}"/>
+                </a>
             </div>
-          </div>
-          <div class="container">
-            <div class="header-content hidden-xs">
-              <div class="row">
-                <div class="item col-lg-3 col-md-2 col-sm-3 col-xs-12">
-                  <a href="{{ path('homepage') }}" title="{{ siteName }}" class="logo">
-                    <img class="x1 img-responsive" src="{{ optipng('bundles/app/images/logo_unik.png', { 'output' : 'images/logo_unik.png'}) }}" alt="{{ siteName }}" />
-                  </a>
-                </div>
-                <div class="item col-lg-9 col-md-10 col-sm-9 col-xs-12">
-                  <div class="header-right-wrapper">
-                    <div class="header-top-container">
-                      <div class="language-wrapper"><div class="language-currency">
-                          <div class="language-switcher switcher-wrap">
-{#
-                            <div class="overwrite-language">
-                              <span style="background-image:url('{{ asset('bundles/app/images/flags/flag-french.jpg') }}');background-repeat: no-repeat; background-position: 15px center;">Français</span>
+
+            <div class="col-md-9">
+
+                <div class="sub-header-top">
+
+                    <div class="container-account pull-right">
+                        <div class="header-setting-btn" id="notificationLi">
+                            <div class="account-container">
+                                {{ render(controller('UserBundle:Notification:notificationBar')) }}
                             </div>
-                            <ul class="select-language">
-                              <li><a style="background-image:url({{ asset('bundles/app/images/flags/flag-french.jpg') }}); background-repeat: no-repeat; background-position: 0px center;" href="#"> Français</a></li>
-                              <li><a style="background-image:url({{ asset('bundles/app/images/flags/flag-english.jpg') }}); background-repeat: no-repeat; background-position: 0px center;" href="#"> English</a></li>
-                            </ul>
-#}
-                          </div>
                         </div>
-                      </div>
-                      <div class="store-wrapper"></div>
-                      <div class="header-setting">
-                        <div class="dropdown setting-switcher switcher-wrap">
-                          {% if app.user %}
-                          <a href="#" class="overwrite-setting dropdown-toggle" data-toggle="dropdown">
-                            <span>Mon Compte</span>
-                          </a>
-                          <ul class="dropdown-menu dropdown-user">
-                            <li class="first"><a href="{{ path("user_account_products") }}">Mes produits</a></li>
-                            <li><a href="{{ path('user_account_wallet') }}">Mon argent</a></li>
-                            <li><a href="{{ path('fos_user_profile_edit') }}">Mes paramètres</a></li>
-                            <li><a href="{{ path('user_account_purchases') }}">Mes achats</a></li>
-                            <li><a href="{{ path('user_account_sales') }}">Mes ventes</a></li>
-                            <li><a href="{{ path('user_addresses') }}">Mes adresses</a></li>
-                            <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
-                            <li class="hidden-lg"><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
-                            <li class="last" ><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
-                          </ul>
-                          {% else %}
-                            <a href="{{ path('fos_user_security_login') }}">
-                              <i class="fa fa-user" aria-hidden="true"></i>
-                              <span>Connexion / Inscription</span>
-                            </a>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="header-bottom-container">
-                      <div class="row">
-                        <div class="header-search">
-                          <div class="search-container">
-                            <div class="main-form-search">
-                              <form id="search_mini_form" action="{{ path('search') }}" method="get">
-                                <div class="input-group form-search">
-                                  <div class="input-group-btn category-filter">
-                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                                      <span class="category-label">Tout </span>&nbsp;
-                                      <i class="fa fa-angle-down"></i>
-                                    </button>
-                                    {{ render(controller('AppBundle:Default:searchcategories')) }}
-                                  </div>
-                                  <input type="hidden" name="cat" class="search-category" value="{{ app.request.query.get('cat') }}" />
-                                  <input id="search"
-                                         type="search"
-                                         name="q"
-                                         value="{{ app.request.query.get('q') }}"
-                                         class="input-text required-entry"
-                                         maxlength="128"
-                                         placeholder="Rechercher sur le site..." />
-                                  <button type="submit" title="Search" class="button">
-                                    <span><span><i class="fa fa-search"></i></span></span>
-                                  </button>
-                                </div>
-                                <div id="search_autocomplete" class="search-autocomplete" style="display: none"></div>
-                              </form>
-
-
-
-
-
+                        <div class="header-setting-btn">
+                            <div class="cart-container">
+                                <a href="{{ path('cart') }}" title="Mon Panier" class="icon-cart-header skip-link">
+                                    <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb main-numb">{{ app.session.get('cart')|length }}</span></span>
+                                </a>
                             </div>
-                          </div>
                         </div>
 
-                        <div class="header-account-action hidden-md hidden-xs hidden-sm" id="notificationLi">
-                          <div class="account-container">
-                            {{ render(controller('UserBundle:Notification:notificationBar')) }}
-                          </div>
+                        <div class="header-setting-btn">
+                            <div class="dropdown setting-switcher switcher-wrap user-settings">
+                                {% if app.user %}
+                                    <a href="#" class="overwrite-setting dropdown-toggle" data-toggle="dropdown">
+                                        <span><i class="fa fa-user"></i>Mon Compte</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li class="first"><a href="{{ path("user_account_products") }}">Mes produits</a></li>
+                                        <li><a href="{{ path('user_account_wallet') }}">Mon argent</a></li>
+                                        <li><a href="{{ path('fos_user_profile_edit') }}">Mes paramètres</a></li>
+                                        <li><a href="{{ path('user_account_purchases') }}">Mes achats</a></li>
+                                        <li><a href="{{ path('user_account_sales') }}">Mes ventes</a></li>
+                                        <li><a href="{{ path('user_addresses') }}">Mes adresses</a></li>
+                                        <li><a href="{{ path('user_account_wishlist') }}" title="Ma Wishlist" class="link-wishlist">Ma wishlist</a></li>
+                                        <li class="hidden-lg"><a href="{{ path('user_notification_list') }}">Mes notifications</a></li>
+                                        <li class="last"><a class="log-in" href="{{ path('fos_user_security_logout') }}" title="Déconnexion">Déconnexion</a></li>
+                                    </ul>
+                                {% else %}
+                                    <a href="{{ path('fos_user_security_login') }}">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        <span>Connexion / Inscription</span>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
 
-
-
-                        <div class="header-maincart">
-                          <div class="cart-container">
-                            <a href="{{ path('cart') }}" title="Mon Panier" class="icon-cart-header skip-link">
-                              <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb main-numb">{{ app.session.get('cart')|length }}</span></span>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div id="top-nav-wrapper" class="top-nav-wrapper {% if 'DepositBundle' in app.request.attributes.get('_controller') or 'CartBundle' in app.request.attributes.get('_controller') %}non-sticky{% else %}sticky{% endif %} hidden-xs">
-            <div class="container">
-              <div class="navigation-wrapper hidden-xs">
-                <div class="main-navigation">
-                  <ul class="top-navigation">
-                    <li class="level0 home level-top">
-                      <a href="{{ path('homepage') }}"
-                         class="level-top"><span>Accueil</span></a>
-                    </li>
-                    {{ render(controller('AppBundle:Default:categories')) }}
-                    <li class="level0 nav-end nav-right nav-sell level-top">
-                      <a href="{{ path('sell_category') }}" class="level-top">Vendez</a>
-                    </li>
-                    <li class="level0 nav-end nav-right nav-discover level-top">
-                      <a href="{{ path('about') }}" class="level-top">Découvrez-nous</a>
-                    </li>
-                    <li class="level0 nav-end nav-right nav-discover level-top">
-                      <a href="{{ path('blog') }}" class="level-top">#Designlovers</a>
-                    </li>
-                  </ul>
+
+                <div class="sub-header-bottom">
+                    <nav>
+                        <ul>
+
+                            {{ render(controller('AppBundle:Default:categories')) }}
+                            <li class="pull-right effect-sell">
+                                <a href="{{ path('sell_category') }}"
+                                   class="parent"><span>Vendez</span></a>
+                            </li>
+                            <li class="pull-right">
+                                <a href="{{ path('blog') }}"
+                                   class="parent"><span>#Designlovers</span></a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-              </div>
             </div>
-          </div><!-- #top-nav-wrapper -->
+
         </div>
-      </div>
-    </header>
+
+    </div>
 
 
-{#
-    <nav class="main-navbar navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('bundles/app/images/logo.png') }}" alt="logo" /></a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <form class="navbar-form navbar-left" method="get" action="{{ path('search') }}">
-            <input type="text" class="form-control" name="q" placeholder="Rechercher..." value="{{ app.request.query.get('q') }}">
-          </form>
-          {{ render(controller('AppBundle:Default:categories')) }}
+</header>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Déposer une annonce</a></li>
-            {% if app.user %}
-              <li {% if app.request.get('_route') == 'fos_user_profile_show' %}class="active"{% endif %}><a href="{{ path('fos_user_profile_show') }}"><i class="fa fa-user"></i> Mon compte</a></li>
-            {% else %}
-              <li><a href="{{ path('fos_user_security_login') }}">S'identifier</a></li>
-              <li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
-            {% endif %}
-            <li><a href="#"><i class="fa fa-shopping-cart"></i> Panier</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-#}
 
-    {% if app.user and (app.user.limitedBuyer or app.user.limitedSeller) %}
+{% if app.user and (app.user.limitedBuyer or app.user.limitedSeller) %}
 
-      <div class="alert alert-danger alert-dismissible alert-message-email text-center" role="alert">
+    <div class="alert alert-danger alert-dismissible alert-message-email text-center" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-        Vous avez effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année.<br /><a href="{{ path('user_account_wallet_kyc') }}">Confirmer mon identité bancaire</a>
-      </div>
+        Vous avez effectué une ou plusieurs transaction(s) pour un montant de plus de 2500 € ou des retraits de plus de 1000€ depuis le site Unik Place durant cette année.<br/><a href="{{ path('user_account_wallet_kyc') }}">Confirmer mon identité bancaire</a>
+    </div>
 
-    {% endif %}
+{% endif %}
 
-    {% if app.user and app.user.isEmailValidated() == false %}
+{% if app.user and app.user.isEmailValidated() == false %}
 
-      <div class="alert alert-warning alert-dismissible alert-message-email text-center" role="alert">
+    <div class="alert alert-warning alert-dismissible alert-message-email text-center" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-        Vous n'avez pas confirmé votre adresse email. Merci de vérifier vos mails et de valider votre compte.<br /><a href="{{ path('email_validation') }}">Me renvoyer le mail de confirmation</a>
-      </div>
+        Vous n'avez pas confirmé votre adresse email. Merci de vérifier vos mails et de valider votre compte.<br/><a href="{{ path('email_validation') }}">Me renvoyer le mail de confirmation</a>
+    </div>
 
-    {% endif %}
+{% endif %}
 
-    {% block wholebody %}
+{% block wholebody %}
     <div class="main-container">
-      {% block body %}{% endblock %}
+        {% block body %}{% endblock %}
     </div>
-    {% endblock %}
+{% endblock %}
 
-    <footer class="footer-wrapper">
-      <div class="footer-top hidden-xs">
+<footer class="footer-wrapper">
+    <div class="footer-top hidden-xs">
         <div class="container">
-          <div class="footer-container">
-            <div class="row show-grid">
-              <div class="block-container">
-                <div class="block-footer-bottom block-advantage">
-                  <div class="col-sm-3 col-xs-12 advantage">
+            <div class="footer-container">
+                <div class="row show-grid">
+                    <div class="block-container">
+                        <div class="block-footer-bottom block-advantage">
+                            <div class="col-sm-3 col-xs-12 advantage">
 
-                    <a href="{{ path('quality_content') }}" class="advantage-title">Qualité du Contenu</a>
-                    <div>
-                      Description des produits et retouche des photos pour une meilleure mise en avant des produits tout en bénéficiant d'un dépôt d'annonce très détaillée.
-                    </div>
+                                <a href="{{ path('quality_content') }}" class="advantage-title">Qualité du Contenu</a>
+                                <div>
+                                    Description des produits et retouche des photos pour une meilleure mise en avant des produits tout en bénéficiant d'un dépôt d'annonce très détaillée.
+                                </div>
 
-                  </div>
-                  <div class="col-sm-3 col-xs-12 advantage">
-                    <div class="advantage-title">Vente clef en main</div>
-                    <div>
-                      Vous pouvez confier à Unik Place un produit à vendre. Vous n'aurez plus à vous soucier de votre
-                      annonce, de la livraison et de la transaction.
-                    </div>
-                  </div>
-                  <div class="col-sm-3 col-xs-12 advantage">
-
-                    <div class="advantage-title">100% Sécurisé</div>
-                    <div>
-                      Achetez ou vendez des produits neufs ou d'occasion en toute sécurité ! Vous êtes assuré
-                      de recevoir l'argent des ventes ou de recevoir votre achat.
-                    </div>
-
-                  </div>
-                  <div class="col-sm-3 col-xs-12 advantage">
-                    <div class="advantage-title">Confidentialité</div>
-                    <div>
-                      Par sécurité, les données des utilisateurs sont confidentielles. L'évaluation des
-                      profils favorise une démarche d'achat ou de vente.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="container">
-          <div class="footer-container">
-            <div class="row show-grid">
-              <div class="block-container ">
-                <div>
-                  <div>
-                    <div class="block-footer-bottom">
-                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <div class="about">
-                          <div class="footer-block-title">
-                            <span>A propos de nous</span>
-                          </div>
-                          <div class="custom-footer-content">
-                            <div class="about-text"><p>
-                                Place de marché de meubles et objets déco neufs et d'occasion premium.
-                              </p></div>
-
-                            <div class="social">
-                              <div class="footer-block-title">
-                                <span>Réseaux sociaux</span>
-                              </div>
-                              <ul class="social-icons2 small light">
-                                <li class="facebook">
-                                  <a target="_blank" href="{{ website.socialNetwork.facebook }}"><span>Facebook</span></a>
-                                </li>
-                                <li class="twitter">
-                                  <a target="_blank" href="{{ website.socialNetwork.twitter }}"><span>Twitter</span></a>
-                                </li>
-                                <li class="instagram">
-                                  <a target="_blank" href="{{ website.socialNetwork.instagram }}"><span>Instagram</span></a>
-                                </li>
-                                <li class="pinterest">
-                                  <a target="_blank" href="{{ website.socialNetwork.pinterest }}"><span>Pinterest</span></a>
-                                </li>
-                              </ul>
                             </div>
-                          </div>
+                            <div class="col-sm-3 col-xs-12 advantage">
+                                <div class="advantage-title">Vente clef en main</div>
+                                <div>
+                                    Vous pouvez confier à Unik Place un produit à vendre. Vous n'aurez plus à vous soucier de votre
+                                    annonce, de la livraison et de la transaction.
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 advantage">
+
+                                <div class="advantage-title">100% Sécurisé</div>
+                                <div>
+                                    Achetez ou vendez des produits neufs ou d'occasion en toute sécurité ! Vous êtes assuré
+                                    de recevoir l'argent des ventes ou de recevoir votre achat.
+                                </div>
+
+                            </div>
+                            <div class="col-sm-3 col-xs-12 advantage">
+                                <div class="advantage-title">Confidentialité</div>
+                                <div>
+                                    Par sécurité, les données des utilisateurs sont confidentielles. L'évaluation des
+                                    profils favorise une démarche d'achat ou de vente.
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hidden-xs">
-                        <div class="product_link">
-                          <div class="footer-block-title">
-                            <span>La Boutique</span>
-                          </div>
-                          <div class="custom-footer-content">
-                            <ul class="links">
-                              {{ render(controller('AppBundle:Default:footerShop')) }}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <div class="product_link">
-                          <div class="footer-block-title">
-                            <span>Informations</span>
-                          </div>
-                          <div class="custom-footer-content">
-                            <ul class="links">
-                              <li><a href="{{ path('about') }}">A propos de nous</a></li>
-                              <li><a href="{{ path('faq') }}">Foire aux questions</a></li>
-                              <li><a href="{{ path('legal_notice') }}">Mentions légales</a></li>
-                              <li><a href="{{ path('contact') }}">Nous contacter</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hidden-xs">
-                        <div class="product_link">
-                          <div class="footer-block-title">
-                            <span>Nous contacter</span>
-                          </div>
-                          <div class="custom-footer-content">
-                            <span class="item-info"><i class="fa fa-envelope-o"></i><a href="mailto:{{ website.contact.email }}" class="email">{{ website.contact.email }}</a> </span>
-                            <span class="item-info"><i class="fa fa-phone"></i><a href="tel:{{ website.contact.phone|replace({' ' : ''}) }}" class="phone">{{ website.contact.phone }}</a> </span>
-                          </div>
-                        </div>
-                      </div>
-                  </div>            </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="footer-copyright">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <address>
-                {{ siteName }} {{ "now"|date('Y') }} - Tous droits réservés - Site d'achat, vente de biens d'occasions et neufs sécurisé.
-                <p class="text-center">
-                  <img class="mangopay-credits text-center" src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'images/mangopay.png'}) }}"
-                       alt="mangopay" height="26px">
-                </p>
-              </address>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-  <!-- Modal -->
-  <div class="modal fade" id="mailConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Mail de confirmation</h4>
-        </div>
-        <div class="modal-body">
-          Un mail de confirmation vous a été envoyé sur votre boite mail.
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-default btn-unik" title="Fermer" data-dismiss="modal">Fermer</button>
-        </div>
-      </div>
     </div>
-  </div>
-    <script src="{{ asset('js/master.js') }}"></script>
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="footer-container">
+                <div class="row show-grid">
+                    <div class="block-container ">
+                        <div>
+                            <div>
+                                <div class="block-footer-bottom">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <div class="about">
+                                            <div class="footer-block-title">
+                                                <span>A propos de nous</span>
+                                            </div>
+                                            <div class="custom-footer-content">
+                                                <div class="about-text"><p>
+                                                        Place de marché de meubles et objets déco neufs et d'occasion premium.
+                                                    </p></div>
 
-    {% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
-      <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    {% if app.environment == 'prod' %}
-      <script type="text/javascript">CRISP_WEBSITE_ID = "{{ crispWebsiteId }}";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-    {% endif %}
-    {% if app.environment == 'dev' %}
-       <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
-    {% endif %}
-    {% if app.request.get('asi') =='send' %}
-      <script>
-        $('document').ready(function() {
-          $('#mailConfirmation').modal('show');
+                                                <div class="social">
+                                                    <div class="footer-block-title">
+                                                        <span>Réseaux sociaux</span>
+                                                    </div>
+                                                    <ul class="social-icons2 small light">
+                                                        <li class="facebook">
+                                                            <a target="_blank" href="{{ website.socialNetwork.facebook }}"><span>Facebook</span></a>
+                                                        </li>
+                                                        <li class="twitter">
+                                                            <a target="_blank" href="{{ website.socialNetwork.twitter }}"><span>Twitter</span></a>
+                                                        </li>
+                                                        <li class="instagram">
+                                                            <a target="_blank" href="{{ website.socialNetwork.instagram }}"><span>Instagram</span></a>
+                                                        </li>
+                                                        <li class="pinterest">
+                                                            <a target="_blank" href="{{ website.socialNetwork.pinterest }}"><span>Pinterest</span></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hidden-xs">
+                                        <div class="product_link">
+                                            <div class="footer-block-title">
+                                                <span>La Boutique</span>
+                                            </div>
+                                            <div class="custom-footer-content">
+                                                <ul class="links">
+                                                    {{ render(controller('AppBundle:Default:footerShop')) }}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <div class="product_link">
+                                            <div class="footer-block-title">
+                                                <span>Informations</span>
+                                            </div>
+                                            <div class="custom-footer-content">
+                                                <ul class="links">
+                                                    <li><a href="{{ path('about') }}">A propos de nous</a></li>
+                                                    <li><a href="{{ path('faq') }}">Foire aux questions</a></li>
+                                                    <li><a href="{{ path('legal_notice') }}">Mentions légales</a></li>
+                                                    <li><a href="{{ path('contact') }}">Nous contacter</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hidden-xs">
+                                        <div class="product_link">
+                                            <div class="footer-block-title">
+                                                <span>Nous contacter</span>
+                                            </div>
+                                            <div class="custom-footer-content">
+                                                <span class="item-info"><i class="fa fa-envelope-o"></i><a href="mailto:{{ website.contact.email }}" class="email">{{ website.contact.email }}</a> </span>
+                                                <span class="item-info"><i class="fa fa-phone"></i><a href="tel:{{ website.contact.phone|replace({' ' : ''}) }}" class="phone">{{ website.contact.phone }}</a> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <address>
+                        {{ siteName }} {{ "now"|date('Y') }} - Tous droits réservés - Site d'achat, vente de biens d'occasions et neufs sécurisé.
+                        <p class="text-center">
+                            <img class="mangopay-credits text-center" src="{{ optipng('bundles/app/images/mangopay.png', { 'output' : 'images/mangopay.png'}) }}"
+                                 alt="mangopay" height="26px">
+                        </p>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal fade" id="mailConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Mail de confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Un mail de confirmation vous a été envoyé sur votre boite mail.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default btn-unik" title="Fermer" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ asset('js/master.js') }}"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+
+{% block javascript_include %}{{ jsinit() }}{% endblock javascript_include %}
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+{% if app.environment == 'prod' %}
+    <script type="text/javascript">CRISP_WEBSITE_ID = "{{ crispWebsiteId }}";
+        (function () {
+            d = document;
+            s = d.createElement("script");
+            s.src = "https://client.crisp.im/l.js";
+            s.async = 1;
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();</script>
+{% endif %}
+{% if app.environment == 'dev' %}
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+{% endif %}
+{% if app.request.get('asi') =='send' %}
+    <script>
+        $('document').ready(function () {
+            $('#mailConfirmation').modal('show');
         });
-      </script>
+    </script>
 
-    {% endif %}
-  </body>
+{% endif %}
+</body>
 </html>

@@ -93,6 +93,25 @@ gulp.task('installAssets', function () {
     });
 });
 
+var uncss = require('gulp-uncss');
+
+gulp.task('uncss', function () {
+    return gulp.src('./web/bundles/app/sass/main.scss')
+        .pipe(sass({sourceComments: 'map'}))
+        .pipe(uncss({
+            html: [
+                'http://unik-place.dev/app_dev.php/',
+                'http://unik-place.dev/app_dev.php/p/1-fauteuil-club-cigare-cuir',
+                'http://unik-place.dev/app_dev.php/qualite-du-contenu',
+                'http://unik-place.dev/app_dev.php/faq',
+                'http://unik-place.dev/app_dev.php/a-propos',
+                'http://unik-place.dev/app_dev.php/contact',
+                'http://unik-place.dev/app_dev.php/c/meubler'
+            ]
+        }))
+        .pipe(gulp.dest('./web/clen/'));
+});
+
 gulp.task('default', ['sass-dev', 'js-script']);
 
 gulp.task('dev', ['sass-dev', 'js-script']);

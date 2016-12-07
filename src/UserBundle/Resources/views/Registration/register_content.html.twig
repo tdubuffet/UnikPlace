@@ -7,7 +7,7 @@
                 <img src="{{ asset('bundles/app/images/pinewood.jpg') }}" class="img-responsive"/>
             </div>
             <div class="col-sm-6">
-                <h1>S'inscrire</h1>
+                <h1><span>S'inscrire</span></h1>
 
                 {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register', { 'redirect': app.request.get('redirect')}), 'attr': {'class': 'fos_user_registration_register', 'id': 'signup-form'}}) }}
                 <div class="form-group">

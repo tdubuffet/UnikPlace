@@ -32,7 +32,86 @@
     </script>
 {% endblock javascript_include %}
 
+{% block bodyclass %}class="page-product"{% endblock %}
+
 {% block body %}
+
+    <div class="coverflow container">
+        <div id="main-images" class="owl-carousel owl-loaded owl-theme">
+            <div class="slide-container">
+                {% for k, image in product.images %}
+                    <a class="thumb-link item" href="#" data-image-index="{{ k }}">
+                        <img class="img-responsive owl-lazy" data-src="{{ loadpic(image, 1140, 420, 'r3') }}" alt="miniature {{ k }}"/>
+                    </a>
+                {% endfor %}
+            </div>
+
+
+            <a class="user-action link-wishlist {% if isFavorite %}is-favorite{% endif %}" data-product-id="{{ product.getId() }}" data-action="{{ isFavorite ? 'remove' : 'add' }}">
+                <span class="text"><i class="fa {% if isFavorite %}fa-trash{% else %}fa-heart{% endif %}"></i></span>
+            </a>
+            <div class="user-cart">
+
+
+                <div class="price">{{ product.price|currency_format(product.getCurrency.getCode) }}</div>
+                {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user) %}
+                    <div class="action-list addtocart">
+                        <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}Ajouter au panier{% endif %}" class="btn btn-default pull-right btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
+                            <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                            <span class="btn-cart-text">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}</span>
+                        </button>
+                    </div>
+                {% endif %}
+
+                {% set isProposal = proposalForm is defined and proposalForm is not null %}
+                {% set isPublishedAndOfferAllowed = product.status.name == "published" and product.allowOffer == true %}
+                {% set offerPendingOrNoLimit = offLimit == false or (proposal.status is not null and proposal.status.name == "pending" ) %}
+                {% if app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
+                    <a title="Faire une offre" class="proposal"
+                            {% if offerPendingOrNoLimit %}
+                                data-toggle="modal" data-target="#orderProposalModal"
+                            {% else %}
+                                data-container="body" data-toggle="popover" data-placement="top"
+                                data-content="Vous avez atteint la limite d'offres pour la journée. Cependant vous pourrez refaire de nouvelles offres dès demain."
+                            {% endif %}
+                    ><i class="fa fa-money" aria-hidden="true"></i>
+                        {% if proposal.status is not null and proposal.status.name == "pending" %}
+                            Offre en cours
+                        {% elseif isProposal %}
+                            Faire une offre
+                        {% elseif offLimit %}
+                            Nombre d'offre maximum atteint
+                        {% else %}
+                            Offre acceptée
+                        {% endif %}
+                    </a>
+                {% endif %}
+                {% if app.user is empty and isProposal and isPublishedAndOfferAllowed %}
+
+                    {% set productURL = url('product_details', {'id' : product.id, 'slug': product.slug}) %}
+                    {% set redirectUrl = path('fos_user_security_login', {'redirect_to': productURL }) %}
+                    <a title="Faire une offre" class="btn btn-link"
+                       onclick="window.location.href='{{ redirectUrl }}'">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        Faire une offre
+                    </a>
+                {% endif %}
+
+                {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user) %}
+                    <div class="quantity">
+                        {% if product.quantity == 1 %}
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            Dernier exemplaire
+                        {% else %}
+                            {{ product.quantity }} exemplaire(s) en stock
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
 
     {% set breadcrumb = product.getBreadcrumb() %}
     <div class="main-breadcrumbs">
@@ -51,7 +130,7 @@
                                     <span class="separator">/</span>
                                 </li>
                             {% endfor %}
-                            <li><strong>{{ product.name }}</strong></li>
+                            <li><h1>{{ product.name }}</h1></li>
                         </ul>
                     </div>
                 </div>
@@ -84,175 +163,85 @@
                                                 <input type="hidden" name="product" value="19"/>
                                                 <input type="hidden" name="related_product" id="related-products-field" value=""/>
                                             </div>
-                                            <div class="col-md-5 col-sm-5">
-                                                <div class="product-img-box ">
-                                                    <div class="product-img-list">
-                                                        {% set images = product.getImages() %}
-                                                        {% set imgType = "r3" %}
 
-                                                        <div class="product-image product-image-zoom clearfix">
-                                                            <div class="product-image-gallery">
-                                                                <img id="image-main" class="gallery-image visible" src="{% if images[0] is defined %}{{ loadpic(images[0], 1000, 1000, imgType) }}{% endif %}" data-zoom="{% if images[0] is defined %}{{ loadpic(images[0], 700, 700, imgType) }}{% endif %}" alt="{{ product.name }}" title="{{ product.name }}"/>
-                                                            </div>
-                                                        </div>
-
-                                                        <div style="clear: both;"></div>
-
-                                                        {% if images|length > 3 %}
-                                                        <div class="owl-nav">
-                                                            <i class="fa fa-long-arrow-left owl-nav-left img-products-nav"></i>
-                                                            <i class="fa fa-long-arrow-right owl-nav-right img-products-nav"></i>
-                                                        </div>
-                                                        {% endif %}
-
-                                                        <div class="category-products">
-                                                            <ul class="products-grid owl-carousel" id="img-products">
-                                                                {% for k, image in images %}
-                                                                    <li class="item hover-effect">
-                                                                        <a class="thumb-link" href="#" data-image-index="{{ k }}">
-                                                                            <img class="img-responsive" src="{{ loadpic(image, 100, 100, imgType) }}" data-src="{{ loadpic(image, 1000, 1000, imgType) }}" alt="miniature {{ k }}"/>
-                                                                        </a>
-                                                                    </li>
-                                                                {% endfor %}
-                                                            </ul>
-                                                        </div>
-
-
-                                                    </div><!-- .product-img-list -->
-                                                </div><!-- .product-img-box -->
-
-
-                                                <!-- SHARE BUTTON -->
-
-                                                <div class="share-social">
-                                                    <share-button></share-button>
-                                                </div>
-
-
-                                            </div>
-
-                                            <div class="product-shop col-md-7 col-sm-7">
+                                            <div class="product-shop">
                                                 <div class="product-shop-wrapper">
                                                     <div class="product-name top-product-detail">
-                                                        <h1 class="h2">{{ product.name }}</h1>
+                                                        <h2 class="h2">{{ product.name }}</h2>
                                                     </div>
                                                     <div class="middle-product-detail">
 
-                                                        <div class="review-product-details-price product-type-data">
+                                                        <div class="review-product-details product-type-data">
                                                             <div class="price-box">
-
-                                                                {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user) %}
-                                                                    <div class="action-list addtocart">
-                                                                        <button type="button" data-toggle="tooltip" data-placement="top" title="{% if product.getId() in app.session.get('cart') %}Ce produit est dans votre panier{% else %}Ajouter au panier{% endif %}" class="btn btn-default pull-right btn-cart {% if product.getId() in app.session.get('cart') %}is-added{% endif %}" data-product-id="{{ product.getId() }}">
-                                                                            <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                                                            <span class="btn-cart-text">{% if product.getId() in app.session.get('cart') %}Dans votre panier{% else %}Ajouter au panier{% endif %}</span>
-                                                                        </button>
-                                                                    </div>
-                                                                {% elseif product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
-                                                                    <p class="availability in-stock pull-right">
-                                                                        <span class="label label-primary">{{ product.getStatus().getLabel() }}</span>
-                                                                    </p>
-                                                                {% elseif product.getStatus() is not empty and product.getStatus().getName() == 'unavailable' %}
-                                                                    <p class="availability in-stock pull-right">
-                                                                        <span class="label label-danger">{{ product.getStatus().getLabel() }}</span>
-                                                                    </p>
-                                                                {% endif %}
-
-                                                                <span class="price">{{ product.price|currency_format(product.getCurrency.getCode) }}</span>
-                                                                {% if product.originalPrice is not empty %}
-                                                                    <span class="price original-price">{{ product.originalPrice|currency_format(product.getCurrency.getCode) }}</span>
-                                                                {% endif %}
-                                                                {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user) %}
-                                                                    <p>
-                                                                        <b>{{ product.quantity }} exemplaire(s) en stock.</b>
-                                                                    </p>
-                                                                {% endif %}
-
-                                                                </div>
-                                                        </div>
-                                                    </div><!-- .middle-product-detail -->
-
-                                                    <div class="middle-product-detail links-price">
-
-                                                        <div class="review-product-details-price product-type-data">
-                                                            <ul class="actions">
-                                                                {% if product.user.getPro() %}
-                                                                    <li>
-                                                                        <a href="{{ path('shop', {id : product.user.id}) }}" class="btn btn-link"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Voir la boutique du vendeur</a>
-                                                                    </li>
-                                                                {% endif %}
-                                                                <li>
-                                                                    <a class="btn btn-link link-wishlist {% if isFavorite %}is-favorite{% endif %}" data-product-id="{{ product.getId() }}" data-action="{{ isFavorite ? 'remove' : 'add' }}">
-                                                                        <i class="fa fa-heart" aria-hidden="true"></i> <span class="text">{% if isFavorite %}Retirer de ma Wishlist{% else %}Ajouter à ma Wishlist{% endif %}</span>
-                                                                    </a>
-                                                                </li>
-                                                                {% set isProposal = proposalForm is defined and proposalForm is not null %}
-                                                                {% set isPublishedAndOfferAllowed = product.status.name == "published" and product.allowOffer == true %}
-                                                                {% set offerPendingOrNoLimit = offLimit == false or (proposal.status is not null and proposal.status.name == "pending" ) %}
-                                                                {% if app.user and app.user.email != product.user.email and isPublishedAndOfferAllowed %}
-                                                                    <li>
-                                                                        <a title="Faire une offre" class="btn btn-link"
-                                                                                {% if offerPendingOrNoLimit %}
-                                                                                    data-toggle="modal" data-target="#orderProposalModal"
-                                                                                {% else %}
-                                                                                    data-container="body" data-toggle="popover" data-placement="top"
-                                                                                    data-content="Vous avez atteint la limite d'offres pour la journée. Cependant vous pourrez refaire de nouvelles offres dès demain."
-                                                                                {% endif %}
-                                                                        ><i class="fa fa-money" aria-hidden="true"></i>
-                                                                            {% if proposal.status is not null and proposal.status.name == "pending" %}
-                                                                                Offre en cours
-                                                                            {% elseif isProposal %}
-                                                                                Faire une offre
-                                                                            {% elseif offLimit %}
-                                                                                Nombre d'offre maximum atteint
-                                                                            {% else %}
-                                                                                Offre acceptée
-                                                                            {% endif %}
-                                                                        </a>
-                                                                    </li>
-                                                                {% endif %}
-                                                                {% if app.user is empty and isProposal and isPublishedAndOfferAllowed %}
-
-                                                                    {% set productURL = url('product_details', {'id' : product.id, 'slug': product.slug}) %}
-                                                                    {% set redirectUrl = path('fos_user_security_login', {'redirect_to': productURL }) %}
-                                                                    <li>
-                                                                        <a title="Faire une offre" class="btn btn-link"
-                                                                           onclick="window.location.href='{{ redirectUrl }}'">
-                                                                            <i class="fa fa-money" aria-hidden="true"></i>
-                                                                            Faire une offre
-                                                                        </a>
-                                                                    </li>
-                                                                {% endif %}
-                                                            </ul>
-                                                        </div>
-                                                    </div><!-- .middle-product-detail -->
-
-                                                    <div class="middle-product-detail">
-
-                                                        <div class="review-product-details">
-                                                            <div class="short-description-detail">
                                                                 <div class="short-description">
-                                                                    <div class="std">
-                                                                        {% for code, attribute in productAttributes if attribute.deposit != "color" %}
-                                                                            <div class="row">
-                                                                                <div class="col-xs-4 col-sm-4">
-                                                                                    <b>{{ attribute.name }}</b>
-                                                                                </div>
-                                                                                <div class="col-xs-8 col-sm-8">
-                                                                                    {{ attribute.value }}
-                                                                                </div>
-                                                                            </div>
-                                                                        {% endfor %}
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <span class="price">{{ product.price|currency_format(product.getCurrency.getCode) }}</span>
+                                                                            {% if product.originalPrice is not empty %}
+                                                                                <span class="price original-price">{{ product.originalPrice|currency_format(product.getCurrency.getCode) }}</span>
+                                                                            {% endif %}
+                                                                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'published' and (app.user != product.user) %}
+                                                                                <p>
+                                                                                    <b>{{ product.quantity }} exemplaire(s) en stock.</b>
+                                                                                </p>
+                                                                            {% endif %}
+                                                                        </div>
 
-                                                                        <div class="row">
-                                                                            <div class="col-xs-4 col-sm-4">
-                                                                                <b>Dimensions</b>
-                                                                            </div>
-                                                                            <div class="col-xs-8 col-sm-8">
-                                                                                Hauteur: {{ product.height * 100 }} cm / Largeur: {{ product.width * 100 }} cm / Profondeur: {{ product.length * 100 }} cm
-                                                                            </div>
+
+                                                                        <div class="col-md-6 text-right">
+                                                                            {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
+                                                                                <p class="availability in-stock">
+                                                                                    <span class="label label-primary">{{ product.getStatus().getLabel() }}</span>
+                                                                                </p>
+                                                                            {% elseif product.getStatus() is not empty and product.getStatus().getName() == 'unavailable' %}
+                                                                                <p class="availability in-stock">
+                                                                                    <span class="label label-danger">{{ product.getStatus().getLabel() }}</span>
+                                                                                </p>
+                                                                            {% endif %}
                                                                         </div>
                                                                     </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .middle-product-detail -->
+
+
+                                                    <div class="middle-product-detail">
+
+                                                        <div class="review-product-details">
+                                                            <div class="short-description-detail">
+                                                                <div class="short-description">
+                                                                    <h3 class="product-title">Description du produit</h3>
+                                                                    <div class="std">
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                {% for code, attribute in productAttributes if attribute.deposit != "color" %}
+                                                                                    <div class="row">
+                                                                                        <div class="col-xs-4 col-sm-5">
+                                                                                            <b>{{ attribute.name }}</b>
+                                                                                        </div>
+                                                                                        <div class="col-xs-8 col-sm-7">
+                                                                                            {{ attribute.value }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="row">
+                                                                                    <div class="col-xs-4 col-sm-5">
+                                                                                        <b>Dimensions: </b>
+                                                                                    </div>
+                                                                                    <div class="col-xs-8 col-sm-7">
+                                                                                        Hauteur: {{ product.height * 100 }} cm <br/>Largeur: {{ product.width * 100 }} cm <br/>Profondeur: {{ product.length * 100 }} cm
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -263,8 +252,9 @@
                                                         <div class="review-product-details">
                                                             <div class="short-description-detail">
                                                                 <div class="short-description">
-                                                                    <h2>Aperçu rapide</h2>
-                                                                    <div class="std">{{ product.description|nl2br }}</div>
+                                                                    <div class="std description">
+                                                                        {{ product.description|nl2br }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -277,7 +267,7 @@
                                                             <div class="short-description-detail">
                                                                 <div class="short-description">
                                                                     <div class="std">
-                                                                        <b>Les modes de livraison: </b>
+                                                                        <h3 class="product-title">Les modes de livraison</h3>
                                                                         <ul>
                                                                         {% for delivery in product.deliveries.toArray %}
 
@@ -373,7 +363,7 @@
                                                 <p>Vous avez besoin d'aide, vous pouvez contacter notre équipe de support.</p>
 
                                                 <p>
-                                                    <a class="btn btn-primary btn-sm" title="Contacter le support" href="{{ path('contact') }}">Nous contacter</a>
+                                                    <a class="btn btn-info btn-sm" title="Contacter le support" href="{{ path('contact') }}">Nous contacter</a>
                                                 </p>
 
                                             </div>
@@ -416,53 +406,15 @@
                             <h3 class="title-widget"><span>Produits similaires</span></h3>
 
                             <p class="block-subtitle">Ces objets similaires sont susceptibles de vous intéresser.</p>
+
                             {% if similarProducts|length >= 4 %}
-                            <div class="owl-nav similar-products">
-                                <i class="fa fa-long-arrow-left owl-nav-left"></i>
-                                <i class="fa fa-long-arrow-right owl-nav-right"></i>
-                            </div>
+                                <div class="owl-nav similar-products">
+                                    <i class="fa fa-long-arrow-left owl-nav-left"></i>
+                                    <i class="fa fa-long-arrow-right owl-nav-right"></i>
+                                </div>
                             {% endif %}
 
-                            <div class="category-products">
-                                <ul class="products-grid owl-carousel" id="similar-products">
-                                    {% for product in similarProducts %}
-                                        <li class="item hover-effect">
-                                            <div class="item-inner">
-                                                <div class="product-action">
-                                                    {% if date(product.getCreatedAt()) > date('-2weeks') and product.getStatus().getName() != 'sold' %}
-                                                        <div class="product-new-label">Nouveau</div>
-                                                    {% endif %}
-                                                    {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
-                                                        <div class="product-sale-label">Vendu</div>
-                                                    {% endif %}
-                                                    <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
-                                                        {% set images = product.getImages() %}
-                                                        <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}" alt="{{ product.name }}"/>
-                                                    </a>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3 class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></h3>
-
-                                                    <div class="price-box">
-                                                        {% if product.originalPrice is not null %}
-                                                            <p class="old-price">
-                                                                <span class="price-label">Ancien prix :</span>
-                                                                <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
-                                                            </p>
-                                                        {% endif %}
-
-                                                        <p class="special-price">
-                                                            <span class="price-label">Nouveau prix :</span>
-                                                            <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            {% include '@Product/Search/product_grid.html.twig' with { products: similarProducts, col: 'products-itemgrid-4col', id: 'similar-products', carrousel: true} %}
                         </div>
                     {% endif %}
 
@@ -480,46 +432,7 @@
                                 </div>
                             {% endif %}
 
-                            <div class="category-products">
-                                <ul class="products-grid owl-carousel" id="user-products">
-                                    {% for product in similarProductsUser %}
-                                        <li class="item hover-effect">
-                                            <div class="item-inner">
-                                                <div class="product-action">
-                                                    {% if date(product.getCreatedAt()) > date('-2weeks') and product.getStatus().getName() != 'sold' %}
-                                                        <div class="product-new-label">Nouveau</div>
-                                                    {% endif %}
-                                                    {% if product.getStatus() is not empty and product.getStatus().getName() == 'sold' %}
-                                                        <div class="product-sale-label">Vendu</div>
-                                                    {% endif %}
-                                                    <a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}" class="product-image">
-                                                        {% set images = product.getImages() %}
-                                                        <img class="img-responsive" src="{% if images[0] is defined %}{{ loadpic(images[0], 275, 275, 'r3') }}{% endif %}" alt="{{ product.name }}"/>
-                                                    </a>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3 class="product-name"><a href="{{ path('product_details', {id: product.getId(), slug: product.getSlug()}) }}" title="{{ product.name }}">{{ product.getName }}</a></h3>
-
-                                                    <div class="price-box">
-                                                        {% if product.originalPrice is not null %}
-                                                            <p class="old-price">
-                                                                <span class="price-label">Ancien prix :</span>
-                                                                <span class="price">{{ product.originalPrice|currency_convert_format(product.getCurrency.getCode) }}</span>
-                                                            </p>
-                                                        {% endif %}
-
-                                                        <p class="special-price">
-                                                            <span class="price-label">Nouveau prix :</span>
-                                                            <span class="price">{{ product.price|currency_convert_format(product.getCurrency.getCode) }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            {% include '@Product/Search/product_grid.html.twig' with { products: similarProductsUser, col: 'products-itemgrid-4col', id: 'user-products', carrousel: true} %}
                         </div>
                     {% endif %}
 
@@ -554,7 +467,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-primary btn-link" href="{{ path('cart') }}">Accéder au panier</a>
-                    <button class="btn btn-default btn-unik btn-continue" title="Continuer le shopping" data-dismiss="modal">Continuer mes achats</button>
+                    <button class="btn btn-primary btn-continue" title="Continuer le shopping" data-dismiss="modal">Continuer mes achats</button>
                 </div>
             </div>
         </div>
@@ -584,7 +497,7 @@
                                         {{ product.price|currency_convert_format(product.getCurrency.getCode) }}
                                     </div>
                                     <div>
-                                        {% set img = images[0] is defined ? loadpic(images[0], 275, 275, imgType) : "#" %}
+                                        {% set img = images[0] is defined ? loadpic(images[0], 275, 275, 'r3') : "#" %}
                                         <img class="img-responsive img-thumbnail"
                                              src="{{ img }}" alt="{{ product.name }}"/>
                                     </div>

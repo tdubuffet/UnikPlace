@@ -416,11 +416,8 @@ button.button span {
   font-family:"fontawesome";
   padding-right:10px;
 }
-.header-wrapper .header-right-wrapper .header-bottom-container {
-  width:100%;
-  display:block;
-  float:left;
-}
+
+.header-wrapper .header-right-wrapper main-form-search
 .header-wrapper .header-container .header-content { position:relative; }
 .header-wrapper .header-container .header-content.hidden-xs .item { position:static !important; }
 .header-wrapper .header-container .header-content .header-logo { float:left; }
@@ -7462,7 +7459,6 @@ a:hover {
   color:#d99f25;
   text-decoration:none;
 }
-body { font-family:'Source Sans Pro', arial, serif; }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family:'Source Sans Pro', arial, serif; }
 button.button, a.btn-readmore {
   background-color:#000000;
@@ -8143,7 +8139,6 @@ table.table-carts {
   }
 
   .label-table{
-    color: $brand-primary;
   }
 
   tfoot {
@@ -8844,26 +8839,6 @@ share-button:before {
   background-color: transparent;
   color: inherit;
   transition: all .5s;
-}
-
-.btn-primary.btn-outline {
-  color: $brand-primary;
-}
-
-.btn-success.btn-outline {
-  color: $brand-success;
-}
-
-.btn-info.btn-outline {
-  color: $brand-info;
-}
-
-.btn-warning.btn-outline {
-  color: $brand-warning;
-}
-
-.btn-danger.btn-outline {
-  color: $brand-danger;
 }
 
 .btn-primary.btn-outline:hover,

@@ -12,10 +12,38 @@ var Product = {
             $('#image-main').elevateZoom(Product.getZoomConfig());
         }
 
-        Product.setMainPicture();
-        Product.initCarousel();
+        Product.mainOwlCarrousel();
+        //Product.setMainPicture();
         Product.initSimilarProductsCarousel();
         Product.initUserProductsCarousel();
+    },
+
+    mainOwlCarrousel: function () {
+
+        $(document).ready(function () {
+
+            $("#main-images").owlCarousel({
+
+                nav: true, // Show next and prev buttons
+                singleItem: true,
+                items: 1,
+                lazyLoad: true,
+                loop: true,
+                navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
+                dots: false,
+                nestedItemSelector: 'item'
+                // "singleItem:true" is a shortcut for:
+                // items : 1,
+                // itemsDesktop : false,
+                // itemsDesktopSmall : false,
+                // itemsTablet: false,
+                // itemsMobile : false
+
+            });
+
+        });
+
+
     },
 
     getZoomConfig: function() {
@@ -52,40 +80,15 @@ var Product = {
         });
     },
 
-    initCarousel: function() {
-        $("#img-products").owlCarousel({
-            "autoPlay": false,
-            "items": 3,
-            "loop": false,
-            responsiveClass:true,
-            responsive:{
-                0:{
-                    items:3,
-                },
-                600:{
-                    items:3,
-                },
-                1000:{
-                    items:3,
-                }
-            }
-
-        });
-        $(".owl-nav-left.img-products-nav").click(function() {
-            $("#img-products").trigger('prev.owl.carousel');
-        });
-
-        $(".owl-nav-right.img-products-nav").click(function() {
-            $("#img-products").trigger('next.owl.carousel');
-        });
-    },
-
     initSimilarProductsCarousel: function() {
         $("#similar-products").owlCarousel({
             "autoPlay": false,
             "items": 4,
             "loop": true,
             responsiveClass:true,
+            nestedItemSelector: 'item',
+            margin: 30,
+            dots: false,
             responsive:{
                 0:{
                     items:1,
@@ -96,7 +99,7 @@ var Product = {
                 1000:{
                     items:4,
                 }
-            }
+            },
 
         });
         $(".similar-products > .owl-nav-left").click(function () {
@@ -113,7 +116,10 @@ var Product = {
             "autoPlay": false,
             "items": 4,
             "loop": true,
+            margin: 30,
             responsiveClass:true,
+            nestedItemSelector: 'item',
+            dots: false,
             responsive:{
                 0:{
                     items:1,
@@ -146,17 +152,18 @@ var Product = {
                 success: function(result) {
                     if ($(button).data('action') === 'add') {
                         $(button).addClass('is-favorite');
-                        $(button).find('.text').html('Retirer de ma Whishlist')
+                        $(button).find('.text').html('<i class="fa fa-trash"></i>')
                     }
                     else {
                         $(button).removeClass('is-favorite');
-                        $(button).find('.text').html('Ajouter à ma Whishlist')
+                        $(button).find('.text').html('<i class="fa fa-heart"></i>')
                     }
                     $(button).data('action', $(button).data('action') === 'add' ? 'remove' : 'add');
                 },
                 error: function(result) {
                     if (result.status == 401) {
-                        window.location.href = Routing.generate('fos_user_security_login');
+                        var redirectTo = encodeURIComponent(window.location.href);
+                        window.location.href = Routing.generate('fos_user_security_login') + '?redirect_to=' + redirectTo;
                     }
                 }
             });

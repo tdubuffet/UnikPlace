@@ -63,12 +63,26 @@ var Common = {
         Common.mobileSkipLink();
         Common.notificationInit();
         Common.wonderpush();
+        Common.superMenu();
+    },
+
+    superMenu: function () {
+
+        $('.sub-header-bottom nav li').hover(
+            function () {
+                if ($(this).find('.super-menu').length > 0) {
+                    $(this).find('.super-menu').fadeIn(350);
+                }
+            },
+            function () {
+                $(this).find('.super-menu').fadeOut(150);
+            }
+        )
+
     },
 
     wonderpush: function() {
 
-        console.log('PLOP');
-        
         WonderPush.init({
             webKey: "7bdb209cc30ad32d52c8f7d811c30af2ff5abc8fa2a92cac18716e8c7a948dc1",
             optInOptions: {

@@ -1,0 +1,111 @@
+img {
+  border: 0;
+  outline: none;
+}
+
+a:hover, a:active {
+  text-decoration: none;
+}
+
+a:focus {
+  outline: none !important;
+}
+
+:focus {
+  outline: none !important;
+}
+
+.page ul, .page ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none outside none;
+}
+
+ul {
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+  padding: 0;
+}
+
+a, i {
+  text-decoration: none;
+  -moz-transition: all 300ms ease;
+  -webkit-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
+.form-list li {
+  margin-top: 10px;
+}
+
+.form-list label {
+  position: relative;
+  z-index: 0;
+  font-weight: normal;
+}
+
+.form-list label.required em {
+  float: right;
+  font-style: normal;
+  position: absolute;
+  right: -8px;
+  top: 0;
+  color: red;
+}
+
+label.error {
+  color: #E74F4A;
+}
+
+input.error, input:focus.error, textarea.error, textarea:focus.error, select.error, select:focus.error, .select2.error .select2-selection--single {
+  border-color: #E74F4A;
+}
+
+.input-box {
+  clear: both;
+  display: block;
+  line-height: 30px;
+}
+
+.form-list input[type="radio"], .form-list input[type="checkbox"] {
+  margin: 8px 6px 0 0;
+  float: left;
+}
+
+.form-control, textarea, input.qty {
+  border-radius: 0px;
+  margin-bottom: 5px;
+}
+
+.form-control:focus {
+  border-color: #e5e5e5;
+  -webkit-box-shadow: 0 0 5px 0 #eaeaea inset;
+  box-shadow: 0 0 5px 0 #eaeaea inset;
+}
+
+select.form-control {
+  padding: 6px 8px;
+}
+
+select.form-control.birthday {
+  width: auto;
+  float: left;
+  margin-right: 10px;
+}
+
+.form-range.form-control {
+  display: inline;
+  width: 58px;
+}
+
+.form-group label.required:after {
+  content: "*";
+  font-style: italic;
+}
