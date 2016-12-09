@@ -1,0 +1,56 @@
+@media (min-width: $screen-sm-min) {
+
+  header.header-wrapper-mobile {
+    display: none;
+  }
+
+}
+
+@media (max-width: $screen-sm-min) {
+
+  header.header-wrapper {
+    display: none;
+  }
+
+  header.header-wrapper-mobile {
+    .logo {
+      width: 60%;
+      margin: 20px auto;
+      display: block;
+      img {
+        max-width: 100%;
+      }
+    }
+
+    ul.menu {
+      width: 94%;
+      margin: 0 auto;
+      padding: 0;
+      background: $grey-light;
+      li {
+        display: inline-block;
+        list-style: none; /* pour enlever les puces sur IE7 */
+        width: 19%;
+        text-align: center;
+        color: $orange;
+        a {
+          display: block;
+          color: $orange-light;
+          width: 100%;
+          padding: 8px 0;
+          font-size: 1.1em;
+          text-shadow: 1px 1px 2px rgba(150, 150, 150, 0.3);
+        }
+      }
+    }
+    padding-bottom: 50px;
+  }
+
+  /** Page produits **/
+  .toolbar {
+    display: none;
+  }
+  .filter-sidebar .block-layered-nav .block-title::after {
+    background: none;
+  }
+}

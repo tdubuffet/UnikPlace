@@ -2,16 +2,14 @@
 
 $fa-font-path:        "//netdna.bootstrapcdn.com/font-awesome/4.6.3/fonts" !default; // for referencing Bootstrap CDN font files directly
 
-@import
-
-   //BOOTSTRAP
-  'bootstrap_variables',
-  'mixins/_buttons.scss',
-  '../../../components/share-button/share-button',
-  '../../../components/bootstrap-sass/assets/stylesheets/bootstrap',
-  '../../../components/font-awesome/scss/font-awesome',
-  '../../../components/owl.carousel/dist/assets/owl.carousel.css',
-  '../../../components/owl.carousel/dist/assets/owl.theme.default.css',
+@import //BOOTSTRAP
+'bootstrap_variables',
+'mixins/_buttons.scss',
+'../../../components/share-button/share-button',
+'../../../components/bootstrap-sass/assets/stylesheets/bootstrap',
+'../../../components/font-awesome/scss/font-awesome',
+'../../../components/owl.carousel/dist/assets/owl.carousel.css',
+'../../../components/owl.carousel/dist/assets/owl.theme.default.css',
 '../../../components/select2/dist/css/select2.css',
 '../../../components/intl-tel-input/build/css/intlTelInput.css',
 'unik/main',
@@ -25,6 +23,6 @@ $fa-font-path:        "//netdna.bootstrapcdn.com/font-awesome/4.6.3/fonts" !defa
 'unik/filter',
 'unik/form',
 'unik/account',
-'unik/blog'
-
+'unik/blog',
+'unik/responsive/responsive'
 ;

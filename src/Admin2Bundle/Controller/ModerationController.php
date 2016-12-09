@@ -3,6 +3,7 @@
 namespace Admin2Bundle\Controller;
 
 use Admin2Bundle\Model\AttributesProduct;
+use OrderBundle\Entity\Delivery;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;

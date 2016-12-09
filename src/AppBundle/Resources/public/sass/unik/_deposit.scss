@@ -75,3 +75,97 @@
 .deposit #main-categ-error, .deposit #sub-categ-error, .deposit #minimum-photo-error {
   display: none;
 }
+
+.deposit {
+  .page-steps {
+    margin-bottom: 40px;
+    .page-step {
+      border-bottom: 1px solid $grey-light;
+      color: $black;
+      padding-bottom: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 2px;
+
+      &.active {
+        border-bottom: 5px solid $grey-light;
+      }
+    }
+  }
+
+  .main-photo, .other-photo {
+    cursor: default;
+    transition: border .3s ease;
+    border: 3px solid #eee;
+    text-align: center;
+
+    .upload-pic-delete {
+      position: absolute;
+      background: #eee;
+      color: #181818;
+      padding: 0 4px 0 5px;
+      right: 30px;
+      top: 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 50;
+    }
+  }
+
+  .upload-pic-preview {
+    display: none;
+    position: relative;
+  }
+
+  .main-photo {
+    margin-bottom: 50px;
+    .upload-pic-preview {
+      height: 411px;
+      img.upload-pic-img {
+        max-width: 100%;
+        max-height: 411px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+    }
+
+    .upload-pic-input {
+      background: url(../bundles/deposit/images/photo-camera.png) center 80px no-repeat;
+      padding: 230px 20px 80px;
+      cursor: pointer;
+    }
+  }
+
+  .other-photo {
+    .upload-pic-input {
+      background: url(../bundles/deposit/images/photo-camera.png) center 40px no-repeat;
+      background-size: 70px;
+      padding: 145px 0 20px;
+      cursor: pointer;
+    }
+    .upload-pic-preview img.upload-pic-img {
+      max-width: 100%;
+      max-height: 165px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+  }
+
+  #upload-alert-danger,
+  #fileupload,
+  #main-categ-error,
+  #minimum-photo-error,
+  #sub-categ-error,
+  #subcategories-select,
+  .color-choice > input[type=radio] {
+    display: none;
+  }
+}
