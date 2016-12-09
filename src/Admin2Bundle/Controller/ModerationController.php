@@ -3,6 +3,7 @@
 namespace Admin2Bundle\Controller;
 
 use Admin2Bundle\Model\AttributesProduct;
+use OrderBundle\Entity\Delivery;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -86,6 +87,55 @@ class ModerationController extends Controller
                     $this->getDoctrine()->getManager()->persist($attributeValue);
                 }
             }
+
+
+            // Custom delivery
+            $customDeliveryFee = $productForm->get('customDeliveryFee')->getData();
+            $customDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('seller_custom');
+            if (isset($customDeliveryMode)) {
+                $customDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy([
+                    'product' => $product,
+                    'deliveryMode' => $customDeliveryMode
+                ]);
+                if (isset($customDeliveryFee)) {
+                    if (!isset($customDelivery)) {
+                        $customDelivery = new Delivery();
+                        $customDelivery->setProduct($product);
+                        $customDelivery->setDeliveryMode($customDeliveryMode);
+                    }
+                    $customDelivery->setFee($customDeliveryFee);
+                    $this->getDoctrine()->getManager()->persist($customDelivery);
+                    $this->getDoctrine()->getManager()->flush();
+                } else {
+                    if (isset($customDelivery)) {
+                        $this->getDoctrine()->getManager()->remove($customDelivery);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
+                }
+            }
+            // By hand delivery
+            $byHandDeliveryEnabled = $productForm->get('byHandDelivery')->getData();
+            $byHandDeliveryMode = $this->getDoctrine()->getRepository('OrderBundle:DeliveryMode')->findOneByCode('by_hand');
+            if (isset($byHandDeliveryMode)) {
+                $byHandDelivery = $this->getDoctrine()->getRepository('OrderBundle:Delivery')->findOneBy([
+                    'product' => $product,
+                    'deliveryMode' => $byHandDeliveryMode
+                ]);
+                if ($byHandDeliveryEnabled) {
+                    if (!isset($byHandDelivery)) {
+                        $byHandDelivery = new Delivery();
+                        $byHandDelivery->setProduct($product);
+                        $byHandDelivery->setDeliveryMode($byHandDeliveryMode);
+                        $byHandDelivery->setFee(0);
+                        $this->getDoctrine()->getManager()->persist($byHandDelivery);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
+                } else if (isset($byHandDelivery)) {
+                    $this->getDoctrine()->getManager()->remove($byHandDelivery);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+            }
+
 
             if ($request->get('accepted', false) !== false) {
 
