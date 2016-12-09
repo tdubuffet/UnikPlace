@@ -42,8 +42,22 @@
       min-height: 380px;
 
       .product-action {
+
+        position: relative;
+
+        .product-new-label {
+          color: $orange;
+          border: 1px solid $orange;
+          text-align: center;
+
+          text-transform: uppercase;
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          padding: 5px 12px;
+        }
+
         .product-image {
-          position: relative;
           display: block;
           &:hover {
             .img-responsive {

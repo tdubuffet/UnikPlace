@@ -1,4 +1,6 @@
-$header-height: 150px;
+$header-height: 190px;
+$header-top: 0.62;
+$header-bottom: 0.38;
 
 //COLOR
 $grey-light: #eee;
@@ -142,16 +144,20 @@ header.header-wrapper {
   z-index: 9;
   font-size: 0.89em;
 
-  .logo {
-    img {
-      max-width: 100%;
-      max-height: $header-height - 36px;
-      padding: 18px 0;
-      margin-top: 7px;
+  .block-logo {
+
+    text-align: center;
+    .logo {
+      img {
+        max-width: 100%;
+        max-height: (($header-height - 36px) * $header-top) - 40px;
+        margin: 19px auto;
+      }
     }
   }
+
   .sub-header-top {
-    height: ($header-height - 36px) / 2;
+    height: ($header-height - 36px) * $header-top;
 
     border-bottom: 1px solid $grey-light;
 
@@ -159,8 +165,8 @@ header.header-wrapper {
 
       .header-setting-btn {
         float: left;
-        height: ($header-height - 36px) / 2;
-        line-height: ($header-height - 36px) / 2;
+        height: ($header-height - 36px) * $header-top;
+        line-height: ($header-height - 36px) * $header-top;
         padding: 0 10px;
         text-align: left;
         font-size: 1em;
@@ -194,7 +200,7 @@ header.header-wrapper {
 
   .sub-header-bottom {
 
-    height: ($header-height - 36px) / 2;
+    height: ($header-height - 36px) * $header-bottom;
 
     nav {
       ul {
@@ -206,8 +212,8 @@ header.header-wrapper {
           padding: 0 12px;
           a {
             &.parent {
-              height: ($header-height - 36px) / 2;
-              line-height: ($header-height - 36px) / 2;
+              height: ($header-height - 36px) * $header-bottom;
+              line-height: ($header-height - 36px) * $header-bottom;
               display: block;
               text-transform: uppercase;
               letter-spacing: 0.05255em;
