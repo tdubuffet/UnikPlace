@@ -3,6 +3,7 @@ var Common = {
     init: function() {
         // this is for global javascripts functionnalities
 
+        Common.superMenu();
         jQuery.extend(jQuery.validator.messages, {
             required: "Ce champ est obligatoire.",
             remote: "Veuillez corriger ce champ.",
@@ -24,27 +25,16 @@ var Common = {
         });
 
         // Sticky header
-        $('#top-nav-wrapper.sticky').affix({
+        $('.subheader-fixed').affix({
             offset: {
                 top: function () {
-                    return (this.top = $('#top-nav-wrapper').offset().top)
+                    return 280;
                 },
                 bottom: function () {
                     return 0;
                 }
             }
         });
-        /*$('#mobile-sticky.sticky').affix({
-            offset: {
-                top: function () {
-                    return (this.top = $('#mobile-sticky').offset().top)
-                },
-                bottom: function () {
-                    return 0;
-                }
-            }
-        });*/
-
         // Price range links in menu
         $('.menu-price-range-link').click(function(){
             var min = $(this).data('min') ? $(this).data('min') : '';
@@ -63,19 +53,18 @@ var Common = {
         Common.mobileSkipLink();
         Common.notificationInit();
         Common.wonderpush();
-        Common.superMenu();
     },
 
-    superMenu: function () {
+    superMenu: function() {
 
         $('.sub-header-bottom nav li').hover(
-            function () {
+            function() {
                 if ($(this).find('.super-menu').length > 0) {
-                    $(this).find('.super-menu').fadeIn(350);
+                    $(this).find('.super-menu').show(150);
                 }
             },
-            function () {
-                $(this).find('.super-menu').fadeOut(150);
+            function() {
+                $(this).find('.super-menu').hide(50);
             }
         )
 
