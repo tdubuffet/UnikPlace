@@ -60,11 +60,11 @@ var Common = {
         $('.sub-header-bottom nav li').hover(
             function() {
                 if ($(this).find('.super-menu').length > 0) {
-                    $(this).find('.super-menu').show(150);
+                    $(this).find('.super-menu').slideDown(120);
                 }
             },
             function() {
-                $(this).find('.super-menu').hide(50);
+                $(this).find('.super-menu').slideUp(50);
             }
         )
 
