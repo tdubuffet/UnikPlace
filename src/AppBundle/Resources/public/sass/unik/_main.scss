@@ -24,6 +24,10 @@ body {
   color: $grey;
 }
 
+.main-container {
+  padding: 30px 0;
+}
+
 @mixin title($size: 1.2em) {
   color: $orange;
   text-transform: uppercase;
@@ -125,6 +129,22 @@ share-button {
   }
   &:before {
     margin-top: 4px;
+  }
+}
+
+.page-steps {
+  margin-bottom: 40px;
+  .page-step {
+    border-bottom: 1px solid $grey-light;
+    color: $black;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 2px;
+
+    &.active {
+      border-bottom: 5px solid $grey-light;
+    }
   }
 }
 
@@ -488,3 +508,25 @@ section.main-container {
   color: #181818;
 }
 
+/** Panier **/
+table.table-carts {
+  tbody {
+    td {
+      vertical-align: middle;
+    }
+  }
+
+  .label-table {
+  }
+
+  tfoot {
+    td {
+      padding-top: 15px;
+    }
+    tr.no-border {
+      td {
+        border: none;
+      }
+    }
+  }
+}

@@ -77,22 +77,6 @@
 }
 
 .deposit {
-  .page-steps {
-    margin-bottom: 40px;
-    .page-step {
-      border-bottom: 1px solid $grey-light;
-      color: $black;
-      padding-bottom: 10px;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 2px;
-
-      &.active {
-        border-bottom: 5px solid $grey-light;
-      }
-    }
-  }
-
   .main-photo, .other-photo {
     cursor: default;
     transition: border .3s ease;
