@@ -125,6 +125,9 @@
   }
 
   .other-photo {
+    .upload-pic-preview {
+      height: 165px;
+    }
     .upload-pic-input {
       background: url(../bundles/deposit/images/photo-camera.png) center 40px no-repeat;
       background-size: 70px;
