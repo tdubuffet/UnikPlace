@@ -158,32 +158,29 @@
                 </div>
             </div>
         </div>
-        <div class="subheader-fixed">
-            <div class="container">
-
-                <div class="sub-header-bottom">
-                    <nav>
-                        <ul>
-
-                            {{ render(controller('AppBundle:Default:categories')) }}
-                            <li class="pull-right effect-sell">
-                                <a href="{{ path('sell_category') }}"
-                                   class="parent"><span>Vendez</span></a>
-                            </li>
-                            <li class="pull-right">
-                                <a href="{{ path('blog') }}"
-                                   class="parent"><span>#Designlovers</span></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
-            </div>
-        </div>
-
     </div>
+    <div class="subheader-fixed">
+        <div class="container">
 
+            <div class="sub-header-bottom">
+                <nav>
+                    <ul>
 
+                        {{ render(controller('AppBundle:Default:categories')) }}
+                        <li class="pull-right effect-sell">
+                            <a href="{{ path('sell_category') }}"
+                               class="parent"><span>Vendez</span></a>
+                        </li>
+                        <li class="pull-right">
+                            <a href="{{ path('blog') }}"
+                               class="parent"><span>#Designlovers</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
 </header>
 
 
