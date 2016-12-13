@@ -152,7 +152,7 @@ var Product = {
                 success: function(result) {
                     if ($(button).data('action') === 'add') {
                         $(button).addClass('is-favorite');
-                        $(button).find('.text').html('<i class="fa fa-trash"></i>')
+                        $(button).find('.text').html('<i class="fa fa-heart-o"></i>')
                     }
                     else {
                         $(button).removeClass('is-favorite');
@@ -190,10 +190,8 @@ var Product = {
                         $('.btn-cart-text').text("Dans votre panier");
                         $('.btn-cart').prop('title', "Ce produit est dans votre panier").addClass('is-added');
 
-                        // Update header cart link
-                        $('.icon-cart-header span.total strong').animate({fontSize: '20px'}, 'fast').animate({fontSize: '16px'}, 'fast');
-                        var total = parseInt($('.header-maincart .total .numb:first').text()) + 1;
-                        $('.header-maincart .total .numb').text(total);
+                        var total = parseInt($('.cart-container .text').text()) + 1;
+                        $('.cart-container .text').text(total);
 
                         $('#modalAddToCart').modal('show') ;
                     },

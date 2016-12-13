@@ -103,6 +103,11 @@
 
                         <div class="col-md-4">
 
+                            <div class="input-group search-bar">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input type="text" class="form-control" placeholder="Votre recherche">
+                            </div>
+
                         </div>
 
                         <div class="col-md-4 block-logo">
@@ -121,7 +126,12 @@
                                 <div class="header-setting-btn">
                                     <div class="cart-container">
                                         <a href="{{ path('cart') }}" title="Mon Panier" class="icon-cart-header skip-link">
-                                            <span class="total"><strong class="fa fa-shopping-bag" aria-hidden="true"></strong><span class="hidden-mobile">Mon Panier</span> <span class="numb main-numb">{{ app.session.get('cart')|length }}</span></span>
+                                            <span class="total">
+                                                <strong class="fa fa-shopping-bag" aria-hidden="true"></strong>
+                                                <span class="text">
+                                                    {{ app.session.get('cart')|length }}
+                                                </span> article(s)
+                                            </span>
                                         </a>
                                     </div>
                                 </div>

@@ -164,6 +164,25 @@ header.header-wrapper {
   z-index: 9;
   font-size: 0.89em;
 
+  .search-bar {
+    margin-top: 25px;
+
+    border: 1px solid $grey-light;
+    border-radius: 3px;
+
+    .input-group-addon {
+      background: #fbfbfb;
+      border: none;
+      color: $orange-light;
+    }
+
+    .form-control {
+      background: #fbfbfb;
+      border: none;
+      box-shadow: none;
+    }
+  }
+
   .block-logo {
 
     text-align: center;
@@ -192,6 +211,10 @@ header.header-wrapper {
         font-size: 1em;
         text-transform: uppercase;
 
+        .cart-container {
+          position: relative;
+        }
+
         .user-settings,
         .cart-container {
           .fa {
@@ -201,8 +224,11 @@ header.header-wrapper {
         }
 
         a {
-          padding: 0 10px;
+          padding: 8px 10px;
           color: $black;
+          border-radius: 3px;
+
+          border: 1px solid $grey-light;
 
           &#notificationLink {
             color: $orange-light;
@@ -211,7 +237,6 @@ header.header-wrapper {
         &:last-child {
           padding-right: 0;
           a {
-            padding-right: 0;
           }
         }
       }
